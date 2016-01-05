@@ -1,5 +1,5 @@
 <#include "header.ftl">
-	
+
 	<#include "menu.ftl">
 
 	<div class="page-header">
@@ -12,9 +12,9 @@
   			<p>${post.body}</p>
   		</#if>
   	</#list>
-	
+
 	<hr />
-	
+
 	<p>Older posts are available in the <a href="${content.rootpath}${config.archive_file}">archive</a>.</p>
 
 <#include "footer.ftl">
