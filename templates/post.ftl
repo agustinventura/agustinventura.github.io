@@ -14,7 +14,7 @@
 	<div id="disqus_thread"></div>
 <script>
     var disqus_config = function () {
-        this.page.url = ${content.uri};
+        this.page.url = ${config.site_host}/${content.uri};
         this.page.identifier = ${content.uri};
     };
     (function() {
