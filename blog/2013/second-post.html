@@ -1,69 +1,38 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
   <head>
     <meta charset="utf-8"/>
     <title>Second Post</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <meta name="keywords" content="">
+    <meta name="description" content="AguasNegras, tecnología, programación y Java">
+    <meta name="author" content="Agustín Ventura">
+    <meta name="keywords" content="Programación, Java">
     <meta name="generator" content="JBake">
-
-    <!-- Le styles -->
-    <link href="../../css/bootstrap.min.css" rel="stylesheet">
-    <link href="../../css/asciidoctor.css" rel="stylesheet">
-    <link href="../../css/base.css" rel="stylesheet">
-    <link href="../../css/prettify.css" rel="stylesheet">
-
+    <!--Import Google Icon Font-->
+     <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css">
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
       <script src="../../js/html5shiv.min.js"></script>
     <![endif]-->
-
-    <!-- Fav and touch icons -->
-    <!--<link rel="apple-touch-icon-precomposed" sizes="144x144" href="../assets/ico/apple-touch-icon-144-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../assets/ico/apple-touch-icon-114-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="../assets/ico/apple-touch-icon-72-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" href="../assets/ico/apple-touch-icon-57-precomposed.png">-->
     <link rel="shortcut icon" href="../../favicon.ico">
   </head>
-  <body onload="prettyPrint()">
-    <div id="wrap">
-
-	<!-- Fixed navbar -->
-    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="../../">JBake</a>
-        </div>
-        <div class="navbar-collapse collapse">
-          <ul class="nav navbar-nav">
-            <li><a href="../../index.html">Home</a></li>
-            <li><a href="../../about.html">About</a></li>
-            <li><a href="../../feed.xml">Subscribe</a></li>
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
-              <ul class="dropdown-menu">
-                <li><a href="#">Action</a></li>
-                <li><a href="#">Another action</a></li>
-                <li><a href="#">Something else here</a></li>
-                <li class="divider"></li>
-                <li class="dropdown-header">Nav header</li>
-                <li><a href="#">Separated link</a></li>
-                <li><a href="#">One more separated link</a></li>
-              </ul>
-            </li>
-          </ul>
-        </div><!--/.nav-collapse -->
-      </div>
-    </div>
+  <body>
+    <header>
+<nav class=" light-blue darken-3">
+	<div class="nav-wrapper">
+		<a class="brand-logo" href="../../">AguasNegras</a>
+		<ul id="nav-mobile" class="right hide-on-med-and-down">
+		<li><a href="../../index.html">Inicio</a></li>
+		<li><a href="../../about.html">Acerca De</a></li>
+		<li><a href="../../feed.xml">Suscripci&oacute;n</a></li>
+		</ul>
+	</div>
+</nav>
+    </header>
     <div class="container">
+
 	<div class="page-header">
 		<h1>Second Post</h1>
 	</div>
@@ -84,8 +53,8 @@
 	<div id="disqus_thread"></div>
 <script>
     var disqus_config = function () {
-        this.page.url = http://www.aguasnegras.es/blog/2013/second-post.html;
-        this.page.identifier = blog/2013/second-post.html;
+        this.page.url = 'http://www.aguasnegras.es/blog/2013/second-post.html';
+        this.page.identifier = 'blog/2013/second-post.html';
     };
     (function() {
         var d = document, s = d.createElement('script');
@@ -96,22 +65,15 @@
 </script>
 <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
 		</div>
-		<div id="push"></div>
-    </div>
 
-    <div id="footer">
+    <footer>
       <div class="container">
-        <p class="muted credit">&copy; 2016 | Mixed with <a href="http://materializecss.com/">Materialize v.0.97.5</a> | Baked with <a href="http://jbake.org">JBake v2.4.0</a></p>
+        <p >&copy; 2016 | Mixed with <a href="http://materializecss.com/">Materialize v.0.97.5</a> | Baked with <a href="http://jbake.org">JBake v2.4.0</a></p>
       </div>
-    </div>
+    </footer>
 
-    <!-- Le javascript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-		<script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
-		<!-- Compiled and minified CSS -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css">
-  <!-- Compiled and minified JavaScript -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js"></script>
+    <script src="//cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
+		<script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js"></script>
   </body>
 </html>
