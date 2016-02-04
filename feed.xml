@@ -6,8 +6,8 @@
     <atom:link href="http://www.aguasnegras.es/feed.xml" rel="self" type="application/rss+xml" />
     <description>AguasNegras, tecnología, programación y Java</description>
     <language>es-es</language>
-    <pubDate>jue, 4 feb 2016 13:39:05 +0100</pubDate>
-    <lastBuildDate>jue, 4 feb 2016 13:39:05 +0100</lastBuildDate>
+    <pubDate>jue, 4 feb 2016 14:52:21 +0100</pubDate>
+    <lastBuildDate>jue, 4 feb 2016 14:52:21 +0100</lastBuildDate>
 
     <item>
       <title>Wordpress to JBake</title>
@@ -15,7 +15,7 @@
       <pubDate>jue, 4 feb 2016 00:00:00 +0100</pubDate>
       <guid isPermaLink="false">blog/2016/02/04-wp2jbake.html</guid>
       	<description>
-	&lt;p&gt;En la migraci&amp;oacute;n del blog a GitHub Pages uno de los objetivos era no perder contenido, por lo que una vez puesta en pie toda la infraestructura,&lt;br/&gt;toca migrar los posts (mucho me temo que los comentarios si se van a perder...). Soluci&amp;oacute;n: Hacer un peque&amp;ntilde;o programa en Java (casi que dir&amp;iacute;a script)&lt;br/&gt;que realice autom&amp;aacute;ticamente esta conversi&amp;oacute;n, adem&amp;aacute;s voy a seguir TDD para &quot;mantenerme en forma&quot;.&lt;br/&gt;En un principio lo voy a plantear como una mera conversi&amp;oacute;n de formatos, como formato inicial tengo el que devuelve Wordpress para la&lt;br/&gt;exportaci&amp;oacute;n: &lt;a href=&quot;http://devtidbits.com/2011/03/16/the-wordpress-extended-rss-wxr-exportimport-xml-document-format-decoded-and-explained/&quot;&gt;Wordpress Extended RSS&lt;/a&gt;&lt;br/&gt;y como formato final quiero un archivo en el formato espec&amp;iacute;fico de JBake, que no deja de ser &lt;a href=&quot;https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet&quot;&gt;Markdown&lt;/a&gt;&lt;br/&gt;con unas cabeceras particulares:&lt;/p&gt;
+	&lt;p&gt;En la migraci&amp;oacute;n del blog a GitHub Pages uno de los objetivos era no perder contenido, por lo que una vez puesta en pie toda la infraestructura, toca migrar los posts (mucho me temo que los comentarios si se van a perder...). Soluci&amp;oacute;n: Hacer un peque&amp;ntilde;o programa en Java (casi que dir&amp;iacute;a script) que realice autom&amp;aacute;ticamente esta conversi&amp;oacute;n, adem&amp;aacute;s voy a seguir TDD para &quot;mantenerme en forma&quot;.&lt;br/&gt;En un principio lo voy a plantear como una mera conversi&amp;oacute;n de formatos, como formato inicial tengo el que devuelve Wordpress para la exportaci&amp;oacute;n: &lt;a href=&quot;http://devtidbits.com/2011/03/16/the-wordpress-extended-rss-wxr-exportimport-xml-document-format-decoded-and-explained/&quot;&gt;Wordpress Extended RSS&lt;/a&gt; y como formato final quiero un archivo en el formato espec&amp;iacute;fico de JBake, que no deja de ser &lt;a href=&quot;https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet&quot;&gt;Markdown&lt;/a&gt; con unas cabeceras (metadata) particulares:&lt;/p&gt;
 &lt;ol&gt;
   &lt;li&gt;title: El t&amp;iacute;tulo del post&lt;/li&gt;
   &lt;li&gt;date: La fecha del post&lt;/li&gt;
@@ -26,9 +26,9 @@
 &lt;ol&gt;
   &lt;li&gt;title: casa con la cabecera title que quiero&lt;/li&gt;
   &lt;li&gt;pubdate: casa con la cabecera date&lt;/li&gt;
-  &lt;li&gt;category: Las categor&amp;iacute;as se dividen en dominios que puede ser category (bien Wordpress, bien) o post_tag, en concreto me interesan solo aquellas&lt;br/&gt;de tipo post_tag y su contenido, es decir tendr&amp;eacute; que concatener el contenido de todas las categor&amp;iacute;as de tipo post_tag.&lt;/li&gt;
-  &lt;li&gt;content: Este es el contenido el post en s&amp;iacute;, como se puede ver viene en HTML tal cual dentro de un CDATA, esto me permite aprovechar que con Markdown&lt;br/&gt;puedo utilizar el HTML inline as&amp;iacute; que en un principio lo voy a volcar tal cual, aunque preveo ciertos problemas con las etiquetas de c&amp;oacute;digo...&lt;/li&gt;
-&lt;/ol&gt;&lt;p&gt;Por &amp;uacute;ltimo, por cada item quiero generar un archivo con el nombre dd-title.md (donde dd es el d&amp;iacute;a de la fecha) dentro de una carpeta mm (mes) dentro&lt;br/&gt;de una carpeta aaaa (a&amp;ntilde;o...).&lt;/p&gt;&lt;p&gt;Pues con esto, empezamos!! Primero: crear el projecto en Intellij y con Maven, creo el repositorio en &lt;a href=&quot;https://github.com/agustinventura/wp2jbake&quot;&gt;GitHub&lt;/a&gt; y lo a&amp;ntilde;ado.&lt;br/&gt;Por &amp;uacute;ltimo, actualizo el .gitignore, hago el commit inicial y cambio a la rama development.&lt;/p&gt;&lt;p&gt;El comienzo es un no brainer, necesito un main que arranque la aplicaci&amp;oacute;n como tal y que recibir&amp;aacute; como par&amp;aacute;metros:&lt;/p&gt;
+  &lt;li&gt;category: Las categor&amp;iacute;as se dividen en dominios que puede ser category (bien Wordpress, bien) o post_tag, en concreto me interesan solo aquellas de tipo post_tag y su contenido, es decir tendr&amp;eacute; que concatener el contenido de todas las categor&amp;iacute;as de tipo post_tag.&lt;/li&gt;
+  &lt;li&gt;content: Este es el contenido el post en s&amp;iacute;, como se puede ver viene en HTML tal cual dentro de un CDATA, esto me permite aprovechar que con Markdown puedo utilizar el HTML inline as&amp;iacute; que en un principio lo voy a volcar tal cual, aunque preveo ciertos problemas con las etiquetas de c&amp;oacute;digo...&lt;/li&gt;
+&lt;/ol&gt;&lt;p&gt;Por &amp;uacute;ltimo, por cada item quiero generar un archivo con el nombre dd-title.md (donde dd es el d&amp;iacute;a de la fecha) dentro de una carpeta mm (mes) dentro de una carpeta aaaa (a&amp;ntilde;o...).&lt;/p&gt;&lt;p&gt;Pues con esto, empezamos!! Primero: crear el projecto en Intellij y con Maven, creo el repositorio en &lt;a href=&quot;https://github.com/agustinventura/wp2jbake&quot;&gt;GitHub&lt;/a&gt; y lo a&amp;ntilde;ado.&lt;br/&gt;A continuaci&amp;oacute;n, actualizo el .gitignore, hago el commit inicial y cambio a la rama development.&lt;/p&gt;&lt;p&gt;El comienzo es un no brainer, necesito un main que arranque la aplicaci&amp;oacute;n como tal y que recibir&amp;aacute; como par&amp;aacute;metros:&lt;/p&gt;
 &lt;ul&gt;
   &lt;li&gt;El nombre del archivo WXR&lt;/li&gt;
   &lt;li&gt;El directorio de salida&lt;/li&gt;
@@ -63,7 +63,7 @@ public void buildWithoutDestination() {
         throw new IllegalArgumentException(&amp;quot;Destination is not a valid folder&amp;quot;);
     }
 }
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Pero... un segundo, &amp;iquest;me d&amp;aacute; igual la IllegalArgumentException que se lanza? No, en cada caso quiero verificar que se esta lanzando la que se debe,&lt;br/&gt;refactorizo las pruebas, ahora voy a utilizar un @Rule de JUnit para comprobar que se lanza la excepci&amp;oacute;n y el mensaje de error:&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Pero... un segundo, &amp;iquest;me d&amp;aacute; igual la IllegalArgumentException que se lanza? No, en cada caso quiero verificar que se esta lanzando la que se debe, refactorizo las pruebas, ahora voy a utilizar un @Rule de JUnit para comprobar que se lanza la excepci&amp;oacute;n y el mensaje de error:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;prettyprint&quot;&gt;@Rule
 public ExpectedException thrown = ExpectedException.none();
 
@@ -103,7 +103,6 @@ public void buildWithEmptyDestination() {
     thrown.expect(IllegalArgumentException.class);
     thrown.expectMessage(&amp;quot;Destination&amp;quot;);
     sut = new Wp2JBake(&amp;quot;foo&amp;quot;, &amp;quot;&amp;quot;);
-
 }
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Ahora toca cambiar la implementaci&amp;oacute;n, me voy a apoyar en las commons-lang:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;prettyprint&quot;&gt;public Wp2JBake(String origin, String destination) {
@@ -135,11 +134,11 @@ private boolean existsOrigin(String origin) {
     File originFile = new File(origin);
     return originFile.exists();
 }
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Esta implementaci&amp;oacute;n hace saltar las pruebas de origen inv&amp;aacute;lido, claro como para &quot;callar&quot; los tests estoy pasando como primer par&amp;aacute;metro una cadena&lt;br/&gt;cualquiera, ahora falla porque no existe el par&amp;aacute;metro foo.&lt;br/&gt;Aqu&amp;iacute; hay dos opciones:&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Esta implementaci&amp;oacute;n hace saltar las pruebas de origen inv&amp;aacute;lido, claro como para &quot;callar&quot; los tests estoy pasando como primer par&amp;aacute;metro una cadena cualquiera, ahora falla porque no existe el par&amp;aacute;metro foo.&lt;br/&gt;Aqu&amp;iacute; hay dos opciones:&lt;/p&gt;
 &lt;ol&gt;
   &lt;li&gt;Pasar un archivo que si exista.&lt;/li&gt;
   &lt;li&gt;Cambiar la implementaci&amp;oacute;n para que primero compruebe que la cadena es v&amp;aacute;lida en los dos casos y despu&amp;eacute;s que compruebe si el archivo es v&amp;aacute;lido.&lt;/li&gt;
-&lt;/ol&gt;&lt;p&gt;El problema de 2 es que tendr&amp;iacute;a que lanzar la misma excepci&amp;oacute;n dos veces mientras que el de 1 es que se parecer&amp;iacute;a m&amp;aacute;s a un test de integraci&amp;oacute;n que&lt;br/&gt;a una prueba unitaria en s&amp;iacute;. Para mi gusto esta es una de las zonas grises en TDD, porque, &amp;iquest;ahora qu&amp;eacute; hago?&amp;iquest;Creo un mock del SUT? No lo veo claro,&lt;br/&gt;as&amp;iacute; que tratar&amp;eacute; de tirar por el camino del medio y pasar una ruta de archivo que sepa que siempre existe, por ejemplo, el pom.xml.&lt;/p&gt;&lt;p&gt;Ahora podr&amp;iacute;a seguir comprobando que el destino no sea inv&amp;aacute;lido, pero... &amp;iquest;puede serlo? Al ser un directorio, si no existe, deber&amp;iacute;a crearlo y si existe,&lt;br/&gt;no hacer nada. En todo caso la comprobaci&amp;oacute;n deber&amp;iacute;a ser si se puede crear el directorio y si se puede escribir en &amp;eacute;l.&lt;/p&gt;&lt;p&gt;De aqu&amp;iacute; saco estas dos pruebas:&lt;/p&gt;
+&lt;/ol&gt;&lt;p&gt;El problema de 2 es que tendr&amp;iacute;a que lanzar la misma excepci&amp;oacute;n dos veces mientras que el de 1 es que se parecer&amp;iacute;a m&amp;aacute;s a un test de integraci&amp;oacute;n que a una prueba unitaria en s&amp;iacute;. Para mi gusto esta es una de las zonas grises en TDD, porque, &amp;iquest;ahora qu&amp;eacute; hago?&amp;iquest;Creo un mock del SUT? No lo veo claro,&lt;br/&gt;as&amp;iacute; que tratar&amp;eacute; de tirar por el camino del medio y pasar una ruta de archivo que sepa que siempre existe, por ejemplo, el pom.xml.&lt;/p&gt;&lt;p&gt;Ahora podr&amp;iacute;a seguir comprobando que el destino no sea inv&amp;aacute;lido, pero... &amp;iquest;puede serlo? Al ser un directorio, si no existe, deber&amp;iacute;a crearlo y si existe, no hacer nada. En todo caso la comprobaci&amp;oacute;n deber&amp;iacute;a ser si se puede crear el directorio y si se puede escribir en &amp;eacute;l.&lt;/p&gt;&lt;p&gt;De aqu&amp;iacute; saco estas dos pruebas:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;prettyprint&quot;&gt;@Test
 public void buildWithNonWritableDestination() {
     File destination = new File(&amp;quot;destination&amp;quot;);
@@ -192,7 +191,21 @@ public void buildWithValidParameters() {
     File destination = new File(&amp;quot;destination&amp;quot;);
     destination.delete();
 }
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Con esto puedo empezar a refactorizar y a remplatearme las cosas. La verdad que Wp2JBake empieza a tener un tama&amp;ntilde;o considerable teniendo en cuenta que tan s&amp;oacute;lo tiene como API un constructor. La verdad que las comprobaciones que estoy haciendo sobre los par&amp;aacute;metros no me convencen, me dan&lt;br/&gt;la impresi&amp;oacute;n de que estoy violando el Single Responsability, por otra parte ser&amp;iacute;a un poco artificial crear una clase de validadores &amp;uacute;nicamente.&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Con esto puedo empezar a refactorizar y a remplatearme las cosas. La verdad que Wp2JBake empieza a tener un tama&amp;ntilde;o considerable teniendo en cuenta que tan s&amp;oacute;lo tiene como API un constructor. La verdad que las comprobaciones que estoy haciendo sobre los par&amp;aacute;metros no me convencen, me dan la impresi&amp;oacute;n de que estoy violando el Single Responsability, por otra parte ser&amp;iacute;a un poco artificial crear una clase de validadores &amp;uacute;nicamente.&lt;/p&gt;
+	</description>
+    </item>
+    <item>
+      <title>Migrando el blog</title>
+      <link>http://www.aguasnegras.es/blog/2016/01/03-migracion.html</link>
+      <pubDate>dom, 3 ene 2016 00:00:00 +0100</pubDate>
+      <guid isPermaLink="false">blog/2016/01/03-migracion.html</guid>
+      	<description>
+	&lt;p&gt;Desde hace ya bastantes años llevo pagando religiosamente todos los años un dominio (aguasnegras.es) y un alojamiento para tener el blog.&lt;br/&gt;El blog ha tenido mejores y peores momentos, pero en general me gusta tener un sitio donde poder escribir en un momento dado, y por supuesto compartir con la comunidad (sobre todo en español, es por lo que escribo en este idioma).&lt;/p&gt;&lt;p&gt;El asunto es que si nos paramos a pensarlo, el blog tiene bastantes pocos comentarios y sobre todo entradas mías, es decir, es fundamentalmente un medio de solo lectura. Hace ya un tiempo que pienso que tener para ésto un Wordpress con su PHP y su MySQL es bastante asesino y hasta antieconómico (en sentido general, porque el hosting me cuesta cuatro duros al año, tampoco vamos a ser ruinas). Otra cosa que me molesta bastante es tener que andar actualizando Wordpress (cosa lógica y normal) y aunque ya las actualizaciones sean automáticas, pues me molesta.&lt;/p&gt;&lt;p&gt;Total, que a esto le sumamos que GitHub ofrece desde hace tiempo &lt;a href=&quot;https://pages.github.com/&quot;&gt;GitHub Pages&lt;/a&gt; que consiste en alojamiento gratuito para HTML estático y más a huevo imposible... quedaría pendiente el tema de los comentarios, pero precisamente para esto, &lt;a href=&quot;https://disqus.com/&quot;&gt;Disqus&lt;/a&gt; permite incluirlos por Javascript con una configuración muy sencilla.&lt;/p&gt;&lt;p&gt;Con esto ya va quedando claro el enfoque, ahora habría que ver como generar el HTML, ya que escribir HTML a pelo es posible, pero es más bien coñazo. GitHub Pages usa &lt;a href=&quot;https://jekyllrb.com/&quot;&gt;Jekyll&lt;/a&gt; que permite usar Markdown para escribir, pero como buen javero de pro he buscado una opción similar en Java, &lt;a href=&quot;http://jbake.org/&quot;&gt;JBake&lt;/a&gt;. Eso sí, el inconveniente es claro, con Jekyll lo único que hay que subir a GitHub son los archivos .md mientras que con JBake tendré que generar el HTML y subirlo.&lt;/p&gt;&lt;p&gt;Por tanto, hay tres trabajos importantes que hacer para estudiar la viabilidad de usar GitHub Pages para alojar el blog:&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;Integrar Disqus en JBake.&lt;/li&gt;
+  &lt;li&gt;Personalizar el HTML generado por JBake.&lt;/li&gt;
+  &lt;li&gt;Ver como subir los fuentes y HTML a GitHub y estudiar el workflow de publicación.&lt;/li&gt;
+&lt;/ol&gt;
 	</description>
     </item>
 
