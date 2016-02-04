@@ -39,6 +39,9 @@
         		<div class="card-content">
         			<span class="card-title"><h5 class="light-blue-text text-darken-1">Tags</h5></span>
               <ul>
+              <li><a href="tags/Java.html">Java</a></li>
+              <li><a href="tags/JBake.html">JBake</a></li>
+              <li><a href="tags/Wordpress.html">Wordpress</a></li>
               <li><a href="tags/blog.html">blog</a></li>
               <li><a href="tags/example.html">example</a></li>
           </ul>
@@ -46,6 +49,197 @@
         </div>
         </div>
         <div class="col s12 m10">
+			<div class="card hoverable">
+				<div class="card-content">
+	  			<span class="card-title"><a href="blog/2016/02/04-wp2jbake.html"><h4>Wordpress to JBake</h4></a></span>
+					<div class="section">
+	  			<p>04 febrero 2016</p>
+					</div>
+					<div class="section">
+	  			<p class="flow-text"><p>En la migraci&oacute;n del blog a GitHub Pages uno de los objetivos era no perder contenido, por lo que una vez puesta en pie toda la infraestructura,<br/>toca migrar los posts (mucho me temo que los comentarios si se van a perder...). Soluci&oacute;n: Hacer un peque&ntilde;o programa en Java (casi que dir&iacute;a script)<br/>que realice autom&aacute;ticamente esta conversi&oacute;n, adem&aacute;s voy a seguir TDD para "mantenerme en forma".<br/>En un principio lo voy a plantear como una mera conversi&oacute;n de formatos, como formato inicial tengo el que devuelve Wordpress para la<br/>exportaci&oacute;n: <a href="http://devtidbits.com/2011/03/16/the-wordpress-extended-rss-wxr-exportimport-xml-document-format-decoded-and-explained/">Wordpress Extended RSS</a><br/>y como formato final quiero un archivo en el formato espec&iacute;fico de JBake, que no deja de ser <a href="https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet">Markdown</a><br/>con unas cabeceras particulares:</p>
+<ol>
+  <li>title: El t&iacute;tulo del post</li>
+  <li>date: La fecha del post</li>
+  <li>type: Ser&aacute; siempre post</li>
+  <li>tags: Las etiquetas del post</li>
+  <li>status: Ser&aacute; siempre published</li>
+</ol><p>El WXR es un solo archivo con una serie de elementos item que corresponde cada uno a un post, un elemento item tiene los siguientes campos interesantes:</p>
+<ol>
+  <li>title: casa con la cabecera title que quiero</li>
+  <li>pubdate: casa con la cabecera date</li>
+  <li>category: Las categor&iacute;as se dividen en dominios que puede ser category (bien Wordpress, bien) o post_tag, en concreto me interesan solo aquellas<br/>de tipo post_tag y su contenido, es decir tendr&eacute; que concatener el contenido de todas las categor&iacute;as de tipo post_tag.</li>
+  <li>content: Este es el contenido el post en s&iacute;, como se puede ver viene en HTML tal cual dentro de un CDATA, esto me permite aprovechar que con Markdown<br/>puedo utilizar el HTML inline as&iacute; que en un principio lo voy a volcar tal cual, aunque preveo ciertos problemas con las etiquetas de c&oacute;digo...</li>
+</ol><p>Por &uacute;ltimo, por cada item quiero generar un archivo con el nombre dd-title.md (donde dd es el d&iacute;a de la fecha) dentro de una carpeta mm (mes) dentro<br/>de una carpeta aaaa (a&ntilde;o...).</p><p>Pues con esto, empezamos!! Primero: crear el projecto en Intellij y con Maven, creo el repositorio en <a href="https://github.com/agustinventura/wp2jbake">GitHub</a> y lo a&ntilde;ado.<br/>Por &uacute;ltimo, actualizo el .gitignore, hago el commit inicial y cambio a la rama development.</p><p>El comienzo es un no brainer, necesito un main que arranque la aplicaci&oacute;n como tal y que recibir&aacute; como par&aacute;metros:</p>
+<ul>
+  <li>El nombre del archivo WXR</li>
+  <li>El directorio de salida</li>
+</ul><p>Eso quiere decir que la clase de entrada a la aplicaci&oacute;n (Wp2JBake) tendr&aacute; un constructor con dos par&aacute;metros, as&iacute; que siguiendo TDD, empiezo con los tests:</p>
+<ol>
+  <li>Construir con los par&aacute;metros a null.</li>
+  <li>Construir con el archivo origen a null.</li>
+  <li>Construir con el directorio destino a null.</li>
+</ol><p>En todos estos casos lanzar&eacute; una InvalidArgumentException, as&iacute; que inicialmente tendr&iacute;a como pruebas algo as&iacute;:</p>
+<pre><code class="prettyprint">private Wp2JBake sut;
+
+@Test(expected = IllegalArgumentException.class)
+public void buildWithoutParameters() {
+    sut = new Wp2JBake(null, null);
+}
+
+@Test(expected = IllegalArgumentException.class)
+public void buildWithoutOrigin() {
+    sut = new Wp2JBake(null, &quot;&quot;);
+}
+
+@Test(expected = IllegalArgumentException.class)
+public void buildWithoutDestination() {
+    sut = new Wp2JBake(&quot;&quot;, null);
+}
+</code></pre><p>Y como implementaci&oacute;n lo siguiente:</p>
+<pre><code class="prettyprint">public Wp2JBake(String origin, String destination) {
+    if (origin == null) {
+        throw new IllegalArgumentException(&quot;Origin is not a valid file&quot;);
+    }
+    if (destination == null) {
+        throw new IllegalArgumentException(&quot;Destination is not a valid folder&quot;);
+    }
+}
+</code></pre><p>Pero... un segundo, &iquest;me d&aacute; igual la IllegalArgumentException que se lanza? No, en cada caso quiero verificar que se esta lanzando la que se debe,<br/>refactorizo las pruebas, ahora voy a utilizar un @Rule de JUnit para comprobar que se lanza la excepci&oacute;n y el mensaje de error:</p>
+<pre><code class="prettyprint">@Rule
+public ExpectedException thrown = ExpectedException.none();
+
+private Wp2JBake sut;
+
+@Test
+public void buildWithoutParameters() {
+    thrown.expect(IllegalArgumentException.class);
+    thrown.expectMessage(&quot;Origin&quot;);
+    sut = new Wp2JBake(null, null);
+}
+
+@Test
+public void buildWithoutOrigin() {
+    thrown.expect(IllegalArgumentException.class);
+    thrown.expectMessage(&quot;Origin&quot;);
+    sut = new Wp2JBake(null, &quot;foo&quot;);
+
+}
+
+@Test
+public void buildWithoutDestination() {
+    thrown.expect(IllegalArgumentException.class);
+    thrown.expectMessage(&quot;Destination&quot;);
+    sut = new Wp2JBake(&quot;foo&quot;, null);
+}
+</code></pre><p>Vale, ya he controlado que no sea null, ahora toca comprobar que tampoco sea cadena vac&iacute;a:</p>
+<pre><code class="prettyprint"> @Test
+public void buildWithEmptyOrigin() {
+    thrown.expect(IllegalArgumentException.class);
+    thrown.expectMessage(&quot;Origin&quot;);
+    sut = new Wp2JBake(&quot;&quot;, &quot;&quot;);
+}
+
+@Test
+public void buildWithEmptyDestination() {
+    thrown.expect(IllegalArgumentException.class);
+    thrown.expectMessage(&quot;Destination&quot;);
+    sut = new Wp2JBake(&quot;foo&quot;, &quot;&quot;);
+
+}
+</code></pre><p>Ahora toca cambiar la implementaci&oacute;n, me voy a apoyar en las commons-lang:</p>
+<pre><code class="prettyprint">public Wp2JBake(String origin, String destination) {
+    if (StringUtils.isEmpty(origin)) {
+        throw new IllegalArgumentException(&quot;Origin is not a valid file&quot;);
+    }
+    if (StringUtils.isEmpty(destination)) {
+        throw new IllegalArgumentException(&quot;Destination is not a valid folder&quot;);
+    }
+}
+</code></pre><p>Siguiente restricci&oacute;n, el origen adem&aacute;s debe existir:</p>
+<pre><code class="prettyprint">@Test
+public void buildWithInvalidOrigin() {
+    thrown.expect(IllegalArgumentException.class);
+    thrown.expectMessage(&quot;Origin&quot;);
+    sut = new Wp2JBake(&quot;foo&quot;, &quot;&quot;);
+}
+</code></pre><p>Y la implementaci&oacute;n:</p>
+<pre><code class="prettyprint">public Wp2JBake(String origin, String destination) {
+    if (StringUtils.isEmpty(origin) || !existsOrigin(origin)) {
+        throw new IllegalArgumentException(&quot;Origin is not a valid file&quot;);
+    }
+    if (StringUtils.isEmpty(destination)) {
+        throw new IllegalArgumentException(&quot;Destination is not a valid folder&quot;);
+    }
+}
+
+private boolean existsOrigin(String origin) {
+    File originFile = new File(origin);
+    return originFile.exists();
+}
+</code></pre><p>Esta implementaci&oacute;n hace saltar las pruebas de origen inv&aacute;lido, claro como para "callar" los tests estoy pasando como primer par&aacute;metro una cadena<br/>cualquiera, ahora falla porque no existe el par&aacute;metro foo.<br/>Aqu&iacute; hay dos opciones:</p>
+<ol>
+  <li>Pasar un archivo que si exista.</li>
+  <li>Cambiar la implementaci&oacute;n para que primero compruebe que la cadena es v&aacute;lida en los dos casos y despu&eacute;s que compruebe si el archivo es v&aacute;lido.</li>
+</ol><p>El problema de 2 es que tendr&iacute;a que lanzar la misma excepci&oacute;n dos veces mientras que el de 1 es que se parecer&iacute;a m&aacute;s a un test de integraci&oacute;n que<br/>a una prueba unitaria en s&iacute;. Para mi gusto esta es una de las zonas grises en TDD, porque, &iquest;ahora qu&eacute; hago?&iquest;Creo un mock del SUT? No lo veo claro,<br/>as&iacute; que tratar&eacute; de tirar por el camino del medio y pasar una ruta de archivo que sepa que siempre existe, por ejemplo, el pom.xml.</p><p>Ahora podr&iacute;a seguir comprobando que el destino no sea inv&aacute;lido, pero... &iquest;puede serlo? Al ser un directorio, si no existe, deber&iacute;a crearlo y si existe,<br/>no hacer nada. En todo caso la comprobaci&oacute;n deber&iacute;a ser si se puede crear el directorio y si se puede escribir en &eacute;l.</p><p>De aqu&iacute; saco estas dos pruebas:</p>
+<pre><code class="prettyprint">@Test
+public void buildWithNonWritableDestination() {
+    File destination = new File(&quot;destination&quot;);
+    destination.mkdir();
+    destination.deleteOnExit();
+    destination.setReadOnly();
+    thrown.expect(IllegalArgumentException.class);
+    thrown.expectMessage(&quot;Destination&quot;);
+    sut = new Wp2JBake(&quot;pom.xml&quot;, destination.getAbsolutePath());
+}
+
+@Test
+public void buildWithNonWritableDestinationParent() {
+    File destinationParent = new File(&quot;destinationParent&quot;);
+    destinationParent.mkdir();
+    destinationParent.deleteOnExit();
+    destinationParent.setReadOnly();
+    thrown.expect(IllegalArgumentException.class);
+    thrown.expectMessage(&quot;Destination&quot;);
+    sut = new Wp2JBake(&quot;pom.xml&quot;, destinationParent.getAbsolutePath() + File.separator + &quot;destination&quot;);
+}
+</code></pre><p>Y la implementaci&oacute;n sigue creciento:</p>
+<pre><code class="prettyprint">public Wp2JBake(String origin, String destination) {
+    if (StringUtils.isEmpty(origin) || !existsOrigin(origin)) {
+        throw new IllegalArgumentException(&quot;Origin is not a valid file&quot;);
+    }
+    if (StringUtils.isEmpty(destination) || isWritable(destination)) {
+        throw new IllegalArgumentException(&quot;Destination is not a valid folder&quot;);
+    }
+}
+
+private boolean isWritable(String destination) {
+    File destinationFolder = new File(destination);
+    if (destinationFolder.exists()) {
+        return destinationFolder.canWrite();
+    } else {
+        return destinationFolder.getParentFile().canWrite();
+    }
+}
+
+private boolean existsOrigin(String origin) {
+    File originFile = new File(origin);
+    String path = originFile.getAbsolutePath();
+    return originFile.exists();
+}
+</code></pre><p>Por &uacute;ltimo me quedar&iacute;a probar el caso en el que ambos par&aacute;metros son v&aacute;lidos:</p>
+<pre><code class="prettyprint">@Test
+public void buildWithValidParameters() {
+    sut = new Wp2JBake(&quot;pom.xml&quot;, &quot;destination&quot;);
+    File destination = new File(&quot;destination&quot;);
+    destination.delete();
+}
+</code></pre><p>Con esto puedo empezar a refactorizar y a remplatearme las cosas. La verdad que Wp2JBake empieza a tener un tama&ntilde;o considerable teniendo en cuenta que tan s&oacute;lo tiene como API un constructor. La verdad que las comprobaciones que estoy haciendo sobre los par&aacute;metros no me convencen, me dan<br/>la impresi&oacute;n de que estoy violando el Single Responsability, por otra parte ser&iacute;a un poco artificial crear una clase de validadores &uacute;nicamente.</p></p>
+					</div>
+				</div>
+				<div class="card-action">
+					<a href="blog/2016/02/04-wp2jbake.html">Leer</a>
+				</div>
+			</div>
 			<div class="card hoverable">
 				<div class="card-content">
 	  			<span class="card-title"><a href="blog/2016/sixth-post.html"><h4>Second Post</h4></a></span>
