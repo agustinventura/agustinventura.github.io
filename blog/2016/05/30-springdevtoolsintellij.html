@@ -2,7 +2,7 @@
 <html lang="es">
   <head>
     <meta charset="utf-8"/>
-    <title>Wordpress to JBake - Parseo</title>
+    <title>Spring Boot Developer Tools e Intellij IDEA</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="AguasNegras, tecnología, programación y Java">
     <meta name="author" content="Agustín Ventura">
@@ -39,24 +39,23 @@
 <div class="container">
 <div class="row">
 <div class="col s12">
-		<h4 class="light-blue-text text-darken-1">Wordpress to JBake - Parseo</h4>
+		<h4 class="light-blue-text text-darken-1">Spring Boot Developer Tools e Intellij IDEA</h4>
 		<div class="section">
-			20 marzo 2016
+			30 mayo 2016
 		</div>
 		<div class="section">
-			<p>Pues ahora que ya tengo el constructor y construyo un objeto siempre que, al menos es coherente, toca parsear el xml para extraer los datos.<br/>En Java, esencialmente hay tres formas de parsear xml, todas dentro de lo que se denomina Java XML Processing API, <a href="https://docs.oracle.com/javase/tutorial/jaxp/index.html">JAXP</a>:</p>
+			<p>Una de las mejores incorporaciones que tuvo Spring Boot en la versión 1.3 fueron las <a href="https://spring.io/blog/2015/06/17/devtools-in-spring-boot-1-3">Developer Tools</a>.<br/>De entre toda la funcionalidad, lo que me parece mas útil es sin lugar a dudas el automatic restart, que relanza la aplicación en cuanto detecta cambios en un<br/>fichero que esta en el classpath y el LiveReload, que en conjunción con un plugin de Chrome detecta cuando ha habido cambios en la aplicación (como un reinicio)<br/>y refresca automáticamente la página.</p><p>Juntando estas dos cosas, y dejando de lado el consumo de recursos, codificar en Java se convierte prácticamente en lo mismo que trabajar con un lenguaje de scripting<br/>como PHP.</p><p>Sin embargo, el soporte de los developers tools no es automático del todo en Intellij IDEA, el IDE que más suelo utilizar en casa, para ello hay que <a href="https://patrickgrimard.io/2016/01/18/spring-boot-devtools-first-look/">habilitar<br/>dos opciones</a>:</p>
 <ol>
-  <li><a href="https://docs.oracle.com/javase/tutorial/jaxp/sax/index.html">SAX</a>: La API originaria, orientada a eventos. Muy rápida y muy farragosa.</li>
-  <li><a href="https://docs.oracle.com/javase/tutorial/jaxp/dom/index.html">DOM</a>: La API orientada a objetos, representa el XML como un árbol en memoria. Muy fácil de acceder, muy tragón de recursos (tienes todo el XML en memoria).</li>
-  <li><a href="https://docs.oracle.com/javase/tutorial/jaxp/stax/index.html">StAX</a>: A partir del JDK 1.5 se encuentra disponible esta API que es un modelo mixto, se basa en un modelo de streaming (parecido a SAX) pero más sencillo de utilizar y además permite escribir.</li>
-</ol>
+  <li>En Settings (ctrl-alt-s) &gt; Build, Execution, Deployment &gt; Compiler hay que marcar "Make project automatically"</li>
+  <li>En el registro que se puede acceder mediante ctrl-shift-a y buscando "Registry" hay que habilitar la clave compiler.automake.allow.when.app.running para que el<br/>automake funcione también mientras la aplicación esta arrancada.</li>
+</ol><p>Con ésto, y si tenemos un equipo suficientemente potente (aunque mi portátil tiene ya 5 años lo mueve bastante bien), cualquier cambio en nuestras clases se cargará<br/>automáticamente al reiniciar la aplicación. Eso sí, dado que Intellij IDEA guarda automáticamente los archivos cuando detecta cambios, esto puede dar lugar a algunos<br/>errores o reinicios en falso (por ejemplo, cuando estamos escribiendo un método y nos vamos a StackOverflow a resolver alguna duda). Para eso se pueden ajustar las<br/>opciones de autosave tal y como se explica en la misma <a href="https://www.jetbrains.com/help/idea/2016.1/saving-and-reverting-changes.html">documentación del IDE</a>.</p>
 		</div>
 <div class="col s12">
 <div id="disqus_thread"></div>
 <script>
     var disqus_config = function () {
-        this.page.url = 'http://www.aguasnegras.es/blog/2016/03/20-wp2jbake.html';
-        this.page.identifier = 'blog/2016/03/20-wp2jbake.html';
+        this.page.url = 'http://www.aguasnegras.es/blog/2016/05/30-springdevtoolsintellij.html';
+        this.page.identifier = 'blog/2016/05/30-springdevtoolsintellij.html';
     };
     (function() {
         var d = document, s = d.createElement('script');

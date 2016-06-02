@@ -24,13 +24,15 @@
   <body>
     <header>
 <nav class="light-blue darken-3">
-	<div class="nav-wrapper">
-	        <a class="brand-logo" href="../../../"><span class="pageTitle">AguasNegras</span></a>
-		    <ul id="nav-mobile" class="right hide-on-med-and-down">
-		        <li><a href="../../../index.html">Inicio</a></li>
-		        <li><a href="../../../about.html">Acerca De</a></li>
-		        <li><a href="../../../feed.xml">Suscripci&oacute;n</a></li>
-		    </ul>
+	<div class="container">
+		<div class="nav-wrapper">
+		      <a class="brand-logo" href="../../../"><span class="pageTitle">AguasNegras</span></a>
+			    <ul id="nav-mobile" class="right hide-on-med-and-down">
+			        <li><a class="navbar-link" href="../../../index.html">Inicio</a></li>
+			        <li><a class="navbar-link" href="../../../about.html">Acerca De</a></li>
+			        <li><a class="navbar-link" href="../../../feed.xml">Suscripci&oacute;n</a></li>
+			    </ul>
+		</div>
 	</div>
 </nav>
     </header>
@@ -39,10 +41,10 @@
 <div class="col s12">
 		<h4 class="light-blue-text text-darken-1">Wordpress to JBake - Inicio</h4>
 		<div class="section">
-			<p>04 febrero 2016</p>
+			04 febrero 2016
 		</div>
 		<div class="section">
-			<p><p>En la migraci&oacute;n del blog a GitHub Pages uno de los objetivos era no perder contenido, por lo que una vez puesta en pie toda la infraestructura, toca migrar los posts (mucho me temo que los comentarios si se van a perder...). Soluci&oacute;n: Hacer un peque&ntilde;o programa en Java (casi que dir&iacute;a script) que realice autom&aacute;ticamente esta conversi&oacute;n, adem&aacute;s voy a seguir TDD para "mantenerme en forma".<br/>En un principio lo voy a plantear como una mera conversi&oacute;n de formatos, como formato inicial tengo el que devuelve Wordpress para la exportaci&oacute;n: <a href="http://devtidbits.com/2011/03/16/the-wordpress-extended-rss-wxr-exportimport-xml-document-format-decoded-and-explained/">Wordpress Extended RSS</a> y como formato final quiero un archivo en el formato espec&iacute;fico de JBake, que no deja de ser <a href="https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet">Markdown</a> con unas cabeceras (metadata) particulares:</p>
+			<p>En la migraci&oacute;n del blog a GitHub Pages uno de los objetivos era no perder contenido, por lo que una vez puesta en pie toda la infraestructura, toca migrar los posts (mucho me temo que los comentarios si se van a perder...). Soluci&oacute;n: Hacer un peque&ntilde;o programa en Java (casi que dir&iacute;a script) que realice autom&aacute;ticamente esta conversi&oacute;n, adem&aacute;s voy a seguir TDD para "mantenerme en forma".<br/>En un principio lo voy a plantear como una mera conversi&oacute;n de formatos, como formato inicial tengo el que devuelve Wordpress para la exportaci&oacute;n: <a href="http://devtidbits.com/2011/03/16/the-wordpress-extended-rss-wxr-exportimport-xml-document-format-decoded-and-explained/">Wordpress Extended RSS</a> y como formato final quiero un archivo en el formato espec&iacute;fico de JBake, que no deja de ser <a href="https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet">Markdown</a> con unas cabeceras (metadata) particulares:</p>
 <ol>
   <li>title: El t&iacute;tulo del post</li>
   <li>date: La fecha del post</li>
@@ -218,7 +220,7 @@ public void buildWithValidParameters() {
     File destination = new File(&quot;destination&quot;);
     destination.delete();
 }
-</code></pre><p>Con esto puedo empezar a refactorizar y a remplatearme las cosas. La verdad que Wp2JBake empieza a tener un tama&ntilde;o considerable teniendo en cuenta que tan s&oacute;lo tiene como API un constructor. La verdad que las comprobaciones que estoy haciendo sobre los par&aacute;metros no me convencen, me dan la impresi&oacute;n de que estoy violando el Single Responsability, por otra parte ser&iacute;a un poco artificial crear una clase de validadores &uacute;nicamente.</p></p>
+</code></pre><p>Con esto puedo empezar a refactorizar y a remplatearme las cosas. La verdad que Wp2JBake empieza a tener un tama&ntilde;o considerable teniendo en cuenta que tan s&oacute;lo tiene como API un constructor. La verdad que las comprobaciones que estoy haciendo sobre los par&aacute;metros no me convencen, me dan la impresi&oacute;n de que estoy violando el Single Responsability, por otra parte ser&iacute;a un poco artificial crear una clase de validadores &uacute;nicamente.</p>
 		</div>
 <div class="col s12">
 <div id="disqus_thread"></div>
@@ -251,6 +253,8 @@ public void buildWithValidParameters() {
 			    <a href="../../../tags/Java.html"><div class="chip">Java</div></a>
 			    <a href="../../../tags/JBake.html"><div class="chip">JBake</div></a>
 			    <a href="../../../tags/Wordpress.html"><div class="chip">Wordpress</div></a>
+			    <a href="../../../tags/Spring.html"><div class="chip">Spring</div></a>
+			    <a href="../../../tags/Intellij IDEA.html"><div class="chip">Intellij IDEA</div></a>
 	    </div>
         <div class="col s2 right-align">
             <a href="http://twitter.com/agustinventura" target="_blank" class="social-link white-text" ><i class="fa  fa-twitter  fa-3x" title="Twitter" aria-hidden="true"></i></a>

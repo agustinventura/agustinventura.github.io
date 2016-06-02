@@ -6,16 +6,34 @@
     <atom:link href="http://www.aguasnegras.es/feed.xml" rel="self" type="application/rss+xml" />
     <description>AguasNegras, tecnología, programación y Java</description>
     <language>es-es</language>
-    <pubDate>jue, 2 jun 2016 15:01:59 +0200</pubDate>
-    <lastBuildDate>jue, 2 jun 2016 15:01:59 +0200</lastBuildDate>
+    <pubDate>jue, 2 jun 2016 18:56:45 +0200</pubDate>
+    <lastBuildDate>jue, 2 jun 2016 18:56:45 +0200</lastBuildDate>
 
+    <item>
+      <title>Spring Boot Developer Tools e Intellij IDEA</title>
+      <link>http://www.aguasnegras.es/blog/2016/05/30-springdevtoolsintellij.html</link>
+      <pubDate>lun, 30 may 2016 00:00:00 +0200</pubDate>
+      <guid isPermaLink="false">blog/2016/05/30-springdevtoolsintellij.html</guid>
+      	<description>
+	&lt;p&gt;Una de las mejores incorporaciones que tuvo Spring Boot en la versión 1.3 fueron las &lt;a href=&quot;https://spring.io/blog/2015/06/17/devtools-in-spring-boot-1-3&quot;&gt;Developer Tools&lt;/a&gt;.&lt;br/&gt;De entre toda la funcionalidad, lo que me parece mas útil es sin lugar a dudas el automatic restart, que relanza la aplicación en cuanto detecta cambios en un&lt;br/&gt;fichero que esta en el classpath y el LiveReload, que en conjunción con un plugin de Chrome detecta cuando ha habido cambios en la aplicación (como un reinicio)&lt;br/&gt;y refresca automáticamente la página.&lt;/p&gt;&lt;p&gt;Juntando estas dos cosas, y dejando de lado el consumo de recursos, codificar en Java se convierte prácticamente en lo mismo que trabajar con un lenguaje de scripting&lt;br/&gt;como PHP.&lt;/p&gt;&lt;p&gt;Sin embargo, el soporte de los developers tools no es automático del todo en Intellij IDEA, el IDE que más suelo utilizar en casa, para ello hay que &lt;a href=&quot;https://patrickgrimard.io/2016/01/18/spring-boot-devtools-first-look/&quot;&gt;habilitar&lt;br/&gt;dos opciones&lt;/a&gt;:&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;En Settings (ctrl-alt-s) &amp;gt; Build, Execution, Deployment &amp;gt; Compiler hay que marcar &quot;Make project automatically&quot;&lt;/li&gt;
+  &lt;li&gt;En el registro que se puede acceder mediante ctrl-shift-a y buscando &quot;Registry&quot; hay que habilitar la clave compiler.automake.allow.when.app.running para que el&lt;br/&gt;automake funcione también mientras la aplicación esta arrancada.&lt;/li&gt;
+&lt;/ol&gt;&lt;p&gt;Con ésto, y si tenemos un equipo suficientemente potente (aunque mi portátil tiene ya 5 años lo mueve bastante bien), cualquier cambio en nuestras clases se cargará&lt;br/&gt;automáticamente al reiniciar la aplicación. Eso sí, dado que Intellij IDEA guarda automáticamente los archivos cuando detecta cambios, esto puede dar lugar a algunos&lt;br/&gt;errores o reinicios en falso (por ejemplo, cuando estamos escribiendo un método y nos vamos a StackOverflow a resolver alguna duda). Para eso se pueden ajustar las&lt;br/&gt;opciones de autosave tal y como se explica en la misma &lt;a href=&quot;https://www.jetbrains.com/help/idea/2016.1/saving-and-reverting-changes.html&quot;&gt;documentación del IDE&lt;/a&gt;.&lt;/p&gt;
+	</description>
+    </item>
     <item>
       <title>Wordpress to JBake - Parseo</title>
       <link>http://www.aguasnegras.es/blog/2016/03/20-wp2jbake.html</link>
       <pubDate>dom, 20 mar 2016 00:00:00 +0100</pubDate>
       <guid isPermaLink="false">blog/2016/03/20-wp2jbake.html</guid>
       	<description>
-	&lt;p&gt;Pues ahora que ya tengo el constructor y construyo un objeto siempre que, al menos es coherente, toca parsear el xml para extraer los datos.&lt;br/&gt;En Java, esencialmente hay tres formas de parsear xml, todas dentro de lo que se denomina Java XML Processing API, (JAXP)[https://docs.oracle.com/javase/tutorial/jaxp/index.html]:&lt;br/&gt;1. &lt;a href=&quot;https://docs.oracle.com/javase/tutorial/jaxp/sax/index.html&quot;&gt;SAX&lt;/a&gt;: La API originaria, orientada a eventos. Muy rápida y muy farragosa.&lt;br/&gt;2. &lt;a href=&quot;https://docs.oracle.com/javase/tutorial/jaxp/dom/index.html&quot;&gt;DOM&lt;/a&gt;: La API orientada a objetos, representa el XML como un árbol en memoria. Muy fácil de acceder, muy tragón de recursos (tienes todo el XML en memoria).&lt;br/&gt;3. &lt;a href=&quot;https://docs.oracle.com/javase/tutorial/jaxp/stax/index.html&quot;&gt;StAX&lt;/a&gt;: A partir del JDK 1.5 se encuentra disponible esta API que es un modelo mixto, se basa en un modelo de streaming (parecido a SAX) pero más sencillo de utilizar y además permite escribir.&lt;/p&gt;
+	&lt;p&gt;Pues ahora que ya tengo el constructor y construyo un objeto siempre que, al menos es coherente, toca parsear el xml para extraer los datos.&lt;br/&gt;En Java, esencialmente hay tres formas de parsear xml, todas dentro de lo que se denomina Java XML Processing API, &lt;a href=&quot;https://docs.oracle.com/javase/tutorial/jaxp/index.html&quot;&gt;JAXP&lt;/a&gt;:&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;&lt;a href=&quot;https://docs.oracle.com/javase/tutorial/jaxp/sax/index.html&quot;&gt;SAX&lt;/a&gt;: La API originaria, orientada a eventos. Muy rápida y muy farragosa.&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://docs.oracle.com/javase/tutorial/jaxp/dom/index.html&quot;&gt;DOM&lt;/a&gt;: La API orientada a objetos, representa el XML como un árbol en memoria. Muy fácil de acceder, muy tragón de recursos (tienes todo el XML en memoria).&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://docs.oracle.com/javase/tutorial/jaxp/stax/index.html&quot;&gt;StAX&lt;/a&gt;: A partir del JDK 1.5 se encuentra disponible esta API que es un modelo mixto, se basa en un modelo de streaming (parecido a SAX) pero más sencillo de utilizar y además permite escribir.&lt;/li&gt;
+&lt;/ol&gt;
 	</description>
     </item>
     <item>

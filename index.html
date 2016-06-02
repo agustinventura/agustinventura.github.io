@@ -24,13 +24,15 @@
   <body>
     <header>
 <nav class="light-blue darken-3">
-	<div class="nav-wrapper">
-	        <a class="brand-logo" href=""><span class="pageTitle">AguasNegras</span></a>
-		    <ul id="nav-mobile" class="right hide-on-med-and-down">
-		        <li><a href="index.html">Inicio</a></li>
-		        <li><a href="about.html">Acerca De</a></li>
-		        <li><a href="feed.xml">Suscripci&oacute;n</a></li>
-		    </ul>
+	<div class="container">
+		<div class="nav-wrapper">
+		      <a class="brand-logo" href=""><span class="pageTitle">AguasNegras</span></a>
+			    <ul id="nav-mobile" class="right hide-on-med-and-down">
+			        <li><a class="navbar-link" href="index.html">Inicio</a></li>
+			        <li><a class="navbar-link" href="about.html">Acerca De</a></li>
+			        <li><a class="navbar-link" href="feed.xml">Suscripci&oacute;n</a></li>
+			    </ul>
+		</div>
 	</div>
 </nav>
     </header>
@@ -39,12 +41,34 @@
         <div class="col s12">
 			        <div class="card hoverable">
 				        <div class="card-content">
-	          			<span class="card-title"><a href="blog/2016/03/20-wp2jbake.html"><h4>Wordpress to JBake - Parseo</h4></a></span>
+	          			<span class="card-title"><a href="blog/2016/05/30-springdevtoolsintellij.html"><h4>Spring Boot Developer Tools e Intellij IDEA</h4></a></span>
 					        <div class="section">
-	          			        <p>20 marzo 2016</p>
+	          			        30 mayo 2016
 					        </div>
 					        <div class="section">
-    					            <p class="flow-text"><p>Pues ahora que ya tengo el constructor y construyo un objeto siempre que, al menos es coherente, toca parsear el xml para extraer los datos.<br/>En Java, esencialmente hay tres formas de parsear xml, todas dentro de lo que se denomina Java XML Processing API, (JAXP)[https://docs.oracle.com/javase/tutorial/jaxp/index.html]:<br/>1. <a href="https://docs.oracle.com/javase/tutorial/jaxp/sax/index.html">SAX</a>: La API originaria, orientada a eventos. Muy rápida y muy farragosa.<br/>2. <a href="https://docs.oracle.com/javase/tutorial/jaxp/dom/index.html">DOM</a>: La API orientada a objetos, representa el XML como un árbol en memoria. Muy fácil de acceder, muy tragón de recursos (tienes todo el XML en memoria).<br/>3. <a href="https://docs.oracle.com/javase/tutorial/jaxp/stax/index.html">StAX</a>: A partir del JDK 1.5 se encuentra disponible esta API que es un modelo mixto, se basa en un modelo de streaming (parecido a SAX) pero más sencillo de utilizar y además permite escribir.</p></p>
+	          			            <p class="flow-text">
+	          			                <p>Una de las mejores incorporaciones que tuvo Spring Boot en la versión 1.3 fueron las <a href="https://spring.io/blog/2015/06/17/devtools-in-spring-boot-1-3">Developer Tools</a>.<br/>De entre toda la funcionalidad, lo que me parece mas útil es sin lugar a dudas el automatic restart, que relanza la aplicación en cuanto detecta cambios en un<br/>fichero que esta en el classpath y el LiveReload, que en conjunción con un plugin de Chrome detecta cuando ha habido cambios en la aplicación (como un reinicio)<br/>y refresca automáticamente la página.
+	          			                <br/>
+	          			                ...
+	          			            </p>
+					        </div>
+				        </div>
+				        <div class="card-action">
+					        <a href="blog/2016/05/30-springdevtoolsintellij.html">Leer</a>
+				        </div>
+			        </div>
+			        <div class="card hoverable">
+				        <div class="card-content">
+	          			<span class="card-title"><a href="blog/2016/03/20-wp2jbake.html"><h4>Wordpress to JBake - Parseo</h4></a></span>
+					        <div class="section">
+	          			        20 marzo 2016
+					        </div>
+					        <div class="section">
+	          			            <p class="flow-text">
+	          			                <p>Pues ahora que ya tengo el constructor y construyo un objeto siempre que, al menos es coherente, toca parsear el xml para extraer los datos.<br/>En Java, esencialmente hay tres formas de parsear xml, todas dentro de lo que se denomina Java XML Processing API, <a href="https://docs.oracle.com/javase/tutorial/jaxp/index.html">JAXP</a>:
+	          			                <br/>
+	          			                ...
+	          			            </p>
 					        </div>
 				        </div>
 				        <div class="card-action">
@@ -55,7 +79,7 @@
 				        <div class="card-content">
 	          			<span class="card-title"><a href="blog/2016/02/04-wp2jbake.html"><h4>Wordpress to JBake - Inicio</h4></a></span>
 					        <div class="section">
-	          			        <p>04 febrero 2016</p>
+	          			        04 febrero 2016
 					        </div>
 					        <div class="section">
 	          			            <p class="flow-text">
@@ -73,11 +97,11 @@
 				        <div class="card-content">
 	          			<span class="card-title"><a href="blog/2016/01/03-migracion.html"><h4>Migrando el blog</h4></a></span>
 					        <div class="section">
-	          			        <p>03 enero 2016</p>
+	          			        03 enero 2016
 					        </div>
 					        <div class="section">
 	          			            <p class="flow-text">
-	          			                <p>Desde hace ya bastantes años llevo pagando religiosamente todos los años un dominio (aguasnegras.es) y un alojamiento para tener el blog.<br/>El blog ha tenido mejores y peores momentos, pero en general me gusta tener un sitio donde poder escribir en un momento dado, y por supuesto compartir con la comunidad (sobre todo en español, es por lo que escribo en este idioma).</p><p>El asunto es que si nos paramos a pensarlo, el blog tiene bastantes pocos comentarios y sobre todo entradas mías, es decir, es fundamentalmente un medio de solo lectura. Hace ya un tiempo que pienso que tener para ésto un Wordpress con su PHP y su MySQL es bastante asesino y hasta antieconómico (en sentido general, porque el hosting me cuesta cuatro duros al año, tampoco vamos a ser ruinas). Otra cosa que me molesta bastante es tener que andar actualizando Wordpress (cosa lógica y normal) y aunque ya las actualizaciones sean automáticas, pues me molesta.
+	          			                <p>Desde hace ya bastantes años llevo pagando religiosamente todos los años un dominio (aguasnegras.es) y un alojamiento para tener el blog.<br/>El blog ha tenido mejores y peores momentos, pero en general me gusta tener un sitio donde poder escribir en un momento dado, y por supuesto compartir con la comunidad (sobre todo en español, es por lo que escribo en este idioma).
 	          			                <br/>
 	          			                ...
 	          			            </p>
@@ -102,6 +126,8 @@
 			    <a href="tags/Java.html"><div class="chip">Java</div></a>
 			    <a href="tags/JBake.html"><div class="chip">JBake</div></a>
 			    <a href="tags/Wordpress.html"><div class="chip">Wordpress</div></a>
+			    <a href="tags/Spring.html"><div class="chip">Spring</div></a>
+			    <a href="tags/Intellij IDEA.html"><div class="chip">Intellij IDEA</div></a>
 	    </div>
         <div class="col s2 right-align">
             <a href="http://twitter.com/agustinventura" target="_blank" class="social-link white-text" ><i class="fa  fa-twitter  fa-3x" title="Twitter" aria-hidden="true"></i></a>

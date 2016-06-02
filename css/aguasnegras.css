@@ -1,7 +1,10 @@
 .pageTitle {
   text-transform: uppercase;
   font-weight: 600;
-  padding-left: 15px;
+}
+
+.navbar-link {
+  padding-right: 0px;
 }
 .social-link {
     padding-left: 20px;
