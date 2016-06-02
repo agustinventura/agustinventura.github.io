@@ -10,6 +10,8 @@
     <meta name="generator" content="JBake">
     <!--Import Google Icon Font-->
      <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+     <!-- Import Font Awesome Icons-->
+     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
     <!-- Compiled and minified CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css">
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
@@ -21,35 +23,37 @@
   </head>
   <body>
     <header>
-<nav class=" light-blue darken-3">
+<nav class="light-blue darken-3">
 	<div class="nav-wrapper">
-		<a class="brand-logo" href=""><span class="pageTitle">AguasNegras</span></a>
-		<ul id="nav-mobile" class="right hide-on-med-and-down">
-		<li><a href="index.html">Inicio</a></li>
-		<li><a href="about.html">Acerca De</a></li>
-		<li><a href="feed.xml">Suscripci&oacute;n</a></li>
-		</ul>
+	        <a class="brand-logo" href=""><span class="pageTitle">AguasNegras</span></a>
+		    <ul id="nav-mobile" class="right hide-on-med-and-down">
+		        <li><a href="index.html">Inicio</a></li>
+		        <li><a href="about.html">Acerca De</a></li>
+		        <li><a href="feed.xml">Suscripci&oacute;n</a></li>
+		    </ul>
 	</div>
 </nav>
     </header>
-    <div class="container">
-      <div class="row">
-<div class="col s2 hide-on-small-only">
-	<div class="card hoverable">
-		<div class="card-content">
-			<span class="card-title"><h5 class="light-blue-text text-darken-1">Tags</h5></span>
-			<ul>
-			<li><a href="tags/Java.html">Java</a></li>
-			<li><a href="tags/JBake.html">JBake</a></li>
-			<li><a href="tags/Wordpress.html">Wordpress</a></li>
-	</ul>
-	</div>
-</div>
-</div>
-<div class="col s12 m10">
+<div class="container">
+    <div class="row">
+        <div class="col s12">
 			<div class="card hoverable">
 				<div class="card-content">
-	  			<span class="card-title"><a href="blog/2016/02/04-wp2jbake.html"><h4>Wordpress to JBake</h4></a></span>
+	  			<span class="card-title"><a href="blog/2016/03/20-wp2jbake.html"><h4>Wordpress to JBake - Parseo</h4></a></span>
+					<div class="section">
+	  			<p>20 marzo 2016</p>
+					</div>
+					<div class="section">
+	  			<p class="flow-text"><p>Pues ahora que ya tengo el constructor y construyo un objeto siempre que, al menos es coherente, toca parsear el xml para extraer los datos.<br/>En Java, esencialmente hay tres formas de parsear xml, todas dentro de lo que se denomina Java XML Processing API, (JAXP)[https://docs.oracle.com/javase/tutorial/jaxp/index.html]:<br/>1. <a href="https://docs.oracle.com/javase/tutorial/jaxp/sax/index.html">SAX</a>: La API originaria, orientada a eventos. Muy rápida y muy farragosa.<br/>2. <a href="https://docs.oracle.com/javase/tutorial/jaxp/dom/index.html">DOM</a>: La API orientada a objetos, representa el XML como un árbol en memoria. Muy fácil de acceder, muy tragón de recursos (tienes todo el XML en memoria).<br/>3. <a href="https://docs.oracle.com/javase/tutorial/jaxp/stax/index.html">StAX</a>: A partir del JDK 1.5 se encuentra disponible esta API que es un modelo mixto, se basa en un modelo de streaming (parecido a SAX) pero más sencillo de utilizar y además permite escribir.</p></p>
+					</div>
+				</div>
+				<div class="card-action">
+					<a href="blog/2016/03/20-wp2jbake.html">Leer</a>
+				</div>
+			</div>
+			<div class="card hoverable">
+				<div class="card-content">
+	  			<span class="card-title"><a href="blog/2016/02/04-wp2jbake.html"><h4>Wordpress to JBake - Inicio</h4></a></span>
 					<div class="section">
 	  			<p>04 febrero 2016</p>
 					</div>
@@ -256,20 +260,35 @@ public void buildWithValidParameters() {
 					<a href="blog/2016/01/03-migracion.html">Leer</a>
 				</div>
 			</div>
-	<div class="card hoverable">
-		<div class="card-content">
-			<span class="card-title"><a href="archive.html">Archivo</a></span>
-			<p>Consulta todos los posts</p>
-		</div>
-	</div>
-		</div>
-		</div>
-		</div>
-
-    <footer>
+        </div>
+    </div>
+</div>
+    <footer class="page-footer light-blue darken-3">
       <div class="container">
-        <p class="center-align">&copy; 2016 | Mixed with <a href="http://materializecss.com/">Materialize v.0.97.5</a> | Baked with <a href="http://jbake.org">JBake v2.4.0</a></p>
+        <div class="row">
+         <div class="col s5">
+			<h5><a href="archive.html" class="white-text">Archivo</a></h5>
+			<p><a href="archive.html" class="white-text">Todos los posts</a></p>
+	    </div>
+	    <div class="col s5">
+            <h5 class="white-text">Tags</h5>
+			    <a href="tags/Java.html"><div class="chip">Java</div></a>
+			    <a href="tags/JBake.html"><div class="chip">JBake</div></a>
+			    <a href="tags/Wordpress.html"><div class="chip">Wordpress</div></a>
+	    </div>
+        <div class="col s2 right-align">
+            <a href="http://twitter.com/agustinventura" target="_blank" class="social-link white-text" ><i class="fa  fa-twitter  fa-3x" title="Twitter" aria-hidden="true"></i></a>
+            <a href="http://github.com/agustinventura" target="_blank" class="social-link white-text"><i class="fa  fa-github  fa-3x" title="Github" aria-hidden="true"></i></a>
+            <a href="https://www.linkedin.com/in/agustinventura" target="_blank" class="social-link white-text"><i class="fa  fa-linkedin  fa-3x" title="LinkedIn" aria-hidden="true"></i></a>
+        </div>
       </div>
+      </div>
+      </div>
+      <div class="footer-copyright">
+            <div class="container">
+        <p class="center-align">&copy; 2016 | Mixed with <a class="footer-link white-text" href="http://materializecss.com/" target="_blank">Materialize</a> | Baked with <a <a class="footer-link white-text" href="http://jbake.org">JBake</a></p>
+            </div>
+          </div>
     </footer>
 
     <script src="//cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>

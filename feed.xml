@@ -6,11 +6,20 @@
     <atom:link href="http://www.aguasnegras.es/feed.xml" rel="self" type="application/rss+xml" />
     <description>AguasNegras, tecnología, programación y Java</description>
     <language>es-es</language>
-    <pubDate>jue, 4 feb 2016 14:57:19 +0100</pubDate>
-    <lastBuildDate>jue, 4 feb 2016 14:57:19 +0100</lastBuildDate>
+    <pubDate>jue, 2 jun 2016 12:34:09 +0200</pubDate>
+    <lastBuildDate>jue, 2 jun 2016 12:34:09 +0200</lastBuildDate>
 
     <item>
-      <title>Wordpress to JBake</title>
+      <title>Wordpress to JBake - Parseo</title>
+      <link>http://www.aguasnegras.es/blog/2016/03/20-wp2jbake.html</link>
+      <pubDate>dom, 20 mar 2016 00:00:00 +0100</pubDate>
+      <guid isPermaLink="false">blog/2016/03/20-wp2jbake.html</guid>
+      	<description>
+	&lt;p&gt;Pues ahora que ya tengo el constructor y construyo un objeto siempre que, al menos es coherente, toca parsear el xml para extraer los datos.&lt;br/&gt;En Java, esencialmente hay tres formas de parsear xml, todas dentro de lo que se denomina Java XML Processing API, (JAXP)[https://docs.oracle.com/javase/tutorial/jaxp/index.html]:&lt;br/&gt;1. &lt;a href=&quot;https://docs.oracle.com/javase/tutorial/jaxp/sax/index.html&quot;&gt;SAX&lt;/a&gt;: La API originaria, orientada a eventos. Muy rápida y muy farragosa.&lt;br/&gt;2. &lt;a href=&quot;https://docs.oracle.com/javase/tutorial/jaxp/dom/index.html&quot;&gt;DOM&lt;/a&gt;: La API orientada a objetos, representa el XML como un árbol en memoria. Muy fácil de acceder, muy tragón de recursos (tienes todo el XML en memoria).&lt;br/&gt;3. &lt;a href=&quot;https://docs.oracle.com/javase/tutorial/jaxp/stax/index.html&quot;&gt;StAX&lt;/a&gt;: A partir del JDK 1.5 se encuentra disponible esta API que es un modelo mixto, se basa en un modelo de streaming (parecido a SAX) pero más sencillo de utilizar y además permite escribir.&lt;/p&gt;
+	</description>
+    </item>
+    <item>
+      <title>Wordpress to JBake - Inicio</title>
       <link>http://www.aguasnegras.es/blog/2016/02/04-wp2jbake.html</link>
       <pubDate>jue, 4 feb 2016 00:00:00 +0100</pubDate>
       <guid isPermaLink="false">blog/2016/02/04-wp2jbake.html</guid>

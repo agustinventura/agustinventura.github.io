@@ -2,7 +2,7 @@
 <html lang="es">
   <head>
     <meta charset="utf-8"/>
-    <title>Migrando el blog</title>
+    <title>Wordpress to JBake - Parseo</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="AguasNegras, tecnología, programación y Java">
     <meta name="author" content="Agustín Ventura">
@@ -38,18 +38,13 @@
 <div class="card hoverable">
 	<div class="card-content">
 		<span class="card-title">
-			<h4 class="light-blue-text text-darken-1">Migrando el blog</h4>
+			<h4 class="light-blue-text text-darken-1">Wordpress to JBake - Parseo</h4>
 		</span>
 		<div class="section">
-			<p>03 enero 2016</p>
+			<p>20 marzo 2016</p>
 		</div>
 		<div class="section">
-			<p><p>Desde hace ya bastantes años llevo pagando religiosamente todos los años un dominio (aguasnegras.es) y un alojamiento para tener el blog.<br/>El blog ha tenido mejores y peores momentos, pero en general me gusta tener un sitio donde poder escribir en un momento dado, y por supuesto compartir con la comunidad (sobre todo en español, es por lo que escribo en este idioma).</p><p>El asunto es que si nos paramos a pensarlo, el blog tiene bastantes pocos comentarios y sobre todo entradas mías, es decir, es fundamentalmente un medio de solo lectura. Hace ya un tiempo que pienso que tener para ésto un Wordpress con su PHP y su MySQL es bastante asesino y hasta antieconómico (en sentido general, porque el hosting me cuesta cuatro duros al año, tampoco vamos a ser ruinas). Otra cosa que me molesta bastante es tener que andar actualizando Wordpress (cosa lógica y normal) y aunque ya las actualizaciones sean automáticas, pues me molesta.</p><p>Total, que a esto le sumamos que GitHub ofrece desde hace tiempo <a href="https://pages.github.com/">GitHub Pages</a> que consiste en alojamiento gratuito para HTML estático y más a huevo imposible... quedaría pendiente el tema de los comentarios, pero precisamente para esto, <a href="https://disqus.com/">Disqus</a> permite incluirlos por Javascript con una configuración muy sencilla.</p><p>Con esto ya va quedando claro el enfoque, ahora habría que ver como generar el HTML, ya que escribir HTML a pelo es posible, pero es más bien coñazo. GitHub Pages usa <a href="https://jekyllrb.com/">Jekyll</a> que permite usar Markdown para escribir, pero como buen javero de pro he buscado una opción similar en Java, <a href="http://jbake.org/">JBake</a>. Eso sí, el inconveniente es claro, con Jekyll lo único que hay que subir a GitHub son los archivos .md mientras que con JBake tendré que generar el HTML y subirlo.</p><p>Por tanto, hay tres trabajos importantes que hacer para estudiar la viabilidad de usar GitHub Pages para alojar el blog:</p>
-<ol>
-  <li>Integrar Disqus en JBake.</li>
-  <li>Personalizar el HTML generado por JBake.</li>
-  <li>Ver como subir los fuentes y HTML a GitHub y estudiar el workflow de publicación.</li>
-</ol></p>
+			<p><p>Pues ahora que ya tengo el constructor y construyo un objeto siempre que, al menos es coherente, toca parsear el xml para extraer los datos.<br/>En Java, esencialmente hay tres formas de parsear xml, todas dentro de lo que se denomina Java XML Processing API, (JAXP)[https://docs.oracle.com/javase/tutorial/jaxp/index.html]:<br/>1. <a href="https://docs.oracle.com/javase/tutorial/jaxp/sax/index.html">SAX</a>: La API originaria, orientada a eventos. Muy rápida y muy farragosa.<br/>2. <a href="https://docs.oracle.com/javase/tutorial/jaxp/dom/index.html">DOM</a>: La API orientada a objetos, representa el XML como un árbol en memoria. Muy fácil de acceder, muy tragón de recursos (tienes todo el XML en memoria).<br/>3. <a href="https://docs.oracle.com/javase/tutorial/jaxp/stax/index.html">StAX</a>: A partir del JDK 1.5 se encuentra disponible esta API que es un modelo mixto, se basa en un modelo de streaming (parecido a SAX) pero más sencillo de utilizar y además permite escribir.</p></p>
 		</div>
 	</div>
 </div>
@@ -57,8 +52,8 @@
 <div id="disqus_thread"></div>
 <script>
     var disqus_config = function () {
-        this.page.url = 'http://www.aguasnegras.es/blog/2016/01/03-migracion.html';
-        this.page.identifier = 'blog/2016/01/03-migracion.html';
+        this.page.url = 'http://www.aguasnegras.es/blog/2016/03/20-wp2jbake.html';
+        this.page.identifier = 'blog/2016/03/20-wp2jbake.html';
     };
     (function() {
         var d = document, s = d.createElement('script');

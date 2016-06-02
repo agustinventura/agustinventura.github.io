@@ -1,4 +1,11 @@
 .pageTitle {
   text-transform: uppercase;
   font-weight: 600;
+  padding-left: 15px;
+}
+.social-link {
+    padding-left: 20px;
+}
+.footer-link {
+    font-weight: bold;
 }
