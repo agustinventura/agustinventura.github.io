@@ -194,7 +194,7 @@ public void buildWithNonWritableDestinationParent() {
     if (StringUtils.isEmpty(origin) || !existsOrigin(origin)) {
         throw new IllegalArgumentException(&quot;Origin is not a valid file&quot;);
     }
-    if (StringUtils.isEmpty(destination) || isWritable(destination)) {
+    if (StringUtils.isEmpty(destination) || !isWritable(destination)) {
         throw new IllegalArgumentException(&quot;Destination is not a valid folder&quot;);
     }
 }
@@ -271,8 +271,8 @@ public void buildWithValidParameters() {
           </div>
     </footer>
 
-    <script src="//cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
-		<script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js"></script>
+    <script async src="//cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
+		<script async src="//code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script async src="//cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js"></script>
   </body>
 </html>
