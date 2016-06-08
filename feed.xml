@@ -6,9 +6,297 @@
     <atom:link href="http://www.aguasnegras.es/feed.xml" rel="self" type="application/rss+xml" />
     <description>AguasNegras, tecnología, programación y Java</description>
     <language>es-es</language>
-    <pubDate>lun, 6 jun 2016 13:22:55 +0200</pubDate>
-    <lastBuildDate>lun, 6 jun 2016 13:22:55 +0200</lastBuildDate>
+    <pubDate>mié, 8 jun 2016 15:04:40 +0200</pubDate>
+    <lastBuildDate>mié, 8 jun 2016 15:04:40 +0200</lastBuildDate>
 
+    <item>
+      <title>Wordpress to JBake - Escritura</title>
+      <link>http://www.aguasnegras.es/blog/2016/06/05-wp2jbake-escritura.html</link>
+      <pubDate>dom, 5 jun 2016 00:00:00 +0200</pubDate>
+      <guid isPermaLink="false">blog/2016/06/05-wp2jbake-escritura.html</guid>
+      	<description>
+	&lt;p&gt;Retomando la migración del blog, una vez resuelta la parte de leer los posts, hay que hacer la escritura. El enfoque pasa por lo siguiente:&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;Tener una plantilla de post que se leerá en el constructor. Esta plantilla tendrá placeholders para saber donde van los campos.&lt;/li&gt;
+  &lt;li&gt;Tratar según que campos, por ejemplo los tags habrá que representarlos como un string y separados por comas, las etiquetas &lt;code&gt;&amp;lt;pre&lt;/code&gt;&amp;gt; que indican código habrá que convertiras a prettyprint.&lt;/li&gt;
+  &lt;li&gt;Escribir el archivo, a ser posible usando async I/O, así no se bloquea.&lt;/li&gt;
+&lt;/ol&gt;&lt;p&gt;Empezando por lo primero, la plantilla irá en &lt;em&gt;src/main/resources&lt;/em&gt; y será la siguiente&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;prettyprint&quot;&gt;title=$title$
+date=$date$
+type=post
+tags=$tags$
+status=published
+~~~~~~
+$content$
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Los placeholders he decidido que empiecen y terminen por $ para mayor seguridad. El test sería el siguiente:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;prettyprint&quot;&gt;@Test
+public void writerWithValidDestination() {
+    sut = new MdWriter(&amp;quot;src/test/destination&amp;quot;);
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Y la implementación, aprovechando para lo cual he simplificado la clase usando las clases nuevas de Java 8 &lt;em&gt;Files&lt;/em&gt; y &lt;em&gt;Path&lt;/em&gt;.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;prettyprint&quot;&gt;public class MdWriter {
+
+    private String template;
+
+    private String destinationFolder;
+
+    public MdWriter(String destinationFolder) {
+        if (StringUtils.isEmpty(destinationFolder) || !isWritable(destinationFolder)) {
+            throw new IllegalArgumentException(&amp;quot;Destination is not a valid folder&amp;quot;);
+        } else {
+            readTemplate();
+            this.destinationFolder = destinationFolder;
+        }
+    }
+
+    private void readTemplate() {
+        try {
+            template = new String(Files.readAllBytes(Paths.get(&amp;quot;src/main/resources/template.md&amp;quot;)));
+        } catch (IOException e) {
+            throw new IllegalStateException(&amp;quot;Could not read post template template.md: &amp;quot; + e.getMessage());
+        }
+    }
+
+    private boolean isWritable(String destination) {
+        Path destinationPath = Paths.get(destination);
+        if (Files.exists(destinationPath)) {
+            return Files.isWritable(destinationPath);
+        } else {
+            return Files.isWritable(destinationPath.getParent());
+        }
+    }
+
+    public File write(Post post) {
+        return null;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Ahora tengo que crear la estructura de archivos en la que va el post, es decir, tengo que verificar si existe existe la ruta del tipo detinationFolder/yyyy/mm y ahí crear un archivo de nombre dd-tituloDelPost y por último, escribirlo. La verdad que todo esto es MUY fácil con &lt;em&gt;Paths&lt;/em&gt; y &lt;em&gt;Files&lt;/em&gt;, así que ya no hace falta usar los &lt;em&gt;commons-io&lt;/em&gt;, al menos para ésto.&lt;br/&gt;Los tests:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;prettyprint&quot;&gt;public class MdWriterTest {
+
+    public static final String POST_DATE_FORMAT = &amp;quot;yyyy-MM-dd&amp;quot;;
+    public static final String TEST_POST_CONTENT = &amp;quot;content&amp;quot;;
+    public static final String TEST_POST_TITLE = &amp;quot;title&amp;quot;;
+    public static final Date TEST_POST_DATE = new Date();
+    public static final String POST = &amp;quot;post&amp;quot;;
+    public static final String EMPTY_TAGS = &amp;quot;&amp;quot;;
+    public static final String PUBLISHED = &amp;quot;published&amp;quot;;
+    public static final String METADATA_SEPARATOR = &amp;quot;~~~~~~&amp;quot;;
+    public static final String FIRST_TAG = &amp;quot;tag1&amp;quot;;
+    public static final String SECOND_TAG = &amp;quot;tag2&amp;quot;;
+    private MdWriter sut;
+
+    private String destination = &amp;quot;src/test/destination&amp;quot;;
+
+    @Before
+    public void setUp() throws IOException {
+        cleanDestination();
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void writerWithoutDestination() {
+        sut = new MdWriter(null);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void writerWithEmptyDestination() {
+        sut = new MdWriter(&amp;quot;&amp;quot;);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void writerWithNonWritableDestination() {
+        File destination = new File(&amp;quot;destination&amp;quot;);
+        destination.mkdir();
+        destination.deleteOnExit();
+        destination.setReadOnly();
+        sut = new MdWriter(destination.getAbsolutePath());
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void writerWithNonWritableDestinationParent() {
+        File destinationParent = new File(&amp;quot;destinationParent&amp;quot;);
+        destinationParent.mkdir();
+        destinationParent.deleteOnExit();
+        destinationParent.setReadOnly();
+        sut = new MdWriter(destinationParent.getAbsolutePath() + File.separator + &amp;quot;destination&amp;quot;);
+    }
+
+    @Test
+    public void writerWithValidDestination() {
+        sut = new MdWriter(destination);
+    }
+
+    @Test(expected =  IllegalArgumentException.class)
+    public void writeEmptyPost() {
+        sut = new MdWriter(destination);
+        sut.write(new Post());
+        new File(destination).delete();
+    }
+
+    @Test
+    public void writePostWithoutTags() throws IOException {
+        sut = new MdWriter(destination);
+        Post post = new Post().withContent(TEST_POST_CONTENT).withTitle(TEST_POST_TITLE).withPublishingDate(TEST_POST_DATE);
+        File postFile = sut.write(post);
+        assertThat(postFile, notNullValue());
+        List&amp;lt;String&amp;gt; lines = Files.readAllLines(Paths.get(postFile.getPath()));
+        assertThat(getValue(lines.get(0)), is(post.getTitle()));
+        assertThat(getValue(lines.get(1)), is(getPostDate(post)));
+        assertThat(getValue(lines.get(2)), is(POST));
+        assertThat(getValue(lines.get(3)), is(EMPTY_TAGS));
+        assertThat(getValue(lines.get(4)), is(PUBLISHED));
+        assertThat(getValue(lines.get(5)), is(METADATA_SEPARATOR));
+        assertThat(lines.get(6), is(post.getContent()));
+        cleanDestination();
+    }
+
+    @Test
+    public void writePostWithTags() throws IOException {
+        sut = new MdWriter(destination);
+        Post post = new Post().withContent(TEST_POST_CONTENT).withTitle(TEST_POST_TITLE).withPublishingDate(TEST_POST_DATE).withTag(FIRST_TAG).withTag(SECOND_TAG);
+        File postFile = sut.write(post);
+        assertThat(postFile, notNullValue());
+        List&amp;lt;String&amp;gt; lines = Files.readAllLines(Paths.get(postFile.getPath()));
+        assertThat(getValue(lines.get(0)), is(post.getTitle()));
+        assertThat(getValue(lines.get(1)), is(getPostDate(post)));
+        assertThat(getValue(lines.get(2)), is(POST));
+        assertThat(getValue(lines.get(3)), is(FIRST_TAG+&amp;quot;,&amp;quot;+SECOND_TAG));
+        assertThat(getValue(lines.get(4)), is(PUBLISHED));
+        assertThat(getValue(lines.get(5)), is(METADATA_SEPARATOR));
+        assertThat(lines.get(6), is(post.getContent()));
+        cleanDestination();
+    }
+
+    private String getPostDate(Post post) {
+        DateFormat formatter = new SimpleDateFormat(POST_DATE_FORMAT);
+        return formatter.format(post.getPublishingDate());
+    }
+
+    private String getValue(String line) {
+        int valueStart = line.indexOf(&amp;quot;=&amp;quot;)+1;
+        return line.substring(valueStart);
+    }
+
+    private void cleanDestination() throws IOException {
+        if (Files.exists(Paths.get(destination))) {
+            Files.walkFileTree(Paths.get(destination), new SimpleFileVisitor&amp;lt;Path&amp;gt;() {
+                @Override
+                public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
+                    Files.delete(file);
+                    return FileVisitResult.CONTINUE;
+                }
+
+                @Override
+                public FileVisitResult postVisitDirectory(Path dir, IOException exc) throws IOException {
+                    Files.delete(dir);
+                    return FileVisitResult.CONTINUE;
+                }
+
+            });
+        }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Y la implementación:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;prettyprint&quot;&gt;public class MdWriter {
+
+    public static final String TEMPLATE = &amp;quot;src/main/resources/template.md&amp;quot;;
+    public static final String TITLE = &amp;quot;$title$&amp;quot;;
+    public static final String DATE = &amp;quot;$date$&amp;quot;;
+    public static final String TAGS = &amp;quot;$tags$&amp;quot;;
+    public static final String CONTENT = &amp;quot;$content$&amp;quot;;
+    public static final String POST_DATE_FORMAT = &amp;quot;yyyy-MM-dd&amp;quot;;
+    public static final String POST_EXTENSION = &amp;quot;.md&amp;quot;;
+    public static final String DATE_TITLE_SEPARATOR = &amp;quot;-&amp;quot;;
+
+    private String template;
+
+    private String destinationFolder;
+
+    public MdWriter(String destinationFolder) {
+        if (StringUtils.isEmpty(destinationFolder) || !isWritable(destinationFolder)) {
+            throw new IllegalArgumentException(&amp;quot;Destination is not a valid folder&amp;quot;);
+        } else {
+            readTemplate();
+            this.destinationFolder = destinationFolder;
+        }
+    }
+
+    private void readTemplate() {
+        try {
+            template = new String(Files.readAllBytes(Paths.get(TEMPLATE)));
+        } catch (IOException e) {
+            throw new IllegalStateException(&amp;quot;Could not read post template template.md: &amp;quot; + e.getMessage());
+        }
+    }
+
+    private boolean isWritable(String destination) {
+        Path destinationPath = Paths.get(destination);
+        if (Files.exists(destinationPath)) {
+            return Files.isWritable(destinationPath);
+        } else {
+            return Files.isWritable(destinationPath.getParent());
+        }
+    }
+
+    public File write(Post post) {
+        validatePost(post);
+        Path destinationPath = getDestinationPath(post);
+        createDestinationPath(destinationPath);
+        String postMarkdown = getPostMarkdown(post);
+        try {
+            Files.write(destinationPath, postMarkdown.getBytes()
+                    , StandardOpenOption.CREATE_NEW);
+        } catch (IOException e) {
+            throw new IllegalStateException(&amp;quot;Error writing file &amp;quot; + destinationPath.toString() + &amp;quot;: &amp;quot; + e.getLocalizedMessage());
+        }
+        return destinationPath.toFile();
+    }
+
+    private void validatePost(Post post) {
+        if (StringUtils.isEmpty(post.getTitle()) || post.getPublishingDate() == null || StringUtils.isEmpty(post.getContent())) {
+            throw new IllegalArgumentException();
+        }
+    }
+
+    private String getPostMarkdown(Post post) {
+        String postMarkdown = template.replace(TITLE, post.getTitle());
+        postMarkdown = postMarkdown.replace(DATE, getPostDate(post.getPublishingDate()));
+        postMarkdown = postMarkdown.replace(TAGS, post.getTags().stream().map(Object::toString).collect(Collectors.joining(&amp;quot;,&amp;quot;)));
+        postMarkdown = postMarkdown.replace(CONTENT, post.getContent());
+        return postMarkdown;
+    }
+
+    private String getPostDate(Date publishingDate) {
+        DateFormat formatter = new SimpleDateFormat(POST_DATE_FORMAT);
+        return formatter.format(publishingDate);
+    }
+
+    private void createDestinationPath(Path destinationPath) {
+        try {
+            if (!Files.exists(destinationPath.getParent())) {
+                Files.createDirectories(destinationPath.getParent());
+            }
+        } catch (IOException e) {
+            throw new IllegalStateException(&amp;quot;Error creating destination path &amp;quot; + destinationPath + &amp;quot;: &amp;quot; + e.getMessage());
+        }
+    }
+
+    private Path getDestinationPath(Post post) {
+        Calendar publishedCalendar = getPublishedCalendar(post);
+        Path destinationPath = Paths.get(destinationFolder, Integer.toString(publishedCalendar.get(Calendar.YEAR)),
+                Integer.toString(publishedCalendar.get(Calendar.MONTH)), Integer.toString(publishedCalendar.get(Calendar.DAY_OF_MONTH)) +
+                        DATE_TITLE_SEPARATOR + post.getTitle() + POST_EXTENSION);
+        return destinationPath;
+    }
+
+    private Calendar getPublishedCalendar(Post post) {
+        Calendar publishedCalendar = Calendar.getInstance();
+        publishedCalendar.setTime(post.getPublishingDate());
+        return publishedCalendar;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Bueno, pues ya esta, ya solo faltarían las pruebas de &lt;em&gt;Wp2JBake&lt;/em&gt; como tales, es decir, la integración. Todavía no he tocado nada de etiquetas especiales, ni he considerado el hecho de que se exportan posts que se consideran borradores (aquellos que tienen de fecha de publicación el 1AC), pero eso me debe dar la cara en las pruebas de integración.&lt;/p&gt;
+	</description>
+    </item>
     <item>
       <title>Spring Boot Developer Tools e Intellij IDEA</title>
       <link>http://www.aguasnegras.es/blog/2016/05/30-springdevtoolsintellij.html</link>
@@ -24,9 +312,9 @@
     </item>
     <item>
       <title>Wordpress to JBake - Parseo</title>
-      <link>http://www.aguasnegras.es/blog/2016/03/20-wp2jbake.html</link>
+      <link>http://www.aguasnegras.es/blog/2016/03/20-wp2jbake-parseo.html</link>
       <pubDate>dom, 20 mar 2016 00:00:00 +0100</pubDate>
-      <guid isPermaLink="false">blog/2016/03/20-wp2jbake.html</guid>
+      <guid isPermaLink="false">blog/2016/03/20-wp2jbake-parseo.html</guid>
       	<description>
 	&lt;p&gt;Pues ahora que ya tengo el constructor y construyo un objeto siempre que, al menos es coherente, toca parsear el xml para extraer los datos.&lt;br/&gt;En Java, esencialmente hay tres formas de parsear xml, todas dentro de lo que se denomina Java XML Processing API, &lt;a href=&quot;https://docs.oracle.com/javase/tutorial/jaxp/index.html&quot;&gt;JAXP&lt;/a&gt;:&lt;/p&gt;
 &lt;ol&gt;
@@ -670,9 +958,9 @@ public class WpReaderTest {
     </item>
     <item>
       <title>Wordpress to JBake - Inicio</title>
-      <link>http://www.aguasnegras.es/blog/2016/02/04-wp2jbake.html</link>
+      <link>http://www.aguasnegras.es/blog/2016/02/04-wp2jbake-inicio.html</link>
       <pubDate>jue, 4 feb 2016 00:00:00 +0100</pubDate>
-      <guid isPermaLink="false">blog/2016/02/04-wp2jbake.html</guid>
+      <guid isPermaLink="false">blog/2016/02/04-wp2jbake-inicio.html</guid>
       	<description>
 	&lt;p&gt;En la migraci&amp;oacute;n del blog a GitHub Pages uno de los objetivos era no perder contenido, por lo que una vez puesta en pie toda la infraestructura, toca migrar los posts (mucho me temo que los comentarios si se van a perder...). Soluci&amp;oacute;n: Hacer un peque&amp;ntilde;o programa en Java (casi que dir&amp;iacute;a script) que realice autom&amp;aacute;ticamente esta conversi&amp;oacute;n, adem&amp;aacute;s voy a seguir TDD para &quot;mantenerme en forma&quot;.&lt;br/&gt;En un principio lo voy a plantear como una mera conversi&amp;oacute;n de formatos, como formato inicial tengo el que devuelve Wordpress para la exportaci&amp;oacute;n: &lt;a href=&quot;http://devtidbits.com/2011/03/16/the-wordpress-extended-rss-wxr-exportimport-xml-document-format-decoded-and-explained/&quot;&gt;Wordpress Extended RSS&lt;/a&gt; y como formato final quiero un archivo en el formato espec&amp;iacute;fico de JBake, que no deja de ser &lt;a href=&quot;https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet&quot;&gt;Markdown&lt;/a&gt; con unas cabeceras (metadata) particulares:&lt;/p&gt;
 &lt;ol&gt;
