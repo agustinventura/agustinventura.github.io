@@ -6,9 +6,382 @@
     <atom:link href="http://www.aguasnegras.es/feed.xml" rel="self" type="application/rss+xml" />
     <description>AguasNegras, tecnología, programación y Java</description>
     <language>es-es</language>
-    <pubDate>mié, 8 jun 2016 15:04:40 +0200</pubDate>
-    <lastBuildDate>mié, 8 jun 2016 15:04:40 +0200</lastBuildDate>
+    <pubDate>jue, 9 jun 2016 21:35:56 +0200</pubDate>
+    <lastBuildDate>jue, 9 jun 2016 21:35:56 +0200</lastBuildDate>
 
+    <item>
+      <title>Configuración de Linux Mint</title>
+      <link>http://www.aguasnegras.es/blog/2016/06/09-configuracion-mint.html</link>
+      <pubDate>jue, 9 jun 2016 00:00:00 +0200</pubDate>
+      <guid isPermaLink="false">blog/2016/06/09-configuracion-mint.html</guid>
+      	<description>
+	&lt;p&gt;Aprovechando que he actualizado el portátil (le he puesto 16 Gb de RAM y un SSD de 240 Gb), voy a documentar un poco mi configuración para que no se me vuelva a olvidar.&lt;br/&gt;En primer lugar he instalado el último Linux Mint disponible, el 17.3 Rosa. No soy un gran fan de Mint (de hecho me parece que gráficamente hablando se han quedado un poco desfasados).&lt;br/&gt;Una vez instalado he dado los siguientes pasos:&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;Actualizar el sistema: apt-get update &amp;amp;&amp;amp; apt-get upgrade&lt;/li&gt;
+  &lt;li&gt;Instalar los últimos drivers de nvidia a través del mismo Administrador de controladores de Mint. Con eso y reiniciando ya me encuentra el HDMI (cosas de tener una tarjeta gráfica dual) y por tanto puedo usar el monitor de 23&quot;.&lt;/li&gt;
+  &lt;li&gt;Instalar los drivers del adaptador wifi usb. El adaptador wifi de mi portátil deja bastante que desear, así que habitualmente uso un d-link usb para el wifi. La cosa es que el driver que trae por defecto Ubuntu (y Mint por extensión) es bastante malo (MUY malo), pero afortunadamente la comunidad se ha currado un driver mejor, &lt;a href=&quot;https://github.com/pvaret/rtl8192cu-fixes&quot;&gt;éste&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;Instalar vim.&lt;/li&gt;
+  &lt;li&gt;Desactivar la gestión de energía del wifi usb (wlan1) para que siempre vaya al máximo. Consume más, pero la verdad, la batería del portátil ya es vieja y dura media hora, así que me dá igual xD. En fín, me creo un script que lo desactivará en cada inicio: sudo vi sudo touch /etc/pm/power.d/wireless. Y ahí pongo las siguientes dos líneas:&lt;/li&gt;
+&lt;/ol&gt;
+&lt;pre&gt;&lt;code class=&quot;prettyprint&quot;&gt;#!/bin/sh
+/sbin/iwconfig wlan0 power off
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Por último, le cambio los permisos a 755: sudo chmod 755 /etc/pm/power.d/wireless y listo.&lt;br/&gt;6. Deshabilitar la tarjeta wifi por defecto: añado iface wlan0 inet manual a /etc/network/interfaces&lt;br/&gt;7. En Configuración del Sistema &amp;gt; Apariencia &amp;gt; Efectos, desactivar&lt;br/&gt;8. En Configuración del Sistema &amp;gt; Preferencias &amp;gt; Ajuste de ventanas, desactivar&lt;br/&gt;9. En Configuración del Sistema &amp;gt; Preferencias &amp;gt; Escritorio, desactivar mostrar iconos de escritorio&lt;br/&gt;10. Instalar Chrome&lt;br/&gt;11. Instalar Atom&lt;br/&gt;12. Instalar terminator&lt;br/&gt;13. Instalar Java. Seamos sinceros, el OpenJDK por no hablar del IceTea son reguleros, así que instalo el Java oficial de Oracle usando el PPA de &lt;a href=&quot;http://www.webupd8.org/2012/09/install-oracle-java-8-in-ubuntu-via-ppa.html&quot;&gt;Webupd8&lt;/a&gt;&lt;/p&gt;&lt;p&gt;Y ahora vamos con una lista de consejos sacados de &lt;a href=&quot;https://sites.google.com/site/easylinuxtipsproject&quot;&gt;Easy Linux Tips&lt;/a&gt; y aplicados según mi buen criterio:&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;Disminuir lo proclive que es el sistema a usar la SWAP, sobre todo ahora que tengo 16 Gb de RAM. El swappiness es un parámetro del 0 al 100, así que lo voy a dejar en 5. Para eso edito el archivo /etc/sysctl.conf y al final pongo el parámetro vm.swappiness=5&lt;/li&gt;
+  &lt;li&gt;Otra opción a tunear ahí es el uso de la caché. El procesador usa una caché de datos y otra de inodes (información del sistema de ficheros). Habitualmente tiene prioridad total la de datos, pero en equipos de escritorio se &lt;a href=&quot;http://bicosyes.com/2007/10/mejorando-rendimiento-en-linux-de-escritorio/&quot;&gt;recomienda&lt;/a&gt; ponerlo al 50. Para eso se usa el parámetro vm.vfs_cache_pressure=50 en /etc/sysctl.conf.&lt;/li&gt;
+  &lt;li&gt;Desactivar la hibernación. Bueno, lo de hibernar los equipos me parece una soberana gilipollez (así de claro), así que lo desactivo ejecutando ésto: sudo mv -v /etc/polkit-1/localauthority/50-local.d/com.ubuntu.enable-hibernate.pkla / sencillamente muevo el archivo de configuración a root, así ya no lo encuentra y listo&lt;/li&gt;
+  &lt;li&gt;Ahora vamos con el tuneo específico para el SSD, que es la primera vez que lo hago. En primer lugar, le añado noatime en /etc/fstab a las dos particiones ext4 que tengo (/ y /home), de esta manera, no se escribirá la hora de acceso a los ficheros en el disco y me ahorro escrituras (que son satán para los SSD). Los vuelvo a montar con sudo mount -a&lt;/li&gt;
+  &lt;li&gt;TRIM es un comando que sirve para optimizar el uso y acceso de la SSD y en general mantener la velocidad. Bueno, pues por lo visto en Ubuntu y Mint se ejecuta a través de un cron semanal (bieeeeennn old school total). Lo voy a pasar a rc.local para que se ejecute en cada arranque y listo. Edito /etc/rc.local y añado dos líneas: fstrim / y fstrim /home antes del exit 0. Por último, desactivo el cron, sencillamente muevo el script de sitio: sudo mv -v /etc/cron.weekly/fstrim /fstrim&lt;/li&gt;
+&lt;/ol&gt;&lt;p&gt;Ahora unos trucos para acelerar el arranque:&lt;br/&gt;1. Deshabilitar la splash screen, a mí de todas formas no me gusta, prefiero ver el proceso de arranque. Edito la configuración de grub en /etc/default/grub y la línea GRUB_CMDLINE_LINUX_DEFAULT=&quot;quiet splash&quot; la cambio por GRUB_CMDLINE_LINUX_DEFAULT=&quot;profile&quot;. De esa manera puedo controlar el proceso de arranque y además me hace un profiling para acelerarlo un poco.&lt;br/&gt;2. Instalo bum (bootup manager) y desactivo varios servicios que vienen activos y que no uso: openvpn, virtualbox-guest-utils y saned.&lt;/p&gt;&lt;p&gt;Y por último, las chorradas:&lt;br/&gt;1. Instalar grub-customizer para poner bonito el grub sin tener que usar la línea de comando. Ponerle una imagen, etc...&lt;br/&gt;2. Instalar el conky y ajustar el .conkyrc&lt;/p&gt;
+	</description>
+    </item>
+    <item>
+      <title>Wordpress to JBake - Integración</title>
+      <link>http://www.aguasnegras.es/blog/2016/06/08-wp2jbake-integracion.html</link>
+      <pubDate>mié, 8 jun 2016 00:00:00 +0200</pubDate>
+      <guid isPermaLink="false">blog/2016/06/08-wp2jbake-integracion.html</guid>
+      	<description>
+	&lt;p&gt;Realmente las pruebas de integración ya casi estan hechas y son muy sencillas ya que se trata de interactuar en todo caso con la clase principal &lt;em&gt;Wp2JBake&lt;/em&gt;, usando donde sea necesario el archivo de pruebas.&lt;br/&gt;Lo único interesante van a ser los asserts para comprobar que todo es correcto.&lt;br/&gt;En un principio, las pruebas definidas pasan sin mayor problema, pero en primer lugar, hay que preguntarse si se estan exportando todos los posts o solo aquellos que estan publicados, es decir, el test usando el wp-source.xml sería el siguiente:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;prettyprint linenums&quot;&gt;@Test
+public void processXML() {
+    sut = new Wp2JBake(POSTS_SOURCE, DESTINATION);
+    Set&amp;lt;File&amp;gt; markdowns = sut.generateJBakeMarkdown();
+    assertThat(markdowns.size(), is(5));
+    assertThat(markdowns, is(not(empty())));
+    for (File markdown: markdowns) {
+        assertThat(markdown.exists(), is(true));
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Y este test falla porque markdowns tiene 7 elementos. Esto es así porque hay 2 elementos que en &lt;em&gt;pubDate&lt;/em&gt; tienen como año el -0001, lo cual significa que es un borrador, así que hay que corregir la implementación. En un principio lo iba a poner en el &lt;em&gt;MdWriter&lt;/em&gt;, pero realmente esta clase tan solo tiene que conocer los detalles de la escritura, no cuales elementos se deben escribir y cuales no. En &lt;em&gt;WpParser&lt;/em&gt; tampoco tiene sentido por motivos similares, esta clase solo lee. Pensándolo de otra forma, ¿qué clase es la que decide cómo se lee y cómo se escribe? Pues &lt;em&gt;Wp2JBake&lt;/em&gt;, más concretamente en el callback &lt;em&gt;postRead&lt;/em&gt;, así que ahí es el sitio en el que decidir si el post se exporta o no:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;prettyprint linenums&quot;&gt;public class Wp2JBake {
+
+    public static final int DRAFT_YEAR = 2;
+    private WpReader wpReader;
+
+    private MdWriter mdWriter;
+
+    private HashSet&amp;lt;File&amp;gt; exportResult;
+
+    public Wp2JBake(String origin, String destination) {
+        this.wpReader = new WpReader(origin);
+        this.mdWriter = new MdWriter(destination);
+    }
+
+    public Set&amp;lt;File&amp;gt; generateJBakeMarkdown() {
+        exportResult = new HashSet&amp;lt;&amp;gt;();
+        wpReader.readPosts(this);
+        return exportResult;
+    }
+
+    public void postRead(Post post) {
+        if (!postIsDraft(post)) {
+            exportResult.add(mdWriter.write(post));
+        }
+    }
+
+    private boolean postIsDraft(Post post) {
+        Calendar postCalendar = Calendar.getInstance();
+        postCalendar.setTime(post.getPublishingDate());
+        return (postCalendar.get(Calendar.YEAR) == DRAFT_YEAR);
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Lo de la fecha es un poco... por algún motivo, al hacer el parseo de la fecha, decide que el año -0001 lo va a convertir en 2, eah... pues nada, así se queda porque tanto me dá un valor como otro. Y ahora ya pasa el test. Bueno, pues lo siguiente es comprobar qué pasa con las etiquetas &lt;code&gt;&amp;lt;pre&lt;/code&gt;&amp;gt;.&lt;br/&gt;El problema que hay realmente con esas etiquetas no es del conversor ni nada, sino que al migrar a JBake tengo que pasarlas a prettyprint para que las entienda, puedo tener el mismo problema con otras etiquetas, que las tenga que convertir por un motivo de formato, que no queden muy feas en el nuevo diseño del blog.&lt;br/&gt;Pero empiezo por las &lt;code&gt;&amp;lt;pre&lt;/code&gt;&amp;gt;. Esto sí que es claramente algo a tratar en &lt;em&gt;MdWriter&lt;/em&gt;, el plugin de Wordpress para colorear el código utilizaba distintas marcas como &lt;code&gt;&amp;lt;pre lang=xml&lt;/code&gt;&amp;gt; o &lt;code&gt;&amp;lt;pre lang=java&lt;/code&gt;&amp;gt; por tanto hay que sustituir en content todo lo que sea &lt;code&gt;&amp;lt;pre *&lt;/code&gt;&amp;gt; por `````prettyprint linenums. Ahora que lo pienso, &lt;em&gt;MdWriter&lt;/em&gt; debe saber como escribir, pero desde luego no es responsabilidad suya saber como traducir, así que sale una clase nueva &lt;em&gt;MdTranslator&lt;/em&gt; con un único método, &lt;em&gt;translate&lt;/em&gt;. Y repasando el método de escritura del post, también es responsabilidad suya el convertir los tags y la fecha, ahora se ve claramente, así que harán falta más métodos.&lt;/p&gt;&lt;p&gt;Habrá que crear sus correspondientes test:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;prettyprint linenums&quot;&gt;public class MdTranslatorTest {
+
+    public static final String TAG_1 = &amp;quot;tag 1&amp;quot;;
+    public static final String TAG_2 = &amp;quot;tag 2&amp;quot;;
+    public static final String TEST_DATE = &amp;quot;2016-01-01&amp;quot;;
+    public static final String TEST_CONTENT = &amp;quot;content&amp;quot;;
+    public static final String TEST_PRE_CONTENT = &amp;quot;&amp;lt;pre lang=\&amp;quot;java\&amp;quot;&amp;gt; java content &amp;lt;/pre&amp;gt;&amp;quot;;
+    public static final String TEST_PRE_RESULT = &amp;quot;\n```prettyprint linenums\n java content \n```\n&amp;quot;;
+
+    private MdTranslator sut = new MdTranslator();
+
+    @Test
+    public void translateDate() throws Exception {
+        String dateAsString = TEST_DATE;
+        SimpleDateFormat formatter = new SimpleDateFormat(MdTranslator.POST_DATE_FORMAT);
+        Date date = formatter.parse(dateAsString);
+        String translatedDate = sut.translateDate(date);
+        assertThat(translatedDate, is(dateAsString));
+    }
+
+    @Test
+    public void translateTags() {
+        List&amp;lt;String&amp;gt; tags = new ArrayList&amp;lt;&amp;gt;(2);
+        tags.add(TAG_1);
+        tags.add(TAG_2);
+        String translatedTags = sut.translateTags(tags);
+        assertThat(translatedTags, is(TAG_1 + MdTranslator.TAG_DELIMITER + TAG_2));
+    }
+
+    @Test
+    public void translateContent() {
+        String translatedContent = sut.translateContent(TEST_CONTENT);
+        assertThat(translatedContent, is(TEST_CONTENT));
+    }
+
+    @Test
+    public void translateContentWithPreWithLanguage() {
+        String translatedContent = sut.translateContent(TEST_PRE_CONTENT);
+        assertThat(translatedContent, is(TEST_PRE_RESULT));
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Todos funcionan menos el último, claro, hay que cambiar la implementación del &lt;em&gt;translateContent&lt;/em&gt;:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;prettyprint linenums&quot;&gt;public class MdTranslator {
+
+    public static final String POST_DATE_FORMAT = &amp;quot;yyyy-MM-dd&amp;quot;;
+    public static final String TAG_DELIMITER = &amp;quot;,&amp;quot;;
+
+
+    public String translateDate(Date dateToTranslate) {
+        DateFormat formatter = new SimpleDateFormat(POST_DATE_FORMAT);
+        return formatter.format(dateToTranslate);
+    }
+
+    public String translateTags(Collection&amp;lt;String&amp;gt; tagsToTranslate) {
+        return tagsToTranslate.stream().map(Object::toString).collect(Collectors.joining(TAG_DELIMITER));
+    }
+
+    public String translateContent(String contentToTranslate) {
+        String translatedContent = translatePre(contentToTranslate);
+        return translatedContent;
+    }
+
+    private String translatePre(String contentToTranslate) {
+        String contentWithoutStartingPre = contentToTranslate.replaceAll(&amp;quot;&amp;lt;pre[^&amp;gt;]*&amp;gt;&amp;quot;, &amp;quot;\n```prettyprint linenums\n&amp;quot;);
+        String contentWithoutEndingPre = contentWithoutStartingPre.replaceAll(&amp;quot;&amp;lt;/pre&amp;gt;&amp;quot;, &amp;quot;\n```\n&amp;quot;);
+        return contentWithoutEndingPre;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Con ésto ya bastaría, pero mirando el estilo, hay bastantes etiquetas &lt;code&gt;&amp;lt;h1&lt;/code&gt;&amp;gt; etc... para dar formato. Estas etiquetas no pegan nada en el diseño nuevo de la página, ya que el titular del post es un &lt;code&gt;&amp;lt;h4&lt;/code&gt;&amp;gt;, así que el &lt;code&gt;&amp;lt;h1&lt;/code&gt;&amp;gt; debería ser el &lt;code&gt;&amp;lt;h5&lt;/code&gt;&amp;gt; y sucesivamente... vamos a ello.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;prettyprint linenums&quot;&gt;public class MdTranslatorTest {
+
+    public static final String TAG_1 = &amp;quot;tag 1&amp;quot;;
+    public static final String TAG_2 = &amp;quot;tag 2&amp;quot;;
+    public static final String TEST_DATE = &amp;quot;2016-01-01&amp;quot;;
+    public static final String TEST_CONTENT = &amp;quot;content&amp;quot;;
+    public static final String TEST_PRE_CONTENT = &amp;quot;&amp;lt;pre lang=\&amp;quot;java\&amp;quot;&amp;gt; java content &amp;lt;/pre&amp;gt;&amp;quot;;
+    public static final String TEST_PRE_RESULT = &amp;quot;\n```prettyprint linenums\n java content \n```\n&amp;quot;;
+    private static final String TEST_HEADING_CONTENT = &amp;quot;&amp;lt;h1&amp;gt; Title &amp;lt;/h1&amp;gt;&amp;lt;H2&amp;gt; Subtitle &amp;lt;/H2&amp;gt;&amp;quot;;
+    private static final String TEST_HEADING_RESULT = &amp;quot;&amp;lt;h5&amp;gt; Title &amp;lt;/h5&amp;gt;&amp;lt;h6&amp;gt; Subtitle &amp;lt;/h6&amp;gt;&amp;quot;;
+
+    private MdTranslator sut = new MdTranslator();
+
+    @Test
+    public void translateDate() throws Exception {
+        String dateAsString = TEST_DATE;
+        SimpleDateFormat formatter = new SimpleDateFormat(MdTranslator.POST_DATE_FORMAT);
+        Date date = formatter.parse(dateAsString);
+        String translatedDate = sut.translateDate(date);
+        assertThat(translatedDate, is(dateAsString));
+    }
+
+    @Test
+    public void translateTags() {
+        List&amp;lt;String&amp;gt; tags = new ArrayList&amp;lt;&amp;gt;(2);
+        tags.add(TAG_1);
+        tags.add(TAG_2);
+        String translatedTags = sut.translateTags(tags);
+        assertThat(translatedTags, is(TAG_1 + MdTranslator.TAG_DELIMITER + TAG_2));
+    }
+
+    @Test
+    public void translateContent() {
+        String translatedContent = sut.translateContent(TEST_CONTENT);
+        assertThat(translatedContent, is(TEST_CONTENT));
+    }
+
+    @Test
+    public void translateContentWithPre() {
+        String translatedContent = sut.translateContent(TEST_PRE_CONTENT);
+        assertThat(translatedContent, is(TEST_PRE_RESULT));
+    }
+
+    @Test
+    public void translateContentWithHeading() {
+        String translatedContent = sut.translateContent(TEST_HEADING_CONTENT);
+        assertThat(translatedContent, is(TEST_HEADING_RESULT));
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code class=&quot;prettyprint linenums&quot;&gt;public class MdTranslator {
+
+    public static final String POST_DATE_FORMAT = &amp;quot;yyyy-MM-dd&amp;quot;;
+    public static final String TAG_DELIMITER = &amp;quot;,&amp;quot;;
+    public static final String START_PRE = &amp;quot;&amp;lt;pre[^&amp;gt;]*&amp;gt;&amp;quot;;
+    public static final String START_PRETTYPRINT = &amp;quot;\n```prettyprint linenums\n&amp;quot;;
+    public static final String END_PRE = &amp;quot;&amp;lt;/pre&amp;gt;&amp;quot;;
+    public static final String END_PRETTYPRINT = &amp;quot;\n```\n&amp;quot;;
+    public static final String START_H1 = &amp;quot;&amp;lt;h1&amp;gt;&amp;quot;;
+    public static final String START_H5 = &amp;quot;&amp;lt;h5&amp;gt;&amp;quot;;
+    public static final String END_H1 = &amp;quot;&amp;lt;/h1&amp;gt;&amp;quot;;
+    public static final String END_H5 = &amp;quot;&amp;lt;/h5&amp;gt;&amp;quot;;
+    public static final String START_H2 = &amp;quot;&amp;lt;h2&amp;gt;&amp;quot;;
+    public static final String START_H6 = &amp;quot;&amp;lt;h6&amp;gt;&amp;quot;;
+    public static final String END_H2 = &amp;quot;&amp;lt;/h2&amp;gt;&amp;quot;;
+    public static final String END_H6 = &amp;quot;&amp;lt;/h6&amp;gt;&amp;quot;;
+    public static final String START_H3 = &amp;quot;&amp;lt;h3&amp;gt;&amp;quot;;
+    public static final String START_H7 = &amp;quot;&amp;lt;h7&amp;gt;&amp;quot;;
+    public static final String END_H3 = &amp;quot;&amp;lt;/h3&amp;gt;&amp;quot;;
+    public static final String END_H7 = &amp;quot;&amp;lt;/h7&amp;gt;&amp;quot;;
+
+
+    public String translateDate(Date dateToTranslate) {
+        DateFormat formatter = new SimpleDateFormat(POST_DATE_FORMAT);
+        return formatter.format(dateToTranslate);
+    }
+
+    public String translateTags(Collection&amp;lt;String&amp;gt; tagsToTranslate) {
+        return tagsToTranslate.stream().map(Object::toString).collect(Collectors.joining(TAG_DELIMITER));
+    }
+
+    public String translateContent(String contentToTranslate) {
+        String translatedContent = translatePre(contentToTranslate);
+        translatedContent = translateHeadings(translatedContent);
+        return translatedContent;
+    }
+
+    private String translatePre(String contentToTranslate) {
+        String contentWithoutStartingPre = contentToTranslate.replaceAll(START_PRE, START_PRETTYPRINT);
+        String contentWithoutEndingPre = contentWithoutStartingPre.replaceAll(END_PRE, END_PRETTYPRINT);
+        return contentWithoutEndingPre;
+    }
+
+    private String translateHeadings(String contentToTranslate) {
+        String contentWithoutStartingh1 = contentToTranslate.replace(START_H1, START_H5).replace(START_H1.toUpperCase(), START_H5);
+        String contentWithoutEndingh1 = contentWithoutStartingh1.replace(END_H1, END_H5).replace(END_H1.toUpperCase(), END_H5);
+        String contentWithoutStartingh2 = contentWithoutEndingh1.replace(START_H2, START_H6).replace(START_H2.toUpperCase(), START_H6);
+        String contentWithoutEndingh2 = contentWithoutStartingh2.replace(END_H2, END_H6).replace(END_H2.toUpperCase(), END_H6);
+        String contentWithoutStartingh3 = contentWithoutEndingh2.replace(START_H3, START_H7).replace(START_H3.toUpperCase(), START_H7);
+        String contentWithoutEndingh3 = contentWithoutStartingh3.replace(END_H3, END_H7).replace(END_H3.toUpperCase(), END_H7);
+        return contentWithoutEndingh3;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Que no digo que no haya forma más elegante de convertir las etiquetas de heading... pero de momento, servirá.&lt;/p&gt;&lt;p&gt;Y ya el (espero) último problema. Wordpress muchas veces mete elementos propios en etiquetas rollo &lt;em&gt;[caption]...[/caption]&lt;/em&gt;. Esta parte es complicada, porque en ese caso por ejemplo usaba una imagen subida al mismo wordpress y si bien podría hacer una petición para bajar la imagen y guardarla y tal... va a ser que no, lo que voy a hacer sencillamente es cargarme esas etiquetas (que al fin y al cabo solo son para embellecer) y dejar el contenido de las mismas, a ver que pasa.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;prettyprint&quot;&gt;public class MdTranslatorTest {
+
+    public static final String TAG_1 = &amp;quot;tag 1&amp;quot;;
+    public static final String TAG_2 = &amp;quot;tag 2&amp;quot;;
+    public static final String TEST_DATE = &amp;quot;2016-01-01&amp;quot;;
+    public static final String TEST_CONTENT = &amp;quot;content&amp;quot;;
+    public static final String TEST_PRE_CONTENT = &amp;quot;&amp;lt;pre lang=\&amp;quot;java\&amp;quot;&amp;gt; java content &amp;lt;/pre&amp;gt;&amp;quot;;
+    public static final String TEST_PRE_RESULT = &amp;quot;\n```prettyprint linenums\n java content \n```\n&amp;quot;;
+    private static final String TEST_HEADING_CONTENT = &amp;quot;&amp;lt;h1&amp;gt; Title &amp;lt;/h1&amp;gt;&amp;lt;H2&amp;gt; Subtitle &amp;lt;/H2&amp;gt;&amp;quot;;
+    private static final String TEST_HEADING_RESULT = &amp;quot;&amp;lt;h5&amp;gt; Title &amp;lt;/h5&amp;gt;&amp;lt;h6&amp;gt; Subtitle &amp;lt;/h6&amp;gt;&amp;quot;;
+    public static final String TEST_WORDPRESS_TAGS_CONTENT = &amp;quot;[caption id=&amp;#39;image&amp;#39;] image [/caption]&amp;quot;;
+    public static final String TEST_WORDPRESS_TAGS_RESULT = &amp;quot; image &amp;quot;;
+
+    private MdTranslator sut = new MdTranslator();
+
+    @Test
+    public void translateDate() throws Exception {
+        String dateAsString = TEST_DATE;
+        SimpleDateFormat formatter = new SimpleDateFormat(MdTranslator.POST_DATE_FORMAT);
+        Date date = formatter.parse(dateAsString);
+        String translatedDate = sut.translateDate(date);
+        assertThat(translatedDate, is(dateAsString));
+    }
+
+    @Test
+    public void translateTags() {
+        List&amp;lt;String&amp;gt; tags = new ArrayList&amp;lt;&amp;gt;(2);
+        tags.add(TAG_1);
+        tags.add(TAG_2);
+        String translatedTags = sut.translateTags(tags);
+        assertThat(translatedTags, is(TAG_1 + MdTranslator.TAG_DELIMITER + TAG_2));
+    }
+
+    @Test
+    public void translateContent() {
+        String translatedContent = sut.translateContent(TEST_CONTENT);
+        assertThat(translatedContent, is(TEST_CONTENT));
+    }
+
+    @Test
+    public void translateContentWithPre() {
+        String translatedContent = sut.translateContent(TEST_PRE_CONTENT);
+        assertThat(translatedContent, is(TEST_PRE_RESULT));
+    }
+
+    @Test
+    public void translateContentWithHeading() {
+        String translatedContent = sut.translateContent(TEST_HEADING_CONTENT);
+        assertThat(translatedContent, is(TEST_HEADING_RESULT));
+    }
+
+    @Test
+    public void translateContentWithWordpressTags() {
+        String translatedContent = sut.translateContent(TEST_WORDPRESS_TAGS_CONTENT);
+        assertThat(translatedContent, is(TEST_WORDPRESS_TAGS_RESULT));
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code class=&quot;prettyprint&quot;&gt;public class MdTranslator {
+
+    public static final String POST_DATE_FORMAT = &amp;quot;yyyy-MM-dd&amp;quot;;
+    public static final String TAG_DELIMITER = &amp;quot;,&amp;quot;;
+    public static final String START_PRE = &amp;quot;&amp;lt;pre[^&amp;gt;]*&amp;gt;&amp;quot;;
+    public static final String START_PRETTYPRINT = &amp;quot;\n```prettyprint linenums\n&amp;quot;;
+    public static final String END_PRE = &amp;quot;&amp;lt;/pre&amp;gt;&amp;quot;;
+    public static final String END_PRETTYPRINT = &amp;quot;\n```\n&amp;quot;;
+    public static final String START_H1 = &amp;quot;&amp;lt;h1&amp;gt;&amp;quot;;
+    public static final String START_H5 = &amp;quot;&amp;lt;h5&amp;gt;&amp;quot;;
+    public static final String END_H1 = &amp;quot;&amp;lt;/h1&amp;gt;&amp;quot;;
+    public static final String END_H5 = &amp;quot;&amp;lt;/h5&amp;gt;&amp;quot;;
+    public static final String START_H2 = &amp;quot;&amp;lt;h2&amp;gt;&amp;quot;;
+    public static final String START_H6 = &amp;quot;&amp;lt;h6&amp;gt;&amp;quot;;
+    public static final String END_H2 = &amp;quot;&amp;lt;/h2&amp;gt;&amp;quot;;
+    public static final String END_H6 = &amp;quot;&amp;lt;/h6&amp;gt;&amp;quot;;
+    public static final String START_H3 = &amp;quot;&amp;lt;h3&amp;gt;&amp;quot;;
+    public static final String END_H3 = &amp;quot;&amp;lt;/h3&amp;gt;&amp;quot;;
+    public static final String START_WORDPRESS_CAPTION = &amp;quot;\\[caption[^\\]]*\\]&amp;quot;;
+    public static final String END_WORDPRESS_CAPTION = &amp;quot;\\[/caption\\]&amp;quot;;
+
+
+    public String translateDate(Date dateToTranslate) {
+        DateFormat formatter = new SimpleDateFormat(POST_DATE_FORMAT);
+        return formatter.format(dateToTranslate);
+    }
+
+    public String translateTags(Collection&amp;lt;String&amp;gt; tagsToTranslate) {
+        return tagsToTranslate.stream().map(Object::toString).collect(Collectors.joining(TAG_DELIMITER));
+    }
+
+    public String translateContent(String contentToTranslate) {
+        String translatedContent = translatePre(contentToTranslate);
+        translatedContent = translateHeadings(translatedContent);
+        translatedContent = deleteWordpressImages(translatedContent);
+        return translatedContent;
+    }
+
+    private String deleteWordpressImages(String contentToTranslate) {
+        String contentWithoutStartingTag = contentToTranslate.replaceAll(START_WORDPRESS_CAPTION, StringUtils.EMPTY);
+        String contentWithoutEndingTag = contentWithoutStartingTag.replaceAll(END_WORDPRESS_CAPTION, StringUtils.EMPTY);
+        return contentWithoutEndingTag;
+    }
+
+    private String translatePre(String contentToTranslate) {
+        String contentWithoutStartingPre = contentToTranslate.replaceAll(START_PRE, START_PRETTYPRINT);
+        String contentWithoutEndingPre = contentWithoutStartingPre.replaceAll(END_PRE, END_PRETTYPRINT);
+        return contentWithoutEndingPre;
+    }
+
+    private String translateHeadings(String contentToTranslate) {
+        String contentWithoutStartingh1 = contentToTranslate.replace(START_H1, START_H5).replace(START_H1.toUpperCase(), START_H5);
+        String contentWithoutEndingh1 = contentWithoutStartingh1.replace(END_H1, END_H5).replace(END_H1.toUpperCase(), END_H5);
+        String contentWithoutStartingh2 = contentWithoutEndingh1.replace(START_H2, START_H6).replace(START_H2.toUpperCase(), START_H6);
+        String contentWithoutEndingh2 = contentWithoutStartingh2.replace(END_H2, END_H6).replace(END_H2.toUpperCase(), END_H6);
+        String contentWithoutStartingh3 = contentWithoutEndingh2.replace(START_H3, START_H6).replace(START_H3.toUpperCase(), START_H6);
+        String contentWithoutEndingh3 = contentWithoutStartingh3.replace(END_H3, END_H6).replace(END_H3.toUpperCase(), END_H6);
+        return contentWithoutEndingh3;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Un detalle más revisando la documentación de &lt;a href=&quot;https://daringfireball.net/projects/markdown/syntax#html&quot;&gt;Markdown&lt;/a&gt;, te recomiendan que los elementos a nivel de bloque vayan precedidos y sucedidos por una línea en blanco, eso significa más trabajo para el translator. En particular, tengo que tocar el tratamiento de los heading para añadirlo y además, procesar &lt;em&gt;&lt;p&gt;&lt;/em&gt;, &lt;em&gt;&lt;ul&gt;&lt;/em&gt;, &lt;em&gt;&lt;ol&gt;&lt;/em&gt;, &lt;em&gt;&lt;blockquote&gt;&lt;/em&gt;, &lt;em&gt;&lt;table&gt;&lt;/em&gt; y &lt;em&gt;&lt;div&gt;&lt;/em&gt;. Hay algunos más pero creo que con eso ya voy cubierto, si no, cuestión de ir añadiendo más casos.&lt;/p&gt;&lt;p&gt;&lt;code&gt;prettyprint
+&lt;/code&gt;&lt;/p&gt;&lt;p&gt;&lt;code&gt;prettyprint
+&lt;/code&gt;&lt;/p&gt;
+	</description>
+    </item>
     <item>
       <title>Wordpress to JBake - Escritura</title>
       <link>http://www.aguasnegras.es/blog/2016/06/05-wp2jbake-escritura.html</link>
@@ -1153,6 +1526,245 @@ public void buildWithValidParameters() {
   &lt;li&gt;Personalizar el HTML generado por JBake.&lt;/li&gt;
   &lt;li&gt;Ver como subir los fuentes y HTML a GitHub y estudiar el workflow de publicación.&lt;/li&gt;
 &lt;/ol&gt;
+	</description>
+    </item>
+    <item>
+      <title>Logging en Java con SLF4J y Log4j2</title>
+      <link>http://www.aguasnegras.es/blog/2013/8/2-Logging en Java con SLF4J y Log4j2.html</link>
+      <pubDate>lun, 2 sep 2013 00:00:00 +0200</pubDate>
+      <guid isPermaLink="false">blog/2013/8/2-Logging en Java con SLF4J y Log4j2.html</guid>
+      	<description>
+	&lt;p&gt;En este artículo se hace una breve introducción a la generación de logs en Java usando SLF4J y Log4j2, así como un breve repaso de las mejores prácticas relativas.&lt;/p&gt;
+&lt;h5&gt;Introducción&lt;/h5&gt;&lt;p&gt;En Java se da una circunstancia muy extraña, siendo el logging tan importante como es, no hay una buena solución integrada en el framework como tal. Es cierto que existe la &lt;a title=&quot;Java Logging Framework en Wikipedia&quot; href=&quot;http://en.wikipedia.org/wiki/Java_logging_framework&quot; target=&quot;_blank&quot;&gt;Java Logging API o Java Logging Framework&lt;/a&gt;, pero fue una adición bastante a posteriori (en concreto, se añadió en el 2002, en la versión 1.4 del JDK). Para cuando esta API salió como parte del JDK ya teníamos un &quot;estándar&quot; de facto, &lt;a title=&quot;Log4j 1.2&quot; href=&quot;http://logging.apache.org/log4j/1.2/&quot; target=&quot;_blank&quot;&gt;Log4j&lt;/a&gt;, que fue creado en el 1999. Mientras tanto, y haciendo honor a aquella vieja &lt;a title=&quot;XKCD - Standards&quot; href=&quot;http://xkcd.com/927/&quot; target=&quot;_blank&quot;&gt;tira de XKCD&lt;/a&gt;, seguían saliendo frameworks de loggings: &lt;a title=&quot;Logback&quot; href=&quot;http://logback.qos.ch/&quot; target=&quot;_blank&quot;&gt;logback&lt;/a&gt;, &lt;a title=&quot;commons-logging&quot; href=&quot;http://commons.apache.org/proper/commons-logging/&quot; target=&quot;_blank&quot;&gt;commons-logging&lt;/a&gt;, &lt;a title=&quot;SLF4J&quot; href=&quot;http://www.slf4j.org/&quot; target=&quot;_blank&quot;&gt;slf4j&lt;/a&gt; y otros tipos de soluciones a cada cual más exótica. En &lt;a title=&quot;The Logging Mess&quot; href=&quot;http://techblog.bozho.net/?p=503&quot; target=&quot;_blank&quot;&gt;este artículo&lt;/a&gt; se hace un repaso bastante completo de la historia del desaguisado.&lt;br/&gt;A verano de 2013, la  situación no ha mejorado, tal y como recoge una reciente &lt;a title=&quot;State of Logging in Java 2013&quot; href=&quot;http://zeroturnaround.com/rebellabs/the-state-of-logging-in-java-2013/&quot; target=&quot;_blank&quot;&gt;encuesta de ZeroTurnAround&lt;/a&gt;. Si acaso se clarifican dos tendencias:&lt;/p&gt;
+&lt;ol&gt;
+	&lt;li&gt;En general, se suele usar una fachada de abstracción sobre el sistema de logs como puede ser SLF4J o commons-logging. Entiendo que ésto es debido a que muchas organizaciones imponen el uso de un framework de logging en concreto y mediante esta indirección ganas flexibilidad.&lt;/li&gt;
+	&lt;li&gt;Log4J sigue siendo 14 años después el framework de logging más usado. Si eso no es un estándar de facto...&lt;/li&gt;
+&lt;/ol&gt;&lt;p&gt;Por tanto, parece razonable aplicar la filosofía de fachada de logging + framework de logging para el desarrollo de un nuevo producto. En cuanto a fachada de logging se usará SLF4J y como framework de logging se explicará el uso de Log4j2. ¿Por qué el 2 y no el 1? Pues básicamente por velocidad. El logging es una actividad que realmente es accesoria, por tanto no debería consumir recursos del sistema apenas, la página de Log4j2 explica que esta es una de las motivaciones tras la versión 2 del framework, y &lt;a title=&quot;Log4j2 Performance close to insane&quot; href=&quot;http://www.grobmeier.de/log4j-2-performance-close-to-insane-20072013.html#.UiMaLt9wB2N&quot; target=&quot;_blank&quot;&gt;este artículo&lt;/a&gt; confirma su velocidad. Sin embargo hay que tener en cuenta que Log4j2 esta actualmente en beta 8, pero dado que vamos a usar SLF4J se puede sustituir por su versión 1 o por logback o como se desee.&lt;br/&gt;Otro aspecto a considerar a la hora de usar la versión 2 de log4j es que cuando se usa Maven, el log4j 1.2.x incluye varias dependencias que lo más normal es que no se usen, como javax.mail, geronimo-jms, etc...&lt;/p&gt;
+&lt;h5&gt;Configuración&lt;/h5&gt;&lt;p&gt;La configuración en un proyecto con Maven es tan sencilla como añadir las siguientes dependencias al pom.xml:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;prettyprint linenums&quot;&gt;&lt;br/&gt;&amp;lt;!-- slf4j --&amp;gt;
+&amp;lt;dependency&amp;gt;
+	&amp;lt;groupId&amp;gt;org.slf4j&amp;lt;/groupId&amp;gt;
+	&amp;lt;artifactId&amp;gt;slf4j-api&amp;lt;/artifactId&amp;gt;
+	&amp;lt;version&amp;gt;1.7.5&amp;lt;/version&amp;gt;
+&amp;lt;/dependency&amp;gt;
+&amp;lt;!-- log4j2 --&amp;gt;
+&amp;lt;dependency&amp;gt;
+	&amp;lt;groupId&amp;gt;org.apache.logging.log4j&amp;lt;/groupId&amp;gt;
+	&amp;lt;artifactId&amp;gt;log4j-api&amp;lt;/artifactId&amp;gt;
+	&amp;lt;version&amp;gt;2.0-beta8&amp;lt;/version&amp;gt;
+&amp;lt;/dependency&amp;gt;
+&amp;lt;dependency&amp;gt;
+	&amp;lt;groupId&amp;gt;org.apache.logging.log4j&amp;lt;/groupId&amp;gt;
+	&amp;lt;artifactId&amp;gt;log4j-core&amp;lt;/artifactId&amp;gt;
+	&amp;lt;version&amp;gt;2.0-beta8&amp;lt;/version&amp;gt;
+&amp;lt;/dependency&amp;gt;
+&amp;lt;dependency&amp;gt;
+	&amp;lt;groupId&amp;gt;org.apache.logging.log4j&amp;lt;/groupId&amp;gt;
+	&amp;lt;artifactId&amp;gt;log4j-slf4j-impl&amp;lt;/artifactId&amp;gt;
+	&amp;lt;version&amp;gt;2.0-beta8&amp;lt;/version&amp;gt;
+&amp;lt;/dependency&amp;gt;
+
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;La primera dependencia es la api de SLF4J, que realmente es la que se utilizará en la aplicación para escribir los mensajes de log. A continuación esta la API y el Core de Log4j2 y por último el puente entre SLF4J y Log4j2. Ya que SLF4J es una fachada de logging, el proyecto incluye varios puentes para trabajar con los frameworks más comunes, sin embargo, como Log4j2 es un proyecto nuevo, es éste el que incluye el puente para SLF4J.&lt;/p&gt;
+&lt;h5&gt;Uso&lt;/h5&gt;&lt;p&gt;El uso de SLF4J es bastante sencillo, basta con instanciar el objeto de logging, el logger:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;prettyprint linenums&quot;&gt;private static Logger logger = LoggerFactory.getLogger(Logging.class);
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Esta variable es privada para evitar que otras clases puedan usarla, porque en ese caso parecería que el error se ha producido en nuestra clase Logging, además es static para que tan solo haya una instancia del logger sin importar las instancias que haya de la clase (es decir, es singleton). Se puede usar también una instancia normal, cada aproximación tiene sus pros y sus contras como se discute &lt;a title=&quot;Static vs. Instance loggers&quot; href=&quot;http://www.slf4j.org/faq.html#declared_static&quot;&gt;aquí&lt;/a&gt;.&lt;br/&gt;En cuanto al uso del logger es muy sencillo:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;prettyprint linenums&quot;&gt;public static void main (String... args) {
+	logger.info(&amp;quot;Starting application&amp;quot;);
+	logger.debug(&amp;quot;Loading Lannister house&amp;quot;);
+	House lannister = new House(&amp;quot;Lannister&amp;quot;);
+	logger.debug(&amp;quot;Invoking Clegane bannerman&amp;quot;);
+	lannister.invokeBannerMan(&amp;quot;Clegane&amp;quot;);
+	logger.debug(&amp;quot;Invoking erroneous bannerman&amp;quot;);
+	lannister.invokeBannerMan(null);
+	logger.info(&amp;quot;Ended application&amp;quot;);
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;En este ejemplo, se crea una Casa llamada Lannister y se invoca a dos banderizos, uno llamado Clegane y otroal que por error se pasa null como nombre.&lt;br/&gt;El resultado de ejecutar este programa es el siguiente:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;prettyprint linenums&quot;&gt;14:21:23.629 [main] ERROR es.aguasnegras.logging.model.House - Error loading house Lannister bannerman: bannerman name can&amp;#39;t be empty
+Exception in thread &amp;quot;main&amp;quot; java.lang.IllegalStateException: Cant invoke bannerman without name
+	at es.aguasnegras.logging.model.House.invokeBannerMan(House.java:44)
+	at es.aguasnegras.logging.Logging.main(Logging.java:20)
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;La ejecución de la aplicación falla al invocar el banderizo con null (normal)&lt;br/&gt;Como se ve la invocación al logger es en todo caso la misma, variando solo según el nivel de importancia del mensaje de error. En total en SLF4J vienen definidos los siguientes niveles de log:&lt;/p&gt;
+&lt;ol&gt;
+	&lt;li&gt; Error: Ocurrió un error en la aplicación.&lt;/li&gt;
+	&lt;li&gt;Warn: Se ha dado una circunstancia de posible error.&lt;/li&gt;
+	&lt;li&gt;Info: Información sobre la ejecución de la aplicación.&lt;/li&gt;
+	&lt;li&gt;Debug: Información importante para debuggear la aplicación.&lt;/li&gt;
+	&lt;li&gt;Trace: Información de traza sobre la ejecución de la aplicación.&lt;/li&gt;
+&lt;/ol&gt;&lt;p&gt;En otros frameworks existe un nivel adicional de log: Fatal, pero SLF4J no lo recoge, he &lt;a title=&quot;SLF4J y nivel de log Fatal&quot; href=&quot;http://www.slf4j.org/faq.html#fatal&quot;&gt;aquí&lt;/a&gt; la explicación. Yo personalmente creo que puedo vivir sin ello.&lt;br/&gt;El objeto de cualquier framework de logging es que podamos configurar fácilmente cuales de estos mensajes se mostrarán según el entorno. Lo más normal es que en desarrollo deseemos mostrar los mensajes de debug y superiores, mientras que en producción se establezca el nivel a info (o incluso a error). Ahora bien, si hay un error en producción, lo más interesante es ajustar directamente el nivel de log a trace y así dispondríamos de toda la información relevante.&lt;br/&gt;Sin embargo, en el ejemplo pese a tener invocaciones a debug, a info y a trace, tan solo sale el mensaje relativo al error (que además se registra en la clase House). Esto es porque aún no hemos definido la configuración de los mensajes de log y por defecto log4j2 tan solo recoge los mensajes con nivel Error.&lt;br/&gt;&lt;h5&gt;Configuración de Log4j2&lt;/h5&gt;&lt;br/&gt;En primer lugar, hay que decir que la configuración de log4j2 se realiza bien mediante un archivo xml, bien mediante un archivo json. En log4j 1.2 se podía configurar también mediante un archivo .properties, como a mí nunca me gustó esa opción (la veía confusa), agradezco que la hayan quitado.&lt;br/&gt;Lo primero es crear en main/resources un fichero log4j2.xml (tal y como se explica &lt;a title=&quot;Configuración de Log4j2&quot; href=&quot;http://logging.apache.org/log4j/2.x/manual/configuration.html#AutomaticConfiguration&quot;&gt;aquí&lt;/a&gt;), una vez creado, se completa tal que así:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;prettyprint linenums&quot;&gt;&lt;br/&gt;&amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;UTF-8&amp;quot;?&amp;gt;
+&amp;lt;configuration status=&amp;quot;WARN&amp;quot;&amp;gt;
+  &amp;lt;appenders&amp;gt;
+    &amp;lt;Console name=&amp;quot;Console&amp;quot; target=&amp;quot;SYSTEM_OUT&amp;quot;&amp;gt;
+      &amp;lt;PatternLayout pattern=&amp;quot;%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n&amp;quot;/&amp;gt;
+    &amp;lt;/Console&amp;gt;
+  &amp;lt;/appenders&amp;gt;
+  &amp;lt;loggers&amp;gt;
+    &amp;lt;root level=&amp;quot;trace&amp;quot;&amp;gt;
+      &amp;lt;appender-ref ref=&amp;quot;Console&amp;quot;/&amp;gt;
+    &amp;lt;/root&amp;gt;
+  &amp;lt;/loggers&amp;gt;
+&amp;lt;/configuration&amp;gt;
+
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;El archivo empieza con el elemento &lt;em&gt;configuration&lt;/em&gt; que tiene un atributo &lt;em&gt;status&lt;/em&gt;, ese atributo significa el nivel de log de error que quiero aplicar al mismo log4j, a warn esta bien.&lt;br/&gt;A continuación defino un &lt;em&gt;appender&lt;/em&gt;. Se puede pensar un appender es un destino de los mensajes de log, se puede tener un appender para presentar por consola, otro para guardar en archivo, otro para enviar por email o combinación de todos los anteriores. &lt;a title=&quot;Appenders de Log4j2&quot; href=&quot;http://logging.apache.org/log4j/2.x/manual/layouts.html&quot;&gt;Aquí&lt;/a&gt; se pueden consultar todos los appenders que hay.&lt;br/&gt;A su vez un appender tiene un &lt;em&gt;layout&lt;/em&gt; que no es más que la forma de darle formato al mensaje de log: bien siguiendo un patrón, bien en html, etc... de nuevo hay una extensa &lt;a title=&quot;Appenders de Log4j2&quot; href=&quot;http://logging.apache.org/log4j/2.x/manual/layouts.html&quot;&gt;lista&lt;/a&gt;.&lt;br/&gt;Y por último estan los &lt;em&gt;logger&lt;/em&gt; como tal. Los loggers tienen una particularidad, y es que existe un logger &quot;padre&quot; del que heredan todos los existentes: root, después de él se podrán crear los que sean oportunos, pero al menos siempre existirá root. Un logger tiene un nivel (que es el nivel mínimo de log cuyos mensajes se mostrarán) y una lista de appenders que se utilizarán para mostrar los mensajes.&lt;br/&gt;De momento solo tengo configurado root y con nivel &lt;em&gt;trace&lt;/em&gt; con lo que se mostrarán todos los mensajes que se generen. Tal que así:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;prettyprint linenums&quot;&gt;&lt;br/&gt;17:02:03.721 [main] INFO  es.aguasnegras.logging.Logging - Starting application
+17:02:03.723 [main] DEBUG es.aguasnegras.logging.Logging - Loading Lannister house
+17:02:03.742 [main] TRACE es.aguasnegras.logging.model.House - Loaded house Lannister without bannermen
+17:02:03.742 [main] DEBUG es.aguasnegras.logging.Logging - Invoking Clegane bannerman
+17:02:03.763 [main] TRACE es.aguasnegras.logging.model.BannerMan - Loaded bannerman Clegane with house Lannister
+17:02:03.763 [main] TRACE es.aguasnegras.logging.model.House - Adding bannerman Clegane to house Lannister
+17:02:03.763 [main] DEBUG es.aguasnegras.logging.Logging - Invoking erroneous bannerman
+17:02:03.763 [main] ERROR es.aguasnegras.logging.model.House - Error loading house Lannister bannerman: bannerman name can&amp;#39;t be empty
+Exception in thread &amp;quot;main&amp;quot; java.lang.IllegalStateException: Cant invoke bannerman without name
+	at es.aguasnegras.logging.model.House.invokeBannerMan(House.java:44)
+	at es.aguasnegras.logging.Logging.main(Logging.java:20)
+
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Y ahora se puede empezar a modificar la configuración. Por ejemplo, si quiero que aparezcan todos los mensajes de error para Logging pero para las demás clases que solo aparezcan de info para arriba, puedo añadir este logger a la configuración:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;prettyprint linenums&quot;&gt;&lt;br/&gt;&amp;lt;loggers&amp;gt;
+	&amp;lt;root level=&amp;quot;trace&amp;quot;&amp;gt;
+		&amp;lt;appender-ref ref=&amp;quot;Console&amp;quot; /&amp;gt;
+	&amp;lt;/root&amp;gt;
+	&amp;lt;logger name=&amp;quot;es.aguasnegras.logging.model&amp;quot; level=&amp;quot;info&amp;quot; additivity=&amp;quot;false&amp;quot;&amp;gt;
+		&amp;lt;appender-ref ref=&amp;quot;Console&amp;quot; /&amp;gt;
+	&amp;lt;/logger&amp;gt;
+&amp;lt;/loggers&amp;gt;
+
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Estoy creando un logger nuevo para el paquete &lt;em&gt;es.aguasnegras.logging.model&lt;/em&gt; que recogerá todos los mensajes de información y los mostrará por el appender &lt;em&gt;Console&lt;/em&gt;. El atributo &lt;em&gt;additivity&lt;/em&gt; a false indica que los mensajes que se muestren por este logger no se deberán mostrar por root (si no, saldrían duplicados).&lt;br/&gt;Es importante tener en cuenta que el nivel de log de root es el mínimo para todo el sistema. Es decir, si yo arriba cambio el nivel de root por &lt;em&gt;error&lt;/em&gt; y el de model por &lt;em&gt;trace&lt;/em&gt; tan solo se mostrarán los mensajes de error, ya que el resto no se evaluarán.&lt;br/&gt;Si por ejemplo ahora quisiera que si se mostraran todos los mensajes de log de la clase BannerMan, podría hacer así:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;prettyprint linenums&quot;&gt;&lt;br/&gt;&amp;lt;root level=&amp;quot;trace&amp;quot;&amp;gt;
+	&amp;lt;appender-ref ref=&amp;quot;Console&amp;quot; /&amp;gt;
+&amp;lt;/root&amp;gt;
+&amp;lt;logger name=&amp;quot;es.aguasnegras.logging.model&amp;quot; level=&amp;quot;info&amp;quot; additivity=&amp;quot;false&amp;quot;&amp;gt;
+	&amp;lt;appender-ref ref=&amp;quot;Console&amp;quot; /&amp;gt;
+&amp;lt;/logger&amp;gt;
+&amp;lt;logger name=&amp;quot;es.aguasnegras.logging.model.BannerMan&amp;quot; level=&amp;quot;trace&amp;quot; additivity=&amp;quot;false&amp;quot;&amp;gt;
+	&amp;lt;appender-ref ref=&amp;quot;Console&amp;quot; /&amp;gt;
+&amp;lt;/logger&amp;gt;
+
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Y así, sucesivamente. Aquí, por mantener el ejemplo sencillo, solo he utilizado un appender, pero cada logger podría usar un appender distinto, por ejemplo, root podría utilizar la consola, pero model podría usar un archivo.&lt;/p&gt;
+&lt;h5&gt;Uso Eficiente de la API&lt;/h5&gt;&lt;p&gt;Arriba comentaba que un framework de logging, sobre todo ha de ser rápido y no consumir ciclos de CPU, ni memoria, etc... En general, para evitar el consumo &quot;tonto&quot; de recursos en muchos sitios recomiendan hacer lo siguiente:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;prettyprint linenums&quot;&gt;&lt;br/&gt;if (logger.isTraceEnabled()) {
+	logger.trace(&amp;quot;Adding bannerman &amp;quot; + bannerManName + &amp;quot; to house &amp;quot; + name);
+}
+
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Este código, desde mi punto de vista tiene varios inconvenientes:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;En el caso mejor (trace no esta habilitado), se ejecuta una instrucción&lt;/li&gt;
+&lt;li&gt;En el caso peor (trace esta habilitado), se ejecutan dos instrucciones y además se construye la cadena con el mensaje&lt;/li&gt;
+&lt;li&gt;Además, para cumplir con DRY, nos veremos tentados de crear una fachada de logging sobre la fachada de logging (WTF!)&lt;/li&gt;
+&lt;/ol&gt;&lt;p&gt;Para evitar todo esto, en SLF4J &lt;a title=&quot;Forma más rápida de logar&quot; href=&quot;http://www.slf4j.org/faq.html#logging_performance&quot;&gt;recomiendan esta forma de logar&lt;/a&gt;:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;prettyprint linenums&quot;&gt;&lt;br/&gt;logger.trace(&amp;quot;Adding bannerman {} to house {}&amp;quot;, bannerManName, name);
+
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Así de sencillo y de fácil. Por supuesto el método acepta múltiples parámetros y si se pasa un objeto se invoca el toString.&lt;/p&gt;
+&lt;h5&gt;Código&lt;/h5&gt;&lt;p&gt;Pues con esto se acaba este pequeño repaso de lo fundamental sobre SLF4J y Log4j2, el código, en github (para variar).&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;https://github.com/agustinventura/logging&quot;&gt;GitHub&lt;/a&gt;&lt;/p&gt;
+	</description>
+    </item>
+    <item>
+      <title>JUnit 4 y DataSources</title>
+      <link>http://www.aguasnegras.es/blog/2010/10/20-JUnit 4 y DataSources.html</link>
+      <pubDate>sáb, 20 nov 2010 00:00:00 +0100</pubDate>
+      <guid isPermaLink="false">blog/2010/10/20-JUnit 4 y DataSources.html</guid>
+      	<description>
+	&lt;p&gt;Cuando desarrollo aplicaciones web (y tengo tiempo) me gusta seguir una variante propia de &lt;a title=&quot;Test Driven Development&quot; href=&quot;http://en.wikipedia.org/wiki/Test-driven_development&quot; target=&quot;_blank&quot;&gt;TDD&lt;/a&gt;. Básicamente trato de ser exhaustivo con las pruebas y en este sentido JUnit es lo suyo, diseño el DAO y le hago pruebas unitarias, diseño la capa de servicios y le hago pruebas unitarias, es más, si tengo tiempo hago pruebas unitarias sobre las mismas entidades.&lt;/p&gt;&lt;p&gt;A las malas malas, JUnit me sirve para probar la funcionalidad de la aplicación antes de hacer la interfaz de usuario.&lt;/p&gt;&lt;p&gt;Últimamente trabajo siempre con Spring o JPA, por lo que los accesos a base de datos son a través de un DataSource, bien gestionado por Spring, bien gestionado por JPA.&lt;/p&gt;&lt;p&gt;El caso es que para las pruebas en general, en vez de andar creando las conexiones a base de datos aparte y pasarlas a los DAO, mola crear un DataSource y publicarlo por JNDI, así nunca hay que volver a tocar nada.&lt;/p&gt;&lt;p&gt;Tras investigar algo me encuentro que esto no es algo que este muy trillado, así que nada, manos a la obra. Lo que hago es definir un método @BeforeClass para que me cree el DataSource y me lo publique en el contexto JNDI antes de que se ejecute ninguna prueba.&lt;/p&gt;&lt;p&gt;El código es bastante sencillo y autoexplicativo, para que funcione, es necesario el naming-commons.jar, naming-factory.jar y el naming-resources.jar, se encuentra normalmente en cualquier tomcat en $CATALINA_HOME/common/lib.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;prettyprint linenums&quot;&gt;public class DataBaseTest {
+
+	@BeforeClass
+	public static void setDataSource() {
+		try {
+			// Create initial context
+			System.setProperty(Context.INITIAL_CONTEXT_FACTORY,
+					&amp;quot;org.apache.naming.java.javaURLContextFactory&amp;quot;);
+			System.setProperty(Context.URL_PKG_PREFIXES, &amp;quot;org.apache.naming&amp;quot;);
+			InitialContext ic = new InitialContext();
+			ic.createSubcontext(&amp;quot;jdbc&amp;quot;);
+
+			// Construct DataSource
+			OracleConnectionPoolDataSource ds = new OracleConnectionPoolDataSource();
+			ds.setURL(&amp;quot;jdbc:oracle:thin:@server:port:SID&amp;quot;);
+			ds.setUser(&amp;quot;user&amp;quot;);
+			ds.setPassword(&amp;quot;password&amp;quot;);
+
+			ic.bind(&amp;quot;jdbc/ds&amp;quot;, ds);
+		} catch (NamingException ex) {
+			Logger.getLogger(DataBaseTest.class.getName()).log(
+					Level.SEVERE, null, ex);
+		} catch (SQLException e) {
+			Logger.getLogger(DataBaseTest.class.getName()).log(
+					Level.SEVERE, null, e);
+		}
+	}
+
+	public DataBaseTest() {
+		super();
+	}
+
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Y eso es todo, para usar exactamente esta implementación también es conveniente tener log4j y el ojdbc14.jar.&lt;/p&gt;&lt;p&gt;Referencias:&lt;br/&gt;&lt;ol&gt;&lt;br/&gt; &lt;li&gt;&lt;a href=&quot;http://blogs.sun.com/randystuph/entry/injecting_jndi_datasources_for_junit&quot;&gt;&lt;a href=&quot;http://blogs.sun.com/randystuph/entry/injecting_jndi_datasources_for_junit&quot;&gt;http://blogs.sun.com/randystuph/entry/injecting_jndi_datasources_for_junit&lt;/a&gt;&lt;/a&gt;&lt;/li&gt;&lt;br/&gt; &lt;li&gt;&lt;a href=&quot;http://www.coderanch.com/howto/java/CodeBarnLibrariesAndFrameworks&quot;&gt;&lt;a href=&quot;http://www.coderanch.com/how-to/java/CodeBarnLibrariesAndFrameworks&quot;&gt;http://www.coderanch.com/how-to/java/CodeBarnLibrariesAndFrameworks&lt;/a&gt;&lt;/a&gt;&lt;/li&gt;&lt;br/&gt;&lt;/ol&gt;&lt;/p&gt;
+	</description>
+    </item>
+    <item>
+      <title>Aprendiendo Ruby on Rails</title>
+      <link>http://www.aguasnegras.es/blog/2010/10/13-Aprendiendo Ruby on Rails.html</link>
+      <pubDate>sáb, 13 nov 2010 00:00:00 +0100</pubDate>
+      <guid isPermaLink="false">blog/2010/10/13-Aprendiendo Ruby on Rails.html</guid>
+      	<description>
+	&lt;p&gt;En mi trabajo, uno de los proyectos en los que ando metido es la estandarización de proyectos de desarrollo Java en entorno web, a todos los niveles.&lt;/p&gt;&lt;p&gt;A priori esto parece muy fácil y un trabajo bonito, pero el asunto se complica mucho cuando te das cuenta de la amplitud del trabajo:&lt;/p&gt;
+&lt;ul&gt;
+	&lt;li&gt;Definición de herramientas a usar (IDE, gestor de versiones, herramienta de construcción...)&lt;/li&gt;
+	&lt;li&gt;Definición de framework de desarrollo (framework MVC, framework ORM, framework IoC...)&lt;/li&gt;
+	&lt;li&gt;Definición de estándares de código&lt;/li&gt;
+	&lt;li&gt;Formación del personal&lt;/li&gt;
+&lt;/ul&gt;&lt;p&gt;Con ésto no quiero decir que el desarrollo en Java sea demasiado complicado, más bien al revés, el entorno es tan flexible que puedes hacer auténticas maravillas y habitualmente encontrar múltiples soluciones al mismo problema, así que si no puedes aplicar una, te resultará muy sencillo aplicar la otra.&lt;/p&gt;&lt;p&gt;Sin embargo, esto resulta ser muchas veces un engorro, ya que a veces el entorno es demasiado &quot;difuso&quot;, dicho de otra manera, se echa de menos tener un entorno de estudio más cerrado en el cual convertirte en un experto (en Java, es muy posible que seas un experto en JPA, pero no en Hibernate... y viceversa, pero claro, ¿para qué lo vas a ser cuando ambas tecnologías sirven para lo mismo?).&lt;/p&gt;&lt;p&gt;Así que he decidido aprender algo nuevo, y después de curiosear y mirar por ahí he decidido darle una oportunidad a Ruby on Rails e ir posteando por aquí mis experiencias.&lt;/p&gt;&lt;p&gt;El tutorial que voy a seguir es este: &lt;a title=&quot;railstutorial.org&quot; href=&quot;http://railstutorial.org/book&quot; target=&quot;_blank&quot;&gt;railstutorial.org&lt;/a&gt;&lt;/p&gt;&lt;p&gt;No voy a entrar en detalles de por qué Ruby on Rails y no PHP ya que no pretendo que sea una comparativa exhaustiva, sencillamente me ha dado por ahí y ya esta :)&lt;/p&gt;
+	</description>
+    </item>
+    <item>
+      <title>Entorno de Ruby on Rails - Parte 1</title>
+      <link>http://www.aguasnegras.es/blog/2010/10/13-Entorno de Ruby on Rails - Parte 1.html</link>
+      <pubDate>sáb, 13 nov 2010 00:00:00 +0100</pubDate>
+      <guid isPermaLink="false">blog/2010/10/13-Entorno de Ruby on Rails - Parte 1.html</guid>
+      	<description>
+	&lt;p&gt;Para seguir el tutorial voy a usar mi viejo buen portátil (tiene ya 6 años), con una Ubuntu 10.04 y el siguiente stack de desarrollo (siguiendo lo recomendado en el tutorial):&lt;br/&gt;&lt;ul&gt;&lt;br/&gt; &lt;li&gt;Editor: gVim (y las extensiones de ruby de vim)&lt;/li&gt;&lt;br/&gt; &lt;li&gt;Control de versiones: git (apt-get install git-core)&lt;/li&gt;&lt;br/&gt; &lt;li&gt;Ruby versión 1.8.7&lt;/li&gt;&lt;br/&gt;&lt;/ul&gt;&lt;br/&gt;Y hasta aquí todo bien, no deja de ser todo apt-get install, ahora el tutorial recomienda instalar &lt;a title=&quot;Ruby Version Management&quot; href=&quot;http://rvm.beginrescueend.com/&quot; target=&quot;_blank&quot;&gt;RVM (Ruby Version Management)&lt;/a&gt;, un gestor de versiones de Ruby. El tema me suena, haciendo un símil con Java, yo puedo estar desarrollando con Java 1.6 pero querer compilar con Java 1.5 (por cuestión de compatibilidad o cualquier motivo), al parecer Ruby tiene una herramienta que gestiona este tipo de cosas... la verdad, tiene buena pinta, vamos a ver.&lt;/p&gt;&lt;p&gt;La instalación es con git (primera toma de contacto):&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;prettyprint linenums&quot;&gt;bash &amp;amp;lt; &amp;amp;lt;( curl http://rvm.beginrescueend.com/releases/rvm-install-head )
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;se ejecuta sin problemas y sale un bonito texto dando información varia. Básicamente y según la sección &quot;Postinstall&quot; de la misma página de rvm, hay que añadir una línea al final del .bashrc:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;prettyprint linenums&quot;&gt;[[ -s &amp;quot;$HOME/.rvm/scripts/rvm&amp;quot; ]] &amp;amp;amp;&amp;amp;amp; . &amp;quot;$HOME/.rvm/scripts/rvm&amp;quot;  # This loads RVM into a shell session
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Se comprueba si esta funcionando con:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;prettyprint linenums&quot;&gt;type rvm | head -n1
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Salida, correcta, así que seguimos y nos volvemos al tutorial donde dicen como usar RVM una vez instalado.&lt;/p&gt;&lt;p&gt;Básicamente, según estoy entendiendo, Ruby se distribuye en Gems, que son programas autosuficientes con sus librerías, etc... y con RVM vamos a instalar varios perfiles de ejecución incluyendo sus Gems y vamos a definir uno por defecto.&lt;/p&gt;&lt;p&gt;Asi que nada:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;prettyprint linenums&quot;&gt;rvm install 1.8.7 #instala Ruby 1.8.7
+rvm install 1.9.2 #instala Ruby 1.9.2
+#etiquetamos lo perfiles
+rvm --create 1.8.7@rails2
+rvm --create 1.9.2@rails3
+#usamos rails3 por defecto
+rvm --default use 1.9.2@rails3
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Por cierto, la compilación de la versiones de Ruby... tarda. O será que mi portátil esta ya bien viejuno.&lt;/p&gt;&lt;p&gt;Una vez hechas todas estas operaciones, me llevo la grata sorpresa de que de propina tenemos instalado RubyGems, un gestor de paquetes de Ruby, para probarlo:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;prettyprint linenums&quot;&gt;which gem
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Trato de actualizar tal y como dice el manual:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;prettyprint linenums&quot;&gt;gem update --system
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Y... ¡ZAS!¡En toda la boca!&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;prettyprint linenums&quot;&gt;no such file to load -- zlib
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Y por fín se pone interesante la cosa, veo un post específico para la configuración: &lt;a title=&quot;Ruby on Rails 3 and Ubuntu&quot; href=&quot;http://toranbillups.com/blog/archive/2010/09/01/How-to-install-Rails-3.0-and-Ruby-1.9.2-on-Ubuntu&quot; target=&quot;_blank&quot;&gt;How to install Rails 3.0 and Ruby 1.9.2 on Ubuntu&lt;/a&gt;, aunque me salto los dos primeros pasos, ya tengo instalado RVM y Ruby 1.8.7... sigo intentando pero nada de nada, sigue diciendo que no hay zlib... vaya. En &lt;a title=&quot;Stackoverflow: Ruby and Zlib&quot; href=&quot;http://stackoverflow.com/questions/2441248/rvm-ruby-1-9-1-troubles&quot; target=&quot;_blank&quot;&gt;Stackoverflow&lt;/a&gt; leo esto:&lt;br/&gt;&lt;blockquote&gt;rvm package install zlib&lt;br/&gt;rvm remove 1.9.1&lt;br/&gt;rvm install 1.9.1 -C --with-zlib-dir=$rvm_path/usr&lt;/blockquote&gt;&lt;br/&gt;Y en la &lt;a title=&quot;RVM y zlib&quot; href=&quot;http://rvm.beginrescueend.com/packages/zlib/&quot; target=&quot;_blank&quot;&gt;referencia de RVM&lt;/a&gt; esto:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;prettyprint linenums&quot;&gt;$ rvm package install zlib
+$ rvm remove 1.9.2
+$ rvm install 1.9.2
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Esto parece más razonable... buf, otra vez a compilar... vamos a por un café que siempre viene bien.&lt;/p&gt;
+	</description>
+    </item>
+    <item>
+      <title>Entorno de Ruby on Rails - Parte 2</title>
+      <link>http://www.aguasnegras.es/blog/2010/10/13-Entorno de Ruby on Rails - Parte 2.html</link>
+      <pubDate>sáb, 13 nov 2010 00:00:00 +0100</pubDate>
+      <guid isPermaLink="false">blog/2010/10/13-Entorno de Ruby on Rails - Parte 2.html</guid>
+      	<description>
+	&lt;p&gt;Bazinga! Eso era, por fín:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;prettyprint linenums&quot;&gt;case@aesir:~/.rvm/usr/lib$ gem update --system
+Updating RubyGems
+Nothing to update
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Se vuelve a ejecutar el rvm --create y el --default y seguimos adelante, ahora a instalar rails con gem.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;prettyprint linenums&quot;&gt;gem install rails --version 3.0.1
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Muy bien, creo el directorio de proyecto y&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;prettyprint linenums&quot;&gt;rails new fist_app
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Ya está creada, repaso los directorios y algún fichero de configuración según el tutorial e instalo los gems con bundle tal y como se especifica.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;prettyprint linenums&quot;&gt;rails server
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Y ahí esta, funcionando sin problemas. Pasamos a recapitular.&lt;br/&gt;&lt;ul&gt;&lt;br/&gt; &lt;li&gt;Efectivamente, las herramientas son útiles y potentes, parece que se está pensando en todo.&lt;/li&gt;&lt;br/&gt; &lt;li&gt;La estructura de directorios parece también clara y estándar.&lt;/li&gt;&lt;br/&gt; &lt;li&gt;El uso de git y el incluir una carpeta tests por defecto, parece que sigue metodologías modernas, o mejor dicho, te guía al uso de las mismas.&lt;/li&gt;&lt;br/&gt; &lt;li&gt;El que haya una y solo una herramienta para cada cosa, no tienes que aprender a hacer lo mismo de 4 formas distintas.&lt;/li&gt;&lt;br/&gt;&lt;/ul&gt;&lt;br/&gt;Y poco más, de momento ya esta bien, mañana más y mejor.&lt;/p&gt;&lt;p&gt;Vamos a descogelar sushi pa la cena.&lt;/p&gt;
 	</description>
     </item>
 

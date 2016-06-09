@@ -5,6 +5,14 @@
         <lastmod>2016-02-02</lastmod>
     </url>
     <url>
+        <loc>http://www.aguasnegras.es/blog/2016/06/09-configuracion-mint.html</loc>
+        <lastmod>2016-06-09</lastmod>
+    </url>
+    <url>
+        <loc>http://www.aguasnegras.es/blog/2016/06/08-wp2jbake-integracion.html</loc>
+        <lastmod>2016-06-08</lastmod>
+    </url>
+    <url>
         <loc>http://www.aguasnegras.es/blog/2016/06/05-wp2jbake-escritura.html</loc>
         <lastmod>2016-06-05</lastmod>
     </url>
@@ -23,5 +31,25 @@
     <url>
         <loc>http://www.aguasnegras.es/blog/2016/01/03-migracion.html</loc>
         <lastmod>2016-01-03</lastmod>
+    </url>
+    <url>
+        <loc>http://www.aguasnegras.es/blog/2013/8/2-Logging en Java con SLF4J y Log4j2.html</loc>
+        <lastmod>2013-09-02</lastmod>
+    </url>
+    <url>
+        <loc>http://www.aguasnegras.es/blog/2010/10/20-JUnit 4 y DataSources.html</loc>
+        <lastmod>2010-11-20</lastmod>
+    </url>
+    <url>
+        <loc>http://www.aguasnegras.es/blog/2010/10/13-Aprendiendo Ruby on Rails.html</loc>
+        <lastmod>2010-11-13</lastmod>
+    </url>
+    <url>
+        <loc>http://www.aguasnegras.es/blog/2010/10/13-Entorno de Ruby on Rails - Parte 1.html</loc>
+        <lastmod>2010-11-13</lastmod>
+    </url>
+    <url>
+        <loc>http://www.aguasnegras.es/blog/2010/10/13-Entorno de Ruby on Rails - Parte 2.html</loc>
+        <lastmod>2010-11-13</lastmod>
     </url>
 </urlset>

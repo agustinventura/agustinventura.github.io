@@ -2,7 +2,7 @@
 <html lang="es">
   <head>
     <meta charset="utf-8"/>
-    <title>Migrando el blog</title>
+    <title>Aprendiendo Ruby on Rails</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="AguasNegras, tecnología, programación y Java">
     <meta name="author" content="Agustín Ventura">
@@ -39,24 +39,25 @@
 <div class="container">
 <div class="row">
 <div class="col s12">
-		<h4 class="light-blue-text text-darken-1">Migrando el blog</h4>
+		<h4 class="light-blue-text text-darken-1">Aprendiendo Ruby on Rails</h4>
 		<div class="section">
-			03 enero 2016
+			13 noviembre 2010
 		</div>
 		<div class="section">
-			<p>Desde hace ya bastantes años llevo pagando religiosamente todos los años un dominio (aguasnegras.es) y un alojamiento para tener el blog.<br/>El blog ha tenido mejores y peores momentos, pero en general me gusta tener un sitio donde poder escribir en un momento dado, y por supuesto compartir con la comunidad (sobre todo en español, es por lo que escribo en este idioma).</p><p>El asunto es que si nos paramos a pensarlo, el blog tiene bastantes pocos comentarios y sobre todo entradas mías, es decir, es fundamentalmente un medio de solo lectura. Hace ya un tiempo que pienso que tener para ésto un Wordpress con su PHP y su MySQL es bastante asesino y hasta antieconómico (en sentido general, porque el hosting me cuesta cuatro duros al año, tampoco vamos a ser ruinas). Otra cosa que me molesta bastante es tener que andar actualizando Wordpress (cosa lógica y normal) y aunque ya las actualizaciones sean automáticas, pues me molesta.</p><p>Total, que a esto le sumamos que GitHub ofrece desde hace tiempo <a href="https://pages.github.com/">GitHub Pages</a> que consiste en alojamiento gratuito para HTML estático y más a huevo imposible... quedaría pendiente el tema de los comentarios, pero precisamente para esto, <a href="https://disqus.com/">Disqus</a> permite incluirlos por Javascript con una configuración muy sencilla.</p><p>Con esto ya va quedando claro el enfoque, ahora habría que ver como generar el HTML, ya que escribir HTML a pelo es posible, pero es más bien coñazo. GitHub Pages usa <a href="https://jekyllrb.com/">Jekyll</a> que permite usar Markdown para escribir, pero como buen javero de pro he buscado una opción similar en Java, <a href="http://jbake.org/">JBake</a>. Eso sí, el inconveniente es claro, con Jekyll lo único que hay que subir a GitHub son los archivos .md mientras que con JBake tendré que generar el HTML y subirlo.</p><p>Por tanto, hay tres trabajos importantes que hacer para estudiar la viabilidad de usar GitHub Pages para alojar el blog:</p>
-<ol>
-  <li>Integrar Disqus en JBake.</li>
-  <li>Personalizar el HTML generado por JBake.</li>
-  <li>Ver como subir los fuentes y HTML a GitHub y estudiar el workflow de publicación.</li>
-</ol>
+			<p>En mi trabajo, uno de los proyectos en los que ando metido es la estandarización de proyectos de desarrollo Java en entorno web, a todos los niveles.</p><p>A priori esto parece muy fácil y un trabajo bonito, pero el asunto se complica mucho cuando te das cuenta de la amplitud del trabajo:</p>
+<ul>
+	<li>Definición de herramientas a usar (IDE, gestor de versiones, herramienta de construcción...)</li>
+	<li>Definición de framework de desarrollo (framework MVC, framework ORM, framework IoC...)</li>
+	<li>Definición de estándares de código</li>
+	<li>Formación del personal</li>
+</ul><p>Con ésto no quiero decir que el desarrollo en Java sea demasiado complicado, más bien al revés, el entorno es tan flexible que puedes hacer auténticas maravillas y habitualmente encontrar múltiples soluciones al mismo problema, así que si no puedes aplicar una, te resultará muy sencillo aplicar la otra.</p><p>Sin embargo, esto resulta ser muchas veces un engorro, ya que a veces el entorno es demasiado "difuso", dicho de otra manera, se echa de menos tener un entorno de estudio más cerrado en el cual convertirte en un experto (en Java, es muy posible que seas un experto en JPA, pero no en Hibernate... y viceversa, pero claro, ¿para qué lo vas a ser cuando ambas tecnologías sirven para lo mismo?).</p><p>Así que he decidido aprender algo nuevo, y después de curiosear y mirar por ahí he decidido darle una oportunidad a Ruby on Rails e ir posteando por aquí mis experiencias.</p><p>El tutorial que voy a seguir es este: <a title="railstutorial.org" href="http://railstutorial.org/book" target="_blank">railstutorial.org</a></p><p>No voy a entrar en detalles de por qué Ruby on Rails y no PHP ya que no pretendo que sea una comparativa exhaustiva, sencillamente me ha dado por ahí y ya esta :)</p>
 		</div>
 <div class="col s12">
 <div id="disqus_thread"></div>
 <script>
     var disqus_config = function () {
-        this.page.url = 'http://www.aguasnegras.es/blog/2016/01/03-migracion.html';
-        this.page.identifier = 'blog/2016/01/03-migracion.html';
+        this.page.url = 'http://www.aguasnegras.es/blog/2010/10/13-Aprendiendo Ruby on Rails.html';
+        this.page.identifier = 'blog/2010/10/13-Aprendiendo Ruby on Rails.html';
     };
     (function() {
         var d = document, s = d.createElement('script');

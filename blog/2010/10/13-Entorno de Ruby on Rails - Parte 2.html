@@ -2,7 +2,7 @@
 <html lang="es">
   <head>
     <meta charset="utf-8"/>
-    <title>Migrando el blog</title>
+    <title>Entorno de Ruby on Rails - Parte 2</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="AguasNegras, tecnología, programación y Java">
     <meta name="author" content="Agustín Ventura">
@@ -39,24 +39,29 @@
 <div class="container">
 <div class="row">
 <div class="col s12">
-		<h4 class="light-blue-text text-darken-1">Migrando el blog</h4>
+		<h4 class="light-blue-text text-darken-1">Entorno de Ruby on Rails - Parte 2</h4>
 		<div class="section">
-			03 enero 2016
+			13 noviembre 2010
 		</div>
 		<div class="section">
-			<p>Desde hace ya bastantes años llevo pagando religiosamente todos los años un dominio (aguasnegras.es) y un alojamiento para tener el blog.<br/>El blog ha tenido mejores y peores momentos, pero en general me gusta tener un sitio donde poder escribir en un momento dado, y por supuesto compartir con la comunidad (sobre todo en español, es por lo que escribo en este idioma).</p><p>El asunto es que si nos paramos a pensarlo, el blog tiene bastantes pocos comentarios y sobre todo entradas mías, es decir, es fundamentalmente un medio de solo lectura. Hace ya un tiempo que pienso que tener para ésto un Wordpress con su PHP y su MySQL es bastante asesino y hasta antieconómico (en sentido general, porque el hosting me cuesta cuatro duros al año, tampoco vamos a ser ruinas). Otra cosa que me molesta bastante es tener que andar actualizando Wordpress (cosa lógica y normal) y aunque ya las actualizaciones sean automáticas, pues me molesta.</p><p>Total, que a esto le sumamos que GitHub ofrece desde hace tiempo <a href="https://pages.github.com/">GitHub Pages</a> que consiste en alojamiento gratuito para HTML estático y más a huevo imposible... quedaría pendiente el tema de los comentarios, pero precisamente para esto, <a href="https://disqus.com/">Disqus</a> permite incluirlos por Javascript con una configuración muy sencilla.</p><p>Con esto ya va quedando claro el enfoque, ahora habría que ver como generar el HTML, ya que escribir HTML a pelo es posible, pero es más bien coñazo. GitHub Pages usa <a href="https://jekyllrb.com/">Jekyll</a> que permite usar Markdown para escribir, pero como buen javero de pro he buscado una opción similar en Java, <a href="http://jbake.org/">JBake</a>. Eso sí, el inconveniente es claro, con Jekyll lo único que hay que subir a GitHub son los archivos .md mientras que con JBake tendré que generar el HTML y subirlo.</p><p>Por tanto, hay tres trabajos importantes que hacer para estudiar la viabilidad de usar GitHub Pages para alojar el blog:</p>
-<ol>
-  <li>Integrar Disqus en JBake.</li>
-  <li>Personalizar el HTML generado por JBake.</li>
-  <li>Ver como subir los fuentes y HTML a GitHub y estudiar el workflow de publicación.</li>
-</ol>
+			<p>Bazinga! Eso era, por fín:</p>
+<pre><code class="prettyprint linenums">case@aesir:~/.rvm/usr/lib$ gem update --system
+Updating RubyGems
+Nothing to update
+</code></pre><p>Se vuelve a ejecutar el rvm --create y el --default y seguimos adelante, ahora a instalar rails con gem.</p>
+<pre><code class="prettyprint linenums">gem install rails --version 3.0.1
+</code></pre><p>Muy bien, creo el directorio de proyecto y</p>
+<pre><code class="prettyprint linenums">rails new fist_app
+</code></pre><p>Ya está creada, repaso los directorios y algún fichero de configuración según el tutorial e instalo los gems con bundle tal y como se especifica.</p>
+<pre><code class="prettyprint linenums">rails server
+</code></pre><p>Y ahí esta, funcionando sin problemas. Pasamos a recapitular.<br/><ul><br/> <li>Efectivamente, las herramientas son útiles y potentes, parece que se está pensando en todo.</li><br/> <li>La estructura de directorios parece también clara y estándar.</li><br/> <li>El uso de git y el incluir una carpeta tests por defecto, parece que sigue metodologías modernas, o mejor dicho, te guía al uso de las mismas.</li><br/> <li>El que haya una y solo una herramienta para cada cosa, no tienes que aprender a hacer lo mismo de 4 formas distintas.</li><br/></ul><br/>Y poco más, de momento ya esta bien, mañana más y mejor.</p><p>Vamos a descogelar sushi pa la cena.</p>
 		</div>
 <div class="col s12">
 <div id="disqus_thread"></div>
 <script>
     var disqus_config = function () {
-        this.page.url = 'http://www.aguasnegras.es/blog/2016/01/03-migracion.html';
-        this.page.identifier = 'blog/2016/01/03-migracion.html';
+        this.page.url = 'http://www.aguasnegras.es/blog/2010/10/13-Entorno de Ruby on Rails - Parte 2.html';
+        this.page.identifier = 'blog/2010/10/13-Entorno de Ruby on Rails - Parte 2.html';
     };
     (function() {
         var d = document, s = d.createElement('script');

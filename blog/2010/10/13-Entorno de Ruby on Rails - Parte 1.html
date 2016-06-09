@@ -2,7 +2,7 @@
 <html lang="es">
   <head>
     <meta charset="utf-8"/>
-    <title>Migrando el blog</title>
+    <title>Entorno de Ruby on Rails - Parte 1</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="AguasNegras, tecnología, programación y Java">
     <meta name="author" content="Agustín Ventura">
@@ -39,24 +39,43 @@
 <div class="container">
 <div class="row">
 <div class="col s12">
-		<h4 class="light-blue-text text-darken-1">Migrando el blog</h4>
+		<h4 class="light-blue-text text-darken-1">Entorno de Ruby on Rails - Parte 1</h4>
 		<div class="section">
-			03 enero 2016
+			13 noviembre 2010
 		</div>
 		<div class="section">
-			<p>Desde hace ya bastantes años llevo pagando religiosamente todos los años un dominio (aguasnegras.es) y un alojamiento para tener el blog.<br/>El blog ha tenido mejores y peores momentos, pero en general me gusta tener un sitio donde poder escribir en un momento dado, y por supuesto compartir con la comunidad (sobre todo en español, es por lo que escribo en este idioma).</p><p>El asunto es que si nos paramos a pensarlo, el blog tiene bastantes pocos comentarios y sobre todo entradas mías, es decir, es fundamentalmente un medio de solo lectura. Hace ya un tiempo que pienso que tener para ésto un Wordpress con su PHP y su MySQL es bastante asesino y hasta antieconómico (en sentido general, porque el hosting me cuesta cuatro duros al año, tampoco vamos a ser ruinas). Otra cosa que me molesta bastante es tener que andar actualizando Wordpress (cosa lógica y normal) y aunque ya las actualizaciones sean automáticas, pues me molesta.</p><p>Total, que a esto le sumamos que GitHub ofrece desde hace tiempo <a href="https://pages.github.com/">GitHub Pages</a> que consiste en alojamiento gratuito para HTML estático y más a huevo imposible... quedaría pendiente el tema de los comentarios, pero precisamente para esto, <a href="https://disqus.com/">Disqus</a> permite incluirlos por Javascript con una configuración muy sencilla.</p><p>Con esto ya va quedando claro el enfoque, ahora habría que ver como generar el HTML, ya que escribir HTML a pelo es posible, pero es más bien coñazo. GitHub Pages usa <a href="https://jekyllrb.com/">Jekyll</a> que permite usar Markdown para escribir, pero como buen javero de pro he buscado una opción similar en Java, <a href="http://jbake.org/">JBake</a>. Eso sí, el inconveniente es claro, con Jekyll lo único que hay que subir a GitHub son los archivos .md mientras que con JBake tendré que generar el HTML y subirlo.</p><p>Por tanto, hay tres trabajos importantes que hacer para estudiar la viabilidad de usar GitHub Pages para alojar el blog:</p>
-<ol>
-  <li>Integrar Disqus en JBake.</li>
-  <li>Personalizar el HTML generado por JBake.</li>
-  <li>Ver como subir los fuentes y HTML a GitHub y estudiar el workflow de publicación.</li>
-</ol>
+			<p>Para seguir el tutorial voy a usar mi viejo buen portátil (tiene ya 6 años), con una Ubuntu 10.04 y el siguiente stack de desarrollo (siguiendo lo recomendado en el tutorial):<br/><ul><br/> <li>Editor: gVim (y las extensiones de ruby de vim)</li><br/> <li>Control de versiones: git (apt-get install git-core)</li><br/> <li>Ruby versión 1.8.7</li><br/></ul><br/>Y hasta aquí todo bien, no deja de ser todo apt-get install, ahora el tutorial recomienda instalar <a title="Ruby Version Management" href="http://rvm.beginrescueend.com/" target="_blank">RVM (Ruby Version Management)</a>, un gestor de versiones de Ruby. El tema me suena, haciendo un símil con Java, yo puedo estar desarrollando con Java 1.6 pero querer compilar con Java 1.5 (por cuestión de compatibilidad o cualquier motivo), al parecer Ruby tiene una herramienta que gestiona este tipo de cosas... la verdad, tiene buena pinta, vamos a ver.</p><p>La instalación es con git (primera toma de contacto):</p>
+<pre><code class="prettyprint linenums">bash &amp;lt; &amp;lt;( curl http://rvm.beginrescueend.com/releases/rvm-install-head )
+</code></pre><p>se ejecuta sin problemas y sale un bonito texto dando información varia. Básicamente y según la sección "Postinstall" de la misma página de rvm, hay que añadir una línea al final del .bashrc:</p>
+<pre><code class="prettyprint linenums">[[ -s &quot;$HOME/.rvm/scripts/rvm&quot; ]] &amp;amp;&amp;amp; . &quot;$HOME/.rvm/scripts/rvm&quot;  # This loads RVM into a shell session
+</code></pre><p>Se comprueba si esta funcionando con:</p>
+<pre><code class="prettyprint linenums">type rvm | head -n1
+</code></pre><p>Salida, correcta, así que seguimos y nos volvemos al tutorial donde dicen como usar RVM una vez instalado.</p><p>Básicamente, según estoy entendiendo, Ruby se distribuye en Gems, que son programas autosuficientes con sus librerías, etc... y con RVM vamos a instalar varios perfiles de ejecución incluyendo sus Gems y vamos a definir uno por defecto.</p><p>Asi que nada:</p>
+<pre><code class="prettyprint linenums">rvm install 1.8.7 #instala Ruby 1.8.7
+rvm install 1.9.2 #instala Ruby 1.9.2
+#etiquetamos lo perfiles
+rvm --create 1.8.7@rails2
+rvm --create 1.9.2@rails3
+#usamos rails3 por defecto
+rvm --default use 1.9.2@rails3
+</code></pre><p>Por cierto, la compilación de la versiones de Ruby... tarda. O será que mi portátil esta ya bien viejuno.</p><p>Una vez hechas todas estas operaciones, me llevo la grata sorpresa de que de propina tenemos instalado RubyGems, un gestor de paquetes de Ruby, para probarlo:</p>
+<pre><code class="prettyprint linenums">which gem
+</code></pre><p>Trato de actualizar tal y como dice el manual:</p>
+<pre><code class="prettyprint linenums">gem update --system
+</code></pre><p>Y... ¡ZAS!¡En toda la boca!</p>
+<pre><code class="prettyprint linenums">no such file to load -- zlib
+</code></pre><p>Y por fín se pone interesante la cosa, veo un post específico para la configuración: <a title="Ruby on Rails 3 and Ubuntu" href="http://toranbillups.com/blog/archive/2010/09/01/How-to-install-Rails-3.0-and-Ruby-1.9.2-on-Ubuntu" target="_blank">How to install Rails 3.0 and Ruby 1.9.2 on Ubuntu</a>, aunque me salto los dos primeros pasos, ya tengo instalado RVM y Ruby 1.8.7... sigo intentando pero nada de nada, sigue diciendo que no hay zlib... vaya. En <a title="Stackoverflow: Ruby and Zlib" href="http://stackoverflow.com/questions/2441248/rvm-ruby-1-9-1-troubles" target="_blank">Stackoverflow</a> leo esto:<br/><blockquote>rvm package install zlib<br/>rvm remove 1.9.1<br/>rvm install 1.9.1 -C --with-zlib-dir=$rvm_path/usr</blockquote><br/>Y en la <a title="RVM y zlib" href="http://rvm.beginrescueend.com/packages/zlib/" target="_blank">referencia de RVM</a> esto:</p>
+<pre><code class="prettyprint linenums">$ rvm package install zlib
+$ rvm remove 1.9.2
+$ rvm install 1.9.2
+</code></pre><p>Esto parece más razonable... buf, otra vez a compilar... vamos a por un café que siempre viene bien.</p>
 		</div>
 <div class="col s12">
 <div id="disqus_thread"></div>
 <script>
     var disqus_config = function () {
-        this.page.url = 'http://www.aguasnegras.es/blog/2016/01/03-migracion.html';
-        this.page.identifier = 'blog/2016/01/03-migracion.html';
+        this.page.url = 'http://www.aguasnegras.es/blog/2010/10/13-Entorno de Ruby on Rails - Parte 1.html';
+        this.page.identifier = 'blog/2010/10/13-Entorno de Ruby on Rails - Parte 1.html';
     };
     (function() {
         var d = document, s = d.createElement('script');
