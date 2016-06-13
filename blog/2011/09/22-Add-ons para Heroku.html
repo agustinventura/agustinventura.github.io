@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8"/>
+    <title>Add-ons para Heroku</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="AguasNegras, tecnología, programación y Java">
+    <meta name="author" content="Agustín Ventura">
+    <meta name="keywords" content="Programación, Java">
+    <meta name="generator" content="JBake">
+    <!--Import Google Icon Font-->
+     <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+     <!-- Import Font Awesome Icons-->
+     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css">
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="../../../js/html5shiv.min.js"></script>
+    <![endif]-->
+    <link rel="stylesheet" href="../../../css/aguasnegras.css"/>
+    <link rel="shortcut icon" href="../../../favicon.ico">
+  </head>
+  <body>
+    <header>
+<nav class="light-blue darken-3">
+	<div class="container">
+		<div class="nav-wrapper">
+		      <a class="brand-logo" href="../../../"><span class="pageTitle">AguasNegras</span></a>
+			    <ul id="nav-mobile" class="right hide-on-med-and-down">
+			        <li><a href="../../../index.html">Inicio</a></li>
+			        <li><a href="../../../about.html">Acerca De</a></li>
+			        <li><a href="../../../feed.xml">Suscripci&oacute;n</a></li>
+			    </ul>
+		</div>
+	</div>
+</nav>
+    </header>
+<div class="container">
+<div class="row">
+<div class="col s12">
+		<h4 class="light-blue-text text-darken-1">Add-ons para Heroku</h4>
+		<div class="section">
+			22 septiembre 2011
+		</div>
+		<div class="section">
+			<p>La arquitectura de Heroku es modular, es decir, se pueden añadir funcionalidades al Stack mediante piezas de software llamadas add-ons. Un ejemplo de eso lo vi <a title="Java en Heroku" href="http://www.aguasnegras.es/blog/?p=263" target="_blank">aquí</a> cuando añadí el soporte para gestión de releases a través de un add-on.</p><p>Hay <a title="Add-ons de Heroku" href="http://addons.heroku.com/" target="_blank">bastantes más add-ons</a> disponibles en la página, para enviar sms, para conectar como amazon rds, etc... Los hay gratuitos, de pago, en beta... en fín, de todo tipo.</p><p>En esta práctica voy a añadir el add-on de <a title="Redis en la Wikipedia (inglés)" href="http://en.wikipedia.org/wiki/Redis_(data_store)" target="_blank">Redis</a>.</p><p><strong>Instalación de Redis</strong></p><p>Pues por fín una instalación de un solo paso:</p>
+<pre><code class="prettyprint linenums">sudo apt-get install redis-server
+</code></pre><p>Una vez instalado, para verificar:</p>
+<pre><code class="prettyprint linenums">redis-cli
+</code></pre><p>Y debe responder una bonita consola de la que salgo con Ctrl-C.</p><p><strong>Cuarta Práctica</strong></p><p>Dado que Redis es un almacén del tipo clave - valor (key-value), se da bastante bien para hacer cachés, lo que haré será configurar Redis como un almacenamiento que expire cada 30 segundos, es decir que solo se leerá de la base de datos realmente cada 30 segundos, el resto de las veces se impactará contra Redis. Esto es muy burdo, claro, pero sirve para hacer una demo.</p><p>Pasos:</p>
+<ol>
+	<li>Configurar la aplicación para usar Redis.</li>
+	<li>Actualizar TickDAO para que use Redis.</li>
+	<li>Probar la aplicación en local.</li>
+	<li>Desplegar en Heroku.</li>
+</ol><p><strong>Paso 1</strong></p><p>Esta parte es tan sencilla como añadir al pom.xml esto:</p>
+<pre><code class="prettyprint linenums"><br/>&lt;dependency&gt;
+         &lt;groupId&gt;redis.clients&lt;/groupId&gt;
+         &lt;artifactId&gt;jedis&lt;/artifactId&gt;
+         &lt;version&gt;2.0.0&lt;/version&gt;
+&lt;/dependency&gt;
+
+</code></pre><p><strong>Paso 2</strong><br/>En este paso se modifica TickDAO para primero intente leer los ticks de Redis y si no vaya a la base de datos.<br/>En primer lugar añado como variables estáticas un pool de conexiones a Redis (jedisPool) y la clave de los ticks:</p>
+<pre><code class="prettyprint linenums"><br/>private static JedisPool jedisPool;
+private static final String TICKCOUNT_KEY = &quot;tickcount&quot;;
+
+</code></pre><p>A continuación, en el bloque de código static en el que inicializo PostgreSQL, aprovecho y cargo también el pool de Redis, solo resalto que la URL de Redis se lee de una variable de entorno llamada REDISTOGO_URL:</p>
+<pre><code class="prettyprint linenums"><br/>//Inicialización de Redis
+Pattern REDIS_URL_PATTERN = Pattern.compile(&quot;^redis://([^:]*):([^@]*)@([^:]*):([^/]*)(/)?&quot;);
+Matcher matcher = REDIS_URL_PATTERN.matcher(System.getenv(&quot;REDISTOGO_URL&quot;));
+matcher.matches();
+Config config = new Config();
+config.testOnBorrow = true;
+jedisPool = new JedisPool(config, matcher.group(3),
+Integer.parseInt(matcher.group(4)), Protocol.DEFAULT_TIMEOUT, matcher.group(2));
+
+</code></pre><p>Por último, el getTickCount() queda así:</p>
+<pre><code class="prettyprint linenums"><br/>public int getTickCount() throws SQLException {
+		Jedis jedis = jedisPool.getResource();
+		int tickcount = 0;
+		String tickcountValue = jedis.get(TICKCOUNT_KEY);
+		if (tickcountValue != null) {
+			System.out.println(&quot;read from redis cache&quot;);
+			tickcount = Integer.parseInt(tickcountValue);
+		} else {
+			tickcount = getTickcountFromDb();
+			jedis.setex(TICKCOUNT_KEY, 30, String.valueOf(tickcount));
+		}
+		jedisPool.returnResource(jedis);
+		return tickcount;
+	}
+
+</code></pre><p>Es decir, cuando se va a hacer una lectura, primero se hace desde Redis, si el valor no existe (es null) se lee de base de datos y se inserta en Redis.<br/>A probar.</p><p><strong>Paso 3</strong><br/>Aquí vendría todo el mvn install, etc, pero antes, como ya estoy harto de andar exportando las variables de entorno cada vez que voy a hacer algo en local, voy a hacer dos cosas.<br/>Primero, voy a crear un exportarVariables.sh que exportar tanto REPO, como POSTGRESQL_URL como REDISTOGO_URL.<br/>Así que:</p>
+<pre><code class="prettyprint linenums"><br/>gedit exportarVariables.sh
+
+</code></pre><p>Y pongo lo siguiente:</p>
+<pre><code class="prettyprint linenums"><br/>export REPO=~/.m2/repository
+export DATABASE_URL=postgres://helloheroku:helloheroku@localhost/helloheroku
+export REDISTOGO_URL=redis://:@localhost:6379/
+
+</code></pre><p>Ahora hago el script ejecutable:</p>
+<pre><code class="prettyprint linenums"><br/>chmod 777 exportarVariables.sh
+
+</code></pre><p>Y como segundo paso, ya que este archivo solo es aplicable en local, lo añado al .gitignore. Hala, listo, ahora sí que sigo de la manera habitual:</p>
+<pre><code class="prettyprint linenums"><br/>mvn install
+. ./exportarVariables.sh
+sh target/bin/webapp
+
+</code></pre><p>Y ahí esta, si entro en localhost:8080/ticks.jsp, veré que siempre muestra los mismos ticks... hasta que pasan 30 segundos, que actualiza la cuenta con el número de veces que haya recargado la página. Es decir, se esta escribiendo en base de datos, pero no se esta leyendo. Hasta pasados 30 segundos, claro.</p><p><strong>Paso 4</strong><br/>Vale, pues para desplegar, primero tengo que añadir el add-on de Redis al Stack de esta aplicación en Heroku:</p>
+<pre><code class="prettyprint linenums"><br/>heroku addons:add redistogo:nano
+-----&gt; Adding redistogo:nano to fierce-autumn-4530... done, v11 (free)
+
+</code></pre><p>Correcto, ahora basta con dar los pasos habituales:</p>
+<pre><code class="prettyprint linenums"><br/>git add .
+git commit -m &quot;añadido Redis para caché de lectura&quot;
+git push github master
+git push heroku  master
+
+</code></pre><p>Listo, con esto ya hago un heroku open y abro ticks.jsp, puedo ver que el comportamiento es exactamente igual que cuando ejecuto en local.</p><p><strong>Código en GitHub</strong><br/><a href="https://github.com/agustinventura/helloheroku/tree/b8c1b4a76276beae93be5d2f56ae28d78d94c78c"><img src="/images/2011/08/github_icon.png" alt="GitHub" title="GitHub" width="115" height="115" class="aligncenter size-full wp-image-255" /></a></p><p><strong>Conclusiones</strong><br/>Añadir add-ons a Heroku es trivial, en general consiste en bajar la librería que proporciona la api y listo (teniendo instalado el servicio en local, claro).<br/>También es interesante que si escalo el proceso tick a un par de dynos, siguen impactando contra Redis, es decir, no levantan su propia instancia de Redis, realmente esta funcionando como una caché en RAM.</p>
+		</div>
+<div class="col s12">
+<div id="disqus_thread"></div>
+<script>
+    var disqus_config = function () {
+        this.page.url = 'http://www.aguasnegras.es/blog/2011/09/22-Add-ons para Heroku.html';
+        this.page.identifier = 'blog/2011/09/22-Add-ons para Heroku.html';
+    };
+    (function() {
+        var d = document, s = d.createElement('script');
+        s.src = '//aguasnegras.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+</div>
+</div>
+</div>
+</div>
+    <footer class="page-footer light-blue darken-3">
+      <div class="container">
+        <div class="row">
+         <div class="col s5">
+			<h5><a href="../../../archive.html" class="white-text">Archivo</a></h5>
+			<p><a href="../../../archive.html" class="white-text">Todos los posts</a></p>
+	    </div>
+	    <div class="col s5">
+            <h5 class="white-text">Tags</h5>
+			    <a href="../../../tags/Eclipse.html"><div class="chip">Eclipse</div></a>
+			    <a href="../../../tags/GitHub.html"><div class="chip">GitHub</div></a>
+			    <a href="../../../tags/PostgreSQL.html"><div class="chip">PostgreSQL</div></a>
+			    <a href="../../../tags/Minientrada.html"><div class="chip">Minientrada</div></a>
+			    <a href="../../../tags/WordPress.html"><div class="chip">WordPress</div></a>
+			    <a href="../../../tags/JUnit.html"><div class="chip">JUnit</div></a>
+			    <a href="../../../tags/Proyectos.html"><div class="chip">Proyectos</div></a>
+			    <a href="../../../tags/tutorial.html"><div class="chip">tutorial</div></a>
+			    <a href="../../../tags/Spring Roo.html"><div class="chip">Spring Roo</div></a>
+			    <a href="../../../tags/Emulador.html"><div class="chip">Emulador</div></a>
+			    <a href="../../../tags/Markdown.html"><div class="chip">Markdown</div></a>
+			    <a href="../../../tags/log4j.html"><div class="chip">log4j</div></a>
+			    <a href="../../../tags/Java.html"><div class="chip">Java</div></a>
+			    <a href="../../../tags/slf4j.html"><div class="chip">slf4j</div></a>
+			    <a href="../../../tags/Heroku.html"><div class="chip">Heroku</div></a>
+			    <a href="../../../tags/Base de Datos.html"><div class="chip">Base de Datos</div></a>
+			    <a href="../../../tags/Problemas.html"><div class="chip">Problemas</div></a>
+			    <a href="../../../tags/Spring.html"><div class="chip">Spring</div></a>
+			    <a href="../../../tags/Android.html"><div class="chip">Android</div></a>
+			    <a href="../../../tags/JBake.html"><div class="chip">JBake</div></a>
+			    <a href="../../../tags/Ruby on Rails.html"><div class="chip">Ruby on Rails</div></a>
+			    <a href="../../../tags/Git.html"><div class="chip">Git</div></a>
+			    <a href="../../../tags/Linux.html"><div class="chip">Linux</div></a>
+			    <a href="../../../tags/JustPlay.html"><div class="chip">JustPlay</div></a>
+			    <a href="../../../tags/Cloud.html"><div class="chip">Cloud</div></a>
+			    <a href="../../../tags/Wordpress.html"><div class="chip">Wordpress</div></a>
+			    <a href="../../../tags/logging.html"><div class="chip">logging</div></a>
+			    <a href="../../../tags/Programación.html"><div class="chip">Programación</div></a>
+			    <a href="../../../tags/Tools of the Trade.html"><div class="chip">Tools of the Trade</div></a>
+			    <a href="../../../tags/Amazon.html"><div class="chip">Amazon</div></a>
+			    <a href="../../../tags/SEO.html"><div class="chip">SEO</div></a>
+			    <a href="../../../tags/Intellij IDEA.html"><div class="chip">Intellij IDEA</div></a>
+	    </div>
+        <div class="col s2 right-align">
+            <a href="http://twitter.com/agustinventura" target="_blank" class="social-link white-text" ><i class="fa  fa-twitter  fa-3x" title="Twitter" aria-hidden="true"></i></a>
+            <a href="http://github.com/agustinventura" target="_blank" class="social-link white-text"><i class="fa  fa-github  fa-3x" title="Github" aria-hidden="true"></i></a>
+            <a href="https://www.linkedin.com/in/agustinventura" target="_blank" class="social-link white-text"><i class="fa  fa-linkedin  fa-3x" title="LinkedIn" aria-hidden="true"></i></a>
+        </div>
+      </div>
+      </div>
+      </div>
+      <div class="footer-copyright">
+            <div class="container">
+        <p class="center-align">&copy; 2016 | Mixed with <a class="footer-link white-text" href="http://materializecss.com/" target="_blank">Materialize</a> | Baked with <a <a class="footer-link white-text" href="http://jbake.org">JBake</a></p>
+            </div>
+          </div>
+    </footer>
+
+    <script async src="//cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
+		<script async src="//code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script async src="//cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js"></script>
+  </body>
+</html>

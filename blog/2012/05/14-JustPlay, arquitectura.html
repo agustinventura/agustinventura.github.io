@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8"/>
+    <title>JustPlay, arquitectura</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="AguasNegras, tecnología, programación y Java">
+    <meta name="author" content="Agustín Ventura">
+    <meta name="keywords" content="Programación, Java">
+    <meta name="generator" content="JBake">
+    <!--Import Google Icon Font-->
+     <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+     <!-- Import Font Awesome Icons-->
+     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css">
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="../../../js/html5shiv.min.js"></script>
+    <![endif]-->
+    <link rel="stylesheet" href="../../../css/aguasnegras.css"/>
+    <link rel="shortcut icon" href="../../../favicon.ico">
+  </head>
+  <body>
+    <header>
+<nav class="light-blue darken-3">
+	<div class="container">
+		<div class="nav-wrapper">
+		      <a class="brand-logo" href="../../../"><span class="pageTitle">AguasNegras</span></a>
+			    <ul id="nav-mobile" class="right hide-on-med-and-down">
+			        <li><a href="../../../index.html">Inicio</a></li>
+			        <li><a href="../../../about.html">Acerca De</a></li>
+			        <li><a href="../../../feed.xml">Suscripci&oacute;n</a></li>
+			    </ul>
+		</div>
+	</div>
+</nav>
+    </header>
+<div class="container">
+<div class="row">
+<div class="col s12">
+		<h4 class="light-blue-text text-darken-1">JustPlay, arquitectura</h4>
+		<div class="section">
+			14 mayo 2012
+		</div>
+		<div class="section">
+			<p>Bueno, ya va siendo hora de empezar el trabajo en JustPlay.</p><p>Después de mucho documentarme sobre <a title="Activity - Android Developers" href="http://developer.android.com/reference/android/app/Activity.html" target="_blank">Activities</a>, <a title="Services - Android Developers" href="http://developer.android.com/guide/topics/fundamentals/services.html" target="_blank">Services</a> y <a title="Processes and Threads - Android Developers" href="http://developer.android.com/guide/topics/fundamentals/processes-and-threads.html" target="_blank">Threads</a>, creo que tengo una aproximación bastante buena a la arquitectura que voy a intentar implementar.</p>
+<h6><strong>Introducción</strong></h6><p>Un requisito fundamental es que la aplicación consuma los mínimos recursos posibles, con lo cual cabría pensar que se puede implementar mediante una Activity normal y corriente. Esto es un error, una Activity tiene un ciclo de vida determinado y cabe suponer (aunque no he hecho la prueba) que en cuanto pasara al estado <em>"Paused"</em>, se terminaría la reproducción de música.</p><p>Por tanto hay que buscar otro componente que escape del ciclo de vida de la Activity y con el cual se pueda comunicar la Activity es decir, un Service. El <a title="Service Lifecycle - Android Developers" href="http://developer.android.com/guide/topics/fundamentals/services.html#Lifecycle" target="_blank">ciclo de vida del Service</a> hace que este permanezca vivo aún cuando la Activity pase a cualquier estado que no sea <em>"Resumed".</em></p><p>En el tutorial de CrankPlay ya se ha visto <a title="CrankPlay, Service para reproducir sonido." href="http://aguasnegras.es/?p=422" target="_blank">un ejemplo</a> de esto, sin embargo este ejemplo estaba claramente desfasado y se le pueden criticar varios puntos desde el punto de vista de mis requisitos:</p>
+<ol>
+	<li>La comunicación entre procesos (IPC) no me es necesaria, tan solo necesito que una única actividad acceda al servicio.</li>
+	<li>La definición de la interfaz con AIDL tan solo es necesaria si se desea IPC, por tanto, basta con heredar de Service.</li>
+	<li>Además, en cuanto a este Service, hay que considerar que no es algo que yo lance y me pueda olvidar de él, sino que tendré que comunicarme periódicamente con él (modificación de la playlist, start/stop, etc...), es decir, necesito un <a title="Bound Service - Android Developers" href="http://developer.android.com/guide/topics/fundamentals/bound-services.html" target="_blank">BoundService</a>.</li>
+	<li>Por último, tal y como dice la documentación en numerosos sitios, un Service se ejecuta en el mismo thread que el UI Thread, con lo cual... necesitaré un thread propio que se encargue de la reproducción (actividad pesada por definición).</li>
+</ol><p>Gráficamente, esta propuesta quedaría <a title="Arquitectura JustPlay" href="https://docs.google.com/drawings/d/1aBKs0rDh2qzGWODF9TKh1FXBoFJdIpBsJ9o1rtsJAvY/edit" target="_blank">así</a>.</p><p>Ahora voy a montar la infraestructura básica.</p>
+<h6>Implementación</h6><p>La actividad de momento no tiene mayor historia, basta con dejarla tal cual.</p><p>Para implementar el Service, creo una nueva clase (MediaService) y hago que herede de Service. Para que sea realmente funcional, lo declaro en el AndroidManifest.xml:</p>
+<pre><code class="prettyprint linenums"><br/>&lt;service android:name=&quot;com.crankcode.services.MediaService&quot; android:exported=&quot;false&quot;/&gt;;
+
+</code></pre><p>El atributo <em>"android:exported=false"</em>, lo que indica es que el servicio no estará disponible para otras actividades del sistema, un poco de programación defensiva.</p><p>Para el thread, simplemente creo la clase MediaThread y hago que implemente Runnable.</p><p>Para arrancar el MediaService, en el onCreate de MediaPlayer escribo lo siguiente:</p>
+<pre><code class="prettyprint linenums"><br/>@Override
+public void onCreate(Bundle savedInstanceState) {
+  super.onCreate(savedInstanceState);
+  startService(new Intent(getBaseContext(), MediaService.class));
+  setContentView(R.layout.main);
+}
+
+</code></pre><p>Y en el MediaService, defino su onStart así:</p>
+<pre><code class="prettyprint linenums"><br/>@Override
+public void onStart(Intent intent, int startId) {
+  Log.d(&quot;CrankPlayer&quot;, &quot;MediaService.onStart()&quot;);
+  this.mediaThread = new Thread(new MediaThread());
+  this.mediaThread.start();
+  super.onStart(intent, startId);
+}
+
+</code></pre><p>Por último, en el run de MediaService meto un chivato:</p>
+<pre><code class="prettyprint linenums"><br/>public void run() {
+  Log.d(&quot;CrankPlayer&quot;, &quot;MediaThread.run&quot;);
+}
+
+</code></pre><p>Ahora, a arrancar y ver si todo ha ido bien.</p><p>Y todo correcto, funcionando a la primera.</p>
+<h6>TODO</h6>
+<ol>
+	<li>Añadir la instancia de MediaPlayer al Thread</li>
+	<li>Hacer el bind del service en la activity.</li>
+</ol>
+<h6>Código</h6><p>Como de costumbre, el código esta en GitHub:</p><p><a href="https://github.com/agustinventura/JustPlay"><img class="size-full wp-image-255" title="JustPlay en GitHub" src="/images/2011/08/github_icon.png" alt="JustPlay en GitHub" width="115" height="115" /></a></p>
+		</div>
+<div class="col s12">
+<div id="disqus_thread"></div>
+<script>
+    var disqus_config = function () {
+        this.page.url = 'http://www.aguasnegras.es/blog/2012/05/14-JustPlay, arquitectura.html';
+        this.page.identifier = 'blog/2012/05/14-JustPlay, arquitectura.html';
+    };
+    (function() {
+        var d = document, s = d.createElement('script');
+        s.src = '//aguasnegras.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+</div>
+</div>
+</div>
+</div>
+    <footer class="page-footer light-blue darken-3">
+      <div class="container">
+        <div class="row">
+         <div class="col s5">
+			<h5><a href="../../../archive.html" class="white-text">Archivo</a></h5>
+			<p><a href="../../../archive.html" class="white-text">Todos los posts</a></p>
+	    </div>
+	    <div class="col s5">
+            <h5 class="white-text">Tags</h5>
+			    <a href="../../../tags/Eclipse.html"><div class="chip">Eclipse</div></a>
+			    <a href="../../../tags/GitHub.html"><div class="chip">GitHub</div></a>
+			    <a href="../../../tags/PostgreSQL.html"><div class="chip">PostgreSQL</div></a>
+			    <a href="../../../tags/Minientrada.html"><div class="chip">Minientrada</div></a>
+			    <a href="../../../tags/WordPress.html"><div class="chip">WordPress</div></a>
+			    <a href="../../../tags/JUnit.html"><div class="chip">JUnit</div></a>
+			    <a href="../../../tags/Proyectos.html"><div class="chip">Proyectos</div></a>
+			    <a href="../../../tags/tutorial.html"><div class="chip">tutorial</div></a>
+			    <a href="../../../tags/Spring Roo.html"><div class="chip">Spring Roo</div></a>
+			    <a href="../../../tags/Emulador.html"><div class="chip">Emulador</div></a>
+			    <a href="../../../tags/Markdown.html"><div class="chip">Markdown</div></a>
+			    <a href="../../../tags/log4j.html"><div class="chip">log4j</div></a>
+			    <a href="../../../tags/Java.html"><div class="chip">Java</div></a>
+			    <a href="../../../tags/slf4j.html"><div class="chip">slf4j</div></a>
+			    <a href="../../../tags/Heroku.html"><div class="chip">Heroku</div></a>
+			    <a href="../../../tags/Base de Datos.html"><div class="chip">Base de Datos</div></a>
+			    <a href="../../../tags/Problemas.html"><div class="chip">Problemas</div></a>
+			    <a href="../../../tags/Spring.html"><div class="chip">Spring</div></a>
+			    <a href="../../../tags/Android.html"><div class="chip">Android</div></a>
+			    <a href="../../../tags/JBake.html"><div class="chip">JBake</div></a>
+			    <a href="../../../tags/Ruby on Rails.html"><div class="chip">Ruby on Rails</div></a>
+			    <a href="../../../tags/Git.html"><div class="chip">Git</div></a>
+			    <a href="../../../tags/Linux.html"><div class="chip">Linux</div></a>
+			    <a href="../../../tags/JustPlay.html"><div class="chip">JustPlay</div></a>
+			    <a href="../../../tags/Cloud.html"><div class="chip">Cloud</div></a>
+			    <a href="../../../tags/Wordpress.html"><div class="chip">Wordpress</div></a>
+			    <a href="../../../tags/logging.html"><div class="chip">logging</div></a>
+			    <a href="../../../tags/Programación.html"><div class="chip">Programación</div></a>
+			    <a href="../../../tags/Tools of the Trade.html"><div class="chip">Tools of the Trade</div></a>
+			    <a href="../../../tags/Amazon.html"><div class="chip">Amazon</div></a>
+			    <a href="../../../tags/SEO.html"><div class="chip">SEO</div></a>
+			    <a href="../../../tags/Intellij IDEA.html"><div class="chip">Intellij IDEA</div></a>
+	    </div>
+        <div class="col s2 right-align">
+            <a href="http://twitter.com/agustinventura" target="_blank" class="social-link white-text" ><i class="fa  fa-twitter  fa-3x" title="Twitter" aria-hidden="true"></i></a>
+            <a href="http://github.com/agustinventura" target="_blank" class="social-link white-text"><i class="fa  fa-github  fa-3x" title="Github" aria-hidden="true"></i></a>
+            <a href="https://www.linkedin.com/in/agustinventura" target="_blank" class="social-link white-text"><i class="fa  fa-linkedin  fa-3x" title="LinkedIn" aria-hidden="true"></i></a>
+        </div>
+      </div>
+      </div>
+      </div>
+      <div class="footer-copyright">
+            <div class="container">
+        <p class="center-align">&copy; 2016 | Mixed with <a class="footer-link white-text" href="http://materializecss.com/" target="_blank">Materialize</a> | Baked with <a <a class="footer-link white-text" href="http://jbake.org">JBake</a></p>
+            </div>
+          </div>
+    </footer>
+
+    <script async src="//cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
+		<script async src="//code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script async src="//cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js"></script>
+  </body>
+</html>

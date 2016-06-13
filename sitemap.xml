@@ -5,6 +5,10 @@
         <lastmod>2016-02-02</lastmod>
     </url>
     <url>
+        <loc>http://www.aguasnegras.es/blog/2016/06/10-wp2jbake-generacion.html</loc>
+        <lastmod>2016-06-10</lastmod>
+    </url>
+    <url>
         <loc>http://www.aguasnegras.es/blog/2016/06/09-configuracion-mint.html</loc>
         <lastmod>2016-06-09</lastmod>
     </url>
@@ -33,23 +37,199 @@
         <lastmod>2016-01-03</lastmod>
     </url>
     <url>
-        <loc>http://www.aguasnegras.es/blog/2013/8/2-Logging en Java con SLF4J y Log4j2.html</loc>
+        <loc>http://www.aguasnegras.es/blog/2013/09/02-Logging en Java con SLF4J y Log4j2.html</loc>
         <lastmod>2013-09-02</lastmod>
     </url>
     <url>
-        <loc>http://www.aguasnegras.es/blog/2010/10/20-JUnit 4 y DataSources.html</loc>
+        <loc>http://www.aguasnegras.es/blog/2013/03/09-Emulador de Android en Ubuntu (Initializing hardware OpenGLES emulation support).html</loc>
+        <lastmod>2013-03-09</lastmod>
+    </url>
+    <url>
+        <loc>http://www.aguasnegras.es/blog/2012/08/14-JustPlay, lógica propia.html</loc>
+        <lastmod>2012-08-14</lastmod>
+    </url>
+    <url>
+        <loc>http://www.aguasnegras.es/blog/2012/05/18-JustPlay, binding al servicio.html</loc>
+        <lastmod>2012-05-18</lastmod>
+    </url>
+    <url>
+        <loc>http://www.aguasnegras.es/blog/2012/05/17-JustPlay, explorador de archivos.html</loc>
+        <lastmod>2012-05-17</lastmod>
+    </url>
+    <url>
+        <loc>http://www.aguasnegras.es/blog/2012/05/14-JustPlay, arquitectura.html</loc>
+        <lastmod>2012-05-14</lastmod>
+    </url>
+    <url>
+        <loc>http://www.aguasnegras.es/blog/2012/04/16-CrankPlay, controles de reproducción.html</loc>
+        <lastmod>2012-04-16</lastmod>
+    </url>
+    <url>
+        <loc>http://www.aguasnegras.es/blog/2012/04/06-CrankPlay, Service para reproducir sonido..html</loc>
+        <lastmod>2012-04-06</lastmod>
+    </url>
+    <url>
+        <loc>http://www.aguasnegras.es/blog/2012/04/05-WordPress SEO, aspectos avanzados y conclusiones..html</loc>
+        <lastmod>2012-04-05</lastmod>
+    </url>
+    <url>
+        <loc>http://www.aguasnegras.es/blog/2012/04/04-WordPress SEO, Google Webmaster Tools y optimización de títulos..html</loc>
+        <lastmod>2012-04-04</lastmod>
+    </url>
+    <url>
+        <loc>http://www.aguasnegras.es/blog/2012/04/01-CrankPlay, mi primer proyecto Android. Parte 1.html</loc>
+        <lastmod>2012-04-01</lastmod>
+    </url>
+    <url>
+        <loc>http://www.aguasnegras.es/blog/2012/02/23-Cambiar orientación del emulador de Android.html</loc>
+        <lastmod>2012-02-23</lastmod>
+    </url>
+    <url>
+        <loc>http://www.aguasnegras.es/blog/2012/01/19-Amazon Elastic Beanstalk.html</loc>
+        <lastmod>2012-01-19</lastmod>
+    </url>
+    <url>
+        <loc>http://www.aguasnegras.es/blog/2011/11/11-Sun Java y OpenJDK en Linux.html</loc>
+        <lastmod>2011-11-11</lastmod>
+    </url>
+    <url>
+        <loc>http://www.aguasnegras.es/blog/2011/10/13-Despliegue de Spring Roo en Heroku.html</loc>
+        <lastmod>2011-10-13</lastmod>
+    </url>
+    <url>
+        <loc>http://www.aguasnegras.es/blog/2011/09/22-Add-ons para Heroku.html</loc>
+        <lastmod>2011-09-22</lastmod>
+    </url>
+    <url>
+        <loc>http://www.aguasnegras.es/blog/2011/09/22-Procesos Java en Heroku.html</loc>
+        <lastmod>2011-09-22</lastmod>
+    </url>
+    <url>
+        <loc>http://www.aguasnegras.es/blog/2011/09/18-Java, PostgreSQL y Heroku.html</loc>
+        <lastmod>2011-09-18</lastmod>
+    </url>
+    <url>
+        <loc>http://www.aguasnegras.es/blog/2011/09/16-Java en Heroku.html</loc>
+        <lastmod>2011-09-16</lastmod>
+    </url>
+    <url>
+        <loc>http://www.aguasnegras.es/blog/2011/08/30-GitHub y Markdown.html</loc>
+        <lastmod>2011-08-30</lastmod>
+    </url>
+    <url>
+        <loc>http://www.aguasnegras.es/blog/2011/08/17-Localización en Android.html</loc>
+        <lastmod>2011-08-17</lastmod>
+    </url>
+    <url>
+        <loc>http://www.aguasnegras.es/blog/2011/08/10-Tutorial de Bloc de Notas para Android - Parte 7.html</loc>
+        <lastmod>2011-08-10</lastmod>
+    </url>
+    <url>
+        <loc>http://www.aguasnegras.es/blog/2011/08/06-Git, EGit y GitHub..html</loc>
+        <lastmod>2011-08-06</lastmod>
+    </url>
+    <url>
+        <loc>http://www.aguasnegras.es/blog/2011/08/04-Tutorial de Bloc de Notas para Android - Interludio.html</loc>
+        <lastmod>2011-08-04</lastmod>
+    </url>
+    <url>
+        <loc>http://www.aguasnegras.es/blog/2011/08/03-Instalación de Entorno de Android en Linux.html</loc>
+        <lastmod>2011-08-03</lastmod>
+    </url>
+    <url>
+        <loc>http://www.aguasnegras.es/blog/2011/08/03-Tutorial de Bloc de Notas para Android - Parte 6.html</loc>
+        <lastmod>2011-08-03</lastmod>
+    </url>
+    <url>
+        <loc>http://www.aguasnegras.es/blog/2011/08/02-Tutorial de Bloc de Notas para Android - Parte 5.html</loc>
+        <lastmod>2011-08-02</lastmod>
+    </url>
+    <url>
+        <loc>http://www.aguasnegras.es/blog/2011/08/01-Tutorial de Bloc de Notas para Android – Parte 4.html</loc>
+        <lastmod>2011-08-01</lastmod>
+    </url>
+    <url>
+        <loc>http://www.aguasnegras.es/blog/2011/07/12-Tutorial de Bloc de Notas para Android - Parte 3.html</loc>
+        <lastmod>2011-07-12</lastmod>
+    </url>
+    <url>
+        <loc>http://www.aguasnegras.es/blog/2011/07/04-Tutorial de Bloc de Notas para Android - Parte 2.html</loc>
+        <lastmod>2011-07-04</lastmod>
+    </url>
+    <url>
+        <loc>http://www.aguasnegras.es/blog/2011/06/29-Tutorial de Bloc de Notas para Android - Parte 1.html</loc>
+        <lastmod>2011-06-29</lastmod>
+    </url>
+    <url>
+        <loc>http://www.aguasnegras.es/blog/2011/06/28-Redimensionar el emulador de Android.html</loc>
+        <lastmod>2011-06-28</lastmod>
+    </url>
+    <url>
+        <loc>http://www.aguasnegras.es/blog/2011/06/27-Bases de Datos para Desarrolladores Java - Claves Primarias Artificiales.html</loc>
+        <lastmod>2011-06-27</lastmod>
+    </url>
+    <url>
+        <loc>http://www.aguasnegras.es/blog/2011/02/21-Un poco de Ruby para Rails.html</loc>
+        <lastmod>2011-02-21</lastmod>
+    </url>
+    <url>
+        <loc>http://www.aguasnegras.es/blog/2011/02/20-Un poco de dinamismo.html</loc>
+        <lastmod>2011-02-20</lastmod>
+    </url>
+    <url>
+        <loc>http://www.aguasnegras.es/blog/2011/02/16-Comenzando el Testeo.html</loc>
+        <lastmod>2011-02-16</lastmod>
+    </url>
+    <url>
+        <loc>http://www.aguasnegras.es/blog/2011/02/01-Bases de Datos para Desarrolladores Java - Integridad Referencial.html</loc>
+        <lastmod>2011-02-01</lastmod>
+    </url>
+    <url>
+        <loc>http://www.aguasnegras.es/blog/2011/01/25-Bases de Datos para Desarrolladores Java - Introducción e Índices.html</loc>
+        <lastmod>2011-01-25</lastmod>
+    </url>
+    <url>
+        <loc>http://www.aguasnegras.es/blog/2010/12/27-Instalación de Ruby on Rails en Ubuntu.html</loc>
+        <lastmod>2010-12-27</lastmod>
+    </url>
+    <url>
+        <loc>http://www.aguasnegras.es/blog/2010/12/27-Sirviendo contenido estático.html</loc>
+        <lastmod>2010-12-27</lastmod>
+    </url>
+    <url>
+        <loc>http://www.aguasnegras.es/blog/2010/12/02-Seguimos con el Tuíte, ahora vamos a crear los microposts.html</loc>
+        <lastmod>2010-12-02</lastmod>
+    </url>
+    <url>
+        <loc>http://www.aguasnegras.es/blog/2010/11/25-Capítulo Dos - Vamos a hacer un Twuttur en Ruby on Rails.html</loc>
+        <lastmod>2010-11-25</lastmod>
+    </url>
+    <url>
+        <loc>http://www.aguasnegras.es/blog/2010/11/21-Aprendiendo Ruby on Rails - Resumen Capítulo Uno.html</loc>
+        <lastmod>2010-11-21</lastmod>
+    </url>
+    <url>
+        <loc>http://www.aguasnegras.es/blog/2010/11/21-Despliegue en Heroku.html</loc>
+        <lastmod>2010-11-21</lastmod>
+    </url>
+    <url>
+        <loc>http://www.aguasnegras.es/blog/2010/11/20-Control de Versiones con Git para Ruby on Rails.html</loc>
         <lastmod>2010-11-20</lastmod>
     </url>
     <url>
-        <loc>http://www.aguasnegras.es/blog/2010/10/13-Aprendiendo Ruby on Rails.html</loc>
+        <loc>http://www.aguasnegras.es/blog/2010/11/20-JUnit 4 y DataSources.html</loc>
+        <lastmod>2010-11-20</lastmod>
+    </url>
+    <url>
+        <loc>http://www.aguasnegras.es/blog/2010/11/13-Aprendiendo Ruby on Rails.html</loc>
         <lastmod>2010-11-13</lastmod>
     </url>
     <url>
-        <loc>http://www.aguasnegras.es/blog/2010/10/13-Entorno de Ruby on Rails - Parte 1.html</loc>
+        <loc>http://www.aguasnegras.es/blog/2010/11/13-Entorno de Ruby on Rails - Parte 1.html</loc>
         <lastmod>2010-11-13</lastmod>
     </url>
     <url>
-        <loc>http://www.aguasnegras.es/blog/2010/10/13-Entorno de Ruby on Rails - Parte 2.html</loc>
+        <loc>http://www.aguasnegras.es/blog/2010/11/13-Entorno de Ruby on Rails - Parte 2.html</loc>
         <lastmod>2010-11-13</lastmod>
     </url>
 </urlset>

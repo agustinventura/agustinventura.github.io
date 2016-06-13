@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8"/>
+    <title>Bases de Datos para Desarrolladores Java - Introducción e Índices</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="AguasNegras, tecnología, programación y Java">
+    <meta name="author" content="Agustín Ventura">
+    <meta name="keywords" content="Programación, Java">
+    <meta name="generator" content="JBake">
+    <!--Import Google Icon Font-->
+     <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+     <!-- Import Font Awesome Icons-->
+     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css">
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="../../../js/html5shiv.min.js"></script>
+    <![endif]-->
+    <link rel="stylesheet" href="../../../css/aguasnegras.css"/>
+    <link rel="shortcut icon" href="../../../favicon.ico">
+  </head>
+  <body>
+    <header>
+<nav class="light-blue darken-3">
+	<div class="container">
+		<div class="nav-wrapper">
+		      <a class="brand-logo" href="../../../"><span class="pageTitle">AguasNegras</span></a>
+			    <ul id="nav-mobile" class="right hide-on-med-and-down">
+			        <li><a href="../../../index.html">Inicio</a></li>
+			        <li><a href="../../../about.html">Acerca De</a></li>
+			        <li><a href="../../../feed.xml">Suscripci&oacute;n</a></li>
+			    </ul>
+		</div>
+	</div>
+</nav>
+    </header>
+<div class="container">
+<div class="row">
+<div class="col s12">
+		<h4 class="light-blue-text text-darken-1">Bases de Datos para Desarrolladores Java - Introducción e Índices</h4>
+		<div class="section">
+			25 enero 2011
+		</div>
+		<div class="section">
+			<p>En general en una aplicación Java cualquiera los problemas empiezan desde abajo, con el diseño de la base de datos. He visto (y trabajo) con bases de datos en las que una tabla tiene 5 campos de primary key y uno solo de información. Que esto es un desperdicio se ve a simple vista. Después vienen los parches a nivel superior (en Java) y se termina yendo al infierno el rendimiento de la aplicación.<br/>Lo bonito, y lo malo del diseño de base de datos es que no te terminas dando cuenta de que esta mal hasta que la aplicación esta avanzada, empieza a crecer y en ese momento es tarde para cambiarlo. Vamos, que es un infierno.</p><p>Lo mejor de toda esta historia es que cada uno lo ve de su manera... efectivamente, para cada guía, suele haber una contraguía, así que vamos a ver si <strong>todo el que lea esto se anima a discutir lo que aquí digo.</strong> (gracias :))<br/>En general hay una serie de guías que <strong>no </strong>te enseñan en la facultad, estas guías te las van dando la experiencia y el instinto (recordando siempre que hay gente que no aprende ni a palos y que además tiene el instinto atrofiado), pero hace tiempo que ví en Stack Overflow un <a title="Database development mistakes" href="http://stackoverflow.com/questions/621884/database-development-mistakes-made-by-application-developers" target="_blank">resumen bastante bueno</a> y descubrí también un sitio dedicado a tratar el tema en más profundidad, <a title="Use the Index, Luke" href="http://use-the-index-luke.com/" target="_blank">Use the Index, Luke</a>.</p><p>Voy a ver si escribo un par de artículos tratando los temas que considero importantes o interesantes para un desarrollador Java. Por tanto, no voy a hablar de SQL (que también puede ser que las consultas estén mal construidas), ya que asumo que se usa un Hibernate o cualquier implementación de JPA, hecha por gente más lista que yo. Voy a hablar del diseño de la base de datos y la forma de sacarle el mayor partido posible a la misma.</p><p>Un breve recordatorio de la teoría más esencial y fundamental para esto.</p>
+<ol>
+	<li>Base de Datos: Para mí es un conjunto de datos estructurado e interrelacionado. Punto. Para más detalles, la <a title="Base de Datos, Wikipedia." href="http://es.wikipedia.org/wiki/Base_de_datos" target="_blank">wikipedia</a>.</li>
+	<li>Índices: La información de la base de datos esta ordenada (estructurada) siguiendo unos determinados índices. Estos son implícitos (clave primaria) o explícitos (create index...). La utilidad se puede examinar pensando en una guía de teléfonos. La guía de teléfonos (en papel :P) se encuentra indexada por primer apellido. Sin embargo en una base de datos podemos indexar por primer apellido, segundo apellido, nombre o incluso número de teléfono, según nos sea conveniente. ¿Para qué es útil ésto? Para nada, excepto para flexibilizar el acceso a la información, lo que es lo mismo, poder buscar (más rápido, más eficientemente) por distintos criterios. Normalmente en la guía de teléfonos buscábamos por primer apellido, después por segundo apellido y por último, por nombre. En una aplicación normalmente se pide buscar por cualquiera de ellos o combinación.</li>
+	<li>Por último la dicotomía de siempre... memoria vs. ciclos (y potencialmente más memoria). Un índice es un <a title="Wikipedia, árbol binario" href="http://es.wikipedia.org/wiki/Arbol_binario" target="_blank">B-Tree</a> normalmente, por tanto mantenerlo ocupa espacio en disco y, naturalmente, hay que calcularlo y mantenerlo actualizado. Por tanto no puedo indexar todo lo que quiera o lo que me gustaría. En el ejemplo de la guía, es como si tuviéramos un tomo por cada uno de los criterios de ordenación (cosa que podríamos hacer, pero... buff..., ¿no?). Aparte la guía hay que hacerla nueva todos los años.</li>
+</ol><p>Y aquí va la primera perla de sabiduría del artículo de Stack Overflow, uso apropiado de índices:</p>
+<ul>
+	<li>Las claves externas (fóraneas, o como se le diga en español) deben estar siempre indexadas.</li>
+	<li>Si se usa un campo en una cláusula <em>where</em> debería estar indexado.</li>
+	<li>En el caso anterior deberías plantearte tener índices de varias columnas  según las consultas que hagas.</li>
+</ul><p>Eso es todo, de cosecha propia un par de recomendaciones:</p>
+<ul>
+	<li>Las claves primarias están siempre indexadas, no hace falta que se cree un índice sobre ellas (la guía de teléfonos YA viene indexada por apellidos y nombre).</li>
+	<li>No siempre debes tener un índice en un campo que se usa en un <em>where</em>, puede ser que solo lo uses en una consulta que se ejecuta raramente y no te compense, o cualquier otro motivo. Es decir, conoce cuando saltarte la regla.</li>
+</ul><p>Poco más, a ver si se me van ocurriendo más cosas o alguien comenta algo.</p><p><span style="font-size: small;"><span style="line-height: 24px;">P.D.: No, no aparezco en la guía de teléfonos, marqué la opción de no aparecer :)</span></span></p>
+		</div>
+<div class="col s12">
+<div id="disqus_thread"></div>
+<script>
+    var disqus_config = function () {
+        this.page.url = 'http://www.aguasnegras.es/blog/2011/01/25-Bases de Datos para Desarrolladores Java - Introducción e Índices.html';
+        this.page.identifier = 'blog/2011/01/25-Bases de Datos para Desarrolladores Java - Introducción e Índices.html';
+    };
+    (function() {
+        var d = document, s = d.createElement('script');
+        s.src = '//aguasnegras.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+</div>
+</div>
+</div>
+</div>
+    <footer class="page-footer light-blue darken-3">
+      <div class="container">
+        <div class="row">
+         <div class="col s5">
+			<h5><a href="../../../archive.html" class="white-text">Archivo</a></h5>
+			<p><a href="../../../archive.html" class="white-text">Todos los posts</a></p>
+	    </div>
+	    <div class="col s5">
+            <h5 class="white-text">Tags</h5>
+			    <a href="../../../tags/Eclipse.html"><div class="chip">Eclipse</div></a>
+			    <a href="../../../tags/GitHub.html"><div class="chip">GitHub</div></a>
+			    <a href="../../../tags/PostgreSQL.html"><div class="chip">PostgreSQL</div></a>
+			    <a href="../../../tags/Minientrada.html"><div class="chip">Minientrada</div></a>
+			    <a href="../../../tags/WordPress.html"><div class="chip">WordPress</div></a>
+			    <a href="../../../tags/JUnit.html"><div class="chip">JUnit</div></a>
+			    <a href="../../../tags/Proyectos.html"><div class="chip">Proyectos</div></a>
+			    <a href="../../../tags/tutorial.html"><div class="chip">tutorial</div></a>
+			    <a href="../../../tags/Spring Roo.html"><div class="chip">Spring Roo</div></a>
+			    <a href="../../../tags/Emulador.html"><div class="chip">Emulador</div></a>
+			    <a href="../../../tags/Markdown.html"><div class="chip">Markdown</div></a>
+			    <a href="../../../tags/log4j.html"><div class="chip">log4j</div></a>
+			    <a href="../../../tags/Java.html"><div class="chip">Java</div></a>
+			    <a href="../../../tags/slf4j.html"><div class="chip">slf4j</div></a>
+			    <a href="../../../tags/Heroku.html"><div class="chip">Heroku</div></a>
+			    <a href="../../../tags/Base de Datos.html"><div class="chip">Base de Datos</div></a>
+			    <a href="../../../tags/Problemas.html"><div class="chip">Problemas</div></a>
+			    <a href="../../../tags/Spring.html"><div class="chip">Spring</div></a>
+			    <a href="../../../tags/Android.html"><div class="chip">Android</div></a>
+			    <a href="../../../tags/JBake.html"><div class="chip">JBake</div></a>
+			    <a href="../../../tags/Ruby on Rails.html"><div class="chip">Ruby on Rails</div></a>
+			    <a href="../../../tags/Git.html"><div class="chip">Git</div></a>
+			    <a href="../../../tags/Linux.html"><div class="chip">Linux</div></a>
+			    <a href="../../../tags/JustPlay.html"><div class="chip">JustPlay</div></a>
+			    <a href="../../../tags/Cloud.html"><div class="chip">Cloud</div></a>
+			    <a href="../../../tags/Wordpress.html"><div class="chip">Wordpress</div></a>
+			    <a href="../../../tags/logging.html"><div class="chip">logging</div></a>
+			    <a href="../../../tags/Programación.html"><div class="chip">Programación</div></a>
+			    <a href="../../../tags/Tools of the Trade.html"><div class="chip">Tools of the Trade</div></a>
+			    <a href="../../../tags/Amazon.html"><div class="chip">Amazon</div></a>
+			    <a href="../../../tags/SEO.html"><div class="chip">SEO</div></a>
+			    <a href="../../../tags/Intellij IDEA.html"><div class="chip">Intellij IDEA</div></a>
+	    </div>
+        <div class="col s2 right-align">
+            <a href="http://twitter.com/agustinventura" target="_blank" class="social-link white-text" ><i class="fa  fa-twitter  fa-3x" title="Twitter" aria-hidden="true"></i></a>
+            <a href="http://github.com/agustinventura" target="_blank" class="social-link white-text"><i class="fa  fa-github  fa-3x" title="Github" aria-hidden="true"></i></a>
+            <a href="https://www.linkedin.com/in/agustinventura" target="_blank" class="social-link white-text"><i class="fa  fa-linkedin  fa-3x" title="LinkedIn" aria-hidden="true"></i></a>
+        </div>
+      </div>
+      </div>
+      </div>
+      <div class="footer-copyright">
+            <div class="container">
+        <p class="center-align">&copy; 2016 | Mixed with <a class="footer-link white-text" href="http://materializecss.com/" target="_blank">Materialize</a> | Baked with <a <a class="footer-link white-text" href="http://jbake.org">JBake</a></p>
+            </div>
+          </div>
+    </footer>
+
+    <script async src="//cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
+		<script async src="//code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script async src="//cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js"></script>
+  </body>
+</html>

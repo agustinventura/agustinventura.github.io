@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8"/>
+    <title>Tutorial de Bloc de Notas para Android - Parte 3</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="AguasNegras, tecnología, programación y Java">
+    <meta name="author" content="Agustín Ventura">
+    <meta name="keywords" content="Programación, Java">
+    <meta name="generator" content="JBake">
+    <!--Import Google Icon Font-->
+     <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+     <!-- Import Font Awesome Icons-->
+     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css">
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="../../../js/html5shiv.min.js"></script>
+    <![endif]-->
+    <link rel="stylesheet" href="../../../css/aguasnegras.css"/>
+    <link rel="shortcut icon" href="../../../favicon.ico">
+  </head>
+  <body>
+    <header>
+<nav class="light-blue darken-3">
+	<div class="container">
+		<div class="nav-wrapper">
+		      <a class="brand-logo" href="../../../"><span class="pageTitle">AguasNegras</span></a>
+			    <ul id="nav-mobile" class="right hide-on-med-and-down">
+			        <li><a href="../../../index.html">Inicio</a></li>
+			        <li><a href="../../../about.html">Acerca De</a></li>
+			        <li><a href="../../../feed.xml">Suscripci&oacute;n</a></li>
+			    </ul>
+		</div>
+	</div>
+</nav>
+    </header>
+<div class="container">
+<div class="row">
+<div class="col s12">
+		<h4 class="light-blue-text text-darken-1">Tutorial de Bloc de Notas para Android - Parte 3</h4>
+		<div class="section">
+			12 julio 2011
+		</div>
+		<div class="section">
+			<p>Sigo con el tutorial, que más vale tarde que nunca... Entonces, repasando un poco lo hecho, tengo una tabla en la bd de la aplicación (un sqlite) que contiene las notas.</p><p>Asimismo, tengo un activity que se encarga de presentar una lista con las notas creadas que de momento no tienen nada, tan solo un título "Note x" donde x es un autosecuencial, además un secuencial de Java, por lo cual en cada ejecución de la aplicación se repiten ya que se resetea el contador a 1. Esto no me gusta y da la casualidad de que tengo un autoincremental en la base de datos, así que voy a tratar de presentarlo en vez de ese.</p><p>Analizando lo que tengo, en base de datos no hay que tocar nada, ya tengo todos los datos. Asímismo el NotesDbAdapter.java se trae absolutamente todos los campos cuando accede, con lo cual el id secuencial lo tengo en el cursor que llega a la activity, ¿qué queda entonces? Tan solo presentarlo.</p><p>Primero modifico la vista de presentación de cada nota, es decir, el notes_row.xml, tan solo tiene un TextView y voy a necesitar dos: uno para el id y otro para el título:</p><p>¿Dónde se rellena esta vista? En el fillData(), precisamente tenemos un array de String que son los datos que leemos del cursor (from) y un array de int que son en qué elementos los insertamos en la vista:</p>
+<pre><code class="prettyprint linenums"> String[] from = new String[] { NotesDbAdapter.KEY_ROWID, NotesDbAdapter.KEY_TITLE };
+ int[] to = new int[] { R.id.text1, R.id.text2 };
+</code></pre><p>Y con esto ya tengo una primera aproximación:</p><p><a href="/images/2011/07/Pantallazo-5554android2.2.png"><img class="aligncenter size-medium wp-image-141" title="Pantallazo modificación propia del tutorial Notepad" src="/images/2011/07/Pantallazo-5554android2.2-300x278.png" alt="" width="300" height="278" /></a>Con lo cual ya se diferencia entre notas aunque tengan el mismo título.</p><p>Bueno, <a title="Tutorial Notepad - Parte 2" href="http://developer.android.com/resources/tutorials/notepad/notepad-ex2.html">sigo con el tutorial</a>, creo un nuevo proyecto Android, from existing sources, etc... Listo. En esta parte del tutorial, se va a implementar la funcionalidad de edición de las notas (a través de un activity nuevo) y el borrado de las mismas a través del menú contextual.</p><p>Para empezar, el strings.xml se ha actualizado, incorporando los textos necesarios para la funcionalidad nueva "confirm", "edit note", etc... Sin embargo el NotesDbAdapter.java sigue siendo el mismo, normal, la funcionalidad ya estaba contemplada desde el principio.</p><p>En el Notepadv2.java parece que esta el grueso de los cambios. De entrada me encuentro con unos int que representan las activity que hay:</p>
+<pre><code class="prettyprint linenums">private static final int ACTIVITY_CREATE=0;
+private static final int ACTIVITY_EDIT=1;
+</code></pre><p>También tengo dos enteros para las entradas del menú:</p>
+<pre><code class="prettyprint linenums">private static final int INSERT_ID = Menu.FIRST;
+private static final int DELETE_ID = Menu.FIRST + 1;
+</code></pre><p>Por último en la sección de declaraciones, el Cursor. El cursor antes era una variable del método fillData y ahora pasa a ser una variable de instancia de esta actividad:</p>
+<pre><code class="prettyprint linenums">private Cursor mNotesCursor;
+</code></pre><p>El método onCreate no tiene más cambios, y el fillData tan solo los necesarios debidos al cambio de visibilidad del cursor. Los demás métodos, onCreateOptionsMenu no tiene más cambios, pero onMenuItemSelected si que tiene un pequeño, pero importante, ahora invoca al método createNote.</p><p>Llegamos a la sección de métodos nuevos. Un breve comentario sobre cada uno de ellos:</p>
+<ul>
+	<li>onCreateContextMenu: Blanco y en botella... el método encargado de generar el menú contextual (con el borrar).</li>
+	<li>onContextItemSelected: Más de lo mismo, se encargará de gestionar la selección del elemento del menú contextual.</li>
+	<li>createNote: supongo que se encargará de llamar a la actividad de inserción/edición de notas.</li>
+	<li>onListItemClick: de nuevo supongo que se encargará de gestionar el click en cada uno de los elementos de la lista (notas??)</li>
+	<li>onActivityResult: esto tiene toda la pinta de ser un finalizador, para liberar recursos al salir de la actividad, vaya.</li>
+</ul><p>Poco más, mañana seguiré con la parte de implementación pura y dura.</p>
+		</div>
+<div class="col s12">
+<div id="disqus_thread"></div>
+<script>
+    var disqus_config = function () {
+        this.page.url = 'http://www.aguasnegras.es/blog/2011/07/12-Tutorial de Bloc de Notas para Android - Parte 3.html';
+        this.page.identifier = 'blog/2011/07/12-Tutorial de Bloc de Notas para Android - Parte 3.html';
+    };
+    (function() {
+        var d = document, s = d.createElement('script');
+        s.src = '//aguasnegras.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+</div>
+</div>
+</div>
+</div>
+    <footer class="page-footer light-blue darken-3">
+      <div class="container">
+        <div class="row">
+         <div class="col s5">
+			<h5><a href="../../../archive.html" class="white-text">Archivo</a></h5>
+			<p><a href="../../../archive.html" class="white-text">Todos los posts</a></p>
+	    </div>
+	    <div class="col s5">
+            <h5 class="white-text">Tags</h5>
+			    <a href="../../../tags/Eclipse.html"><div class="chip">Eclipse</div></a>
+			    <a href="../../../tags/GitHub.html"><div class="chip">GitHub</div></a>
+			    <a href="../../../tags/PostgreSQL.html"><div class="chip">PostgreSQL</div></a>
+			    <a href="../../../tags/Minientrada.html"><div class="chip">Minientrada</div></a>
+			    <a href="../../../tags/WordPress.html"><div class="chip">WordPress</div></a>
+			    <a href="../../../tags/JUnit.html"><div class="chip">JUnit</div></a>
+			    <a href="../../../tags/Proyectos.html"><div class="chip">Proyectos</div></a>
+			    <a href="../../../tags/tutorial.html"><div class="chip">tutorial</div></a>
+			    <a href="../../../tags/Spring Roo.html"><div class="chip">Spring Roo</div></a>
+			    <a href="../../../tags/Emulador.html"><div class="chip">Emulador</div></a>
+			    <a href="../../../tags/Markdown.html"><div class="chip">Markdown</div></a>
+			    <a href="../../../tags/log4j.html"><div class="chip">log4j</div></a>
+			    <a href="../../../tags/Java.html"><div class="chip">Java</div></a>
+			    <a href="../../../tags/slf4j.html"><div class="chip">slf4j</div></a>
+			    <a href="../../../tags/Heroku.html"><div class="chip">Heroku</div></a>
+			    <a href="../../../tags/Base de Datos.html"><div class="chip">Base de Datos</div></a>
+			    <a href="../../../tags/Problemas.html"><div class="chip">Problemas</div></a>
+			    <a href="../../../tags/Spring.html"><div class="chip">Spring</div></a>
+			    <a href="../../../tags/Android.html"><div class="chip">Android</div></a>
+			    <a href="../../../tags/JBake.html"><div class="chip">JBake</div></a>
+			    <a href="../../../tags/Ruby on Rails.html"><div class="chip">Ruby on Rails</div></a>
+			    <a href="../../../tags/Git.html"><div class="chip">Git</div></a>
+			    <a href="../../../tags/Linux.html"><div class="chip">Linux</div></a>
+			    <a href="../../../tags/JustPlay.html"><div class="chip">JustPlay</div></a>
+			    <a href="../../../tags/Cloud.html"><div class="chip">Cloud</div></a>
+			    <a href="../../../tags/Wordpress.html"><div class="chip">Wordpress</div></a>
+			    <a href="../../../tags/logging.html"><div class="chip">logging</div></a>
+			    <a href="../../../tags/Programación.html"><div class="chip">Programación</div></a>
+			    <a href="../../../tags/Tools of the Trade.html"><div class="chip">Tools of the Trade</div></a>
+			    <a href="../../../tags/Amazon.html"><div class="chip">Amazon</div></a>
+			    <a href="../../../tags/SEO.html"><div class="chip">SEO</div></a>
+			    <a href="../../../tags/Intellij IDEA.html"><div class="chip">Intellij IDEA</div></a>
+	    </div>
+        <div class="col s2 right-align">
+            <a href="http://twitter.com/agustinventura" target="_blank" class="social-link white-text" ><i class="fa  fa-twitter  fa-3x" title="Twitter" aria-hidden="true"></i></a>
+            <a href="http://github.com/agustinventura" target="_blank" class="social-link white-text"><i class="fa  fa-github  fa-3x" title="Github" aria-hidden="true"></i></a>
+            <a href="https://www.linkedin.com/in/agustinventura" target="_blank" class="social-link white-text"><i class="fa  fa-linkedin  fa-3x" title="LinkedIn" aria-hidden="true"></i></a>
+        </div>
+      </div>
+      </div>
+      </div>
+      <div class="footer-copyright">
+            <div class="container">
+        <p class="center-align">&copy; 2016 | Mixed with <a class="footer-link white-text" href="http://materializecss.com/" target="_blank">Materialize</a> | Baked with <a <a class="footer-link white-text" href="http://jbake.org">JBake</a></p>
+            </div>
+          </div>
+    </footer>
+
+    <script async src="//cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
+		<script async src="//code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script async src="//cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js"></script>
+  </body>
+</html>

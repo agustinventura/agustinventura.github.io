@@ -41,6 +41,24 @@
         <div class="col s12">
 			        <div class="card hoverable">
 				        <div class="card-content">
+	          			<span class="card-title"><a href="blog/2016/06/10-wp2jbake-generacion.html"><h4>Wordpress to JBake - Generación de Archivos</h4></a></span>
+					        <div class="section">
+	          			        10 junio 2016
+					        </div>
+					        <div class="section">
+	          			            <p class="flow-text">
+	          			                <p>Bueno, pues ya queda la parte final, lanzarlo. Creo un método <em>main</em> en <em>Wp2JBake</em>, el primer argumento será el archivo de origen y el segundo el directorio de destino.<br/>Como de toda la gestión de errores se encarga el programa en sí, lo único que tengo que hacer es capturar la posible <em>IllegalArgumentException</em> y listo:
+	          			                <br/>
+	          			                ...
+	          			            </p>
+					        </div>
+				        </div>
+				        <div class="card-action">
+					        <a href="blog/2016/06/10-wp2jbake-generacion.html">Leer</a>
+				        </div>
+			        </div>
+			        <div class="card hoverable">
+				        <div class="card-content">
 	          			<span class="card-title"><a href="blog/2016/06/09-configuracion-mint.html"><h4>Configuración de Linux Mint</h4></a></span>
 					        <div class="section">
 	          			        09 junio 2016
@@ -167,7 +185,7 @@
 			        </div>
 			        <div class="card hoverable">
 				        <div class="card-content">
-	          			<span class="card-title"><a href="blog/2013/8/2-Logging en Java con SLF4J y Log4j2.html"><h4>Logging en Java con SLF4J y Log4j2</h4></a></span>
+	          			<span class="card-title"><a href="blog/2013/09/02-Logging en Java con SLF4J y Log4j2.html"><h4>Logging en Java con SLF4J y Log4j2</h4></a></span>
 					        <div class="section">
 	          			        02 septiembre 2013
 					        </div>
@@ -180,43 +198,29 @@
 					        </div>
 				        </div>
 				        <div class="card-action">
-					        <a href="blog/2013/8/2-Logging en Java con SLF4J y Log4j2.html">Leer</a>
+					        <a href="blog/2013/09/02-Logging en Java con SLF4J y Log4j2.html">Leer</a>
 				        </div>
 			        </div>
 			        <div class="card hoverable">
 				        <div class="card-content">
-	          			<span class="card-title"><a href="blog/2010/10/20-JUnit 4 y DataSources.html"><h4>JUnit 4 y DataSources</h4></a></span>
+	          			<span class="card-title"><a href="blog/2013/03/09-Emulador de Android en Ubuntu (Initializing hardware OpenGLES emulation support).html"><h4>Emulador de Android en Ubuntu (Initializing hardware OpenGLES emulation support)</h4></a></span>
 					        <div class="section">
-	          			        20 noviembre 2010
+	          			        09 marzo 2013
 					        </div>
 					        <div class="section">
-	          			            <p class="flow-text">
-	          			                <p>Cuando desarrollo aplicaciones web (y tengo tiempo) me gusta seguir una variante propia de <a title="Test Driven Development" href="http://en.wikipedia.org/wiki/Test-driven_development" target="_blank">TDD</a>. Básicamente trato de ser exhaustivo con las pruebas y en este sentido JUnit es lo suyo, diseño el DAO y le hago pruebas unitarias, diseño la capa de servicios y le hago pruebas unitarias, es más, si tengo tiempo hago pruebas unitarias sobre las mismas entidades.
-	          			                <br/>
-	          			                ...
-	          			            </p>
-					        </div>
-				        </div>
-				        <div class="card-action">
-					        <a href="blog/2010/10/20-JUnit 4 y DataSources.html">Leer</a>
-				        </div>
-			        </div>
-			        <div class="card hoverable">
-				        <div class="card-content">
-	          			<span class="card-title"><a href="blog/2010/10/13-Aprendiendo Ruby on Rails.html"><h4>Aprendiendo Ruby on Rails</h4></a></span>
-					        <div class="section">
-	          			        13 noviembre 2010
-					        </div>
-					        <div class="section">
-	          			            <p class="flow-text">
-	          			                <p>En mi trabajo, uno de los proyectos en los que ando metido es la estandarización de proyectos de desarrollo Java en entorno web, a todos los niveles.
-	          			                <br/>
-	          			                ...
-	          			            </p>
+    					            <p class="flow-text"><p>A veces (normalmente en una instalación nueva), los emuladores de Android no arrancan en Ubuntu de 64 bits debido a un error con OpenGLES.</p><p>Para comprobar si la solución es aplicable, hay que ejecutar este comando desde la consola:</p>
+<pre><code class="prettyprint linenums">$ ./emulator -avd GalaxyS -verbose
+</code></pre><p>Donde GalaxyS será el nombre del avd que se desee arrancar, al final del log deberemos ver algo así:</p>
+<pre><code class="prettyprint linenums">emulator: Initializing hardware OpenGLES emulation support
+Violación de segmento (`core&#39; generado)
+</code></pre><p>El problema y su solución se encuentra reportado <a title="Android Issue 34233" href="http://code.google.com/p/android/issues/detail?id=34233" target="_blank">aquí</a>.</p><p>Básicamente la solución consiste en lo siguiente:</p>
+<pre><code class="prettyprint linenums">$ cd $ANDROID_SDK/tools/lib
+$ mv libOpenglRender.so libOpenglRender.so.bak
+</code></pre><p>Y listo.</p></p>
 					        </div>
 				        </div>
 				        <div class="card-action">
-					        <a href="blog/2010/10/13-Aprendiendo Ruby on Rails.html">Leer</a>
+					        <a href="blog/2013/03/09-Emulador de Android en Ubuntu (Initializing hardware OpenGLES emulation support).html">Leer</a>
 				        </div>
 			        </div>
         </div>
@@ -231,17 +235,37 @@
 	    </div>
 	    <div class="col s5">
             <h5 class="white-text">Tags</h5>
+			    <a href="tags/Eclipse.html"><div class="chip">Eclipse</div></a>
+			    <a href="tags/GitHub.html"><div class="chip">GitHub</div></a>
+			    <a href="tags/PostgreSQL.html"><div class="chip">PostgreSQL</div></a>
+			    <a href="tags/Minientrada.html"><div class="chip">Minientrada</div></a>
+			    <a href="tags/WordPress.html"><div class="chip">WordPress</div></a>
+			    <a href="tags/JUnit.html"><div class="chip">JUnit</div></a>
+			    <a href="tags/Proyectos.html"><div class="chip">Proyectos</div></a>
+			    <a href="tags/tutorial.html"><div class="chip">tutorial</div></a>
+			    <a href="tags/Spring Roo.html"><div class="chip">Spring Roo</div></a>
+			    <a href="tags/Emulador.html"><div class="chip">Emulador</div></a>
+			    <a href="tags/Markdown.html"><div class="chip">Markdown</div></a>
+			    <a href="tags/log4j.html"><div class="chip">log4j</div></a>
 			    <a href="tags/Java.html"><div class="chip">Java</div></a>
+			    <a href="tags/slf4j.html"><div class="chip">slf4j</div></a>
+			    <a href="tags/Heroku.html"><div class="chip">Heroku</div></a>
+			    <a href="tags/Base de Datos.html"><div class="chip">Base de Datos</div></a>
+			    <a href="tags/Problemas.html"><div class="chip">Problemas</div></a>
+			    <a href="tags/Spring.html"><div class="chip">Spring</div></a>
+			    <a href="tags/Android.html"><div class="chip">Android</div></a>
 			    <a href="tags/JBake.html"><div class="chip">JBake</div></a>
 			    <a href="tags/Ruby on Rails.html"><div class="chip">Ruby on Rails</div></a>
-			    <a href="tags/slf4j.html"><div class="chip">slf4j</div></a>
+			    <a href="tags/Git.html"><div class="chip">Git</div></a>
 			    <a href="tags/Linux.html"><div class="chip">Linux</div></a>
-			    <a href="tags/JUnit.html"><div class="chip">JUnit</div></a>
+			    <a href="tags/JustPlay.html"><div class="chip">JustPlay</div></a>
+			    <a href="tags/Cloud.html"><div class="chip">Cloud</div></a>
 			    <a href="tags/Wordpress.html"><div class="chip">Wordpress</div></a>
 			    <a href="tags/logging.html"><div class="chip">logging</div></a>
-			    <a href="tags/tutorial.html"><div class="chip">tutorial</div></a>
-			    <a href="tags/Spring.html"><div class="chip">Spring</div></a>
-			    <a href="tags/log4j.html"><div class="chip">log4j</div></a>
+			    <a href="tags/Programación.html"><div class="chip">Programación</div></a>
+			    <a href="tags/Tools of the Trade.html"><div class="chip">Tools of the Trade</div></a>
+			    <a href="tags/Amazon.html"><div class="chip">Amazon</div></a>
+			    <a href="tags/SEO.html"><div class="chip">SEO</div></a>
 			    <a href="tags/Intellij IDEA.html"><div class="chip">Intellij IDEA</div></a>
 	    </div>
         <div class="col s2 right-align">

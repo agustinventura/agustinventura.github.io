@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8"/>
+    <title>JustPlay, explorador de archivos</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="AguasNegras, tecnología, programación y Java">
+    <meta name="author" content="Agustín Ventura">
+    <meta name="keywords" content="Programación, Java">
+    <meta name="generator" content="JBake">
+    <!--Import Google Icon Font-->
+     <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+     <!-- Import Font Awesome Icons-->
+     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css">
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="../../../js/html5shiv.min.js"></script>
+    <![endif]-->
+    <link rel="stylesheet" href="../../../css/aguasnegras.css"/>
+    <link rel="shortcut icon" href="../../../favicon.ico">
+  </head>
+  <body>
+    <header>
+<nav class="light-blue darken-3">
+	<div class="container">
+		<div class="nav-wrapper">
+		      <a class="brand-logo" href="../../../"><span class="pageTitle">AguasNegras</span></a>
+			    <ul id="nav-mobile" class="right hide-on-med-and-down">
+			        <li><a href="../../../index.html">Inicio</a></li>
+			        <li><a href="../../../about.html">Acerca De</a></li>
+			        <li><a href="../../../feed.xml">Suscripci&oacute;n</a></li>
+			    </ul>
+		</div>
+	</div>
+</nav>
+    </header>
+<div class="container">
+<div class="row">
+<div class="col s12">
+		<h4 class="light-blue-text text-darken-1">JustPlay, explorador de archivos</h4>
+		<div class="section">
+			17 mayo 2012
+		</div>
+		<div class="section">
+			<p>Uno de mis requisitos en JustPlay (de hecho, el fundamental), es poder reproducir a partir de archivos sueltos o directorios.</p><p>Por tanto, necesitaré un explorador de archivos, aunque sea muy básico, que permita ver los archivos en la memoria del dispositivo y añadirlos a una lista de reproducción. Gráficamente, la interacción entre las actividades sería <a title="Interacción Actividades JustPlay" href="https://docs.google.com/drawings/d/1GCzJBHeAYgXh5ZlZmsyjQJic8RM3ECh6oD-AYEWRTAo/edit" target="_blank">así</a>. En general la devolución del parámetro no tendrá mayor problema, ya que se puede hacer a través del intent de vuelta.</p><p>Para crear el explorador de archivos voy a seguir <a title="Simple File Explorer - Android-er" href="http://android-er.blogspot.com.es/2010/01/implement-simple-file-explorer-in.html" target="_blank">este tutorial</a>, por supuesto añadiendo cosas de mi cosecha según me vaya pareciendo.</p>
+<h6>Creación de CrankExplorer</h6><p>En primer lugar creo la activity tal cual heredando de CrankActivity y le añado la implementación por defecto de todos los métodos del ciclo de vida.</p><p>Ahora la declaro en el AndroidManifest:</p>
+<pre><code class="prettyprint linenums"><br/>&lt;activity android:name=&quot;.FileExplorer&quot; android:label=&quot;@string/explorer_name&quot;/&gt;
+
+</code></pre><p>Para arrancarla, creo un botón en MediaPlayer:</p>
+<pre><code class="prettyprint linenums"><br/>&lt;Button
+android:id=&quot;@+id/buttonOpenExplorer&quot;
+android:layout_width=&quot;wrap_content&quot;
+android:layout_height=&quot;wrap_content&quot;
+android:text=&quot;@string/open_explorer&quot;
+android:onClick=&quot;openCrankExplorer&quot; /&gt;
+
+</code></pre><p>Y el listener:</p>
+<pre><code class="prettyprint linenums"><br/>public void openCrankExplorer(View v) {
+  Intent openCrankExplorer = new Intent(this, CrankExplorer.class);
+  startActivityForResult(openCrankExplorer, REQUEST_CODE);
+}
+
+</code></pre><p>Con esto ya puedo llamar a FileExplorer desde MediaPlayer.</p><p>Ahora toca implementar FileExplorer, en general la implementación seguirá estas líneas:</p>
+<ol>
+	<li>Se mostrarán todos los archivos y directorios que se puedan leer.</li>
+	<li>Si se hace click en un directorio se abrirá.</li>
+	<li>Si se hace click en un archivo, se abrirá un diálogo de confirmación para añadirlo a la lista de reproducción.</li>
+	<li>Si se deja presionado un directorio se abrirá un menú contextual para añadir todo su contenido a la lista de reproducción.</li>
+</ol><p>Al lío, siguiendo lo que comentan, hago un layout para los archivos, le voy a llamar file_row.xml y a continuación creo el layout de FileExplorer, crankexplorer.xml. No tiene mucha historia ya que es una lista y punto.</p><p>En cuanto a la actividad, lo primero que hago es filtrar los archivos mediante un FilenameFilter, para que solo muestre aquellos directorios y archivos que sean legibles y si es un archivo, que además termine en mp3 u ogg.</p><p>Añado un onListItemClick y si es un directorio se invocará a getDir sobre él, mientras que si es un archivo, se mostrará un diálogo que permitirá dos acciones:</p>
+<ol>
+	<li>Añadir el archivo a la lista de reproducción.</li>
+	<li>Cancelar</li>
+</ol><p>Por último, para devolver la canción a MediaPlayer, creo un método finish().</p><p>Para ir acabando, falta el menú contextual que me permita seleccionar un directorio para añadir (junto con todos los archivos contenidos en él y sus subdirectorios).<br/>Primero creo el <a title="Defining a Menu in XML - Android Developers" href="http://developer.android.com/guide/topics/ui/menus.html#xml" target="_blank">layout del menu</a> y lo llamo crankexplorer_context.xml a continuación en el onCreate, registro la lista para el menú contextual:</p>
+<pre><code class="prettyprint linenums"><br/>registerForContextMenu(getListView());
+
+</code></pre><p>Después tengo que crear dos métodos del ciclo de vida, el primero, la creación del menú:</p>
+<pre><code class="prettyprint linenums"><br/>@Override
+public void onCreateContextMenu(ContextMenu menu, View v,
+  ContextMenuInfo menuInfo) {
+  super.onCreateContextMenu(menu, v, menuInfo);
+  menu.setHeaderTitle(R.string.directory_contextual_title);
+  MenuInflater inflater = getMenuInflater();
+  inflater.inflate(R.menu.crankexplorer_context, menu);
+}
+
+</code></pre><p>Y el segundo, la acción a ejecutar cuando se selecciona:</p>
+<pre><code class="prettyprint linenums"><br/>@Override
+public boolean onContextItemSelected(MenuItem item) {
+  switch (item.getItemId()) {
+    case R.id.addDirectoryItem:
+      AdapterContextMenuInfo info = (AdapterContextMenuInfo) item
+      .getMenuInfo();
+      this.selected = new File(this.path.get((int) info.id));
+      if (this.selected.isDirectory()) {
+        finish();
+      }
+      return true;
+   default:
+     return super.onContextItemSelected(item);
+  }
+}
+
+</code></pre><p>Para acabar, implemento el método finish() para devolver bien la canción seleccionada, bien todas las canciones:</p>
+<pre><code class="prettyprint linenums"><br/>@Override
+public void finish() {
+  Intent data = new Intent();
+  if (this.selected != null) {
+    if (this.selected.isFile()) {
+      data.putExtra(&quot;selectedFile&quot;, this.selected);
+    } else if (this.selected.isDirectory()) {
+      List&lt;File&gt; filesInDirectory = this.explodeDir(this.selected);
+      data.putExtra(&quot;selectedFiles&quot;,
+        (ArrayList&lt;File&gt;) filesInDirectory);
+    }
+  }
+  setResult(RESULT_OK, data);
+  super.finish();
+}
+
+</code></pre><p>Y en MediaPlayer creo un onActivityResult que procese la vuelta desde FileExplorer:</p>
+<pre><code class="prettyprint linenums"><br/>@Override
+protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+  if (data.hasExtra(&quot;selectedFile&quot;)) {
+    this.playlist.add((File) data.getExtras().get(&quot;selectedFile&quot;));
+    this.renderPlaylist();
+  } else if (data.hasExtra(&quot;selectedFiles&quot;)) {
+    List&lt;File&gt; fileList = (List&lt;File&gt;) data.getExtras().get(
+      &quot;selectedFiles&quot;);
+    this.playlist.addAll(fileList);
+    this.renderPlaylist();
+  }
+}
+
+</code></pre>
+<h6>TODO</h6><p>Pues ya solo queda:</p>
+<ol>
+	<li>Hacer el bind del service en MediaPlayer</li>
+	<li>Reproducir con un MediaPlayer en el thread.</li>
+</ol>
+<h6>Código</h6><p>Sigue en GitHub</p><p><a href="https://github.com/agustinventura/JustPlay"><img class="size-full wp-image-255" title="JustPlay en GitHub" src="/images/2011/08/github_icon.png" alt="JustPlay en GitHub" width="115" height="115" /></a></p>
+		</div>
+<div class="col s12">
+<div id="disqus_thread"></div>
+<script>
+    var disqus_config = function () {
+        this.page.url = 'http://www.aguasnegras.es/blog/2012/05/17-JustPlay, explorador de archivos.html';
+        this.page.identifier = 'blog/2012/05/17-JustPlay, explorador de archivos.html';
+    };
+    (function() {
+        var d = document, s = d.createElement('script');
+        s.src = '//aguasnegras.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+</div>
+</div>
+</div>
+</div>
+    <footer class="page-footer light-blue darken-3">
+      <div class="container">
+        <div class="row">
+         <div class="col s5">
+			<h5><a href="../../../archive.html" class="white-text">Archivo</a></h5>
+			<p><a href="../../../archive.html" class="white-text">Todos los posts</a></p>
+	    </div>
+	    <div class="col s5">
+            <h5 class="white-text">Tags</h5>
+			    <a href="../../../tags/Eclipse.html"><div class="chip">Eclipse</div></a>
+			    <a href="../../../tags/GitHub.html"><div class="chip">GitHub</div></a>
+			    <a href="../../../tags/PostgreSQL.html"><div class="chip">PostgreSQL</div></a>
+			    <a href="../../../tags/Minientrada.html"><div class="chip">Minientrada</div></a>
+			    <a href="../../../tags/WordPress.html"><div class="chip">WordPress</div></a>
+			    <a href="../../../tags/JUnit.html"><div class="chip">JUnit</div></a>
+			    <a href="../../../tags/Proyectos.html"><div class="chip">Proyectos</div></a>
+			    <a href="../../../tags/tutorial.html"><div class="chip">tutorial</div></a>
+			    <a href="../../../tags/Spring Roo.html"><div class="chip">Spring Roo</div></a>
+			    <a href="../../../tags/Emulador.html"><div class="chip">Emulador</div></a>
+			    <a href="../../../tags/Markdown.html"><div class="chip">Markdown</div></a>
+			    <a href="../../../tags/log4j.html"><div class="chip">log4j</div></a>
+			    <a href="../../../tags/Java.html"><div class="chip">Java</div></a>
+			    <a href="../../../tags/slf4j.html"><div class="chip">slf4j</div></a>
+			    <a href="../../../tags/Heroku.html"><div class="chip">Heroku</div></a>
+			    <a href="../../../tags/Base de Datos.html"><div class="chip">Base de Datos</div></a>
+			    <a href="../../../tags/Problemas.html"><div class="chip">Problemas</div></a>
+			    <a href="../../../tags/Spring.html"><div class="chip">Spring</div></a>
+			    <a href="../../../tags/Android.html"><div class="chip">Android</div></a>
+			    <a href="../../../tags/JBake.html"><div class="chip">JBake</div></a>
+			    <a href="../../../tags/Ruby on Rails.html"><div class="chip">Ruby on Rails</div></a>
+			    <a href="../../../tags/Git.html"><div class="chip">Git</div></a>
+			    <a href="../../../tags/Linux.html"><div class="chip">Linux</div></a>
+			    <a href="../../../tags/JustPlay.html"><div class="chip">JustPlay</div></a>
+			    <a href="../../../tags/Cloud.html"><div class="chip">Cloud</div></a>
+			    <a href="../../../tags/Wordpress.html"><div class="chip">Wordpress</div></a>
+			    <a href="../../../tags/logging.html"><div class="chip">logging</div></a>
+			    <a href="../../../tags/Programación.html"><div class="chip">Programación</div></a>
+			    <a href="../../../tags/Tools of the Trade.html"><div class="chip">Tools of the Trade</div></a>
+			    <a href="../../../tags/Amazon.html"><div class="chip">Amazon</div></a>
+			    <a href="../../../tags/SEO.html"><div class="chip">SEO</div></a>
+			    <a href="../../../tags/Intellij IDEA.html"><div class="chip">Intellij IDEA</div></a>
+	    </div>
+        <div class="col s2 right-align">
+            <a href="http://twitter.com/agustinventura" target="_blank" class="social-link white-text" ><i class="fa  fa-twitter  fa-3x" title="Twitter" aria-hidden="true"></i></a>
+            <a href="http://github.com/agustinventura" target="_blank" class="social-link white-text"><i class="fa  fa-github  fa-3x" title="Github" aria-hidden="true"></i></a>
+            <a href="https://www.linkedin.com/in/agustinventura" target="_blank" class="social-link white-text"><i class="fa  fa-linkedin  fa-3x" title="LinkedIn" aria-hidden="true"></i></a>
+        </div>
+      </div>
+      </div>
+      </div>
+      <div class="footer-copyright">
+            <div class="container">
+        <p class="center-align">&copy; 2016 | Mixed with <a class="footer-link white-text" href="http://materializecss.com/" target="_blank">Materialize</a> | Baked with <a <a class="footer-link white-text" href="http://jbake.org">JBake</a></p>
+            </div>
+          </div>
+    </footer>
+
+    <script async src="//cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
+		<script async src="//code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script async src="//cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js"></script>
+  </body>
+</html>

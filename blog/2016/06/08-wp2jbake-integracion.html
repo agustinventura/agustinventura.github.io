@@ -380,9 +380,19 @@ public void processXML() {
         return contentWithoutEndingh3;
     }
 }
-</code></pre><p>Un detalle más revisando la documentación de <a href="https://daringfireball.net/projects/markdown/syntax#html">Markdown</a>, te recomiendan que los elementos a nivel de bloque vayan precedidos y sucedidos por una línea en blanco, eso significa más trabajo para el translator. En particular, tengo que tocar el tratamiento de los heading para añadirlo y además, procesar <em><p></em>, <em><ul></em>, <em><ol></em>, <em><blockquote></em>, <em><table></em> y <em><div></em>. Hay algunos más pero creo que con eso ya voy cubierto, si no, cuestión de ir añadiendo más casos.</p><p><code>prettyprint
-</code></p><p><code>prettyprint
-</code></p>
+</code></pre><p>Un detalle más revisando la documentación de <a href="https://daringfireball.net/projects/markdown/syntax#html">Markdown</a>, te recomiendan que los elementos a nivel de bloque vayan precedidos y sucedidos por una línea en blanco, eso significa más trabajo para el translator. En particular, tengo que tocar el tratamiento de los heading para añadirlo y además, procesar <em><p></em>, <em><ul></em>, <em><ol></em>, <em><blockquote></em>, <em><table></em> y <em><div></em>. Hay algunos más pero creo que con eso ya voy cubierto, si no, cuestión de ir añadiendo más casos.</p><p>Test:<br/><code>prettyprint
+@Test
+public void translateContentWithBlockElements() {
+    String translatedContent = sut.translateContent(&quot;&lt;ul&gt;&lt;li&gt;&lt;/li&gt;&lt;/ul&gt;&lt;div&gt;&lt;p&gt;&lt;/p&gt;&lt;/div&gt;&quot;);
+    assertThat(translatedContent, is(&quot;\n&lt;ul&gt;&lt;li&gt;&lt;/li&gt;&lt;/ul&gt;\n\n&lt;div&gt;\n&lt;p&gt;&lt;/p&gt;\n&lt;/div&gt;\n&quot;));
+}
+</code></p><p>E implementación (me acabo de enterar de que con el replaceAll se pueden usar placeholders como el $0):<br/><code>prettyprint
+private String addNewLinesToBlockElements(String contentToTranslate) {
+    contentToTranslate = contentToTranslate.replaceAll(&quot;&lt;p[^&gt;]*&gt;|&lt;div[^&gt;]*&gt;|&lt;ol[^&gt;]*&gt;|&lt;ul[^&gt;]*&gt;|&lt;blockquote[^&gt;]*&gt;|&lt;table[^&gt;]*&gt;&quot;, &quot;\n$0&quot;);
+    contentToTranslate = contentToTranslate.replaceAll(&quot;&lt;/p&gt;|&lt;/div&gt;|&lt;/ol&gt;|&lt;/ul&gt;|&lt;/blockquote&gt;|&lt;/table&gt;&quot;, &quot;$0\n&quot;);
+    return contentToTranslate;
+}
+</code></p><p>Y listo, se sacan las correspondientes constantes y listo.</p>
 		</div>
 <div class="col s12">
 <div id="disqus_thread"></div>
@@ -412,17 +422,37 @@ public void processXML() {
 	    </div>
 	    <div class="col s5">
             <h5 class="white-text">Tags</h5>
+			    <a href="../../../tags/Eclipse.html"><div class="chip">Eclipse</div></a>
+			    <a href="../../../tags/GitHub.html"><div class="chip">GitHub</div></a>
+			    <a href="../../../tags/PostgreSQL.html"><div class="chip">PostgreSQL</div></a>
+			    <a href="../../../tags/Minientrada.html"><div class="chip">Minientrada</div></a>
+			    <a href="../../../tags/WordPress.html"><div class="chip">WordPress</div></a>
+			    <a href="../../../tags/JUnit.html"><div class="chip">JUnit</div></a>
+			    <a href="../../../tags/Proyectos.html"><div class="chip">Proyectos</div></a>
+			    <a href="../../../tags/tutorial.html"><div class="chip">tutorial</div></a>
+			    <a href="../../../tags/Spring Roo.html"><div class="chip">Spring Roo</div></a>
+			    <a href="../../../tags/Emulador.html"><div class="chip">Emulador</div></a>
+			    <a href="../../../tags/Markdown.html"><div class="chip">Markdown</div></a>
+			    <a href="../../../tags/log4j.html"><div class="chip">log4j</div></a>
 			    <a href="../../../tags/Java.html"><div class="chip">Java</div></a>
+			    <a href="../../../tags/slf4j.html"><div class="chip">slf4j</div></a>
+			    <a href="../../../tags/Heroku.html"><div class="chip">Heroku</div></a>
+			    <a href="../../../tags/Base de Datos.html"><div class="chip">Base de Datos</div></a>
+			    <a href="../../../tags/Problemas.html"><div class="chip">Problemas</div></a>
+			    <a href="../../../tags/Spring.html"><div class="chip">Spring</div></a>
+			    <a href="../../../tags/Android.html"><div class="chip">Android</div></a>
 			    <a href="../../../tags/JBake.html"><div class="chip">JBake</div></a>
 			    <a href="../../../tags/Ruby on Rails.html"><div class="chip">Ruby on Rails</div></a>
-			    <a href="../../../tags/slf4j.html"><div class="chip">slf4j</div></a>
+			    <a href="../../../tags/Git.html"><div class="chip">Git</div></a>
 			    <a href="../../../tags/Linux.html"><div class="chip">Linux</div></a>
-			    <a href="../../../tags/JUnit.html"><div class="chip">JUnit</div></a>
+			    <a href="../../../tags/JustPlay.html"><div class="chip">JustPlay</div></a>
+			    <a href="../../../tags/Cloud.html"><div class="chip">Cloud</div></a>
 			    <a href="../../../tags/Wordpress.html"><div class="chip">Wordpress</div></a>
 			    <a href="../../../tags/logging.html"><div class="chip">logging</div></a>
-			    <a href="../../../tags/tutorial.html"><div class="chip">tutorial</div></a>
-			    <a href="../../../tags/Spring.html"><div class="chip">Spring</div></a>
-			    <a href="../../../tags/log4j.html"><div class="chip">log4j</div></a>
+			    <a href="../../../tags/Programación.html"><div class="chip">Programación</div></a>
+			    <a href="../../../tags/Tools of the Trade.html"><div class="chip">Tools of the Trade</div></a>
+			    <a href="../../../tags/Amazon.html"><div class="chip">Amazon</div></a>
+			    <a href="../../../tags/SEO.html"><div class="chip">SEO</div></a>
 			    <a href="../../../tags/Intellij IDEA.html"><div class="chip">Intellij IDEA</div></a>
 	    </div>
         <div class="col s2 right-align">

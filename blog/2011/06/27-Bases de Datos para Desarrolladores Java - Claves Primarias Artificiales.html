@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8"/>
+    <title>Bases de Datos para Desarrolladores Java - Claves Primarias Artificiales</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="AguasNegras, tecnología, programación y Java">
+    <meta name="author" content="Agustín Ventura">
+    <meta name="keywords" content="Programación, Java">
+    <meta name="generator" content="JBake">
+    <!--Import Google Icon Font-->
+     <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+     <!-- Import Font Awesome Icons-->
+     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css">
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="../../../js/html5shiv.min.js"></script>
+    <![endif]-->
+    <link rel="stylesheet" href="../../../css/aguasnegras.css"/>
+    <link rel="shortcut icon" href="../../../favicon.ico">
+  </head>
+  <body>
+    <header>
+<nav class="light-blue darken-3">
+	<div class="container">
+		<div class="nav-wrapper">
+		      <a class="brand-logo" href="../../../"><span class="pageTitle">AguasNegras</span></a>
+			    <ul id="nav-mobile" class="right hide-on-med-and-down">
+			        <li><a href="../../../index.html">Inicio</a></li>
+			        <li><a href="../../../about.html">Acerca De</a></li>
+			        <li><a href="../../../feed.xml">Suscripci&oacute;n</a></li>
+			    </ul>
+		</div>
+	</div>
+</nav>
+    </header>
+<div class="container">
+<div class="row">
+<div class="col s12">
+		<h4 class="light-blue-text text-darken-1">Bases de Datos para Desarrolladores Java - Claves Primarias Artificiales</h4>
+		<div class="section">
+			27 junio 2011
+		</div>
+		<div class="section">
+			<p>La teoría pura y dura de base de datos dice que para una entidad determinada, tendremos varias claves candidatas, que son aquellas que identifican únicamente a la entidad y la clave primaria se escoge de entre ellas como la menor.<br/>Para un usuario podemos tener como claves candidatas: DNI, nombre de usuario, nombre y apellidos. Nombre y apellidos se descarta (por larga) y ya tenemos que escoger entre DNI y nombre de usuario. A gusto.</p><p>El problema de esto es cuando vamos arrastrando relaciones. Por ejemplo, un post podría tener como clave primaria su título, y un comentario el título y el autor, ¿verdad?</p><p>¿Qué pasa si cambia el título? Pues que hay que modificar también sus referencias. ¿Y si cambia el usuario que escribió el comentario?¿Debemos dejar que un usuario modifique su nombre? Habría que usar un "ON UPDATE CASCADE" o algún artefacto similar.</p><p>¿Y sí en vez de esto cada tabla tiene un identificador único artificial? Un número autogenerado que identifique unívocamente cada una de las filas en la base de datos. La mayoría de bases de datos tienen algún sistema para gestionar esto, en MySQL existen los auto_increment, en Oracle los sequence, etc... En caso de que no haya, siempre se puede utilizar una tabla para generarlos.</p><p>Las ventajas son claras, si el post tiene un identificador 135 y el usuario un identificador 7, el identificador del comentario será (135, 7). El usuario se podrá cambiar el nombre tantas veces como desee sin afectar al resto de los datos, e incluso el post podrá cambiar de título sin más. Y ya en ello, ¿no sería mejor que el comentario tuviera su propio id único? Imaginemos por ejemplo que un comentario contesta a otro, si el id del comentario fuera (135, 7), la clave externa sobre la tabla tendría que tener dos campos (por ejemplo, id_post_comentario_respuesta, id_usuario_comentario_respuesta), con un id único, basta con uno solo (id_comentario_respuesta).</p><p>Como todo, esta solución tiene críticas. La más importante es que la base de datos deja de estar en <a title="Primera Forma Normal" href="http://es.wikipedia.org/wiki/1NF" target="_blank">Primera Forma Normal</a>, es decir, puedo tener dos veces al mismo usuario, Agustín con Id 2 y Agustín de nuevo con Id 3, y por tanto tengo que introducir algún otro artificio, como que "la que sería clave primaria", ahora relegada a clave candidata, sea unique.</p><p>Esto me obliga a incluir una segunda declaración de índice, etc... En el <a title="Claves Primarias Artificiales en la Wikipedia" href="http://en.wikipedia.org/wiki/Surrogate_key" target="_blank">artículo de la wikipedia</a> se pueden consultar más detalles (en inglés, lo siento).</p><p>En general, en mi experiencia, suele ser más que conveniente tenerlo,  ya que nunca sabes cuanto puede crecer la base de datos y en consecuencia cada vez vas teniendo más "sucio" el esquema de base de datos, arrastrando claves primarias compuestas y los "on update cascade", o te ves forzado a impedir que el usuario cambie su nombre, y otros tipos de restricciones absurdas.</p>
+		</div>
+<div class="col s12">
+<div id="disqus_thread"></div>
+<script>
+    var disqus_config = function () {
+        this.page.url = 'http://www.aguasnegras.es/blog/2011/06/27-Bases de Datos para Desarrolladores Java - Claves Primarias Artificiales.html';
+        this.page.identifier = 'blog/2011/06/27-Bases de Datos para Desarrolladores Java - Claves Primarias Artificiales.html';
+    };
+    (function() {
+        var d = document, s = d.createElement('script');
+        s.src = '//aguasnegras.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+</div>
+</div>
+</div>
+</div>
+    <footer class="page-footer light-blue darken-3">
+      <div class="container">
+        <div class="row">
+         <div class="col s5">
+			<h5><a href="../../../archive.html" class="white-text">Archivo</a></h5>
+			<p><a href="../../../archive.html" class="white-text">Todos los posts</a></p>
+	    </div>
+	    <div class="col s5">
+            <h5 class="white-text">Tags</h5>
+			    <a href="../../../tags/Eclipse.html"><div class="chip">Eclipse</div></a>
+			    <a href="../../../tags/GitHub.html"><div class="chip">GitHub</div></a>
+			    <a href="../../../tags/PostgreSQL.html"><div class="chip">PostgreSQL</div></a>
+			    <a href="../../../tags/Minientrada.html"><div class="chip">Minientrada</div></a>
+			    <a href="../../../tags/WordPress.html"><div class="chip">WordPress</div></a>
+			    <a href="../../../tags/JUnit.html"><div class="chip">JUnit</div></a>
+			    <a href="../../../tags/Proyectos.html"><div class="chip">Proyectos</div></a>
+			    <a href="../../../tags/tutorial.html"><div class="chip">tutorial</div></a>
+			    <a href="../../../tags/Spring Roo.html"><div class="chip">Spring Roo</div></a>
+			    <a href="../../../tags/Emulador.html"><div class="chip">Emulador</div></a>
+			    <a href="../../../tags/Markdown.html"><div class="chip">Markdown</div></a>
+			    <a href="../../../tags/log4j.html"><div class="chip">log4j</div></a>
+			    <a href="../../../tags/Java.html"><div class="chip">Java</div></a>
+			    <a href="../../../tags/slf4j.html"><div class="chip">slf4j</div></a>
+			    <a href="../../../tags/Heroku.html"><div class="chip">Heroku</div></a>
+			    <a href="../../../tags/Base de Datos.html"><div class="chip">Base de Datos</div></a>
+			    <a href="../../../tags/Problemas.html"><div class="chip">Problemas</div></a>
+			    <a href="../../../tags/Spring.html"><div class="chip">Spring</div></a>
+			    <a href="../../../tags/Android.html"><div class="chip">Android</div></a>
+			    <a href="../../../tags/JBake.html"><div class="chip">JBake</div></a>
+			    <a href="../../../tags/Ruby on Rails.html"><div class="chip">Ruby on Rails</div></a>
+			    <a href="../../../tags/Git.html"><div class="chip">Git</div></a>
+			    <a href="../../../tags/Linux.html"><div class="chip">Linux</div></a>
+			    <a href="../../../tags/JustPlay.html"><div class="chip">JustPlay</div></a>
+			    <a href="../../../tags/Cloud.html"><div class="chip">Cloud</div></a>
+			    <a href="../../../tags/Wordpress.html"><div class="chip">Wordpress</div></a>
+			    <a href="../../../tags/logging.html"><div class="chip">logging</div></a>
+			    <a href="../../../tags/Programación.html"><div class="chip">Programación</div></a>
+			    <a href="../../../tags/Tools of the Trade.html"><div class="chip">Tools of the Trade</div></a>
+			    <a href="../../../tags/Amazon.html"><div class="chip">Amazon</div></a>
+			    <a href="../../../tags/SEO.html"><div class="chip">SEO</div></a>
+			    <a href="../../../tags/Intellij IDEA.html"><div class="chip">Intellij IDEA</div></a>
+	    </div>
+        <div class="col s2 right-align">
+            <a href="http://twitter.com/agustinventura" target="_blank" class="social-link white-text" ><i class="fa  fa-twitter  fa-3x" title="Twitter" aria-hidden="true"></i></a>
+            <a href="http://github.com/agustinventura" target="_blank" class="social-link white-text"><i class="fa  fa-github  fa-3x" title="Github" aria-hidden="true"></i></a>
+            <a href="https://www.linkedin.com/in/agustinventura" target="_blank" class="social-link white-text"><i class="fa  fa-linkedin  fa-3x" title="LinkedIn" aria-hidden="true"></i></a>
+        </div>
+      </div>
+      </div>
+      </div>
+      <div class="footer-copyright">
+            <div class="container">
+        <p class="center-align">&copy; 2016 | Mixed with <a class="footer-link white-text" href="http://materializecss.com/" target="_blank">Materialize</a> | Baked with <a <a class="footer-link white-text" href="http://jbake.org">JBake</a></p>
+            </div>
+          </div>
+    </footer>
+
+    <script async src="//cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
+		<script async src="//code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script async src="//cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js"></script>
+  </body>
+</html>

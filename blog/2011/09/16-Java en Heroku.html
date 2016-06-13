@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8"/>
+    <title>Java en Heroku</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="AguasNegras, tecnología, programación y Java">
+    <meta name="author" content="Agustín Ventura">
+    <meta name="keywords" content="Programación, Java">
+    <meta name="generator" content="JBake">
+    <!--Import Google Icon Font-->
+     <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+     <!-- Import Font Awesome Icons-->
+     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css">
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="../../../js/html5shiv.min.js"></script>
+    <![endif]-->
+    <link rel="stylesheet" href="../../../css/aguasnegras.css"/>
+    <link rel="shortcut icon" href="../../../favicon.ico">
+  </head>
+  <body>
+    <header>
+<nav class="light-blue darken-3">
+	<div class="container">
+		<div class="nav-wrapper">
+		      <a class="brand-logo" href="../../../"><span class="pageTitle">AguasNegras</span></a>
+			    <ul id="nav-mobile" class="right hide-on-med-and-down">
+			        <li><a href="../../../index.html">Inicio</a></li>
+			        <li><a href="../../../about.html">Acerca De</a></li>
+			        <li><a href="../../../feed.xml">Suscripci&oacute;n</a></li>
+			    </ul>
+		</div>
+	</div>
+</nav>
+    </header>
+<div class="container">
+<div class="row">
+<div class="col s12">
+		<h4 class="light-blue-text text-darken-1">Java en Heroku</h4>
+		<div class="section">
+			16 septiembre 2011
+		</div>
+		<div class="section">
+			<p>Una de las cosas que más me impresionó de Ruby on Rails, más que el framework en sí o el lenguaje, fue el excelente soporte que había creado la comunidad. Hablo específicamente de como se enlazaba tu proyecto local con GitHub y GitHub con Heroku, con lo cual podías tener el proyecto en producción en cuestión de minutos.</p><p>Esto es algo que lamentablemente no he visto en Java en los cinco años que llevo dedicado a estos menesteres, y menos con un alojamiento de la categoría de Heroku (otro día hablaré sobre ello y el PaaS, etc...). Pues bien, el pasado 25 de Agosto, <a title="Soporte de Java en Heroku" href="http://blog.heroku.com/archives/2011/08/25/java/" target="_blank">Heroku añadió soporte para Java</a>. Este paso me parece crucial. Desde mi punto de vista, la gran fortaleza de PHP, RoR, etc... viene de la comunidad, es un lenguaje "accesible" a cualquiera, basta con comparar los hostings existentes para PHP y los existentes para Java. Hay otras plataformas para Java, por ejemplo, <a title="Google App Engine" href="http://code.google.com/intl/es-ES/appengine/" target="_blank">Google App Engine</a>, pero desde mi punto de vista son mucho más restrictivas que Heroku. Como de todas formas esto es solo una impresión, he decidido seguir el <a title="Heroku For Java Workbook" href="https://github.com/heroku/java-workbook" target="_blank">Heroku For Java Workbook</a> a ver qué tal resulta :)</p><p><strong>Requisitos</strong></p>
+<ol>
+	<li>Cuenta en GitHub.</li>
+	<li>Cuenta en Heroku.</li>
+	<li>Tener instalado <a title="Git, EGit y GitHub." href="http://www.aguasnegras.es/?p=201" target="_blank">Git</a></li>
+</ol><p><strong>Instalación de las herramientas de línea de comando de Heroku (heroku)</strong></p><p>Lo primero es instalar las herramientas de linea de comando de Heroku, llamadas heroku (sin mayúscula), estas a su vez tienen otros requisitos:</p>
+<ol>
+	<li>Instalar Ruby (apt-get install ruby).</li>
+	<li>Instalar RubyGems (se descarga de <a title="RubyGems" href="http://rubygems.org/pages/download" target="_blank">RubyGems.org</a> y se ejecuta sudo ruby setup.rb)</li>
+	<li>Se instala el cliente en sí: sudo gem install heroku.</li>
+	<li>Para verificar si todo ha ido bien, el comando <em>heroku version</em> debe devolver algo como <em>heroku-gem/2.6.1</em></li>
+</ol><p>El siguiente paso es añadir nuestra clave SSH pública a Heroku, primero se hace login: heroku auth:login, e introducimos nuestro email y contraseña.</p><p>A continuación basta con hacer heroku keys:add y listo, añadida nuestra clave SSH.</p><p><strong>Instalación de Maven</strong></p><p>La instalación de Maven viene descrita en su misma página de descarga de manera bastante sucinta. En cualquier caso estos son los pasos a dar:</p>
+<ol>
+	<li>Descomprimir el archivo (en mi caso en $HOME/Herramientas).</li>
+	<li>Añadir la variable de entorno M2_HOME, que es el directorio de Maven (en este caso sería export M2_HOME=$HOME/Herramientas/apache-maven-3.0.3)</li>
+	<li>Añadir la variable de entorno M2 que son los binarios de Maven (export M2=$M2_HOME/bin)</li>
+	<li>Añadir la variable MAVEN_OPTS al entorno. Esta variable son comandos que se pasan a la JVM que ejecuta Maven, en nuestro caso será para aumentar la memoria disponible para la ejecución de Maven (por defecto son 64 Mb, pero la vamos a aumentar a 256): export MAVEN_OPTS="-Xms256m -Xmx512m".</li>
+	<li>Añadir la variable M2 al Path: export PATH=$M2:$PATH</li>
+	<li>Si ejecutamos mvn --version debería salir la versión actual de Maven (3.0.3), la version de la JVM, etc...</li>
+</ol><p><strong>Primera Práctica</strong></p><p>El objetivo de esta primera práctica es construir una aplicación web, es decir un simple html con su web-inf, etc. Los pasos son cuatro:</p>
+<ol>
+	<li>Crear la aplicación web a partir de un arquetipo de Maven.</li>
+	<li>Probar la aplicación web en local.</li>
+	<li>Desplegar la aplicación web en Heroku.</li>
+	<li>Escalar la aplicación web en Heroku.</li>
+	<li>Ver los logs de la aplicación en Heroku.</li>
+	<li>Deshacer una publicación en Heroku.</li>
+</ol><p><strong>Paso 1</strong></p><p>Entro en mi directorio de trabajo (Heroku) y una vez dentro genero el proyecto con la siguiente línea:</p>
+<pre><code class="prettyprint linenums">mvn archetype:generate -DarchetypeCatalog=http://maven.publicstaticvoidmain.net/archetype-catalog.xml
+</code></pre><p>Ahora Maven irá preguntando por una configuración básica del proyecto, estas son las respuestas que he ido dando:</p>
+<ol>
+	<li>Pregunta el arquetipo que se desea usar, realmente solo hay uno, así que pulso 1.</li>
+	<li>GroupId es el identificador del equipo de desarrollo, en este caso y por nomenclatura Java (es también el prefijo de toda la paquetería): es.aguasnegras</li>
+	<li>ArtifactId es el nombre del proyecto: helloheroku</li>
+	<li>Version se deja en blanco, será la 1.0-SNAPSHOT</li>
+	<li>Package es la paquetería del proyecto, introduzco es.aguasnegras.helloheroku</li>
+	<li>Por último, muestra un resumen y pide confirmación: Y.</li>
+</ol><p>Con esto tengo el proyecto creado según la estructura de directorio estándar de Maven. Debo tener un index.html, un Main.java y un pom.xml que contiene la configuración del proyecto según Maven.</p><p>Lo interesante es el Main.java. En Heroku no despliego sobre un servidor de aplicaciones (caso usual en Java) sino que es la misma aplicación la que crea su servidor, Jetty (por eso el arquetipo de Maven era embedded-jetty-archetype). Esto tiene sus pros y sus contras, pero de momento esta bien. Se puede ver en el main de Main.java como se instancia el servidor.</p><p>Una ventaja de esto es que voy a poder probar la aplicación en local sin tener que caer en todo el tedio de instalar un Tomcat, un Weblogic, un JBoss o un Glassfish. Y ese es el siguiente paso.</p><p><strong>Paso 2</strong></p><p>Primero hay que tener en cuenta que Maven me gestiona las dependencias (librerías, vaya) en tiempo de compilación, si quiero tenerlas disponibles en tiempo de ejecución (cuando arranque en local), tengo que exportar una variable llamada repo:</p>
+<pre><code class="prettyprint linenums">export REPO=~/.m2/repository
+</code></pre><p>Para arrancar la aplicación en local, entro en el directorio (helloheroku) y ejecuto:</p>
+<pre><code class="prettyprint linenums">mvn install
+sh target/bin/webapp
+</code></pre><p>Abro en un navegador localhost:8080 y ahí esta: "hello, world".</p><p>Para parar la aplicación, Ctrl-c en la consola y listo. Una vez probada en local, hay que moverla (pasarla, exportarla, publicarla... publicarla, sí, me gusta) a Heroku.</p><p><strong>Paso 3</strong></p><p>Para publicar la aplicación en Heroku, primero hay que crear un archivo llamado "Procfile" en el raíz del proyecto y añadirle una línea describiendo como se arranca la aplicación:</p>
+<pre><code class="prettyprint linenums">touch Procfile
+echo web: sh target/bin/webapp | tee Procfile
+</code></pre><p>Creo un repositorio de git para el proyecto:</p>
+<pre><code class="prettyprint linenums">git init
+git add .
+git commit -m &quot;commit inicial del proyecto helloheroku&quot;
+</code></pre><p>Ahora viene lo bueno, la parte de cacharreo con Heroku.</p><p>Primero creo el stack de Heroku que va a alojar la aplicación, este stack tiene que ser del tipo "cedar" que es el único que admite aplicaciones Java:</p>
+<pre><code class="prettyprint linenums">heroku create --stack cedar
+Creating fierce-autumn-4530... done, stack is cedar
+http://fierce-autumn-4530.herokuapp.com/ | git@heroku.com:fierce-autumn-4530.git
+Git remote heroku added
+</code></pre><p>El comando me ha devuelto una URL http y otra para git. Si abro la URL en un navegador, me dice que enhorabuena, tengo creada mi app.<br/>Ahora, con git, envío el master local a Heroku:</p>
+<pre><code class="prettyprint linenums">git push heroku master
+</code></pre><p>Cuando llegue a Heroku veré en la consola que se lanza un proceso de Maven (mvn install) y que se detecta el Procfile y se lanza la aplicación web. Por último, me informa de que se ha desplegado en la URL correctamente.</p>
+<pre><code class="prettyprint linenums">-----&gt; Heroku receiving push
+-----&gt; Java app detected
+-----&gt; Installing Maven 3.0.3..... done
+-----&gt; Installing settings.xml..... done
+-----&gt; executing .maven/bin/mvn -B -Duser.home=/tmp/build_s6y8o29xnjfx -s .m2/settings.xml -DskipTests=true clean install
+
+-----&gt; Discovering process types
+       Procfile declares types -&amp;gt; web
+-----&gt; Compiled slug size is 12.8MB
+-----&gt; Launching... done, v5
+       http://fierce-autumn-4530.herokuapp.com deployed to Heroku
+</code></pre><p>Si ahora abro <a href="http://fierce-autumn-4530.herokuapp.com/">http://fierce-autumn-4530.herokuapp.com/</a> en el navegador, puedo ver el "hello, world".</p><p>Bueno, pues ya esta desplegada la aplicación en un servidor, ahora, ¿cómo se aumenta?</p><p><strong>Paso 4</strong></p><p>Ya esta desplegada la aplicación en un servidor, pero claro, esto no sería la nube si no pudiera ampliar fácilmente los servidores en los que ejecuta. Voy a aumentar la aplicación a dos servidores:</p>
+<pre><code class="prettyprint linenums">heroku scale web=2
+Scaling web processes...  This action will cause your account to be billed at the end of the month
+ For more information, see http://docs.heroku.com/billing
+ Are you sure you want to do this? (y/n) y
+Scaling web processes... done, now running 2
+</code></pre><p>La verdad que no entiendo muy bien como pretenden cobrarme, porque no he dado ningún dato... pero oye... ellos mismos. Aunque habrá que mirar más a fondo el tema de como cobran.</p><p>Por último, voy a verificar que efectivamente estan corriendo dos instancias y voy a reducir a una de nuevo:</p>
+<pre><code class="prettyprint linenums">heroku ps
+Process       State               Command
+------------  ------------------  ------------------------------
+web.1         up for 17m          sh target/bin/webapp
+web.2         up for 2m           sh target/bin/webapp
+
+heroku scale web=1
+Scaling web processes... done, now running 1
+</code></pre><p>Hasta el momento toda esta información de salida es bastante... escueta. ¿Cómo se ven los logs?</p><p><strong>Paso 5</strong></p><p>Pues muy fácil, hay dos forma de ver los logs, estática o dinámica. Estática, me muestra lo que hay hasta el momento:</p>
+<pre><code class="prettyprint linenums">heroku logs
+</code></pre><p>Dinámica, no deja de ser un tail, va actualizando el log según se van creando mensajes nuevos:</p>
+<pre><code class="prettyprint linenums">heroku logs -t
+</code></pre><p><strong>Paso 6</strong></p><p>Por último, Heroku ofrece soporte para control de versiones. No me refiero solo a código, si no también, como en el ejemplo a variables de entorno, por ejemplo.</p><p>Primero me aseguro de que el servidor tiene soporte para el control de releases, mediante el addon de releases:</p>
+<pre><code class="prettyprint linenums">heroku addons:add releases:basic
+-----&gt; Adding releases:basic to fierce-autumn-4530... failed !    
+releases:basic add-on already added.
+</code></pre><p>Esta añadido, ahora voy a añadir una variable de entorno y a verificar que se ha hecho:</p>
+<pre><code class="prettyprint linenums">heroku config:add MYVAR=42
+Adding config vars:  MYVAR =&amp;gt; 42
+Restarting app... done, v6.
+
+heroku config
+DATABASE_URL        =&gt; postgres://tpqbfpkzqb:OILC1r62mtQ5YkqKTeA7@ec2-107-20-227-173.compute-1.amazonaws.com/tpqbfpkzqb
+JAVA_OPTS           =&gt; -Xmx384m -Xss512k -XX:+UseCompressedOops
+MAVEN_OPTS          =&gt; -Xmx384m -Xss512k -XX:+UseCompressedOops
+MYVAR               =&gt; 42
+PATH                =&gt; .maven/bin:/usr/local/bin:/usr/bin:/bin
+REPO                =&gt; /app/.m2/repository
+SHARED_DATABASE_URL =&gt; postgres://tpqbfpkzqb:OILC1r62mtQ5YkqKTeA7@ec2-107-20-227-173.compute-1.amazonaws.com/tpqbfpkzqb
+</code></pre><p>Muy bien, pues ahora, toca volver atrás:</p>
+<pre><code class="prettyprint linenums">heroku releases
+Rel   Change                          By                    When
+----    ----------------------          ----------                   ----------
+v6    Config add MYVAR    agustinventura@gma..  45 seconds ago           
+v5    Deploy cd3c58f          agustinventura@gma..  29 minutes ago           
+
+heroku rollback
+Rolled back to v5
+
+heroku config
+DATABASE_URL        =&gt; postgres://tpqbfpkzqb:OILC1r62mtQ5YkqKTeA7@ec2-107-20-227-173.compute-1.amazonaws.com/tpqbfpkzqb
+JAVA_OPTS           =&gt; -Xmx384m -Xss512k -XX:+UseCompressedOops
+MAVEN_OPTS          =&gt; -Xmx384m -Xss512k -XX:+UseCompressedOops
+PATH                =&gt; .maven/bin:/usr/local/bin:/usr/bin:/bin
+REPO                =&gt; /app/.m2/repository
+SHARED_DATABASE_URL =&gt; postgres://tpqbfpkzqb:OILC1r62mtQ5YkqKTeA7@ec2-107-20-227-173.compute-1.amazonaws.com/tpqbfpkzqb
+</code></pre><p>¡Listo! Hecha la vuelta atrás a la última publicación estable.</p><p><strong>Código en GitHub</strong></p><p><strong><a href="https://github.com/agustinventura/helloheroku/tree/cd3c58faf1ceaf0905b390f41f2f51088ca3724b"><img class="aligncenter size-full wp-image-255" title="GitHub" src="/images/2011/08/github_icon.png" alt="GitHub" width="115" height="115" /></a><br/></strong></p><p><strong>Conclusiones</strong></p><p>Pues de momento parece que Heroku ofrece lo que promete, uso de Java estándar, e integración con herramientas actuales: git y Maven. Además me ha sorprendido gratamente la herramienta de consola con más utilidades de lo que parece y que hace muy sencillo aumentar el número de instancias de la aplicación.</p><p>Esto sí, echo en falta... un plugin de Eclipse, tendré que investigar si existe o esta en desarrollo.</p><p>Igualmente tengo que investigar bien las opciones de facturación y algunos conceptos como dyno, stack, etc...</p>
+		</div>
+<div class="col s12">
+<div id="disqus_thread"></div>
+<script>
+    var disqus_config = function () {
+        this.page.url = 'http://www.aguasnegras.es/blog/2011/09/16-Java en Heroku.html';
+        this.page.identifier = 'blog/2011/09/16-Java en Heroku.html';
+    };
+    (function() {
+        var d = document, s = d.createElement('script');
+        s.src = '//aguasnegras.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+</div>
+</div>
+</div>
+</div>
+    <footer class="page-footer light-blue darken-3">
+      <div class="container">
+        <div class="row">
+         <div class="col s5">
+			<h5><a href="../../../archive.html" class="white-text">Archivo</a></h5>
+			<p><a href="../../../archive.html" class="white-text">Todos los posts</a></p>
+	    </div>
+	    <div class="col s5">
+            <h5 class="white-text">Tags</h5>
+			    <a href="../../../tags/Eclipse.html"><div class="chip">Eclipse</div></a>
+			    <a href="../../../tags/GitHub.html"><div class="chip">GitHub</div></a>
+			    <a href="../../../tags/PostgreSQL.html"><div class="chip">PostgreSQL</div></a>
+			    <a href="../../../tags/Minientrada.html"><div class="chip">Minientrada</div></a>
+			    <a href="../../../tags/WordPress.html"><div class="chip">WordPress</div></a>
+			    <a href="../../../tags/JUnit.html"><div class="chip">JUnit</div></a>
+			    <a href="../../../tags/Proyectos.html"><div class="chip">Proyectos</div></a>
+			    <a href="../../../tags/tutorial.html"><div class="chip">tutorial</div></a>
+			    <a href="../../../tags/Spring Roo.html"><div class="chip">Spring Roo</div></a>
+			    <a href="../../../tags/Emulador.html"><div class="chip">Emulador</div></a>
+			    <a href="../../../tags/Markdown.html"><div class="chip">Markdown</div></a>
+			    <a href="../../../tags/log4j.html"><div class="chip">log4j</div></a>
+			    <a href="../../../tags/Java.html"><div class="chip">Java</div></a>
+			    <a href="../../../tags/slf4j.html"><div class="chip">slf4j</div></a>
+			    <a href="../../../tags/Heroku.html"><div class="chip">Heroku</div></a>
+			    <a href="../../../tags/Base de Datos.html"><div class="chip">Base de Datos</div></a>
+			    <a href="../../../tags/Problemas.html"><div class="chip">Problemas</div></a>
+			    <a href="../../../tags/Spring.html"><div class="chip">Spring</div></a>
+			    <a href="../../../tags/Android.html"><div class="chip">Android</div></a>
+			    <a href="../../../tags/JBake.html"><div class="chip">JBake</div></a>
+			    <a href="../../../tags/Ruby on Rails.html"><div class="chip">Ruby on Rails</div></a>
+			    <a href="../../../tags/Git.html"><div class="chip">Git</div></a>
+			    <a href="../../../tags/Linux.html"><div class="chip">Linux</div></a>
+			    <a href="../../../tags/JustPlay.html"><div class="chip">JustPlay</div></a>
+			    <a href="../../../tags/Cloud.html"><div class="chip">Cloud</div></a>
+			    <a href="../../../tags/Wordpress.html"><div class="chip">Wordpress</div></a>
+			    <a href="../../../tags/logging.html"><div class="chip">logging</div></a>
+			    <a href="../../../tags/Programación.html"><div class="chip">Programación</div></a>
+			    <a href="../../../tags/Tools of the Trade.html"><div class="chip">Tools of the Trade</div></a>
+			    <a href="../../../tags/Amazon.html"><div class="chip">Amazon</div></a>
+			    <a href="../../../tags/SEO.html"><div class="chip">SEO</div></a>
+			    <a href="../../../tags/Intellij IDEA.html"><div class="chip">Intellij IDEA</div></a>
+	    </div>
+        <div class="col s2 right-align">
+            <a href="http://twitter.com/agustinventura" target="_blank" class="social-link white-text" ><i class="fa  fa-twitter  fa-3x" title="Twitter" aria-hidden="true"></i></a>
+            <a href="http://github.com/agustinventura" target="_blank" class="social-link white-text"><i class="fa  fa-github  fa-3x" title="Github" aria-hidden="true"></i></a>
+            <a href="https://www.linkedin.com/in/agustinventura" target="_blank" class="social-link white-text"><i class="fa  fa-linkedin  fa-3x" title="LinkedIn" aria-hidden="true"></i></a>
+        </div>
+      </div>
+      </div>
+      </div>
+      <div class="footer-copyright">
+            <div class="container">
+        <p class="center-align">&copy; 2016 | Mixed with <a class="footer-link white-text" href="http://materializecss.com/" target="_blank">Materialize</a> | Baked with <a <a class="footer-link white-text" href="http://jbake.org">JBake</a></p>
+            </div>
+          </div>
+    </footer>
+
+    <script async src="//cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
+		<script async src="//code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script async src="//cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js"></script>
+  </body>
+</html>
