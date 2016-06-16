@@ -6,8 +6,8 @@
     <atom:link href="http://www.aguasnegras.es/feed.xml" rel="self" type="application/rss+xml" />
     <description>AguasNegras, tecnología, programación y Java</description>
     <language>es-es</language>
-    <pubDate>jue, 16 jun 2016 13:51:40 +0200</pubDate>
-    <lastBuildDate>jue, 16 jun 2016 13:51:40 +0200</lastBuildDate>
+    <pubDate>jue, 16 jun 2016 13:53:36 +0200</pubDate>
+    <lastBuildDate>jue, 16 jun 2016 13:53:36 +0200</lastBuildDate>
 
     <item>
       <title>Nueva API de Fecha y Hora en Java 8</title>
