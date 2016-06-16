@@ -41,6 +41,24 @@
         <div class="col s12">
 			        <div class="card hoverable">
 				        <div class="card-content">
+	          			<span class="card-title"><a href="blog/2016/06/16-Nueva API de Fecha y Hora en Java 8.html"><h4>Nueva API de Fecha y Hora en Java 8</h4></a></span>
+					        <div class="section">
+	          			        16 junio 2016
+					        </div>
+					        <div class="section">
+	          			            <p class="flow-text">
+	          			                <p>Unos apuntes rápidos sobre la nueva API de fecha y hora en Java 8. Primero, clases fundamentales:<br/>1. LocalDate: La fecha en el contexto local. En una zona horaria determinada.<br/>2. LocalTime: La hora en el contexto local.<br/>3. LocalDateTime: La composición de ambas.
+	          			                <br/>
+	          			                ...
+	          			            </p>
+					        </div>
+				        </div>
+				        <div class="card-action">
+					        <a href="blog/2016/06/16-Nueva API de Fecha y Hora en Java 8.html">Leer</a>
+				        </div>
+			        </div>
+			        <div class="card hoverable">
+				        <div class="card-content">
 	          			<span class="card-title"><a href="blog/2016/06/10-wp2jbake-generacion.html"><h4>Wordpress to JBake - Generación de Archivos</h4></a></span>
 					        <div class="section">
 	          			        10 junio 2016
@@ -201,28 +219,6 @@
 					        <a href="blog/2013/09/02-Logging en Java con SLF4J y Log4j2.html">Leer</a>
 				        </div>
 			        </div>
-			        <div class="card hoverable">
-				        <div class="card-content">
-	          			<span class="card-title"><a href="blog/2013/03/09-Emulador de Android en Ubuntu (Initializing hardware OpenGLES emulation support).html"><h4>Emulador de Android en Ubuntu (Initializing hardware OpenGLES emulation support)</h4></a></span>
-					        <div class="section">
-	          			        09 marzo 2013
-					        </div>
-					        <div class="section">
-    					            <p class="flow-text"><p>A veces (normalmente en una instalación nueva), los emuladores de Android no arrancan en Ubuntu de 64 bits debido a un error con OpenGLES.</p><p>Para comprobar si la solución es aplicable, hay que ejecutar este comando desde la consola:</p>
-<pre><code class="prettyprint linenums">$ ./emulator -avd GalaxyS -verbose
-</code></pre><p>Donde GalaxyS será el nombre del avd que se desee arrancar, al final del log deberemos ver algo así:</p>
-<pre><code class="prettyprint linenums">emulator: Initializing hardware OpenGLES emulation support
-Violación de segmento (`core&#39; generado)
-</code></pre><p>El problema y su solución se encuentra reportado <a title="Android Issue 34233" href="http://code.google.com/p/android/issues/detail?id=34233" target="_blank">aquí</a>.</p><p>Básicamente la solución consiste en lo siguiente:</p>
-<pre><code class="prettyprint linenums">$ cd $ANDROID_SDK/tools/lib
-$ mv libOpenglRender.so libOpenglRender.so.bak
-</code></pre><p>Y listo.</p></p>
-					        </div>
-				        </div>
-				        <div class="card-action">
-					        <a href="blog/2013/03/09-Emulador de Android en Ubuntu (Initializing hardware OpenGLES emulation support).html">Leer</a>
-				        </div>
-			        </div>
         </div>
     </div>
 </div>
@@ -238,6 +234,7 @@ $ mv libOpenglRender.so libOpenglRender.so.bak
 			    <a href="tags/Eclipse.html"><div class="chip">Eclipse</div></a>
 			    <a href="tags/GitHub.html"><div class="chip">GitHub</div></a>
 			    <a href="tags/PostgreSQL.html"><div class="chip">PostgreSQL</div></a>
+			    <a href="tags/Time.html"><div class="chip">Time</div></a>
 			    <a href="tags/Minientrada.html"><div class="chip">Minientrada</div></a>
 			    <a href="tags/WordPress.html"><div class="chip">WordPress</div></a>
 			    <a href="tags/JUnit.html"><div class="chip">JUnit</div></a>
@@ -253,6 +250,7 @@ $ mv libOpenglRender.so libOpenglRender.so.bak
 			    <a href="tags/Base de Datos.html"><div class="chip">Base de Datos</div></a>
 			    <a href="tags/Problemas.html"><div class="chip">Problemas</div></a>
 			    <a href="tags/Spring.html"><div class="chip">Spring</div></a>
+			    <a href="tags/Date.html"><div class="chip">Date</div></a>
 			    <a href="tags/Android.html"><div class="chip">Android</div></a>
 			    <a href="tags/JBake.html"><div class="chip">JBake</div></a>
 			    <a href="tags/Ruby on Rails.html"><div class="chip">Ruby on Rails</div></a>
