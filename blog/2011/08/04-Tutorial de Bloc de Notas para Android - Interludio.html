@@ -11,9 +11,9 @@
     <!--Import Google Icon Font-->
      <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
      <!-- Import Font Awesome Icons-->
-     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <!-- Compiled and minified CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/css/materialize.min.css">
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
       <script src="../../../js/html5shiv.min.js"></script>
@@ -49,17 +49,20 @@
 	<li>Tal y como pone el tutorial, mediante una clase interna anónima.</li>
 	<li>Seguimos depurando, hacemos que NoteEdit.java implemente O<a title="Documentación de onClickListener" href="http://developer.android.com/reference/android/view/View.OnClickListener.html" target="_blank">nClickListener</a></li>
 	<li>Definir el onClick en el layout del botón y definir el método en el NoteEdit. A priori es la forma más elegante y mejor.</li>
-</ol><p>Por curiosidad, voy a aplicar cada una de las soluciones y voy a tomar dos medidas:</p>
+</ol>
+<p>Por curiosidad, voy a aplicar cada una de las soluciones y voy a tomar dos medidas:</p>
 <ol>
 	<li>Tiempo de ejecución del onCreate.</li>
 	<li>Tiempo de ejecución del onClick.</li>
-</ol><p>El proceso de prueba será:</p>
+</ol>
+<p>El proceso de prueba será:</p>
 <ol>
 	<li>Seleccionar una nota ya existente.</li>
 	<li>Modificar el título.</li>
 	<li>Modificar el cuerpo.</li>
 	<li>Pulsar confirmar.</li>
-</ol><p><strong>Primera forma</strong>, código:</p>
+</ol>
+<p><strong>Primera forma</strong>, código:</p>
 <pre><code class="prettyprint linenums">protected void onCreate(Bundle savedInstanceState) {
 		long onCreateStartTime = System.currentTimeMillis();
 		//Se invoca el onCreate de Activity
@@ -112,11 +115,13 @@
 		long onCreateFinishTime = System.currentTimeMillis();
 		Log.d(&quot;Tiempo de ejecución: &quot;, Long.toString(onCreateFinishTime - onCreateStartTime));
 	}
-</code></pre><p>Tiempos:</p>
+</code></pre>
+<p>Tiempos:</p>
 <ol>
 	<li>onCreate: 80 msg</li>
 	<li>onClick: 10 msg.</li>
-</ol><p><strong>Segunda forma</strong>, código:</p>
+</ol>
+<p><strong>Segunda forma</strong>, código:</p>
 <pre><code class="prettyprint linenums">@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		long onCreateStartTime = System.currentTimeMillis();
@@ -171,11 +176,13 @@
         Log.d(&quot;Tiempo de ejecución: &quot;, Long.toString(onClickFinishTime - onClickStartTime));
         finish();
 	}
-</code></pre><p>Tiempos:</p>
+</code></pre>
+<p>Tiempos:</p>
 <ol>
 	<li>onCreate: 130 msg</li>
 	<li>onClick: 8 msg.</li>
-</ol><p><strong>Tercera forma</strong>, código:</p>
+</ol>
+<p><strong>Tercera forma</strong>, código:</p>
 <pre><code class="prettyprint linenums">protected void onCreate(Bundle savedInstanceState) {
 		long onCreateStartTime = System.currentTimeMillis();
 		//Se invoca el onCreate de Activity
@@ -226,18 +233,21 @@
         Log.d(&quot;Tiempo de ejecución: &quot;, Long.toString(onClickFinishTime - onClickStartTime));
         finish();
 	}
-</code></pre><p>Y la definición del botón:</p>
+</code></pre>
+<p>Y la definición del botón:</p>
 <pre><code class="prettyprint linenums"><br/>&lt;Button android:id=&quot;@+id/confirm&quot; 
 	  android:text=&quot;@string/confirm&quot;
 		android:layout_width=&quot;wrap_content&quot;
 		android:layout_height=&quot;wrap_content&quot;
 		android:onClick=&quot;confirmClickListener&quot; /&gt;
 
-</code></pre><p>Veamos los tiempos:</p>
+</code></pre>
+<p>Veamos los tiempos:</p>
 <ol>
 	<li>onCreate: 48 msg</li>
 	<li>onClick: 3 msg.</li>
-</ol><p>Conclusiones.</p>
+</ol>
+<p>Conclusiones.</p>
 <ul>
 	<li>En primer lugar, hay que decir que estas pruebas son un poco cutres. Para tener algo más de fiabilidad habría que usar un framework de pruebas y ejecutar multiples veces (al menos 100) el caso de prueba. Habría que hallar entonces la media y la varianza... pero de mientras...</li>
 	<li>En general, podemos decir que la tercera forma es la más natural, tan solo hay que enlazar el onClick del botón con la función que le dá soporte.</li>
@@ -245,7 +255,10 @@
 	<li>Tanto la segunda como la tercera forma han arrojado valores bastante similares.</li>
 	<li>Queda a bastante distancia la primera forma. No solo es la más ilegible, sino que además es la más lenta, particularmente en el onCreate. Hay que tener en cuenta que siempre hay que hacer estos métodos lo más fluido posible, ya que uno de ellos excesivamente largo puede causar una pausa perceptible para el usuario. Es decir, es preferible tener dos métodos con una duración "media" que uno solo muy largo y otro muy corto.</li>
 	<li>Por último también hay que tener en cuenta otro punto. He evaluado lo que tardan en ejecutar los métodos. Pero no cómo de bien se acopla el framework de Android al uso de uno o de otro. Me explico, está claro que en la tercera forma, es el mismo framework el que se encarga de enlazar botón y función. Es decir, que el tiempo que hemos medido no es del todo real, ya que habría que sumarle algo de tiempo que tarda el framework en ejecutar esta operación. En el primer y segundo caso, podemos suponer que el framework interviene de una forma menos intrusiva, al estar manipulando a mano el botón.</li>
-</ul><p>Poco más... me desconcierta un poco que el mismo tutorial sugiera una forma de hacer las cosas subóptima en más de un sentido, pero bueno...</p><p>Addenda.</p><p>No todo iba a ser malo... de propina he visto el uso de la clase Log así por encima, y solo puedo decir que lo aplaudo. Me parece estupendo que traiga un sistema de logging claro y conciso ya integrado. Asimismo, el uso de los tags y del LogCat es un combo de una utilidad impresionante :D</p>
+</ul>
+<p>Poco más... me desconcierta un poco que el mismo tutorial sugiera una forma de hacer las cosas subóptima en más de un sentido, pero bueno...</p>
+<p>Addenda.</p>
+<p>No todo iba a ser malo... de propina he visto el uso de la clase Log así por encima, y solo puedo decir que lo aplaudo. Me parece estupendo que traiga un sistema de logging claro y conciso ya integrado. Asimismo, el uso de los tags y del LogCat es un combo de una utilidad impresionante :D</p>
 		</div>
 <div class="col s12">
 <div id="disqus_thread"></div>
@@ -282,6 +295,7 @@
 			    <a href="../../../tags/Minientrada.html"><div class="chip">Minientrada</div></a>
 			    <a href="../../../tags/WordPress.html"><div class="chip">WordPress</div></a>
 			    <a href="../../../tags/JUnit.html"><div class="chip">JUnit</div></a>
+			    <a href="../../../tags/Javascript.html"><div class="chip">Javascript</div></a>
 			    <a href="../../../tags/Proyectos.html"><div class="chip">Proyectos</div></a>
 			    <a href="../../../tags/tutorial.html"><div class="chip">tutorial</div></a>
 			    <a href="../../../tags/Spring Roo.html"><div class="chip">Spring Roo</div></a>
@@ -309,6 +323,7 @@
 			    <a href="../../../tags/Amazon.html"><div class="chip">Amazon</div></a>
 			    <a href="../../../tags/SEO.html"><div class="chip">SEO</div></a>
 			    <a href="../../../tags/Intellij IDEA.html"><div class="chip">Intellij IDEA</div></a>
+			    <a href="../../../tags/AngularJS 2.html"><div class="chip">AngularJS 2</div></a>
 	    </div>
         <div class="col s2 right-align">
             <a href="http://twitter.com/agustinventura" target="_blank" class="social-link white-text" ><i class="fa  fa-twitter  fa-3x" title="Twitter" aria-hidden="true"></i></a>

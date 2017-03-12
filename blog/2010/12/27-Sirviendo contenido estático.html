@@ -11,9 +11,9 @@
     <!--Import Google Icon Font-->
      <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
      <!-- Import Font Awesome Icons-->
-     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <!-- Compiled and minified CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/css/materialize.min.css">
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
       <script src="../../../js/html5shiv.min.js"></script>
@@ -47,7 +47,8 @@
 			<p>Después de unas buenas (y merecidas) vacaciones, sigo con el tutorial de RoR, esta vez en el capítulo tres voy a empezar a desarrollar una aplicación completa y entendiéndola en profundidad, ya no solo voy a usar scaffolding y punto.<br/>Empiezo por la sección de "Contenido Estático", me parece cojonuda la idea, siempre es buena idea maximizar a tope el contenido estático, ya que no solo salva tiempo de CPU, sino que además permite que funcionen las técnicas de cacheo de apache, etc...<br/>Creo el proyecto nuevo tal y como se especifica.</p>
 <pre><code class="prettyprint linenums"><br/>$ rails new sample_app -T
 
-</code></pre><p>El -T es nuevo, por lo visto es para NO crear un directorio de tests asociado al framework de pruebas unitarias Test::Unit, ya que se va a utilizar otro llamado RSpec.<br/>Ahora edito el Gemfile para incluir las dependencias, incluyendo sqlite y rspec:</p>
+</code></pre>
+<p>El -T es nuevo, por lo visto es para NO crear un directorio de tests asociado al framework de pruebas unitarias Test::Unit, ya que se va a utilizar otro llamado RSpec.<br/>Ahora edito el Gemfile para incluir las dependencias, incluyendo sqlite y rspec:</p>
 <pre><code class="prettyprint linenums"><br/>$ cat Gemfile 
 source &#39;http://rubygems.org&#39;
 
@@ -64,7 +65,8 @@ group :test do
 	gem &#39;webrat&#39;, &#39;0.7.1&#39;
 end
 
-</code></pre><p>En un principio y sin saber muy bien como va esto, diría que son como tasks de Ant o fases del ciclo de vida de Maven, es decir, los gems solo se instalan para determinados "perfiles" de compilación, sqlite sería siempre pero rspec solo cuando hagamos "development" o "test", a ver si lo explican más adelante.<br/>Hago un bundle install para instalar RSpec y como esta tardando, voy a mirar en la wikipedia algo de este framework.<br/>Vaya artículo más "escueto" dice que es un framework para Behavior Driven Development (primera vez en mi vida que escucho esto) y que incluye su propio mock framework, cosa que está muy bien pensada, en general pruebas unitarias sin un mock framework se quedan un poco cortas. Y con esto ya me he respondido una de mis primeras preguntas sobre frameworks de pruebas unitarias, si que existen, al menos dos.<br/>Anda, ha fallado el bundle install:</p>
+</code></pre>
+<p>En un principio y sin saber muy bien como va esto, diría que son como tasks de Ant o fases del ciclo de vida de Maven, es decir, los gems solo se instalan para determinados "perfiles" de compilación, sqlite sería siempre pero rspec solo cuando hagamos "development" o "test", a ver si lo explican más adelante.<br/>Hago un bundle install para instalar RSpec y como esta tardando, voy a mirar en la wikipedia algo de este framework.<br/>Vaya artículo más "escueto" dice que es un framework para Behavior Driven Development (primera vez en mi vida que escucho esto) y que incluye su propio mock framework, cosa que está muy bien pensada, en general pruebas unitarias sin un mock framework se quedan un poco cortas. Y con esto ya me he respondido una de mis primeras preguntas sobre frameworks de pruebas unitarias, si que existen, al menos dos.<br/>Anda, ha fallado el bundle install:</p>
 <pre><code class="prettyprint linenums"><br/>Installing nokogiri (1.4.4) with native extensions /home/case/.rvm/rubies/ruby-1.9.2-p0/lib/ruby/1.9.1/rubygems/installer.rb:483:in `rescue in block in build_extensions&#39;: ERROR: Failed to build gem native extension. (Gem::Installer::ExtensionBuildError)
 
 /home/case/.rvm/rubies/ruby-1.9.2-p0/bin/ruby extconf.rb 
@@ -73,19 +75,24 @@ checking for libxslt/xslt.h... no
 -----
 libxslt is missing.  please visit http://nokogiri.org/tutorials/installing_nokogiri.html for help with installing dependencies.
 
-</code></pre><p>Venga, pues voy a pegarle un apt-get de las dependencias para asegurarme que lo tengo todo.</p>
+</code></pre>
+<p>Venga, pues voy a pegarle un apt-get de las dependencias para asegurarme que lo tengo todo.</p>
 <pre><code class="prettyprint linenums"><br/>sudo apt-get install libxslt-dev libxml2-dev
 
-</code></pre><p>Y efectivamente, libxml2 ya la tenía pero no libxslt. Hago el bundle install de nuevo.<br/>Para instalar los archivos necesarios de RSpec:</p>
+</code></pre>
+<p>Y efectivamente, libxml2 ya la tenía pero no libxslt. Hago el bundle install de nuevo.<br/>Para instalar los archivos necesarios de RSpec:</p>
 <pre><code class="prettyprint linenums"><br/>$ rails generate rspec:install
 
-</code></pre><p>Ahora cambio el README, hago el primer commit en git, creo el repositorio en GitHub y lo despliego en Heroku.<br/>Seguimos con contenidos estáticos, por defecto en el directorio /public de la aplicación se encuentran los contenidos estáticos y accesibles directamente, es decir, todo lo que hay en esta carpeta es servido al cliente sin mayor problema.<br/>Ahí esta index.html que es la página que se sirve por defecto al primer request y lo dicho, es estática.<br/>Como ya he visto además, Rails puede mezclar código Ruby y HTML al más puro estilo jsp-old-skool... hmm... no sé si eso es una ventaja o un inconveniente y me surge otra duda ¿hay algún tipo de composite pattern?¿Un Tiles o un Facelets? In tutorial we trust...<br/>Muy bien, ahora lo que voy a hacer es crear un controlador para que sirva el contenido estático de la aplicación, es decir, voy a empezar a integrar el contenido estático con el MVC. El controlador va a servir la página About y la de Contact.<br/>Creo un branch en git para ir haciendo el trabajo:</p>
+</code></pre>
+<p>Ahora cambio el README, hago el primer commit en git, creo el repositorio en GitHub y lo despliego en Heroku.<br/>Seguimos con contenidos estáticos, por defecto en el directorio /public de la aplicación se encuentran los contenidos estáticos y accesibles directamente, es decir, todo lo que hay en esta carpeta es servido al cliente sin mayor problema.<br/>Ahí esta index.html que es la página que se sirve por defecto al primer request y lo dicho, es estática.<br/>Como ya he visto además, Rails puede mezclar código Ruby y HTML al más puro estilo jsp-old-skool... hmm... no sé si eso es una ventaja o un inconveniente y me surge otra duda ¿hay algún tipo de composite pattern?¿Un Tiles o un Facelets? In tutorial we trust...<br/>Muy bien, ahora lo que voy a hacer es crear un controlador para que sirva el contenido estático de la aplicación, es decir, voy a empezar a integrar el contenido estático con el MVC. El controlador va a servir la página About y la de Contact.<br/>Creo un branch en git para ir haciendo el trabajo:</p>
 <pre><code class="prettyprint linenums"><br/>p$ git checkout -b static-pages
 
-</code></pre><p>Ahora, para crear el controlador que las va a usar se usará generate. Generate es un script de Rails que genera controladores, toma como parámetros el nombre del controlador y las acciones que ejecuta, es decir:</p>
+</code></pre>
+<p>Ahora, para crear el controlador que las va a usar se usará generate. Generate es un script de Rails que genera controladores, toma como parámetros el nombre del controlador y las acciones que ejecuta, es decir:</p>
 <pre><code class="prettyprint linenums"><br/>$ rails generate controller Pages home contact
 
-</code></pre><p>La salida del generate dá una lista de las acciones efectuadas</p>
+</code></pre>
+<p>La salida del generate dá una lista de las acciones efectuadas</p>
 <pre><code class="prettyprint linenums"><br/>create  app/controllers/pages_controller.rb
        route  get &quot;pages/contact&quot;
        route  get &quot;pages/home&quot;
@@ -103,7 +110,8 @@ libxslt is missing.  please visit http://nokogiri.org/tutorials/installing_nokog
       invoke    rspec
       create      spec/helpers/pages_helper_spec.rb
 
-</code></pre><p>Primero se crea el pages_controller.rb, después se crean los routes de ambas acciones, se invoca erb para generar las páginas (vistas) de cada una de las acciones y por último con rspec se generan las pruebas y algunos helpers.<br/>Las líneas de route anteriores implican que si hago una petición get a sample_app/pages/home y sample_app/pages/contact voy a obtener las páginas generadas por erb. Compruebo y todo correcto (que plantilla más fea).<br/>Es hora de hacer que se muestre una página html plana, para ello, abro el controlador que acabo de crear:</p>
+</code></pre>
+<p>Primero se crea el pages_controller.rb, después se crean los routes de ambas acciones, se invoca erb para generar las páginas (vistas) de cada una de las acciones y por último con rspec se generan las pruebas y algunos helpers.<br/>Las líneas de route anteriores implican que si hago una petición get a sample_app/pages/home y sample_app/pages/contact voy a obtener las páginas generadas por erb. Compruebo y todo correcto (que plantilla más fea).<br/>Es hora de hacer que se muestre una página html plana, para ello, abro el controlador que acabo de crear:</p>
 <pre><code class="prettyprint linenums"><br/>class PagesController &lt; ApplicationController
   def home
   end
@@ -113,11 +121,13 @@ libxslt is missing.  please visit http://nokogiri.org/tutorials/installing_nokog
 
 end
 
-</code></pre><p>Efectivamente, las acciones están vacías, así que salvo la lógica que esté definida por defecto en ApplicationController, no se ejecuta nada, habrá que redirigir a la vista, ¿no?<br/>Punto interesante, en Ruby on Rails, se ejecuta el controlador y a continuación se renderiza la vista, es decir, no voy a tener que "redirigir"... cosa que por otra parte ya había comprobado experimentalmente, la vista estaba saliendo pero el controlador estaba vacío.<br/>Si abro la vista en sample_app/app/views/pages, me encuentro esto:</p>
+</code></pre>
+<p>Efectivamente, las acciones están vacías, así que salvo la lógica que esté definida por defecto en ApplicationController, no se ejecuta nada, habrá que redirigir a la vista, ¿no?<br/>Punto interesante, en Ruby on Rails, se ejecuta el controlador y a continuación se renderiza la vista, es decir, no voy a tener que "redirigir"... cosa que por otra parte ya había comprobado experimentalmente, la vista estaba saliendo pero el controlador estaba vacío.<br/>Si abro la vista en sample_app/app/views/pages, me encuentro esto:</p>
 <pre><code class="prettyprint linenums"><br/>&amp;lt;h1&amp;gt;Pages#home&amp;lt;/h1&amp;gt;
 &amp;lt;p&amp;gt;Find me in app/views/pages/home.html.erb&amp;lt;/p&amp;gt;
 
-</code></pre><p>Es decir, html SIN encabezado, ni body, ni nada. Solo la manteca. Esta bien, esto va indicando a algún sistema de plantillas como pensaba más arriba.<br/>Se acabó. Así se sirve contenido estático.<br/>Generalizando, con generate se crea el controlador, las vistas, etc y en views tenemos las páginas en las cuales puedo poner el html relevante.<br/>Esta bien, se sube a git y palante.</p>
+</code></pre>
+<p>Es decir, html SIN encabezado, ni body, ni nada. Solo la manteca. Esta bien, esto va indicando a algún sistema de plantillas como pensaba más arriba.<br/>Se acabó. Así se sirve contenido estático.<br/>Generalizando, con generate se crea el controlador, las vistas, etc y en views tenemos las páginas en las cuales puedo poner el html relevante.<br/>Esta bien, se sube a git y palante.</p>
 <pre><code class="prettyprint linenums"><br/>$ git add .
 $ git commit -am &quot;Añadido controlador Pages (contenido estático)&quot;
 
@@ -158,6 +168,7 @@ $ git commit -am &quot;Añadido controlador Pages (contenido estático)&quot;
 			    <a href="../../../tags/Minientrada.html"><div class="chip">Minientrada</div></a>
 			    <a href="../../../tags/WordPress.html"><div class="chip">WordPress</div></a>
 			    <a href="../../../tags/JUnit.html"><div class="chip">JUnit</div></a>
+			    <a href="../../../tags/Javascript.html"><div class="chip">Javascript</div></a>
 			    <a href="../../../tags/Proyectos.html"><div class="chip">Proyectos</div></a>
 			    <a href="../../../tags/tutorial.html"><div class="chip">tutorial</div></a>
 			    <a href="../../../tags/Spring Roo.html"><div class="chip">Spring Roo</div></a>
@@ -185,6 +196,7 @@ $ git commit -am &quot;Añadido controlador Pages (contenido estático)&quot;
 			    <a href="../../../tags/Amazon.html"><div class="chip">Amazon</div></a>
 			    <a href="../../../tags/SEO.html"><div class="chip">SEO</div></a>
 			    <a href="../../../tags/Intellij IDEA.html"><div class="chip">Intellij IDEA</div></a>
+			    <a href="../../../tags/AngularJS 2.html"><div class="chip">AngularJS 2</div></a>
 	    </div>
         <div class="col s2 right-align">
             <a href="http://twitter.com/agustinventura" target="_blank" class="social-link white-text" ><i class="fa  fa-twitter  fa-3x" title="Twitter" aria-hidden="true"></i></a>

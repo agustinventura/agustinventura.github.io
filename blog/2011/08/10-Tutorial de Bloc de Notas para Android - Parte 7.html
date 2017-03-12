@@ -11,9 +11,9 @@
     <!--Import Google Icon Font-->
      <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
      <!-- Import Font Awesome Icons-->
-     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <!-- Compiled and minified CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/css/materialize.min.css">
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
       <script src="../../../js/html5shiv.min.js"></script>
@@ -44,16 +44,22 @@
 			10 agosto 2011
 		</div>
 		<div class="section">
-			<p>Actualmente, la aplicación de bloc de notas deja mucho que desear, no solo con respecto al aspecto gráfico o usabilidad de la misma, sino que además no esta integrada en el ciclo de vida.</p><p>Una Activity tiene un <a title="Ciclo de Vida de Activity" href="http://developer.android.com/reference/android/app/Activity.html#ActivityLifecycle" target="_blank">ciclo de vida</a> determinado y el programador se tiene que ajustar a él. Por ejemplo, si se arranca la aplicación y se le da a crear o editar una nota y a continuación al botón de atrás, la Activity se cierra inesperadamente. Para evitar este tipo de cosas, el tutorial propone dos soluciones:</p>
+			<p>Actualmente, la aplicación de bloc de notas deja mucho que desear, no solo con respecto al aspecto gráfico o usabilidad de la misma, sino que además no esta integrada en el ciclo de vida.</p>
+<p>Una Activity tiene un <a title="Ciclo de Vida de Activity" href="http://developer.android.com/reference/android/app/Activity.html#ActivityLifecycle" target="_blank">ciclo de vida</a> determinado y el programador se tiene que ajustar a él. Por ejemplo, si se arranca la aplicación y se le da a crear o editar una nota y a continuación al botón de atrás, la Activity se cierra inesperadamente. Para evitar este tipo de cosas, el tutorial propone dos soluciones:</p>
 <ol>
 	<li>Integrar la Activity NoteEdit en el ciclo de vida de una Activity de Android.</li>
 	<li>Mover toda la lógica de acceso a base de datos necesaria a NoteEdit (si se pulsa el botón atrás, se disparará el onPause() que se encargará de salvar la nota a la base de datos)</li>
-</ol><p>En general esto implica algunas funciones nuevas (básicamente, los callbacks del ciclo de vida) y movimiento de código de un lado a otro. A ello.</p><p>Con el nuevo enfoque (acceso a la base de datos en NoteEdit), se hace inútil pasar todos los datos de la nota a NoteEdit, basta con pasar el mRowId. Si mRowId es null, será una creación de nueva nota, en otro caso será una edición y se cargarán los datos de la base de datos. Borro en NoteEdit.java las líneas 46 y 47 y de la 50 a la 55.</p><p>Creo también una instancia de clase de NotesDbAdapter y se inicializa en el onCreate, justo después del super.onCreate().</p><p>Ahora viene la obtención del mRowId, se sigue este orden:</p>
+</ol>
+<p>En general esto implica algunas funciones nuevas (básicamente, los callbacks del ciclo de vida) y movimiento de código de un lado a otro. A ello.</p>
+<p>Con el nuevo enfoque (acceso a la base de datos en NoteEdit), se hace inútil pasar todos los datos de la nota a NoteEdit, basta con pasar el mRowId. Si mRowId es null, será una creación de nueva nota, en otro caso será una edición y se cargarán los datos de la base de datos. Borro en NoteEdit.java las líneas 46 y 47 y de la 50 a la 55.</p>
+<p>Creo también una instancia de clase de NotesDbAdapter y se inicializa en el onCreate, justo después del super.onCreate().</p>
+<p>Ahora viene la obtención del mRowId, se sigue este orden:</p>
 <ol>
 	<li>Si la Activity estaba en ejecución anteriormente, habrá una instancia salvada, que se habrá pasado. En este caso se obtiene de esa instancia.</li>
 	<li>Si no, es posible que el Intent traiga el mRowId, habrá que comprobarlo.</li>
 	<li>Por último, puede ser que no venga de ninguna de las maneras y que, por tanto, sea un alta.</li>
-</ol><p>Sustituyo el código de las líneas 46 a 50 por este:</p>
+</ol>
+<p>Sustituyo el código de las líneas 46 a 50 por este:</p>
 <pre><code class="prettyprint linenums">//Si la aplicación no tiene estado salvado, mRowId será nulo. En caso de tenerlo, se recupera.
 mRowId = (savedInstanceState == null) ? null :
     (Long) savedInstanceState.getSerializable(NotesDbAdapter.KEY_ROWID);
@@ -65,14 +71,18 @@ mRowId = (savedInstanceState == null) ? null :
          mRowId = extras != null ? extras.getLong(NotesDbAdapter.KEY_ROWID)
                      : null;
      }
-</code></pre><p>Nota de interés, en el primer caso se usa getSerializable porque <a title="Documentación de getSerializable" href="http://developer.android.com/reference/android/os/Bundle.html#getSerializable(java.lang.String)" target="_blank">devuelve un Object</a> (una instancia de Serializable, más concretamente), mientras que getLong <a title="Documentación de getLong" href="http://developer.android.com/reference/android/os/Bundle.html#getLong(java.lang.String)" target="_blank">devuelve un long</a> (el tipo primitivo), así que no serviría para hacer la comparación con null (getLong nunca podrá devolver null). Hmm... si embargo mRowId es de tipo Long, luego cuando en la última línea se hace ese getLong, en caso de venir (una edición), hay que hacer un autoboxing. No sé en la Dalvik VM, pero en Java "vanilla" el uso indiscriminado de autoboxing es una pérdida de rendimiento bastante gorda, habrá que estar pendiente de ello...</p><p>Una vez accedido y cargado el mRowId (bien del Intent, bien del savedInstance), es hora de cargar los campos (o no, claro), para ello se invoca a un nuevo método llamado populateFields() (implementación más adelante).</p><p>En lo que respecta al onClickListener, queda tal que así:</p>
+</code></pre>
+<p>Nota de interés, en el primer caso se usa getSerializable porque <a title="Documentación de getSerializable" href="http://developer.android.com/reference/android/os/Bundle.html#getSerializable(java.lang.String)" target="_blank">devuelve un Object</a> (una instancia de Serializable, más concretamente), mientras que getLong <a title="Documentación de getLong" href="http://developer.android.com/reference/android/os/Bundle.html#getLong(java.lang.String)" target="_blank">devuelve un long</a> (el tipo primitivo), así que no serviría para hacer la comparación con null (getLong nunca podrá devolver null). Hmm... si embargo mRowId es de tipo Long, luego cuando en la última línea se hace ese getLong, en caso de venir (una edición), hay que hacer un autoboxing. No sé en la Dalvik VM, pero en Java "vanilla" el uso indiscriminado de autoboxing es una pérdida de rendimiento bastante gorda, habrá que estar pendiente de ello...</p>
+<p>Una vez accedido y cargado el mRowId (bien del Intent, bien del savedInstance), es hora de cargar los campos (o no, claro), para ello se invoca a un nuevo método llamado populateFields() (implementación más adelante).</p>
+<p>En lo que respecta al onClickListener, queda tal que así:</p>
 <pre><code class="prettyprint linenums">confirmButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 setResult(RESULT_OK);
                 finish();
             }
 });
-</code></pre><p>A por ese populateFields... el tema es muy sencillo, si mRowId es distinto de nulo, habrá que cargar la nota desde la base de datos y establecer los valores de los textos:</p>
+</code></pre>
+<p>A por ese populateFields... el tema es muy sencillo, si mRowId es distinto de nulo, habrá que cargar la nota desde la base de datos y establecer los valores de los textos:</p>
 <pre><code class="prettyprint linenums">private void populateFields() {
         if (mRowId != null) {
             Cursor note = mDbHelper.fetchNote(mRowId);
@@ -83,26 +93,31 @@ mRowId = (savedInstanceState == null) ? null :
                     note.getColumnIndexOrThrow(NotesDbAdapter.KEY_BODY)));
         }
 }
-</code></pre><p>Aquí pasa algo interesante, para adaptar la aplicación totalmente al ciclo de vida, tendríamos que implementar un método onPause() que entre otras cosas, liberase el cursor, y en el onResume() volver a abrirlo, etc... en general, gestionar el recurso del Cursor. Bueno, pues como ese caso es bastante, común, para eso se utiliza el <a title="Documentanción de startManagingCursor" href="http://developer.android.com/reference/android/app/Activity.html#startManagingCursor(android.database.Cursor)" target="_blank">startManagingCursor</a>, se encarga de acoplar el ciclo de vida del cursor... y por cierto, esta deprecado... otra guasita del tutorial, ya me dá la risa floja.</p><p>Sigo, ahora hay que implementar el onSaveInstanceState, que es llamado por el framework Android antes de matar la aplicación. Va a hacer dos tareas, guardar la nota en la base de datos (creando una nueva o actualizando) y guardar el mRowId en el savedInstanceState para que lo pueda usar el onCreate.</p>
+</code></pre>
+<p>Aquí pasa algo interesante, para adaptar la aplicación totalmente al ciclo de vida, tendríamos que implementar un método onPause() que entre otras cosas, liberase el cursor, y en el onResume() volver a abrirlo, etc... en general, gestionar el recurso del Cursor. Bueno, pues como ese caso es bastante, común, para eso se utiliza el <a title="Documentanción de startManagingCursor" href="http://developer.android.com/reference/android/app/Activity.html#startManagingCursor(android.database.Cursor)" target="_blank">startManagingCursor</a>, se encarga de acoplar el ciclo de vida del cursor... y por cierto, esta deprecado... otra guasita del tutorial, ya me dá la risa floja.</p>
+<p>Sigo, ahora hay que implementar el onSaveInstanceState, que es llamado por el framework Android antes de matar la aplicación. Va a hacer dos tareas, guardar la nota en la base de datos (creando una nueva o actualizando) y guardar el mRowId en el savedInstanceState para que lo pueda usar el onCreate.</p>
 <pre><code class="prettyprint linenums">@Override
 protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         saveState();
         outState.putSerializable(NotesDbAdapter.KEY_ROWID, mRowId);
 }
-</code></pre><p>Siguiente, el onPause(), en este caso, solo hay que guardar en base de datos (ya que no se va a matar la Activity):</p>
+</code></pre>
+<p>Siguiente, el onPause(), en este caso, solo hay que guardar en base de datos (ya que no se va a matar la Activity):</p>
 <pre><code class="prettyprint linenums">@Override
 protected void onPause() {
         super.onPause();
         saveState();
     }
-</code></pre><p>Y el onResume(), más de lo mismo, no se ha destruido la aplicación, asi que basta con leer los valores de la base de datos (es decir, invocar el populateFields()). Pregunta, ¿es necesario? Si la Activity no se ha llegado a matar, ¿hace falta volver a cargar los valores? Me lo dejo como ejercicio.</p>
+</code></pre>
+<p>Y el onResume(), más de lo mismo, no se ha destruido la aplicación, asi que basta con leer los valores de la base de datos (es decir, invocar el populateFields()). Pregunta, ¿es necesario? Si la Activity no se ha llegado a matar, ¿hace falta volver a cargar los valores? Me lo dejo como ejercicio.</p>
 <pre><code class="prettyprint linenums">@Override
     protected void onResume() {
         super.onResume();
         populateFields();
     }
-</code></pre><p>Y el saveState():</p>
+</code></pre>
+<p>Y el saveState():</p>
 <pre><code class="prettyprint linenums">private void saveState() {
         String title = mTitleText.getText().toString();
         String body = mBodyText.getText().toString();
@@ -116,13 +131,16 @@ protected void onPause() {
             mDbHelper.updateNote(mRowId, title, body);
         }
     }
-</code></pre><p>Lo único a reseñar es que si mRowId es null y la inserción es correcta (id &gt; 0), se carga el mRowId, es decir, cuando se recargue la Activity o se vuelva a ejecutar el onCreate, será una edición, no un alta.</p><p>Ahora toca limpiar el Notepadv3, quitando llamadas varias a la base de datos. En primer lugar, el onActivityResult, ya simplemente hay que refrescar la vista, por si ha habido posibles cambios (hmm... esto también es muy optimizable):</p>
+</code></pre>
+<p>Lo único a reseñar es que si mRowId es null y la inserción es correcta (id &gt; 0), se carga el mRowId, es decir, cuando se recargue la Activity o se vuelva a ejecutar el onCreate, será una edición, no un alta.</p>
+<p>Ahora toca limpiar el Notepadv3, quitando llamadas varias a la base de datos. En primer lugar, el onActivityResult, ya simplemente hay que refrescar la vista, por si ha habido posibles cambios (hmm... esto también es muy optimizable):</p>
 <pre><code class="prettyprint linenums">@Override
 protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
     super.onActivityResult(requestCode, resultCode, intent);
     fillData();
 }
-</code></pre><p>Igual para el onListClickItem, ya no hace falta acceder a base de datos, y el mRowId viene dado por el id que recibe el método:</p>
+</code></pre>
+<p>Igual para el onListClickItem, ya no hace falta acceder a base de datos, y el mRowId viene dado por el id que recibe el método:</p>
 <pre><code class="prettyprint linenums">@Override
     protected void onListItemClick(ListView l, View v, int position, long id) {
         super.onListItemClick(l, v, position, id);
@@ -130,7 +148,10 @@ protected void onActivityResult(int requestCode, int resultCode, Intent intent) 
         i.putExtra(NotesDbAdapter.KEY_ROWID, id);
         startActivityForResult(i, ACTIVITY_EDIT);
     }
-</code></pre><p>Por último, el Cursor ya no hace falta que sea una variable de instancia de la Activity, sino que puede ser una variable local del fillData.</p><p>Bueno, pues con esto termina el tutorial de Google que empecé hace ya más de un mes... no ha estado mal, quizás me ha faltado constancia. Me queda el detalle de examinar más de cerca lo que he apuntado arriba del ciclo de vida... y una vez hecho eso, habrá que buscar una idea de aplicación a desarrollar (ya tengo una primera...). Aparte, también le echaré un vistazo al <a title="Curso de Android de Maestros del Web" href="http://www.maestrosdelweb.com/editorial/curso-android/" target="_blank">libro de Maestros del Web</a>, que tiene una pinta bastante buena.</p><p>creo que cuando lo haya leído, haré un post de conclusiones sobre Android así en general, aunque mi primera impresión es muy positiva. Si alguien ha seguido la serie hasta aquí, gracias por leerme :).</p>
+</code></pre>
+<p>Por último, el Cursor ya no hace falta que sea una variable de instancia de la Activity, sino que puede ser una variable local del fillData.</p>
+<p>Bueno, pues con esto termina el tutorial de Google que empecé hace ya más de un mes... no ha estado mal, quizás me ha faltado constancia. Me queda el detalle de examinar más de cerca lo que he apuntado arriba del ciclo de vida... y una vez hecho eso, habrá que buscar una idea de aplicación a desarrollar (ya tengo una primera...). Aparte, también le echaré un vistazo al <a title="Curso de Android de Maestros del Web" href="http://www.maestrosdelweb.com/editorial/curso-android/" target="_blank">libro de Maestros del Web</a>, que tiene una pinta bastante buena.</p>
+<p>creo que cuando lo haya leído, haré un post de conclusiones sobre Android así en general, aunque mi primera impresión es muy positiva. Si alguien ha seguido la serie hasta aquí, gracias por leerme :).</p>
 		</div>
 <div class="col s12">
 <div id="disqus_thread"></div>
@@ -167,6 +188,7 @@ protected void onActivityResult(int requestCode, int resultCode, Intent intent) 
 			    <a href="../../../tags/Minientrada.html"><div class="chip">Minientrada</div></a>
 			    <a href="../../../tags/WordPress.html"><div class="chip">WordPress</div></a>
 			    <a href="../../../tags/JUnit.html"><div class="chip">JUnit</div></a>
+			    <a href="../../../tags/Javascript.html"><div class="chip">Javascript</div></a>
 			    <a href="../../../tags/Proyectos.html"><div class="chip">Proyectos</div></a>
 			    <a href="../../../tags/tutorial.html"><div class="chip">tutorial</div></a>
 			    <a href="../../../tags/Spring Roo.html"><div class="chip">Spring Roo</div></a>
@@ -194,6 +216,7 @@ protected void onActivityResult(int requestCode, int resultCode, Intent intent) 
 			    <a href="../../../tags/Amazon.html"><div class="chip">Amazon</div></a>
 			    <a href="../../../tags/SEO.html"><div class="chip">SEO</div></a>
 			    <a href="../../../tags/Intellij IDEA.html"><div class="chip">Intellij IDEA</div></a>
+			    <a href="../../../tags/AngularJS 2.html"><div class="chip">AngularJS 2</div></a>
 	    </div>
         <div class="col s2 right-align">
             <a href="http://twitter.com/agustinventura" target="_blank" class="social-link white-text" ><i class="fa  fa-twitter  fa-3x" title="Twitter" aria-hidden="true"></i></a>

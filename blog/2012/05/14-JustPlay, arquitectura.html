@@ -11,9 +11,9 @@
     <!--Import Google Icon Font-->
      <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
      <!-- Import Font Awesome Icons-->
-     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <!-- Compiled and minified CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/css/materialize.min.css">
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
       <script src="../../../js/html5shiv.min.js"></script>
@@ -44,18 +44,29 @@
 			14 mayo 2012
 		</div>
 		<div class="section">
-			<p>Bueno, ya va siendo hora de empezar el trabajo en JustPlay.</p><p>Después de mucho documentarme sobre <a title="Activity - Android Developers" href="http://developer.android.com/reference/android/app/Activity.html" target="_blank">Activities</a>, <a title="Services - Android Developers" href="http://developer.android.com/guide/topics/fundamentals/services.html" target="_blank">Services</a> y <a title="Processes and Threads - Android Developers" href="http://developer.android.com/guide/topics/fundamentals/processes-and-threads.html" target="_blank">Threads</a>, creo que tengo una aproximación bastante buena a la arquitectura que voy a intentar implementar.</p>
-<h6><strong>Introducción</strong></h6><p>Un requisito fundamental es que la aplicación consuma los mínimos recursos posibles, con lo cual cabría pensar que se puede implementar mediante una Activity normal y corriente. Esto es un error, una Activity tiene un ciclo de vida determinado y cabe suponer (aunque no he hecho la prueba) que en cuanto pasara al estado <em>"Paused"</em>, se terminaría la reproducción de música.</p><p>Por tanto hay que buscar otro componente que escape del ciclo de vida de la Activity y con el cual se pueda comunicar la Activity es decir, un Service. El <a title="Service Lifecycle - Android Developers" href="http://developer.android.com/guide/topics/fundamentals/services.html#Lifecycle" target="_blank">ciclo de vida del Service</a> hace que este permanezca vivo aún cuando la Activity pase a cualquier estado que no sea <em>"Resumed".</em></p><p>En el tutorial de CrankPlay ya se ha visto <a title="CrankPlay, Service para reproducir sonido." href="http://aguasnegras.es/?p=422" target="_blank">un ejemplo</a> de esto, sin embargo este ejemplo estaba claramente desfasado y se le pueden criticar varios puntos desde el punto de vista de mis requisitos:</p>
+			<p>Bueno, ya va siendo hora de empezar el trabajo en JustPlay.</p>
+<p>Después de mucho documentarme sobre <a title="Activity - Android Developers" href="http://developer.android.com/reference/android/app/Activity.html" target="_blank">Activities</a>, <a title="Services - Android Developers" href="http://developer.android.com/guide/topics/fundamentals/services.html" target="_blank">Services</a> y <a title="Processes and Threads - Android Developers" href="http://developer.android.com/guide/topics/fundamentals/processes-and-threads.html" target="_blank">Threads</a>, creo que tengo una aproximación bastante buena a la arquitectura que voy a intentar implementar.</p>
+<h6><strong>Introducción</strong></h6>
+<p>Un requisito fundamental es que la aplicación consuma los mínimos recursos posibles, con lo cual cabría pensar que se puede implementar mediante una Activity normal y corriente. Esto es un error, una Activity tiene un ciclo de vida determinado y cabe suponer (aunque no he hecho la prueba) que en cuanto pasara al estado <em>"Paused"</em>, se terminaría la reproducción de música.</p>
+<p>Por tanto hay que buscar otro componente que escape del ciclo de vida de la Activity y con el cual se pueda comunicar la Activity es decir, un Service. El <a title="Service Lifecycle - Android Developers" href="http://developer.android.com/guide/topics/fundamentals/services.html#Lifecycle" target="_blank">ciclo de vida del Service</a> hace que este permanezca vivo aún cuando la Activity pase a cualquier estado que no sea <em>"Resumed".</em></p>
+<p>En el tutorial de CrankPlay ya se ha visto <a title="CrankPlay, Service para reproducir sonido." href="http://aguasnegras.es/?p=422" target="_blank">un ejemplo</a> de esto, sin embargo este ejemplo estaba claramente desfasado y se le pueden criticar varios puntos desde el punto de vista de mis requisitos:</p>
 <ol>
 	<li>La comunicación entre procesos (IPC) no me es necesaria, tan solo necesito que una única actividad acceda al servicio.</li>
 	<li>La definición de la interfaz con AIDL tan solo es necesaria si se desea IPC, por tanto, basta con heredar de Service.</li>
 	<li>Además, en cuanto a este Service, hay que considerar que no es algo que yo lance y me pueda olvidar de él, sino que tendré que comunicarme periódicamente con él (modificación de la playlist, start/stop, etc...), es decir, necesito un <a title="Bound Service - Android Developers" href="http://developer.android.com/guide/topics/fundamentals/bound-services.html" target="_blank">BoundService</a>.</li>
 	<li>Por último, tal y como dice la documentación en numerosos sitios, un Service se ejecuta en el mismo thread que el UI Thread, con lo cual... necesitaré un thread propio que se encargue de la reproducción (actividad pesada por definición).</li>
-</ol><p>Gráficamente, esta propuesta quedaría <a title="Arquitectura JustPlay" href="https://docs.google.com/drawings/d/1aBKs0rDh2qzGWODF9TKh1FXBoFJdIpBsJ9o1rtsJAvY/edit" target="_blank">así</a>.</p><p>Ahora voy a montar la infraestructura básica.</p>
-<h6>Implementación</h6><p>La actividad de momento no tiene mayor historia, basta con dejarla tal cual.</p><p>Para implementar el Service, creo una nueva clase (MediaService) y hago que herede de Service. Para que sea realmente funcional, lo declaro en el AndroidManifest.xml:</p>
+</ol>
+<p>Gráficamente, esta propuesta quedaría <a title="Arquitectura JustPlay" href="https://docs.google.com/drawings/d/1aBKs0rDh2qzGWODF9TKh1FXBoFJdIpBsJ9o1rtsJAvY/edit" target="_blank">así</a>.</p>
+<p>Ahora voy a montar la infraestructura básica.</p>
+<h6>Implementación</h6>
+<p>La actividad de momento no tiene mayor historia, basta con dejarla tal cual.</p>
+<p>Para implementar el Service, creo una nueva clase (MediaService) y hago que herede de Service. Para que sea realmente funcional, lo declaro en el AndroidManifest.xml:</p>
 <pre><code class="prettyprint linenums"><br/>&lt;service android:name=&quot;com.crankcode.services.MediaService&quot; android:exported=&quot;false&quot;/&gt;;
 
-</code></pre><p>El atributo <em>"android:exported=false"</em>, lo que indica es que el servicio no estará disponible para otras actividades del sistema, un poco de programación defensiva.</p><p>Para el thread, simplemente creo la clase MediaThread y hago que implemente Runnable.</p><p>Para arrancar el MediaService, en el onCreate de MediaPlayer escribo lo siguiente:</p>
+</code></pre>
+<p>El atributo <em>"android:exported=false"</em>, lo que indica es que el servicio no estará disponible para otras actividades del sistema, un poco de programación defensiva.</p>
+<p>Para el thread, simplemente creo la clase MediaThread y hago que implemente Runnable.</p>
+<p>Para arrancar el MediaService, en el onCreate de MediaPlayer escribo lo siguiente:</p>
 <pre><code class="prettyprint linenums"><br/>@Override
 public void onCreate(Bundle savedInstanceState) {
   super.onCreate(savedInstanceState);
@@ -63,7 +74,8 @@ public void onCreate(Bundle savedInstanceState) {
   setContentView(R.layout.main);
 }
 
-</code></pre><p>Y en el MediaService, defino su onStart así:</p>
+</code></pre>
+<p>Y en el MediaService, defino su onStart así:</p>
 <pre><code class="prettyprint linenums"><br/>@Override
 public void onStart(Intent intent, int startId) {
   Log.d(&quot;CrankPlayer&quot;, &quot;MediaService.onStart()&quot;);
@@ -72,18 +84,23 @@ public void onStart(Intent intent, int startId) {
   super.onStart(intent, startId);
 }
 
-</code></pre><p>Por último, en el run de MediaService meto un chivato:</p>
+</code></pre>
+<p>Por último, en el run de MediaService meto un chivato:</p>
 <pre><code class="prettyprint linenums"><br/>public void run() {
   Log.d(&quot;CrankPlayer&quot;, &quot;MediaThread.run&quot;);
 }
 
-</code></pre><p>Ahora, a arrancar y ver si todo ha ido bien.</p><p>Y todo correcto, funcionando a la primera.</p>
+</code></pre>
+<p>Ahora, a arrancar y ver si todo ha ido bien.</p>
+<p>Y todo correcto, funcionando a la primera.</p>
 <h6>TODO</h6>
 <ol>
 	<li>Añadir la instancia de MediaPlayer al Thread</li>
 	<li>Hacer el bind del service en la activity.</li>
 </ol>
-<h6>Código</h6><p>Como de costumbre, el código esta en GitHub:</p><p><a href="https://github.com/agustinventura/JustPlay"><img class="size-full wp-image-255" title="JustPlay en GitHub" src="/images/2011/08/github_icon.png" alt="JustPlay en GitHub" width="115" height="115" /></a></p>
+<h6>Código</h6>
+<p>Como de costumbre, el código esta en GitHub:</p>
+<a href="https://github.com/agustinventura/JustPlay"><img class="size-full wp-image-255" title="JustPlay en GitHub" src="/images/2011/08/github_icon.png" alt="JustPlay en GitHub" width="115" height="115" /></a>
 		</div>
 <div class="col s12">
 <div id="disqus_thread"></div>
@@ -120,6 +137,7 @@ public void onStart(Intent intent, int startId) {
 			    <a href="../../../tags/Minientrada.html"><div class="chip">Minientrada</div></a>
 			    <a href="../../../tags/WordPress.html"><div class="chip">WordPress</div></a>
 			    <a href="../../../tags/JUnit.html"><div class="chip">JUnit</div></a>
+			    <a href="../../../tags/Javascript.html"><div class="chip">Javascript</div></a>
 			    <a href="../../../tags/Proyectos.html"><div class="chip">Proyectos</div></a>
 			    <a href="../../../tags/tutorial.html"><div class="chip">tutorial</div></a>
 			    <a href="../../../tags/Spring Roo.html"><div class="chip">Spring Roo</div></a>
@@ -147,6 +165,7 @@ public void onStart(Intent intent, int startId) {
 			    <a href="../../../tags/Amazon.html"><div class="chip">Amazon</div></a>
 			    <a href="../../../tags/SEO.html"><div class="chip">SEO</div></a>
 			    <a href="../../../tags/Intellij IDEA.html"><div class="chip">Intellij IDEA</div></a>
+			    <a href="../../../tags/AngularJS 2.html"><div class="chip">AngularJS 2</div></a>
 	    </div>
         <div class="col s2 right-align">
             <a href="http://twitter.com/agustinventura" target="_blank" class="social-link white-text" ><i class="fa  fa-twitter  fa-3x" title="Twitter" aria-hidden="true"></i></a>

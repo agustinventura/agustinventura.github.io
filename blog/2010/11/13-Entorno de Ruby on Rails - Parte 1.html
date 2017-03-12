@@ -11,9 +11,9 @@
     <!--Import Google Icon Font-->
      <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
      <!-- Import Font Awesome Icons-->
-     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <!-- Compiled and minified CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/css/materialize.min.css">
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
       <script src="../../../js/html5shiv.min.js"></script>
@@ -49,13 +49,20 @@
 	<li>Editor: gVim (y las extensiones de ruby de vim)</li>
 	<li>Control de versiones: git (apt-get install git-core)</li>
 	<li>Ruby versión 1.8.7</li>
-</ul><p>Y hasta aquí todo bien, no deja de ser todo apt-get install, ahora el tutorial recomienda instalar <a title="Ruby Version Management" href="http://rvm.beginrescueend.com/" target="_blank">RVM (Ruby Version Management)</a>, un gestor de versiones de Ruby. El tema me suena, haciendo un símil con Java, yo puedo estar desarrollando con Java 1.6 pero querer compilar con Java 1.5 (por cuestión de compatibilidad o cualquier motivo), al parecer Ruby tiene una herramienta que gestiona este tipo de cosas... la verdad, tiene buena pinta, vamos a ver.</p><p>La instalación es con git (primera toma de contacto):</p>
+</ul>
+<p>Y hasta aquí todo bien, no deja de ser todo apt-get install, ahora el tutorial recomienda instalar <a title="Ruby Version Management" href="http://rvm.beginrescueend.com/" target="_blank">RVM (Ruby Version Management)</a>, un gestor de versiones de Ruby. El tema me suena, haciendo un símil con Java, yo puedo estar desarrollando con Java 1.6 pero querer compilar con Java 1.5 (por cuestión de compatibilidad o cualquier motivo), al parecer Ruby tiene una herramienta que gestiona este tipo de cosas... la verdad, tiene buena pinta, vamos a ver.</p>
+<p>La instalación es con git (primera toma de contacto):</p>
 <pre><code class="prettyprint linenums">bash &amp;lt; &amp;lt;( curl http://rvm.beginrescueend.com/releases/rvm-install-head )
-</code></pre><p>se ejecuta sin problemas y sale un bonito texto dando información varia. Básicamente y según la sección "Postinstall" de la misma página de rvm, hay que añadir una línea al final del .bashrc:</p>
+</code></pre>
+<p>se ejecuta sin problemas y sale un bonito texto dando información varia. Básicamente y según la sección "Postinstall" de la misma página de rvm, hay que añadir una línea al final del .bashrc:</p>
 <pre><code class="prettyprint linenums">[[ -s &quot;$HOME/.rvm/scripts/rvm&quot; ]] &amp;amp;&amp;amp; . &quot;$HOME/.rvm/scripts/rvm&quot;  # This loads RVM into a shell session
-</code></pre><p>Se comprueba si esta funcionando con:</p>
+</code></pre>
+<p>Se comprueba si esta funcionando con:</p>
 <pre><code class="prettyprint linenums">type rvm | head -n1
-</code></pre><p>Salida, correcta, así que seguimos y nos volvemos al tutorial donde dicen como usar RVM una vez instalado.</p><p>Básicamente, según estoy entendiendo, Ruby se distribuye en Gems, que son programas autosuficientes con sus librerías, etc... y con RVM vamos a instalar varios perfiles de ejecución incluyendo sus Gems y vamos a definir uno por defecto.</p><p>Asi que nada:</p>
+</code></pre>
+<p>Salida, correcta, así que seguimos y nos volvemos al tutorial donde dicen como usar RVM una vez instalado.</p>
+<p>Básicamente, según estoy entendiendo, Ruby se distribuye en Gems, que son programas autosuficientes con sus librerías, etc... y con RVM vamos a instalar varios perfiles de ejecución incluyendo sus Gems y vamos a definir uno por defecto.</p>
+<p>Asi que nada:</p>
 <pre><code class="prettyprint linenums">rvm install 1.8.7 #instala Ruby 1.8.7
 rvm install 1.9.2 #instala Ruby 1.9.2
 #etiquetamos lo perfiles
@@ -63,20 +70,25 @@ rvm --create 1.8.7@rails2
 rvm --create 1.9.2@rails3
 #usamos rails3 por defecto
 rvm --default use 1.9.2@rails3
-</code></pre><p>Por cierto, la compilación de la versiones de Ruby... tarda. O será que mi portátil esta ya bien viejuno.</p><p>Una vez hechas todas estas operaciones, me llevo la grata sorpresa de que de propina tenemos instalado RubyGems, un gestor de paquetes de Ruby, para probarlo:</p>
+</code></pre>
+<p>Por cierto, la compilación de la versiones de Ruby... tarda. O será que mi portátil esta ya bien viejuno.</p>
+<p>Una vez hechas todas estas operaciones, me llevo la grata sorpresa de que de propina tenemos instalado RubyGems, un gestor de paquetes de Ruby, para probarlo:</p>
 <pre><code class="prettyprint linenums">which gem
-</code></pre><p>Trato de actualizar tal y como dice el manual:</p>
+</code></pre>
+<p>Trato de actualizar tal y como dice el manual:</p>
 <pre><code class="prettyprint linenums">gem update --system
-</code></pre><p>Y... ¡ZAS!¡En toda la boca!</p>
+</code></pre>
+<p>Y... ¡ZAS!¡En toda la boca!</p>
 <pre><code class="prettyprint linenums">no such file to load -- zlib
-</code></pre><p>Y por fín se pone interesante la cosa, veo un post específico para la configuración: <a title="Ruby on Rails 3 and Ubuntu" href="http://toranbillups.com/blog/archive/2010/09/01/How-to-install-Rails-3.0-and-Ruby-1.9.2-on-Ubuntu" target="_blank">How to install Rails 3.0 and Ruby 1.9.2 on Ubuntu</a>, aunque me salto los dos primeros pasos, ya tengo instalado RVM y Ruby 1.8.7... sigo intentando pero nada de nada, sigue diciendo que no hay zlib... vaya. En <a title="Stackoverflow: Ruby and Zlib" href="http://stackoverflow.com/questions/2441248/rvm-ruby-1-9-1-troubles" target="_blank">Stackoverflow</a> leo esto:</p>
-<blockquote>rvm package install zlib
-rvm remove 1.9.1
-rvm install 1.9.1 -C --with-zlib-dir=$rvm_path/usr</blockquote><p>Y en la <a title="RVM y zlib" href="http://rvm.beginrescueend.com/packages/zlib/" target="_blank">referencia de RVM</a> esto:</p>
+</code></pre>
+<p>Y por fín se pone interesante la cosa, veo un post específico para la configuración: <a title="Ruby on Rails 3 and Ubuntu" href="http://toranbillups.com/blog/archive/2010/09/01/How-to-install-Rails-3.0-and-Ruby-1.9.2-on-Ubuntu" target="_blank">How to install Rails 3.0 and Ruby 1.9.2 on Ubuntu</a>, aunque me salto los dos primeros pasos, ya tengo instalado RVM y Ruby 1.8.7... sigo intentando pero nada de nada, sigue diciendo que no hay zlib... vaya. En <a title="Stackoverflow: Ruby and Zlib" href="http://stackoverflow.com/questions/2441248/rvm-ruby-1-9-1-troubles" target="_blank">Stackoverflow</a> leo esto:</p>
+<p><blockquote>rvm package install zlib<br/>rvm remove 1.9.1<br/>rvm install 1.9.1 -C --with-zlib-dir=$rvm_path/usr</blockquote></p>
+<p>Y en la <a title="RVM y zlib" href="http://rvm.beginrescueend.com/packages/zlib/" target="_blank">referencia de RVM</a> esto:</p>
 <pre><code class="prettyprint linenums">$ rvm package install zlib
 $ rvm remove 1.9.2
 $ rvm install 1.9.2
-</code></pre><p>Esto parece más razonable... buf, otra vez a compilar... vamos a por un café que siempre viene bien.</p>
+</code></pre>
+<p>Esto parece más razonable... buf, otra vez a compilar... vamos a por un café que siempre viene bien.</p>
 		</div>
 <div class="col s12">
 <div id="disqus_thread"></div>
@@ -113,6 +125,7 @@ $ rvm install 1.9.2
 			    <a href="../../../tags/Minientrada.html"><div class="chip">Minientrada</div></a>
 			    <a href="../../../tags/WordPress.html"><div class="chip">WordPress</div></a>
 			    <a href="../../../tags/JUnit.html"><div class="chip">JUnit</div></a>
+			    <a href="../../../tags/Javascript.html"><div class="chip">Javascript</div></a>
 			    <a href="../../../tags/Proyectos.html"><div class="chip">Proyectos</div></a>
 			    <a href="../../../tags/tutorial.html"><div class="chip">tutorial</div></a>
 			    <a href="../../../tags/Spring Roo.html"><div class="chip">Spring Roo</div></a>
@@ -140,6 +153,7 @@ $ rvm install 1.9.2
 			    <a href="../../../tags/Amazon.html"><div class="chip">Amazon</div></a>
 			    <a href="../../../tags/SEO.html"><div class="chip">SEO</div></a>
 			    <a href="../../../tags/Intellij IDEA.html"><div class="chip">Intellij IDEA</div></a>
+			    <a href="../../../tags/AngularJS 2.html"><div class="chip">AngularJS 2</div></a>
 	    </div>
         <div class="col s2 right-align">
             <a href="http://twitter.com/agustinventura" target="_blank" class="social-link white-text" ><i class="fa  fa-twitter  fa-3x" title="Twitter" aria-hidden="true"></i></a>

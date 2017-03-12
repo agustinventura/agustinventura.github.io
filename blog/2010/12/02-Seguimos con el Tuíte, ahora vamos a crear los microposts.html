@@ -11,9 +11,9 @@
     <!--Import Google Icon Font-->
      <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
      <!-- Import Font Awesome Icons-->
-     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <!-- Compiled and minified CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/css/materialize.min.css">
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
       <script src="../../../js/html5shiv.min.js"></script>
@@ -75,7 +75,8 @@ Aparte estan comentados los métodos a los que se responde, voy a mirar el méto
 <pre><code class="prettyprint linenums"><br/>form id=&quot;new_micropost&quot; class=&quot;new_micropost&quot; action=&quot;/microposts&quot; accept-charset=&quot;UTF-8&quot; method=&quot;post&quot;
 
 </code></pre>
-<p>Ahí esta, va en un post, creo uno y le doy a edit, ver código fuente:</p><p>hmm... un poco más abajo:</p>
+<p>Ahí esta, va en un post, creo uno y le doy a edit, ver código fuente:</p>
+<p>hmm... un poco más abajo:</p>
 <pre><code class="prettyprint linenums"><br/>input name=&quot;_method&quot; type=&quot;hidden&quot; value=&quot;put&quot; /&gt;
 </code></pre>
 <p>Parece que sobreescribe el método con algún javascript de satanás... habrá que investigarlo también.<br />
@@ -123,7 +124,8 @@ ruby-1.9.2-p0 &amp;gt;
 <pre><code class="prettyprint linenums">ruby-1.9.2-p0 &amp;gt; first_user.microposts
  =&amp;gt; [#, #, #]
 ruby-1.9.2-p0 &amp;gt;
-</code></pre><p><p>Hora de poner a prueba esa integridad referencial en la web... primero voy a hacer un db:migrate por lo que pueda pasar y a ver... Pues me deja, supongo que habrá que hacer algo más, se me estará escapando alguna cosa.<br /><br/>Sigo con el tutorial que ya entraremos en eso, digo yo.<br /><br/>Lo que viene ahora es una chapa de teoría y además muy parecida a lo que gasto yo en el trabajo, todas las clases del modelo heredan de ActiveRecord::Base (que algo me dice que implementa toda la funcionalidad CRUD parametrizando simplemente el nombre de tabla). Nota: Sería muy interesante ver si hay soporte para tipos de acceso a las colecciones, es decir, si el acceso a microposts se podría definir como lazy o eager a là JPA.<br /><br/>Los controladores heredan de ApplicationController que a su vez hereda de ActionController::Base (¿por qué algunas clases llevan el ::Loquesea y otras no?). El ActionController según dice el tutorial, aporta métodos de conveniencia para la gestión de http y generación de html, así como acceso a las entidades del modelo.<br /><br/>Pos mu bien.<br /><br/>Toca subida a GitHub y a Heroku, simplemente para refrescar la memoria con los comandos.</p>
+</code></pre>
+<p><p>Hora de poner a prueba esa integridad referencial en la web... primero voy a hacer un db:migrate por lo que pueda pasar y a ver... Pues me deja, supongo que habrá que hacer algo más, se me estará escapando alguna cosa.<br /><br/>Sigo con el tutorial que ya entraremos en eso, digo yo.<br /><br/>Lo que viene ahora es una chapa de teoría y además muy parecida a lo que gasto yo en el trabajo, todas las clases del modelo heredan de ActiveRecord::Base (que algo me dice que implementa toda la funcionalidad CRUD parametrizando simplemente el nombre de tabla). Nota: Sería muy interesante ver si hay soporte para tipos de acceso a las colecciones, es decir, si el acceso a microposts se podría definir como lazy o eager a là JPA.<br /><br/>Los controladores heredan de ApplicationController que a su vez hereda de ActionController::Base (¿por qué algunas clases llevan el ::Loquesea y otras no?). El ActionController según dice el tutorial, aporta métodos de conveniencia para la gestión de http y generación de html, así como acceso a las entidades del modelo.<br /><br/>Pos mu bien.<br /><br/>Toca subida a GitHub y a Heroku, simplemente para refrescar la memoria con los comandos.</p>
 <p>El capítulo termina con una serie de comentarios (Strengths and Weaknesses), comentarios sobre las debilidades:</p>
 <ul>
 <li>No custom layout or styling. Hmm... esto no creo que sea realmente un problema, cualquier aplicación web tiene este problema al principio =)</li>
@@ -175,6 +177,7 @@ ruby-1.9.2-p0 &amp;gt;
 			    <a href="../../../tags/Minientrada.html"><div class="chip">Minientrada</div></a>
 			    <a href="../../../tags/WordPress.html"><div class="chip">WordPress</div></a>
 			    <a href="../../../tags/JUnit.html"><div class="chip">JUnit</div></a>
+			    <a href="../../../tags/Javascript.html"><div class="chip">Javascript</div></a>
 			    <a href="../../../tags/Proyectos.html"><div class="chip">Proyectos</div></a>
 			    <a href="../../../tags/tutorial.html"><div class="chip">tutorial</div></a>
 			    <a href="../../../tags/Spring Roo.html"><div class="chip">Spring Roo</div></a>
@@ -202,6 +205,7 @@ ruby-1.9.2-p0 &amp;gt;
 			    <a href="../../../tags/Amazon.html"><div class="chip">Amazon</div></a>
 			    <a href="../../../tags/SEO.html"><div class="chip">SEO</div></a>
 			    <a href="../../../tags/Intellij IDEA.html"><div class="chip">Intellij IDEA</div></a>
+			    <a href="../../../tags/AngularJS 2.html"><div class="chip">AngularJS 2</div></a>
 	    </div>
         <div class="col s2 right-align">
             <a href="http://twitter.com/agustinventura" target="_blank" class="social-link white-text" ><i class="fa  fa-twitter  fa-3x" title="Twitter" aria-hidden="true"></i></a>

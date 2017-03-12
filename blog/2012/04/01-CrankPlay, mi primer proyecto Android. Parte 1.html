@@ -11,9 +11,9 @@
     <!--Import Google Icon Font-->
      <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
      <!-- Import Font Awesome Icons-->
-     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <!-- Compiled and minified CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/css/materialize.min.css">
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
       <script src="../../../js/html5shiv.min.js"></script>
@@ -44,28 +44,58 @@
 			01 abril 2012
 		</div>
 		<div class="section">
-			<p>Bueno, pues después de un tiempo dedicado a un proyecto que tengo por ahí y que anda un poco empantanado, voy a empezar a hacer algo que llevo tiempo queriendo hacer. Un reproductor de mp3 para mi móvil.</p><p>Voy a empezar haciendo una pequeña elicitación de requisitos "grosso modo" para tenerlo como guía de aquí en adelante.</p><p><strong>Requisitos</strong></p><p>El reproductor tendrá las siguientes funcionalidades:</p>
+			<p>Bueno, pues después de un tiempo dedicado a un proyecto que tengo por ahí y que anda un poco empantanado, voy a empezar a hacer algo que llevo tiempo queriendo hacer. Un reproductor de mp3 para mi móvil.</p>
+<p>Voy a empezar haciendo una pequeña elicitación de requisitos "grosso modo" para tenerlo como guía de aquí en adelante.</p>
+<strong>Requisitos</strong>
+<p>El reproductor tendrá las siguientes funcionalidades:</p>
 <ol>
 	<li>Contará con una lista de reproducción en la que se almacenarán las canciones a reproducir en orden.</li>
 	<li>Leerá las canciones de directorios en el almacenamiento del móvil, pudiendo en todo caso seleccionar una carpeta con lo cual se incluirían todos los mp3 en ella y sus subcarpetas en la lista de reproducción.</li>
 	<li>Contará con los controles básicos en un reproductor musical: Play, Stop, Pause, Next, Back, Volumen.</li>
-</ol><p>Como requisitos no funcionales:</p>
+</ol>
+<p>Como requisitos no funcionales:</p>
 <ol>
 	<li>Deberá consumir los recursos mínimos posibles.</li>
-</ol><p><strong>Enfoque del Desarrollo</strong></p><p>Pues para desarrollar, voy a empezar basándome en el <a title="MusicDroid Audio Player, HelloAndroid" href="http://www.helloandroid.com/tutorials/musicdroid-audio-player-part-i" target="_blank">tutorial MusicDroid de HelloAndroid</a>. Este tutorial tiene ya bastantes años, así que iré haciendo un repaso de las APIs involucradas, actualizándolas según sea necesario.</p><p><strong>Paso 1 - Crear el Proyecto</strong></p><p>El primer paso es sencillo, creo el proyecto, inicializo git, creo repositorio en GitHub y lo subo, para más detalles, <a title="Git, EGit y GitHub." href="http://www.aguasnegras.es/?p=201" target="_blank">Tutorial de Git y GitHub</a>.</p><p>Resultado, ya esta el proyecto en GitHub:</p><p><a href="https://github.com/agustinventura/CrankPlay"><img class="size-full wp-image-255" title="CrankPlay en GitHub" src="/images/2011/08/github_icon.png" alt="CrankPlay en GitHub" width="115" height="115" /></a></p><p>Ahora toca empezar con el tutorial de MusicDroid.</p><p><strong>Paso 2 - Lista de canciones</strong></p><p>El primer paso del tutorial es simplemente mostrar una lista de todos los archivos .mp3 que hay en la tarjeta sd.</p><p>Lo primero es el layout, el songlist.xml. Lo he modificado un poco de la siguiente manera:</p>
+</ol>
+<strong>Enfoque del Desarrollo</strong>
+<p>Pues para desarrollar, voy a empezar basándome en el <a title="MusicDroid Audio Player, HelloAndroid" href="http://www.helloandroid.com/tutorials/musicdroid-audio-player-part-i" target="_blank">tutorial MusicDroid de HelloAndroid</a>. Este tutorial tiene ya bastantes años, así que iré haciendo un repaso de las APIs involucradas, actualizándolas según sea necesario.</p>
+<strong>Paso 1 - Crear el Proyecto</strong>
+<p>El primer paso es sencillo, creo el proyecto, inicializo git, creo repositorio en GitHub y lo subo, para más detalles, <a title="Git, EGit y GitHub." href="http://www.aguasnegras.es/?p=201" target="_blank">Tutorial de Git y GitHub</a>.</p>
+<p>Resultado, ya esta el proyecto en GitHub:</p>
+<a href="https://github.com/agustinventura/CrankPlay"><img class="size-full wp-image-255" title="CrankPlay en GitHub" src="/images/2011/08/github_icon.png" alt="CrankPlay en GitHub" width="115" height="115" /></a>
+<p>Ahora toca empezar con el tutorial de MusicDroid.</p>
+<strong>Paso 2 - Lista de canciones</strong>
+<p>El primer paso del tutorial es simplemente mostrar una lista de todos los archivos .mp3 que hay en la tarjeta sd.</p>
+<p>Lo primero es el layout, el songlist.xml. Lo he modificado un poco de la siguiente manera:</p>
 <ol>
 	<li>He sacado la cadena de texto "No songs found" al strings.xml.</li>
 	<li>He cambiado el layout_weight, lo he quitado porque daba un warning en combinación con el layout_width.</li>
-</ol><p>Ahora, se hace el layout correspondiente a cada canción, song_item.xml. Es copiar y pegar y solo modifico el id, lo cambio por <em>@+id/song_title</em>.</p><p><strong>Paso 3 - Actividad CrankPlay</strong></p><p>Lo primero que hago en la Activity es hacer que extienda de ListActivity para poder gestionar nativamente el layout ListView. A continuación copio y pego las variables locales:</p>
+</ol>
+<p>Ahora, se hace el layout correspondiente a cada canción, song_item.xml. Es copiar y pegar y solo modifico el id, lo cambio por <em>@+id/song_title</em>.</p>
+<strong>Paso 3 - Actividad CrankPlay</strong>
+<p>Lo primero que hago en la Activity es hacer que extienda de ListActivity para poder gestionar nativamente el layout ListView. A continuación copio y pego las variables locales:</p>
 <ol>
 	<li>MEDIA_PATH: directorio en el que estan los mp3 (la tarjeta SD por defecto).</li>
 	<li>songs: lista de canciones en MEDIA_PATH.</li>
 	<li>mp: instancia de MediaPlayer que reproducirá las canciones.</li>
 	<li>currentPosition: posición de la canción que se esta reproduciendo.</li>
-</ol><p>En cuanto al OnCreate, sin misterios, se encarga de arrancar la aplicación y actualizar la lista de canciones.</p><p>En cuanto el updateSongList se encarga de cargar el directorio especificado en MEDIA_PATH y buscar en él todos los archivos terminados en .mp3 con la ayuda de la clase Mp3Filter.</p><p>Siguiente paso del tutorial, reproducir una canción cuando se hace click en ella. Para ello se usa un OnListItemClick que únicamente se encarga de llamar al método playSong, pasándole el nombre del archivo de la canción.</p><p>PlaySong se limita a usar el objeto mp para reproducir la canción. Primero se hace un reset con lo cual se pausa cualquier canción que se este reproduciendo y se carga la canción nueva. Se crea una clase interna anónima para implementar OnCompletionListener, que se limita a invocar al método nextSong para reproducir la siguiente canción (de haberla).</p><p>Y por último nextSong, sencillamente comprueba que no sea la última canción y si no lo es, incrementa currentPosition y llama a playSong.</p><p>Listo.</p><p><strong>Paso 4 - Probar la Aplicación</strong></p><p>Si ejecuto la aplicación directamente (Click con el botón derecho en el proyecto Run as &gt; Android Application), se muestra el mensaje definido para el caso de que no haya canciones <em>"No songs found"</em>, y es correcto, hay que subir mp3s a la tarjeta SD.</p><p>Este apartado del tutorial ya esta un poco desfasado, los emuladores ya se pueden crear con el AVD Manager de Eclipse con la tarjeta SD ya creada, con lo cual basta con enviar el mp3 al dispositivo usando el adb en la línea de comandos. El primer paso es tener arrancado el emulador.</p><p>El segundo enviar el mp3 de prueba:</p>
+</ol>
+<p>En cuanto al OnCreate, sin misterios, se encarga de arrancar la aplicación y actualizar la lista de canciones.</p>
+<p>En cuanto el updateSongList se encarga de cargar el directorio especificado en MEDIA_PATH y buscar en él todos los archivos terminados en .mp3 con la ayuda de la clase Mp3Filter.</p>
+<p>Siguiente paso del tutorial, reproducir una canción cuando se hace click en ella. Para ello se usa un OnListItemClick que únicamente se encarga de llamar al método playSong, pasándole el nombre del archivo de la canción.</p>
+<p>PlaySong se limita a usar el objeto mp para reproducir la canción. Primero se hace un reset con lo cual se pausa cualquier canción que se este reproduciendo y se carga la canción nueva. Se crea una clase interna anónima para implementar OnCompletionListener, que se limita a invocar al método nextSong para reproducir la siguiente canción (de haberla).</p>
+<p>Y por último nextSong, sencillamente comprueba que no sea la última canción y si no lo es, incrementa currentPosition y llama a playSong.</p>
+<p>Listo.</p>
+<strong>Paso 4 - Probar la Aplicación</strong>
+<p>Si ejecuto la aplicación directamente (Click con el botón derecho en el proyecto Run as &gt; Android Application), se muestra el mensaje definido para el caso de que no haya canciones <em>"No songs found"</em>, y es correcto, hay que subir mp3s a la tarjeta SD.</p>
+<p>Este apartado del tutorial ya esta un poco desfasado, los emuladores ya se pueden crear con el AVD Manager de Eclipse con la tarjeta SD ya creada, con lo cual basta con enviar el mp3 al dispositivo usando el adb en la línea de comandos. El primer paso es tener arrancado el emulador.</p>
+<p>El segundo enviar el mp3 de prueba:</p>
 <pre><code class="prettyprint linenums"><br/>~/Android/android-sdks/platform-tools$ ./adb push ~/Música/Noel\ Gallagher\&#39;s\ High\ Flying\ Birds\ -\ Noel\ Gallagher\&#39;s\ High\ Flying\ Birds\ \(Deluxe\ Version\)\ \[theLEAK\]/01.\ Everybody\&#39;s\ On\ The\ Run.mp3 /sdcard/Prueba.mp3
 
-</code></pre><p>Y listo, ya sale andando y tengo Prueba.mp3 en la lista de canciones.</p><p>Ahora bien, si le doy a reproducir no se escucha nada, y en el LogCat se puede ver un Warning: "obtainBuffer timed out (is the CPU pegged?)". Por lo visto este fallo lo produce el tener habilitados los snapshots en el emulador, así que nada, lo deshabilito y reinicio.</p><p>Listo, ya reproduce el mp3, así que ahí lo dejo, mañana más y mejor.</p>
+</code></pre>
+<p>Y listo, ya sale andando y tengo Prueba.mp3 en la lista de canciones.</p>
+<p>Ahora bien, si le doy a reproducir no se escucha nada, y en el LogCat se puede ver un Warning: "obtainBuffer timed out (is the CPU pegged?)". Por lo visto este fallo lo produce el tener habilitados los snapshots en el emulador, así que nada, lo deshabilito y reinicio.</p>
+<p>Listo, ya reproduce el mp3, así que ahí lo dejo, mañana más y mejor.</p>
 		</div>
 <div class="col s12">
 <div id="disqus_thread"></div>
@@ -102,6 +132,7 @@
 			    <a href="../../../tags/Minientrada.html"><div class="chip">Minientrada</div></a>
 			    <a href="../../../tags/WordPress.html"><div class="chip">WordPress</div></a>
 			    <a href="../../../tags/JUnit.html"><div class="chip">JUnit</div></a>
+			    <a href="../../../tags/Javascript.html"><div class="chip">Javascript</div></a>
 			    <a href="../../../tags/Proyectos.html"><div class="chip">Proyectos</div></a>
 			    <a href="../../../tags/tutorial.html"><div class="chip">tutorial</div></a>
 			    <a href="../../../tags/Spring Roo.html"><div class="chip">Spring Roo</div></a>
@@ -129,6 +160,7 @@
 			    <a href="../../../tags/Amazon.html"><div class="chip">Amazon</div></a>
 			    <a href="../../../tags/SEO.html"><div class="chip">SEO</div></a>
 			    <a href="../../../tags/Intellij IDEA.html"><div class="chip">Intellij IDEA</div></a>
+			    <a href="../../../tags/AngularJS 2.html"><div class="chip">AngularJS 2</div></a>
 	    </div>
         <div class="col s2 right-align">
             <a href="http://twitter.com/agustinventura" target="_blank" class="social-link white-text" ><i class="fa  fa-twitter  fa-3x" title="Twitter" aria-hidden="true"></i></a>

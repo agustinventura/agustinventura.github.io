@@ -11,9 +11,9 @@
     <!--Import Google Icon Font-->
      <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
      <!-- Import Font Awesome Icons-->
-     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <!-- Compiled and minified CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/css/materialize.min.css">
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
       <script src="../../../js/html5shiv.min.js"></script>
@@ -44,33 +44,53 @@
 			22 septiembre 2011
 		</div>
 		<div class="section">
-			<p>Heroku no solo sirve para ejecutar aplicaciones web Java, sino que en realidad sirve para ejecutar cualquier tipo de aplicación Java. Observando el proyecto podemos ver que hay dos aplicaciones bien diferenciadas, la aplicación web (que se lanza a través del script webapp generado por Maven) y la aplicación SchemaGenerator, ejecutada a través del script schemaGenerator. Mientras que la primera es una aplicación web normal y corriente, SchemaGenerator es simplemente un proceso Java puro, se lanza se ejecuta y termina sin ningún tipo de interfaz gráfica involucrada.</p><p>A este tipo de proceso en Heroku le llaman "worker process", podría traducirlo de cualquier manera, pero paso, así que se queda como proceso worker, hala.</p><p><strong>Tercer Práctica</strong></p><p>El objetivo de esta práctica es desarrollar una aplicación que inserte un tick en la base de datos cada segundo. Se podrá visualizar refrescando la misma página ticks.jsp y posteriormente la escalaré a dos dynos.</p><p>Pasos:</p>
+			<p>Heroku no solo sirve para ejecutar aplicaciones web Java, sino que en realidad sirve para ejecutar cualquier tipo de aplicación Java. Observando el proyecto podemos ver que hay dos aplicaciones bien diferenciadas, la aplicación web (que se lanza a través del script webapp generado por Maven) y la aplicación SchemaGenerator, ejecutada a través del script schemaGenerator. Mientras que la primera es una aplicación web normal y corriente, SchemaGenerator es simplemente un proceso Java puro, se lanza se ejecuta y termina sin ningún tipo de interfaz gráfica involucrada.</p>
+<p>A este tipo de proceso en Heroku le llaman "worker process", podría traducirlo de cualquier manera, pero paso, así que se queda como proceso worker, hala.</p>
+<strong>Tercer Práctica</strong>
+<p>El objetivo de esta práctica es desarrollar una aplicación que inserte un tick en la base de datos cada segundo. Se podrá visualizar refrescando la misma página ticks.jsp y posteriormente la escalaré a dos dynos.</p>
+<p>Pasos:</p>
 <ol>
 	<li>Crear la clase Ticker.java que insertará un tick en la base de datos cada segundo.</li>
 	<li>Probar la aplicación en local.</li>
 	<li>Desplegar la aplicación en Heroku, escalarla a dos dynos y detenerla.</li>
-</ol><p><strong>Paso 1</strong></p><p>Creo la clase Ticker.java, el código es trivial, con un while(true) y un sleep(1000), de todas formas queda en GitHub.</p><p>Se declara el programa en el pom.xml para generar el script que lo lanza:</p>
+</ol>
+<strong>Paso 1</strong>
+<p>Creo la clase Ticker.java, el código es trivial, con un while(true) y un sleep(1000), de todas formas queda en GitHub.</p>
+<p>Se declara el programa en el pom.xml para generar el script que lo lanza:</p>
 <pre><code class="prettyprint linenums"><br/>	es.aguasnegras.helloheroku.Ticker
 	ticker
-</code></pre><p><strong>Paso 2</strong></p><p>Se instala en local y se ejecuta:</p>
+</code></pre>
+<strong>Paso 2</strong>
+<p>Se instala en local y se ejecuta:</p>
 <pre><code class="prettyprint linenums">mvn install
 export REPO=~/.m2/repository
 export DATABASE_URL=postgres://helloheroku:helloheroku@localhost/helloheroku
 sh target/bin/ticker
-</code></pre><p>Y en otra consola:</p>
+</code></pre>
+<p>Y en otra consola:</p>
 <pre><code class="prettyprint linenums">export REPO=~/.m2/repository
 export DATABASE_URL=postgres://helloheroku:helloheroku@localhost/helloheroku
 sh target/bin/ticker
-</code></pre><p>Ahora puedo comprobar en localhost:8080/ticks.jsp que efectivamente, se van actualizando los ticks independientemente de la aplicación.</p><p><strong>Paso 3</strong><br/>Vale, ahora a desplegarla en Heroku. Para poder ejecutar el proceso en Heroku en su propio dyno, hay que declararla en el Procfile:</p>
+</code></pre>
+<p>Ahora puedo comprobar en localhost:8080/ticks.jsp que efectivamente, se van actualizando los ticks independientemente de la aplicación.</p>
+<strong>Paso 3</strong>
+<p>Vale, ahora a desplegarla en Heroku. Para poder ejecutar el proceso en Heroku en su propio dyno, hay que declararla en el Procfile:</p>
 <pre><code class="prettyprint linenums">tick: sh target/bin/ticker
-</code></pre><p>Listo, añado a git y subo a GitHub y Heroku:</p>
+</code></pre>
+<p>Listo, añado a git y subo a GitHub y Heroku:</p>
 <pre><code class="prettyprint linenums">git add .
 git commit -m &quot;añadido proceso worker&quot;
 git push github master
 git push heroku master
-</code></pre><p>Si abro <a href="http://fierce-autumn-4530.herokuapp.com/ticks.jsp">http://fierce-autumn-4530.herokuapp.com/ticks.jsp</a> puedo ver que todo sigue igual, cada vez que recargo la página se añade un tick a la base de datos. Voy a arrancar el worker:</p>
+</code></pre>
+<p>Si abro <a href="http://fierce-autumn-4530.herokuapp.com/ticks.jsp">http://fierce-autumn-4530.herokuapp.com/ticks.jsp</a> puedo ver que todo sigue igual, cada vez que recargo la página se añade un tick a la base de datos. Voy a arrancar el worker:</p>
 <pre><code class="prettyprint linenums">heroku scale tick=2
-</code></pre><p>Si hago un heroku ps me confirma que se han arrancado dos procesos, y es más, un heroku logs -t va refrescando la salida con dos ticks cada segundo, uno tick.1 y otro tick.2.<br/>Además el jsp me confirma que se han ido insertando en la base de datos.<br/>Bueno, pues ya esta. A poner el código en GitHub</p><p><strong>Código en GitHub</strong><br/><a href="https://github.com/agustinventura/helloheroku/tree/1429c05b2a83745dfda1d1f08145f7954d9922d0"><img class="aligncenter size-full wp-image-255" title="GitHub" src="/images/2011/08/github_icon.png" alt="GitHub" width="115" height="115" /></a></p><p><strong>Conclusiones</strong><br/>Bueno, pues ya he visto como se ejecuta un proceso demonio y he trasteado un poco el Procfile, que es otro fleco que convendría investigar un poco, a ver que más cosas se pueden hacer.<br/>Es curioso que el proceso se lanza mediante un scale y no un heroku run, supongo que podría igualmente con el heroku run... a ver. Efectivamente, se puede ejecutar igualmente con un heroku run, la diferencia es que no se puede escalar, claro.</p>
+</code></pre>
+<p>Si hago un heroku ps me confirma que se han arrancado dos procesos, y es más, un heroku logs -t va refrescando la salida con dos ticks cada segundo, uno tick.1 y otro tick.2.<br/>Además el jsp me confirma que se han ido insertando en la base de datos.<br/>Bueno, pues ya esta. A poner el código en GitHub</p>
+<strong>Código en GitHub</strong>
+<a href="https://github.com/agustinventura/helloheroku/tree/1429c05b2a83745dfda1d1f08145f7954d9922d0"><img class="aligncenter size-full wp-image-255" title="GitHub" src="/images/2011/08/github_icon.png" alt="GitHub" width="115" height="115" /></a>
+<strong>Conclusiones</strong>
+<p>Bueno, pues ya he visto como se ejecuta un proceso demonio y he trasteado un poco el Procfile, que es otro fleco que convendría investigar un poco, a ver que más cosas se pueden hacer.<br/>Es curioso que el proceso se lanza mediante un scale y no un heroku run, supongo que podría igualmente con el heroku run... a ver. Efectivamente, se puede ejecutar igualmente con un heroku run, la diferencia es que no se puede escalar, claro.</p>
 		</div>
 <div class="col s12">
 <div id="disqus_thread"></div>
@@ -107,6 +127,7 @@ git push heroku master
 			    <a href="../../../tags/Minientrada.html"><div class="chip">Minientrada</div></a>
 			    <a href="../../../tags/WordPress.html"><div class="chip">WordPress</div></a>
 			    <a href="../../../tags/JUnit.html"><div class="chip">JUnit</div></a>
+			    <a href="../../../tags/Javascript.html"><div class="chip">Javascript</div></a>
 			    <a href="../../../tags/Proyectos.html"><div class="chip">Proyectos</div></a>
 			    <a href="../../../tags/tutorial.html"><div class="chip">tutorial</div></a>
 			    <a href="../../../tags/Spring Roo.html"><div class="chip">Spring Roo</div></a>
@@ -134,6 +155,7 @@ git push heroku master
 			    <a href="../../../tags/Amazon.html"><div class="chip">Amazon</div></a>
 			    <a href="../../../tags/SEO.html"><div class="chip">SEO</div></a>
 			    <a href="../../../tags/Intellij IDEA.html"><div class="chip">Intellij IDEA</div></a>
+			    <a href="../../../tags/AngularJS 2.html"><div class="chip">AngularJS 2</div></a>
 	    </div>
         <div class="col s2 right-align">
             <a href="http://twitter.com/agustinventura" target="_blank" class="social-link white-text" ><i class="fa  fa-twitter  fa-3x" title="Twitter" aria-hidden="true"></i></a>

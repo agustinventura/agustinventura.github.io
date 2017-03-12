@@ -11,9 +11,9 @@
     <!--Import Google Icon Font-->
      <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
      <!-- Import Font Awesome Icons-->
-     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <!-- Compiled and minified CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/css/materialize.min.css">
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
       <script src="../../../js/html5shiv.min.js"></script>
@@ -44,7 +44,12 @@
 			20 noviembre 2010
 		</div>
 		<div class="section">
-			<p>Cuando desarrollo aplicaciones web (y tengo tiempo) me gusta seguir una variante propia de <a title="Test Driven Development" href="http://en.wikipedia.org/wiki/Test-driven_development" target="_blank">TDD</a>. Básicamente trato de ser exhaustivo con las pruebas y en este sentido JUnit es lo suyo, diseño el DAO y le hago pruebas unitarias, diseño la capa de servicios y le hago pruebas unitarias, es más, si tengo tiempo hago pruebas unitarias sobre las mismas entidades.</p><p>A las malas malas, JUnit me sirve para probar la funcionalidad de la aplicación antes de hacer la interfaz de usuario.</p><p>Últimamente trabajo siempre con Spring o JPA, por lo que los accesos a base de datos son a través de un DataSource, bien gestionado por Spring, bien gestionado por JPA.</p><p>El caso es que para las pruebas en general, en vez de andar creando las conexiones a base de datos aparte y pasarlas a los DAO, mola crear un DataSource y publicarlo por JNDI, así nunca hay que volver a tocar nada.</p><p>Tras investigar algo me encuentro que esto no es algo que este muy trillado, así que nada, manos a la obra. Lo que hago es definir un método @BeforeClass para que me cree el DataSource y me lo publique en el contexto JNDI antes de que se ejecute ninguna prueba.</p><p>El código es bastante sencillo y autoexplicativo, para que funcione, es necesario el naming-commons.jar, naming-factory.jar y el naming-resources.jar, se encuentra normalmente en cualquier tomcat en $CATALINA_HOME/common/lib.</p>
+			<p>Cuando desarrollo aplicaciones web (y tengo tiempo) me gusta seguir una variante propia de <a title="Test Driven Development" href="http://en.wikipedia.org/wiki/Test-driven_development" target="_blank">TDD</a>. Básicamente trato de ser exhaustivo con las pruebas y en este sentido JUnit es lo suyo, diseño el DAO y le hago pruebas unitarias, diseño la capa de servicios y le hago pruebas unitarias, es más, si tengo tiempo hago pruebas unitarias sobre las mismas entidades.</p>
+<p>A las malas malas, JUnit me sirve para probar la funcionalidad de la aplicación antes de hacer la interfaz de usuario.</p>
+<p>Últimamente trabajo siempre con Spring o JPA, por lo que los accesos a base de datos son a través de un DataSource, bien gestionado por Spring, bien gestionado por JPA.</p>
+<p>El caso es que para las pruebas en general, en vez de andar creando las conexiones a base de datos aparte y pasarlas a los DAO, mola crear un DataSource y publicarlo por JNDI, así nunca hay que volver a tocar nada.</p>
+<p>Tras investigar algo me encuentro que esto no es algo que este muy trillado, así que nada, manos a la obra. Lo que hago es definir un método @BeforeClass para que me cree el DataSource y me lo publique en el contexto JNDI antes de que se ejecute ninguna prueba.</p>
+<p>El código es bastante sencillo y autoexplicativo, para que funcione, es necesario el naming-commons.jar, naming-factory.jar y el naming-resources.jar, se encuentra normalmente en cualquier tomcat en $CATALINA_HOME/common/lib.</p>
 <pre><code class="prettyprint linenums">public class DataBaseTest {
 
 	@BeforeClass
@@ -78,7 +83,9 @@
 	}
 
 }
-</code></pre><p>Y eso es todo, para usar exactamente esta implementación también es conveniente tener log4j y el ojdbc14.jar.</p><p>Referencias:</p>
+</code></pre>
+<p>Y eso es todo, para usar exactamente esta implementación también es conveniente tener log4j y el ojdbc14.jar.</p>
+<p>Referencias:</p>
 <ol>
 	<li><a href="http://blogs.sun.com/randystuph/entry/injecting_jndi_datasources_for_junit">http://blogs.sun.com/randystuph/entry/injecting_jndi_datasources_for_junit</a></li>
 	<li><a href="http://www.coderanch.com/howto/java/CodeBarnLibrariesAndFrameworks">http://www.coderanch.com/how-to/java/CodeBarnLibrariesAndFrameworks</a></li>
@@ -119,6 +126,7 @@
 			    <a href="../../../tags/Minientrada.html"><div class="chip">Minientrada</div></a>
 			    <a href="../../../tags/WordPress.html"><div class="chip">WordPress</div></a>
 			    <a href="../../../tags/JUnit.html"><div class="chip">JUnit</div></a>
+			    <a href="../../../tags/Javascript.html"><div class="chip">Javascript</div></a>
 			    <a href="../../../tags/Proyectos.html"><div class="chip">Proyectos</div></a>
 			    <a href="../../../tags/tutorial.html"><div class="chip">tutorial</div></a>
 			    <a href="../../../tags/Spring Roo.html"><div class="chip">Spring Roo</div></a>
@@ -146,6 +154,7 @@
 			    <a href="../../../tags/Amazon.html"><div class="chip">Amazon</div></a>
 			    <a href="../../../tags/SEO.html"><div class="chip">SEO</div></a>
 			    <a href="../../../tags/Intellij IDEA.html"><div class="chip">Intellij IDEA</div></a>
+			    <a href="../../../tags/AngularJS 2.html"><div class="chip">AngularJS 2</div></a>
 	    </div>
         <div class="col s2 right-align">
             <a href="http://twitter.com/agustinventura" target="_blank" class="social-link white-text" ><i class="fa  fa-twitter  fa-3x" title="Twitter" aria-hidden="true"></i></a>

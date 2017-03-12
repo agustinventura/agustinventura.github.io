@@ -11,9 +11,9 @@
     <!--Import Google Icon Font-->
      <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
      <!-- Import Font Awesome Icons-->
-     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <!-- Compiled and minified CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/css/materialize.min.css">
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
       <script src="../../../js/html5shiv.min.js"></script>
@@ -45,11 +45,23 @@
 		</div>
 		<div class="section">
 			<p>Bueno, pues para darme un poco de visibilidad en Google, he instalado el <a title="WordPress SEO plugin" href="http://wordpress.org/extend/plugins/wordpress-seo/" target="_blank">plugin WordPress SEO</a> y tiene un <a title="WordPress SEO Tutorial" href="http://yoast.com/articles/wordpress-seo/" target="_blank">estupendo artículo</a> de acciones a realizar para utilizarlo, así que lo voy a seguir y voy a ir comentando.</p>
-<h6>Entorno</h6><p>A día de hoy lo que tengo es un WordPress 3.3.1 con WordPress SEO 1.1.5</p>
-<h6>SEO</h6><p>A continuación voy a ir siguiendo lo más fielmente posible las instrucciones que se dan en el artículo punto por punto.</p>
-<h6>Permalinks</h6><p>Dice con toda razón que los permalinks han de ser legibles. Por ejemplo, ahora mismo los permalinks de aguasnegras.es son del tipo <em>"<a href="http://www.aguasnegras.es/blog/?p=410"><a href="http://www.aguasnegras.es/blog/?p=410">http://www.aguasnegras.es/blog/?p=410</a></a>"</em>. Claramente es un error, debería incluir al menos el título del post, así que me voy a "Ajustes &gt; Enlaces Permanentes" y lo cambio, por probar solo a título del post.</p><p>Vaya, me dice que no puede modificar el .htaccess y que tengo que añadir un código a mano... Bueno, pues nada, lo añado. Pero sin embargo ahora al mostrar la página principal me dice que no encuentra nada... ufff... Esto tiene más bien pinta de estar relacionado con algo más, así que mejor dejo de tocar. Siguiente apartado.</p>
-<h6>WWW o no WWW</h6><p>Este punto es interesante, ya me obliga a pensar en el branding del sitio. Personalmente siempre que pienso en el sitio, pienso en "aguasnegras", así que creo que el branding sería más adecuado como "aguasnegras.es" a secas. Esto implica dos cambios, ambos en "Ajustes &gt; Generales". En "Dirección de WordPress (URL)" y "Dirección del Sitio (URL)", elimino las www y acepto.</p><p>El siguiente paso que comenta Yoast es hacer esto también en <a title="Google Webmaster Tools" href="https://www.google.com/webmasters/tools/" target="_blank">Google Webmaster Tools</a>... lo cual estaría muy bien si supiera lo que es :D Según la página principal, sirve para mejorar la visibilidad de mi sitio en Google, pues nada, inicio sesión y le doy a añadir un sitio. En la URL introduzco <em>"aguasnegras.es"</em>. A continuación me dice que descargue un archivo html de verificación y lo suba a mi sitio, nada más fácil. Subido, verifico y le doy a continuar.</p><p>Y ya estoy en el panel de control de Google Webmaster Tools para aguasnegras.es. Hago click en "Información del Sitio &gt; Configuración" y como URL establezco "aguasnegras.es". Sin embargo al darle a "Guardar" me informa que tengo que confirmar que soy el propietario del dominio y patatín y patatán... después de cacharrear un rato, decido añadir a mis sitios "www.aguasnegras.es" y de repente empiezan a funcionar todas las analíticas y todo va bien... pues vaya, nada, ya hago el cambio y listo.</p><p>La verdad que el Google Webmaster Tools promete... habrá que echarle un vistazo más detenidamente otro día.</p>
-<h6>Títulos de los Posts</h6><p>El tutorial sigue hablando del título de los posts, el título no solo es el texto que se muestra en la pantalla, si no que será lo primero que se muestre en los resultados de búsqueda.</p><p>Se recomienda que las primeras palabras del título sean las más significativas, ya que los motores de búsqueda hacen más hincapié sobre ellas... así como la gente cuando lee. Vaya, es de cajón, pero nunca me había dado por pensarlo, a partir de ahora tendré más cuidado.</p><p>Con la opción "SEO &gt; Titles" puedo controlar como se muestran los títulos de las páginas de mi sitio, no solo de los posts. Como no estoy seguro de como esta el header.php de mi tema, marco la casilla de "Force rewrite titles". Para probar, en el "Title Template" de "Homepage" pongo el ejemplo que viene en el artículo en sí: "%%sitename%% &amp;#8226; %%sitedesc%%", pulso "Save Settings" y recargo... Perfecto, me muestra "AguasNegras &amp;#8226; This was not supposed to be like this", para darle un toque personal, dejo el título del sitio como "AguasNegras || This was not supposed to be like this", jeje.</p><p>Así en plan rápido, establezco las siguientes plantillas:</p>
+<h6>Entorno</h6>
+<p>A día de hoy lo que tengo es un WordPress 3.3.1 con WordPress SEO 1.1.5</p>
+<h6>SEO</h6>
+<p>A continuación voy a ir siguiendo lo más fielmente posible las instrucciones que se dan en el artículo punto por punto.</p>
+<h6>Permalinks</h6>
+<p>Dice con toda razón que los permalinks han de ser legibles. Por ejemplo, ahora mismo los permalinks de aguasnegras.es son del tipo <em>"<a href="http://www.aguasnegras.es/blog/?p=410"><a href="http://www.aguasnegras.es/blog/?p=410">http://www.aguasnegras.es/blog/?p=410</a></a>"</em>. Claramente es un error, debería incluir al menos el título del post, así que me voy a "Ajustes &gt; Enlaces Permanentes" y lo cambio, por probar solo a título del post.</p>
+<p>Vaya, me dice que no puede modificar el .htaccess y que tengo que añadir un código a mano... Bueno, pues nada, lo añado. Pero sin embargo ahora al mostrar la página principal me dice que no encuentra nada... ufff... Esto tiene más bien pinta de estar relacionado con algo más, así que mejor dejo de tocar. Siguiente apartado.</p>
+<h6>WWW o no WWW</h6>
+<p>Este punto es interesante, ya me obliga a pensar en el branding del sitio. Personalmente siempre que pienso en el sitio, pienso en "aguasnegras", así que creo que el branding sería más adecuado como "aguasnegras.es" a secas. Esto implica dos cambios, ambos en "Ajustes &gt; Generales". En "Dirección de WordPress (URL)" y "Dirección del Sitio (URL)", elimino las www y acepto.</p>
+<p>El siguiente paso que comenta Yoast es hacer esto también en <a title="Google Webmaster Tools" href="https://www.google.com/webmasters/tools/" target="_blank">Google Webmaster Tools</a>... lo cual estaría muy bien si supiera lo que es :D Según la página principal, sirve para mejorar la visibilidad de mi sitio en Google, pues nada, inicio sesión y le doy a añadir un sitio. En la URL introduzco <em>"aguasnegras.es"</em>. A continuación me dice que descargue un archivo html de verificación y lo suba a mi sitio, nada más fácil. Subido, verifico y le doy a continuar.</p>
+<p>Y ya estoy en el panel de control de Google Webmaster Tools para aguasnegras.es. Hago click en "Información del Sitio &gt; Configuración" y como URL establezco "aguasnegras.es". Sin embargo al darle a "Guardar" me informa que tengo que confirmar que soy el propietario del dominio y patatín y patatán... después de cacharrear un rato, decido añadir a mis sitios "www.aguasnegras.es" y de repente empiezan a funcionar todas las analíticas y todo va bien... pues vaya, nada, ya hago el cambio y listo.</p>
+<p>La verdad que el Google Webmaster Tools promete... habrá que echarle un vistazo más detenidamente otro día.</p>
+<h6>Títulos de los Posts</h6>
+<p>El tutorial sigue hablando del título de los posts, el título no solo es el texto que se muestra en la pantalla, si no que será lo primero que se muestre en los resultados de búsqueda.</p>
+<p>Se recomienda que las primeras palabras del título sean las más significativas, ya que los motores de búsqueda hacen más hincapié sobre ellas... así como la gente cuando lee. Vaya, es de cajón, pero nunca me había dado por pensarlo, a partir de ahora tendré más cuidado.</p>
+<p>Con la opción "SEO &gt; Titles" puedo controlar como se muestran los títulos de las páginas de mi sitio, no solo de los posts. Como no estoy seguro de como esta el header.php de mi tema, marco la casilla de "Force rewrite titles". Para probar, en el "Title Template" de "Homepage" pongo el ejemplo que viene en el artículo en sí: "%%sitename%% &amp;#8226; %%sitedesc%%", pulso "Save Settings" y recargo... Perfecto, me muestra "AguasNegras &amp;#8226; This was not supposed to be like this", para darle un toque personal, dejo el título del sitio como "AguasNegras || This was not supposed to be like this", jeje.</p>
+<p>Así en plan rápido, establezco las siguientes plantillas:</p>
 <ol>
 	<li>Posts y Pages: %%title%% @ %%sitename%%</li>
 	<li>Category: %%category%% @ %%sitename%%</li>
@@ -58,7 +70,8 @@
 	<li>Date Archives: %%date%% @ %%sitename%%</li>
 	<li>Search Pages: %%searchphrase%% @ %%sitename%%</li>
 	<li>404 Pages: Uops! @ %%sitename%%</li>
-</ol><p>Lo pruebo todo y perfecto, funcionan todos los títulos</p>
+</ol>
+<p>Lo pruebo todo y perfecto, funcionan todos los títulos</p>
 		</div>
 <div class="col s12">
 <div id="disqus_thread"></div>
@@ -95,6 +108,7 @@
 			    <a href="../../../tags/Minientrada.html"><div class="chip">Minientrada</div></a>
 			    <a href="../../../tags/WordPress.html"><div class="chip">WordPress</div></a>
 			    <a href="../../../tags/JUnit.html"><div class="chip">JUnit</div></a>
+			    <a href="../../../tags/Javascript.html"><div class="chip">Javascript</div></a>
 			    <a href="../../../tags/Proyectos.html"><div class="chip">Proyectos</div></a>
 			    <a href="../../../tags/tutorial.html"><div class="chip">tutorial</div></a>
 			    <a href="../../../tags/Spring Roo.html"><div class="chip">Spring Roo</div></a>
@@ -122,6 +136,7 @@
 			    <a href="../../../tags/Amazon.html"><div class="chip">Amazon</div></a>
 			    <a href="../../../tags/SEO.html"><div class="chip">SEO</div></a>
 			    <a href="../../../tags/Intellij IDEA.html"><div class="chip">Intellij IDEA</div></a>
+			    <a href="../../../tags/AngularJS 2.html"><div class="chip">AngularJS 2</div></a>
 	    </div>
         <div class="col s2 right-align">
             <a href="http://twitter.com/agustinventura" target="_blank" class="social-link white-text" ><i class="fa  fa-twitter  fa-3x" title="Twitter" aria-hidden="true"></i></a>

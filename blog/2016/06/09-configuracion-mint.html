@@ -11,9 +11,9 @@
     <!--Import Google Icon Font-->
      <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
      <!-- Import Font Awesome Icons-->
-     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <!-- Compiled and minified CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/css/materialize.min.css">
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
       <script src="../../../js/html5shiv.min.js"></script>
@@ -54,14 +54,18 @@
 </ol>
 <pre><code class="prettyprint">#!/bin/sh
 /sbin/iwconfig wlan0 power off
-</code></pre><p>Por último, le cambio los permisos a 755: sudo chmod 755 /etc/pm/power.d/wireless y listo.<br/>6. Deshabilitar la tarjeta wifi por defecto: añado iface wlan0 inet manual a /etc/network/interfaces<br/>7. En Configuración del Sistema &gt; Apariencia &gt; Efectos, desactivar<br/>8. En Configuración del Sistema &gt; Preferencias &gt; Ajuste de ventanas, desactivar<br/>9. En Configuración del Sistema &gt; Preferencias &gt; Escritorio, desactivar mostrar iconos de escritorio<br/>10. Instalar Chrome<br/>11. Instalar Atom<br/>12. Instalar terminator<br/>13. Instalar Java. Seamos sinceros, el OpenJDK por no hablar del IceTea son reguleros, así que instalo el Java oficial de Oracle usando el PPA de <a href="http://www.webupd8.org/2012/09/install-oracle-java-8-in-ubuntu-via-ppa.html">Webupd8</a></p><p>Y ahora vamos con una lista de consejos sacados de <a href="https://sites.google.com/site/easylinuxtipsproject">Easy Linux Tips</a> y aplicados según mi buen criterio:</p>
+</code></pre>
+<p>Por último, le cambio los permisos a 755: sudo chmod 755 /etc/pm/power.d/wireless y listo.<br/>6. Deshabilitar la tarjeta wifi por defecto: añado iface wlan0 inet manual a /etc/network/interfaces<br/>7. En Configuración del Sistema &gt; Apariencia &gt; Efectos, desactivar<br/>8. En Configuración del Sistema &gt; Preferencias &gt; Ajuste de ventanas, desactivar<br/>9. En Configuración del Sistema &gt; Preferencias &gt; Escritorio, desactivar mostrar iconos de escritorio<br/>10. Instalar Chrome<br/>11. Instalar Atom<br/>12. Instalar terminator<br/>13. Instalar Java. Seamos sinceros, el OpenJDK por no hablar del IceTea son reguleros, así que instalo el Java oficial de Oracle usando el PPA de <a href="http://www.webupd8.org/2012/09/install-oracle-java-8-in-ubuntu-via-ppa.html">Webupd8</a></p>
+<p>Y ahora vamos con una lista de consejos sacados de <a href="https://sites.google.com/site/easylinuxtipsproject">Easy Linux Tips</a> y aplicados según mi buen criterio:</p>
 <ol>
   <li>Disminuir lo proclive que es el sistema a usar la SWAP, sobre todo ahora que tengo 16 Gb de RAM. El swappiness es un parámetro del 0 al 100, así que lo voy a dejar en 5. Para eso edito el archivo /etc/sysctl.conf y al final pongo el parámetro vm.swappiness=5</li>
   <li>Otra opción a tunear ahí es el uso de la caché. El procesador usa una caché de datos y otra de inodes (información del sistema de ficheros). Habitualmente tiene prioridad total la de datos, pero en equipos de escritorio se <a href="http://bicosyes.com/2007/10/mejorando-rendimiento-en-linux-de-escritorio/">recomienda</a> ponerlo al 50. Para eso se usa el parámetro vm.vfs_cache_pressure=50 en /etc/sysctl.conf.</li>
   <li>Desactivar la hibernación. Bueno, lo de hibernar los equipos me parece una soberana gilipollez (así de claro), así que lo desactivo ejecutando ésto: sudo mv -v /etc/polkit-1/localauthority/50-local.d/com.ubuntu.enable-hibernate.pkla / sencillamente muevo el archivo de configuración a root, así ya no lo encuentra y listo</li>
   <li>Ahora vamos con el tuneo específico para el SSD, que es la primera vez que lo hago. En primer lugar, le añado noatime en /etc/fstab a las dos particiones ext4 que tengo (/ y /home), de esta manera, no se escribirá la hora de acceso a los ficheros en el disco y me ahorro escrituras (que son satán para los SSD). Los vuelvo a montar con sudo mount -a</li>
   <li>TRIM es un comando que sirve para optimizar el uso y acceso de la SSD y en general mantener la velocidad. Bueno, pues por lo visto en Ubuntu y Mint se ejecuta a través de un cron semanal (bieeeeennn old school total). Lo voy a pasar a rc.local para que se ejecute en cada arranque y listo. Edito /etc/rc.local y añado dos líneas: fstrim / y fstrim /home antes del exit 0. Por último, desactivo el cron, sencillamente muevo el script de sitio: sudo mv -v /etc/cron.weekly/fstrim /fstrim</li>
-</ol><p>Ahora unos trucos para acelerar el arranque:<br/>1. Deshabilitar la splash screen, a mí de todas formas no me gusta, prefiero ver el proceso de arranque. Edito la configuración de grub en /etc/default/grub y la línea GRUB_CMDLINE_LINUX_DEFAULT="quiet splash" la cambio por GRUB_CMDLINE_LINUX_DEFAULT="profile". De esa manera puedo controlar el proceso de arranque y además me hace un profiling para acelerarlo un poco.<br/>2. Instalo bum (bootup manager) y desactivo varios servicios que vienen activos y que no uso: openvpn, virtualbox-guest-utils y saned.</p><p>Y por último, las chorradas:<br/>1. Instalar grub-customizer para poner bonito el grub sin tener que usar la línea de comando. Ponerle una imagen, etc...<br/>2. Instalar el conky y ajustar el .conkyrc</p>
+</ol>
+<p>Ahora unos trucos para acelerar el arranque:<br/>1. Deshabilitar la splash screen, a mí de todas formas no me gusta, prefiero ver el proceso de arranque. Edito la configuración de grub en /etc/default/grub y la línea GRUB_CMDLINE_LINUX_DEFAULT="quiet splash" la cambio por GRUB_CMDLINE_LINUX_DEFAULT="profile". De esa manera puedo controlar el proceso de arranque y además me hace un profiling para acelerarlo un poco.<br/>2. Instalo bum (bootup manager) y desactivo varios servicios que vienen activos y que no uso: openvpn, virtualbox-guest-utils y saned.</p>
+<p>Y por último, las chorradas:<br/>1. Instalar grub-customizer para poner bonito el grub sin tener que usar la línea de comando. Ponerle una imagen, etc...<br/>2. Instalar el conky y ajustar el .conkyrc</p>
 		</div>
 <div class="col s12">
 <div id="disqus_thread"></div>
@@ -98,6 +102,7 @@
 			    <a href="../../../tags/Minientrada.html"><div class="chip">Minientrada</div></a>
 			    <a href="../../../tags/WordPress.html"><div class="chip">WordPress</div></a>
 			    <a href="../../../tags/JUnit.html"><div class="chip">JUnit</div></a>
+			    <a href="../../../tags/Javascript.html"><div class="chip">Javascript</div></a>
 			    <a href="../../../tags/Proyectos.html"><div class="chip">Proyectos</div></a>
 			    <a href="../../../tags/tutorial.html"><div class="chip">tutorial</div></a>
 			    <a href="../../../tags/Spring Roo.html"><div class="chip">Spring Roo</div></a>
@@ -125,6 +130,7 @@
 			    <a href="../../../tags/Amazon.html"><div class="chip">Amazon</div></a>
 			    <a href="../../../tags/SEO.html"><div class="chip">SEO</div></a>
 			    <a href="../../../tags/Intellij IDEA.html"><div class="chip">Intellij IDEA</div></a>
+			    <a href="../../../tags/AngularJS 2.html"><div class="chip">AngularJS 2</div></a>
 	    </div>
         <div class="col s2 right-align">
             <a href="http://twitter.com/agustinventura" target="_blank" class="social-link white-text" ><i class="fa  fa-twitter  fa-3x" title="Twitter" aria-hidden="true"></i></a>

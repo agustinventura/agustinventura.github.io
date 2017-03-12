@@ -11,9 +11,9 @@
     <!--Import Google Icon Font-->
      <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
      <!-- Import Font Awesome Icons-->
-     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <!-- Compiled and minified CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/css/materialize.min.css">
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
       <script src="../../../js/html5shiv.min.js"></script>
@@ -44,7 +44,12 @@
 			02 agosto 2011
 		</div>
 		<div class="section">
-			<p>Con respecto a la pantalla de edición/inserción de notas nuevas, nos dan ya el layout, llamado note_edit.xml. En él tenemos una distribución de elementos de la siguiente manera: LinearLayout, TextView, EditText y Button (todo ello dentro a su vez de un LinearLayout). El primer LinearLayout tiene orientation=vertical, para disponer los elementos en vertical (nada que ver con la posición de la pantalla) y el segundo tiene orientation=horizontal. Dentro de él hay un TextView y un EditText con layout_weight = 1. Este parámetro indica la importancia (y por tanto el espacio en pantalla) que ocupará un elemento determinado. Por defecto, vale 0.</p><p>La gestión del espacio ocupado por un elemento, es un poco extraña. En caso de que el parámetro no este establecido (o valga 0), el elemento ocupará el espacio mínimo e imprescindible para mostrarse. En el ejemplo de arriba, el TextView no tiene parámetro, luego ocupará el mínimo espacio posible, mientras que el EditText lo tiene a 1, lo que hace que ocupe todo el espacio restante en el LinearLayout padre. Si pongo los dos a 1, pasan a ocupar la mitad del LinearLayout cada uno. Si lo dejo en el TextView a 1 y lo cambio en el EditText a 2, el TextView ocupará un tercio del espacio y los restantes dos tercios, el EditText... y así sucesivamente.</p><p>Para los otros tres elementos, solo tiene layout_weight = 1 el EditText (de nuevo), lo cual significa que el TextView ocupará el mínimo espacio posible, el Button igual y el resto del espacio lo ocupará el EditText.</p><p>Para aportar la lógica de negocio de esta vista, hay que crear la clase NoteEdit, así que click con el botón derecho encima del paquete com.android.demo.notepad2 &gt; New &gt; Class... En Name pongo NoteEdit y en Superclass com.android.app.Activity (hereda de Activity). Finish.</p><p>Ahora hace falta crear en onCreate (valga la redundancia), click con el botón derecho encima del editor de la clase Source &gt; Implement/Override methods y selecciono el onCreate(Bundle).</p><p>Aquí esta el método correctamente creado y con comentarios:</p>
+			<p>Con respecto a la pantalla de edición/inserción de notas nuevas, nos dan ya el layout, llamado note_edit.xml. En él tenemos una distribución de elementos de la siguiente manera: LinearLayout, TextView, EditText y Button (todo ello dentro a su vez de un LinearLayout). El primer LinearLayout tiene orientation=vertical, para disponer los elementos en vertical (nada que ver con la posición de la pantalla) y el segundo tiene orientation=horizontal. Dentro de él hay un TextView y un EditText con layout_weight = 1. Este parámetro indica la importancia (y por tanto el espacio en pantalla) que ocupará un elemento determinado. Por defecto, vale 0.</p>
+<p>La gestión del espacio ocupado por un elemento, es un poco extraña. En caso de que el parámetro no este establecido (o valga 0), el elemento ocupará el espacio mínimo e imprescindible para mostrarse. En el ejemplo de arriba, el TextView no tiene parámetro, luego ocupará el mínimo espacio posible, mientras que el EditText lo tiene a 1, lo que hace que ocupe todo el espacio restante en el LinearLayout padre. Si pongo los dos a 1, pasan a ocupar la mitad del LinearLayout cada uno. Si lo dejo en el TextView a 1 y lo cambio en el EditText a 2, el TextView ocupará un tercio del espacio y los restantes dos tercios, el EditText... y así sucesivamente.</p>
+<p>Para los otros tres elementos, solo tiene layout_weight = 1 el EditText (de nuevo), lo cual significa que el TextView ocupará el mínimo espacio posible, el Button igual y el resto del espacio lo ocupará el EditText.</p>
+<p>Para aportar la lógica de negocio de esta vista, hay que crear la clase NoteEdit, así que click con el botón derecho encima del paquete com.android.demo.notepad2 &gt; New &gt; Class... En Name pongo NoteEdit y en Superclass com.android.app.Activity (hereda de Activity). Finish.</p>
+<p>Ahora hace falta crear en onCreate (valga la redundancia), click con el botón derecho encima del editor de la clase Source &gt; Implement/Override methods y selecciono el onCreate(Bundle).</p>
+<p>Aquí esta el método correctamente creado y con comentarios:</p>
 <pre><code class="prettyprint linenums">protected void onCreate(Bundle savedInstanceState) {
         //Se invoca el onCreate de Activity
 	super.onCreate(savedInstanceState);
@@ -81,12 +86,14 @@
 		}
 	});
 }
-</code></pre><p>Bueno, a ver, cosas que me llaman la atención...</p>
+</code></pre>
+<p>Bueno, a ver, cosas que me llaman la atención...</p>
 <ol>
 	<li>¿Por qué mTitleText y mBodyText son variables de instancia y mRowId es de método? ¿No sé supone que se optimiza accediendo mediante variables locales? Voy a tener que pensar sobre esto...</li>
 	<li>Hablando de mRowId... es Long, no long (¿quizás para evitar autoboxing?)</li>
 	<li>Por último... una clase anónima interna?? WTF?? Esto se lo voy a tener que preguntar a mi <a title="SpanishCoders" href="http://www.spanishcoders.com" target="_blank">primo</a>, y aún así no descarto hacer algún microbenchmark a ver si mediante una clase interna normal va igual y por lo menos gano en legibilidad...</li>
-</ol><p>En fín, mañana lo acabo y si me dá tiempo,</p>
+</ol>
+<p>En fín, mañana lo acabo y si me dá tiempo,</p>
 		</div>
 <div class="col s12">
 <div id="disqus_thread"></div>
@@ -123,6 +130,7 @@
 			    <a href="../../../tags/Minientrada.html"><div class="chip">Minientrada</div></a>
 			    <a href="../../../tags/WordPress.html"><div class="chip">WordPress</div></a>
 			    <a href="../../../tags/JUnit.html"><div class="chip">JUnit</div></a>
+			    <a href="../../../tags/Javascript.html"><div class="chip">Javascript</div></a>
 			    <a href="../../../tags/Proyectos.html"><div class="chip">Proyectos</div></a>
 			    <a href="../../../tags/tutorial.html"><div class="chip">tutorial</div></a>
 			    <a href="../../../tags/Spring Roo.html"><div class="chip">Spring Roo</div></a>
@@ -150,6 +158,7 @@
 			    <a href="../../../tags/Amazon.html"><div class="chip">Amazon</div></a>
 			    <a href="../../../tags/SEO.html"><div class="chip">SEO</div></a>
 			    <a href="../../../tags/Intellij IDEA.html"><div class="chip">Intellij IDEA</div></a>
+			    <a href="../../../tags/AngularJS 2.html"><div class="chip">AngularJS 2</div></a>
 	    </div>
         <div class="col s2 right-align">
             <a href="http://twitter.com/agustinventura" target="_blank" class="social-link white-text" ><i class="fa  fa-twitter  fa-3x" title="Twitter" aria-hidden="true"></i></a>

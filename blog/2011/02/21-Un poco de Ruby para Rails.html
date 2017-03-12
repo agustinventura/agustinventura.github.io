@@ -11,9 +11,9 @@
     <!--Import Google Icon Font-->
      <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
      <!-- Import Font Awesome Icons-->
-     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <!-- Compiled and minified CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/css/materialize.min.css">
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
       <script src="../../../js/html5shiv.min.js"></script>
@@ -56,18 +56,22 @@ end
 end
 end
 
-</code></pre><p>Es bastante sencillo de leer, si @title viene nulo, se "devuelve??" base_title, en otro caso la concatenación de base_title, | y title. Con ésto ya puedo dejar el título como &lt;%=title%&gt;. <strong>Atención!</strong> que va sin la @, es decir, antes era | &lt;%=@title%&gt; y ahora es &lt;%=title%&gt;, si no, solo sigue usando el título en concreto de la página.<br/>Es decir, title=Ruby on Rails Tutorial Sample App | Help mientras que @title=Help. Según explica @title es la variable, mientras que title es la invocación a la función... Joder, que fuerte.<br/>Entiendo que los métodos definidos en el application_helper son visibles por todas las páginas erb, así como que el scope de @title es "global" en tiempo de traducción de las páginas, por eso el application_helper puede usarlo.<br/>Me encuentro bastante sorprendido... esto es demasiado "ágil" para mí.<br/>Toque de clarines, en un aparente cambio de tercio, se pasa a definir el CSS de la aplicación... que suerte, con lo que me gusta a mí esto. Además toca utilizar un framework CSS, <a href="http://www.blueprintcss.org/" target="_blank">Blueprint</a>, lo cual esta muy guay porque nunca he usado uno, hay que ver la de cosas que estoy aprendiendo con este tutorial.<br/>Abro el tar.gz de la última versión (la 1.0) y descomprimo la carpeta blueprint/ de su interior en $sample_app/public/stylesheets.<br/>Para que lo use la plantilla de la aplicación añado esto al application.html.erb después de csrf_meta_tag:</p>
+</code></pre>
+<p>Es bastante sencillo de leer, si @title viene nulo, se "devuelve??" base_title, en otro caso la concatenación de base_title, | y title. Con ésto ya puedo dejar el título como &lt;%=title%&gt;. <strong>Atención!</strong> que va sin la @, es decir, antes era | &lt;%=@title%&gt; y ahora es &lt;%=title%&gt;, si no, solo sigue usando el título en concreto de la página.<br/>Es decir, title=Ruby on Rails Tutorial Sample App | Help mientras que @title=Help. Según explica @title es la variable, mientras que title es la invocación a la función... Joder, que fuerte.<br/>Entiendo que los métodos definidos en el application_helper son visibles por todas las páginas erb, así como que el scope de @title es "global" en tiempo de traducción de las páginas, por eso el application_helper puede usarlo.<br/>Me encuentro bastante sorprendido... esto es demasiado "ágil" para mí.<br/>Toque de clarines, en un aparente cambio de tercio, se pasa a definir el CSS de la aplicación... que suerte, con lo que me gusta a mí esto. Además toca utilizar un framework CSS, <a href="http://www.blueprintcss.org/" target="_blank">Blueprint</a>, lo cual esta muy guay porque nunca he usado uno, hay que ver la de cosas que estoy aprendiendo con este tutorial.<br/>Abro el tar.gz de la última versión (la 1.0) y descomprimo la carpeta blueprint/ de su interior en $sample_app/public/stylesheets.<br/>Para que lo use la plantilla de la aplicación añado esto al application.html.erb después de csrf_meta_tag:</p>
 <pre><code class="prettyprint linenums"><br/>&amp;lt;%= stylesheet_link_tag &#39;blueprint/screen&#39;, :media =&amp;gt; &#39;screen&#39; %&amp;gt;
 &amp;lt;%= stylesheet_link_tag &#39;blueprint/print&#39;,  :media =&amp;gt; &#39;print&#39; %&amp;gt;
 
-</code></pre><p>Entiendo que la parte de stylesheet_link_tag se traduce de alguna manera mágica en un link rel a la hoja de estilo en blueprint/screen o print según proceda.<br/>Efectivamente, stylesheet_link_tag es otro helper (en este caso uno que ofrece Rails) que se encarga de buscar la hoja de estilo en el directorio por defecto (public/stylesheets) y además le concatena el .css. Lo de :media ya me sobrepasa, supongo que será otro parámetro que se pasa al helper.<br/>Por cierto que el código fuente HTML generado por la página es LIMPÍSIMO (acostumbrado a JSF...), esto me recuerda mucho a los scriptlets de JSp :') que tiempos...<br/>Por otra parte el stylesheet_link_tag se traduce en el link rel tal como esperaba, pero la url de la hoja de estilo es esta: /stylesheets/blueprint/screen.css?1290014457 un tanto extraño, ya veremos para qué es.<br/>Ahora parece que se cacharrea con la consola de Ruby, así que antes que nada toca subir a git.<br/>La consola de Ruby es un intérprete, se invoca con</p>
+</code></pre>
+<p>Entiendo que la parte de stylesheet_link_tag se traduce de alguna manera mágica en un link rel a la hoja de estilo en blueprint/screen o print según proceda.<br/>Efectivamente, stylesheet_link_tag es otro helper (en este caso uno que ofrece Rails) que se encarga de buscar la hoja de estilo en el directorio por defecto (public/stylesheets) y además le concatena el .css. Lo de :media ya me sobrepasa, supongo que será otro parámetro que se pasa al helper.<br/>Por cierto que el código fuente HTML generado por la página es LIMPÍSIMO (acostumbrado a JSF...), esto me recuerda mucho a los scriptlets de JSp :') que tiempos...<br/>Por otra parte el stylesheet_link_tag se traduce en el link rel tal como esperaba, pero la url de la hoja de estilo es esta: /stylesheets/blueprint/screen.css?1290014457 un tanto extraño, ya veremos para qué es.<br/>Ahora parece que se cacharrea con la consola de Ruby, así que antes que nada toca subir a git.<br/>La consola de Ruby es un intérprete, se invoca con</p>
 <pre><code class="prettyprint linenums"><br/>case@aesir:~/RoR/proyectos/sample_app$ rails console
 
-</code></pre><p>Para interrumpir un proceso en ejecución dentro de la consola: Ctrl-C, para salir de la consola en sí, Ctrl-D.<br/>Y empezamos con la descripción del lenguaje en sí, ya sabía yo que de esta no me libraba, en algún momento tiene que pasar, jeje...<br/>Comentarios: Empiezan con # y se extienden hasta el final de la línea:</p>
+</code></pre>
+<p>Para interrumpir un proceso en ejecución dentro de la consola: Ctrl-C, para salir de la consola en sí, Ctrl-D.<br/>Y empezamos con la descripción del lenguaje en sí, ya sabía yo que de esta no me libraba, en algún momento tiene que pasar, jeje...<br/>Comentarios: Empiezan con # y se extienden hasta el final de la línea:</p>
 <pre><code class="prettyprint linenums"><br/>#Esto es un comentario, y lo siguiente es una suma más un comentario
 17+42 #Son 69
 
-</code></pre><p>Strings: Entre "", como en Java. Igualmente, se concatenan con +. Por hacer unas pruebas:</p>
+</code></pre>
+<p>Strings: Entre "", como en Java. Igualmente, se concatenan con +. Por hacer unas pruebas:</p>
 <pre><code class="prettyprint linenums"><br/>ruby-1.9.2-p0 &amp;gt; &quot;&quot;
 =&amp;gt; &quot;&quot;
 ruby-1.9.2-p0 &amp;gt; &quot;foo&quot;
@@ -83,7 +87,8 @@ ruby-1.9.2-p0 &amp;gt; foo + &quot; &quot; + bar
 ruby-1.9.2-p0 &amp;gt; &quot;#{foo} #{bar}&quot;
 =&amp;gt; &quot;foo bar&quot;
 
-</code></pre><p>Como curiosidad, la última línea. Se imprime foo bar mediante la interpretación de las dos cadenas con #{}. En Ruby a esto se le llama <em>interpolación</em>.<br/>Para imprimir, se usa puts, imprime la cadena y n (retorno de línea) y devuelve nil (nulo, vaya). Hay otro similar, print, que se limita a imprimir la cadena y devolver nils, es decir, no imprime el n.</p>
+</code></pre>
+<p>Como curiosidad, la última línea. Se imprime foo bar mediante la interpretación de las dos cadenas con #{}. En Ruby a esto se le llama <em>interpolación</em>.<br/>Para imprimir, se usa puts, imprime la cadena y n (retorno de línea) y devuelve nil (nulo, vaya). Hay otro similar, print, que se limita a imprimir la cadena y devolver nils, es decir, no imprime el n.</p>
 <pre><code class="prettyprint linenums"><br/>ruby-1.9.2-p0 &amp;gt; puts foo
 foo
 =&amp;gt; nil
@@ -93,21 +98,25 @@ ruby-1.9.2-p0 &amp;gt; print foo+&quot;n&quot; #Esto es igual que puts foo
 foo
 =&amp;gt; nil
 
-</code></pre><p>También se pueden usar cadenas definidas con comillas simples: 'foo', con una salvedad, NO permiten interpolación! (ésto no era así también en PHP?).</p>
+</code></pre>
+<p>También se pueden usar cadenas definidas con comillas simples: 'foo', con una salvedad, NO permiten interpolación! (ésto no era así también en PHP?).</p>
 <pre><code class="prettyprint linenums"><br/>ruby-1.9.2-p0 &amp;gt; &#39;#{foo}&#39;
 =&amp;gt; &quot;#{foo}&quot;
 
-</code></pre><p>Además con estas cadenas puedo usar caracteres especiales sin escaparlos, como en n.</p>
+</code></pre>
+<p>Además con estas cadenas puedo usar caracteres especiales sin escaparlos, como en n.</p>
 <pre><code class="prettyprint linenums"><br/>ruby-1.9.2-p0 &amp;gt; &#39;esto es para marcar una nueva línea n&#39;
 =&amp;gt; &quot;esto es para marcar una nueva línea \n&quot;
 
-</code></pre><p>Total, que la gran utilidad viene a ser que me ahorro escapar los caracteres especiales.<br/>Bueno, ahora que he ido a aprovisionarme al supersol y he estado hablando un rato con mi frutero de confianza, sigo, vamos a por los objetos.<br/>En Ruby <strong>TODO</strong> es un objeto, cosa, que he de admitir que fascina mi lado más "computer scientist", purista y talibán de la informática, así que puedo escribir cosas como:</p>
+</code></pre>
+<p>Total, que la gran utilidad viene a ser que me ahorro escapar los caracteres especiales.<br/>Bueno, ahora que he ido a aprovisionarme al supersol y he estado hablando un rato con mi frutero de confianza, sigo, vamos a por los objetos.<br/>En Ruby <strong>TODO</strong> es un objeto, cosa, que he de admitir que fascina mi lado más "computer scientist", purista y talibán de la informática, así que puedo escribir cosas como:</p>
 <pre><code class="prettyprint linenums"><br/>ruby-1.9.2-p0 &amp;gt; &quot;foo&quot;.length
 =&amp;gt; 3
 ruby-1.9.2-p0 &amp;gt; &quot;foo&quot;.empty?
 =&amp;gt; false
 
-</code></pre><p>En el último caso el "?" indica que el método invocado devuelve un booleano. Así que ya se puede hacer control de flujo:</p>
+</code></pre>
+<p>En el último caso el "?" indica que el método invocado devuelve un booleano. Así que ya se puede hacer control de flujo:</p>
 <pre><code class="prettyprint linenums"><br/>ruby-1.9.2-p0 &amp;gt; s = &quot;foobar&quot;
 =&amp;gt; &quot;foobar&quot;
 ruby-1.9.2-p0 &amp;gt; if s.empty?
@@ -117,7 +126,8 @@ ruby-1.9.2-p0 &amp;gt;     &quot;no es cadena vacía&quot;
 ruby-1.9.2-p0 ?&amp;gt;  end
 =&amp;gt; &quot;no es cadena vacía&quot;
 
-</code></pre><p>Me gusta el detallito de que algo tan "rudimentario" como un intérprete, te indente el código.<br/>Los operadores a usar son los clásicos para booleanos: ||, &amp;&amp; y !</p>
+</code></pre>
+<p>Me gusta el detallito de que algo tan "rudimentario" como un intérprete, te indente el código.<br/>Los operadores a usar son los clásicos para booleanos: ||, &amp;&amp; y !</p>
 <pre><code class="prettyprint linenums"><br/>ruby-1.9.2-p0 &amp;gt; true &amp;amp;&amp;amp; false
 =&amp;gt; false
 ruby-1.9.2-p0 &amp;gt; true || false
@@ -125,7 +135,8 @@ ruby-1.9.2-p0 &amp;gt; true || false
 ruby-1.9.2-p0 &amp;gt; !true
 =&amp;gt; false
 
-</code></pre><p>Me saco de la chistera que los literales booleanos sean true o false, pero oye, funciona.<br/>Siguiendo con el tutorial veo que si se quiere evaluar una sola condición lógica basta con poner instrucción condición, es decir:</p>
+</code></pre>
+<p>Me saco de la chistera que los literales booleanos sean true o false, pero oye, funciona.<br/>Siguiendo con el tutorial veo que si se quiere evaluar una sola condición lógica basta con poner instrucción condición, es decir:</p>
 <pre><code class="prettyprint linenums"><br/>ruby-1.9.2-p0 &amp;gt; puts &quot;Cadena no vacía&quot; if !foo.empty?
 Cadena no vacía
 =&amp;gt; nil
@@ -135,11 +146,13 @@ ruby-1.9.2-p0 ?&amp;gt;  end
 cadena no vacía
 =&amp;gt; nil
 
-</code></pre><p>También se puede usar unless para hacer lo mismo:</p>
+</code></pre>
+<p>También se puede usar unless para hacer lo mismo:</p>
 <pre><code class="prettyprint linenums"><br/>ruby-1.9.2-p0 &amp;gt; puts &quot;Cadena vacía&quot; unless !foo.empty?
 =&amp;gt; nil
 
-</code></pre><p>Es como aplicar álgebra de Boole al lenguaje en sí, que friki, me parto.<br/>Como última particularidad booleana del lenguaje, nil siempre vale false, todo lo demás, true. Hasta el 0.</p>
+</code></pre>
+<p>Es como aplicar álgebra de Boole al lenguaje en sí, que friki, me parto.<br/>Como última particularidad booleana del lenguaje, nil siempre vale false, todo lo demás, true. Hasta el 0.</p>
 <pre><code class="prettyprint linenums"><br/>ruby-1.9.2-p0 &amp;gt; puts &quot;Cero vale true&quot; if 0
 Cero vale true
 =&amp;gt; nil
@@ -147,7 +160,8 @@ ruby-1.9.2-p0 &amp;gt; puts &quot;nils es siempre false&quot; unless nil
 nils es siempre false
 =&amp;gt; nil
 
-</code></pre><p>Por cierto, el toString() es to_s, y nil en sí también es un objeto:</p>
+</code></pre>
+<p>Por cierto, el toString() es to_s, y nil en sí también es un objeto:</p>
 <pre><code class="prettyprint linenums"><br/>ruby-1.9.2-p0 &amp;gt; nil.to_s
 =&amp;gt; &quot;&quot;
 ruby-1.9.2-p0 &amp;gt; nil.to_s.empty?
@@ -157,7 +171,8 @@ ruby-1.9.2-p0 &amp;gt; nil.to_s.nil?
 ruby-1.9.2-p0 &amp;gt; nil.nil?
 =&amp;gt; true
 
-</code></pre><p>Y se agradece también que haya un método que chequee para nulos, nil?<br/>Ahora un poco de tipos de variables, ya se ha visto que hay variables locales (title) y "de instancia" (@title), por consola obtenemos esto:</p>
+</code></pre>
+<p>Y se agradece también que haya un método que chequee para nulos, nil?<br/>Ahora un poco de tipos de variables, ya se ha visto que hay variables locales (title) y "de instancia" (@title), por consola obtenemos esto:</p>
 <pre><code class="prettyprint linenums"><br/>ruby-1.9.2-p0 &amp;gt; title
 NameError: undefined local variable or method `title&#39; for main:Object
 from (irb):34
@@ -169,7 +184,8 @@ from script/rails:6:in `&#39;
 ruby-1.9.2-p0 &amp;gt; @title
 =&amp;gt; nil
 
-</code></pre><p>Como me imagino que todo heredará de Object, voy a echar un vistazo a la <a title="RDoc de Object" href="http://www.ruby-doc.org/core/classes/Object.html" target="_blank">documentación</a> para hacerme una idea de que métodos heredan todos los objetos.<br/>Tenemos .class, == o equal?, is_a? y bastantes métodos más. En general la sintaxis me parece... interesante... ahora voy a hacer un experimentillo de algo que me gustaba bastante hacer en PHP, aprovechando que el lenguaje es de tipado debil.</p>
+</code></pre>
+<p>Como me imagino que todo heredará de Object, voy a echar un vistazo a la <a title="RDoc de Object" href="http://www.ruby-doc.org/core/classes/Object.html" target="_blank">documentación</a> para hacerme una idea de que métodos heredan todos los objetos.<br/>Tenemos .class, == o equal?, is_a? y bastantes métodos más. En general la sintaxis me parece... interesante... ahora voy a hacer un experimentillo de algo que me gustaba bastante hacer en PHP, aprovechando que el lenguaje es de tipado debil.</p>
 <pre><code class="prettyprint linenums"><br/>ruby-1.9.2-p0 &gt; foo.class
  =&gt; String 
 ruby-1.9.2-p0 &gt; foo = 0
@@ -184,7 +200,8 @@ ruby-1.9.2-p0 &gt; puts &quot;Ok&quot; if foo == &quot;0&quot;
 ruby-1.9.2-p0 &gt; foo.to_s.encoding
  =&gt; #&lt;Encoding:US-ASCII&gt; 
 
-</code></pre><p>Perfecto, ha respondido maravillosamente a las patochadas que he hecho, y de propina, he descubierto un método que devuelve el encoding de las cadenas, jeje.<br/>Bueno, como todavía voy por el punto 4.2.4 y según la barra de desplazamiento me queda la mitad... mañana más y mejor.</p>
+</code></pre>
+<p>Perfecto, ha respondido maravillosamente a las patochadas que he hecho, y de propina, he descubierto un método que devuelve el encoding de las cadenas, jeje.<br/>Bueno, como todavía voy por el punto 4.2.4 y según la barra de desplazamiento me queda la mitad... mañana más y mejor.</p>
 		</div>
 <div class="col s12">
 <div id="disqus_thread"></div>
@@ -221,6 +238,7 @@ ruby-1.9.2-p0 &gt; foo.to_s.encoding
 			    <a href="../../../tags/Minientrada.html"><div class="chip">Minientrada</div></a>
 			    <a href="../../../tags/WordPress.html"><div class="chip">WordPress</div></a>
 			    <a href="../../../tags/JUnit.html"><div class="chip">JUnit</div></a>
+			    <a href="../../../tags/Javascript.html"><div class="chip">Javascript</div></a>
 			    <a href="../../../tags/Proyectos.html"><div class="chip">Proyectos</div></a>
 			    <a href="../../../tags/tutorial.html"><div class="chip">tutorial</div></a>
 			    <a href="../../../tags/Spring Roo.html"><div class="chip">Spring Roo</div></a>
@@ -248,6 +266,7 @@ ruby-1.9.2-p0 &gt; foo.to_s.encoding
 			    <a href="../../../tags/Amazon.html"><div class="chip">Amazon</div></a>
 			    <a href="../../../tags/SEO.html"><div class="chip">SEO</div></a>
 			    <a href="../../../tags/Intellij IDEA.html"><div class="chip">Intellij IDEA</div></a>
+			    <a href="../../../tags/AngularJS 2.html"><div class="chip">AngularJS 2</div></a>
 	    </div>
         <div class="col s2 right-align">
             <a href="http://twitter.com/agustinventura" target="_blank" class="social-link white-text" ><i class="fa  fa-twitter  fa-3x" title="Twitter" aria-hidden="true"></i></a>
