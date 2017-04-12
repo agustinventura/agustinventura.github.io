@@ -6,24 +6,53 @@
     <atom:link href="http://www.aguasnegras.es/feed.xml" rel="self" type="application/rss+xml" />
     <description>AguasNegras, tecnología, programación y Java</description>
     <language>es-es</language>
-    <pubDate>dom, 12 mar 2017 13:22:42 +0100</pubDate>
-    <lastBuildDate>dom, 12 mar 2017 13:22:42 +0100</lastBuildDate>
+    <pubDate>mié, 12 abr 2017 12:43:46 +0200</pubDate>
+    <lastBuildDate>mié, 12 abr 2017 12:43:46 +0200</lastBuildDate>
 
     <item>
-      <title>Inicio con AngularJS 2</title>
-      <link>http://www.aguasnegras.es/blog/2016/09/12-Inicio con AngularJS 2.html</link>
-      <pubDate>lun, 12 sep 2016 00:00:00 +0200</pubDate>
-      <guid isPermaLink="false">blog/2016/09/12-Inicio con AngularJS 2.html</guid>
+      <title>Logging de consultas y parametros de Hibernate</title>
+      <link>http://www.aguasnegras.es/blog/2017/03/27-logging-consultas-parametros-hibernate.html</link>
+      <pubDate>lun, 27 mar 2017 00:00:00 +0200</pubDate>
+      <guid isPermaLink="false">blog/2017/03/27-logging-consultas-parametros-hibernate.html</guid>
       	<description>
-	&lt;p&gt;Para hacer el frontend de una API REST, he decidido aprender AngularJS. No soy fan de las soluciones Javascript (más que nada por Javascript en sí mismo), pero tengo&lt;br/&gt;que reconocer que es lo que hay si quieres llevar mucha lógica al cliente, es lo que hay.&lt;br/&gt;También le eché un vistazo a React (el otro gorila en la habitación), pero me parece que AngularJS es más completo y redondo que React, no sé.&lt;br/&gt;Bueno, voy a empezar por el &lt;a href=&quot;https://angular.io/docs/ts/latest/quickstart.html&quot;&gt;Quickstart&lt;/a&gt;, que lo primero que indica es que hay que instalar &lt;a href=&quot;http://blog.npmjs.org/post/85484771375/how-to-install-npm&quot;&gt;npm&lt;/a&gt;, que a su vez indica que necesito node.js. Si miro en los repositorios de mi distro, me encuentro&lt;br/&gt;que la versión más reciente es la 0.10.25, cuando va por la 4.5.0, así que buscando opciones de instalación, encuentro &lt;a href=&quot;https://github.com/creationix/nvm&quot;&gt;NVM&lt;/a&gt;, y lo instalo siguiendo el README.&lt;br/&gt;Una vez instalado, instalar nodejs es tan sencillo como:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;prettyprint&quot;&gt;nvm install node
-nvm use node
-nvm -v
+	&lt;p&gt;Una de las funcionalidades básicas de &lt;a href=&quot;http://hibernate.org/orm/&quot;&gt;Hibernate&lt;/a&gt; es abstraer la base de datos, pero sin embargo en tiempo de desarrollo resulta bastante útil controlar las consultas que va generando el motor así como sus parámetros.&lt;br/&gt;Desde las primeras versiones Hibernate tiene una propiedad, &lt;em&gt;show_sql&lt;/em&gt; que muestra estas consultas por consola. Esto tiene dos desventajas, la primera que usa la consola y la segunda que para habilitarlo y deshabilitarlo se depende de un archivo de configuración específico (normalmente el propio de Hibernate o incluso una clase Java si se esta utilizando la configuración Java de Spring). Además este parámetro tan sólo muestra las consultas y no los parámetros de las mismas.&lt;br/&gt;La solución idónea pasa por utilizar el sistema de logging estándar que se utilice en la aplicación, así se puede mostrar en consola o registrar en un archivo o cualquier otro tipo de solución y además su activación y desactivación se hace en el sitio lógico, el archivo de configuración de logs de la aplicación.&lt;br/&gt;Otra ventaja es que, además, con su configuración oportuna se pueden logar también los parámetros de las consultas (algo muy útil para contrastar con nuestro cliente SQL favorito).&lt;br/&gt;Para poder mostrar estos logs hay dos loggers propios de Hibernate que configurar:&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;org.hibernate.SQL: Se encarga de mostrar las consultas.&lt;/li&gt;
+  &lt;li&gt;org.hibernate.type.descriptor.sql.BasicBinder: Hay soluciones que proponen quedarse al nivel de type, pero en ese caso el log muestra toda la información relativas a tipos de Hibernate, no solo los valores de los parámetros. Con este logger se muestran únicamente éstos.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Y un ejemplo de configuración para log4j:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;prettyprint&quot;&gt;&amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;UTF-8&amp;quot;?&amp;gt;
+&amp;lt;!DOCTYPE log4j:configuration SYSTEM &amp;quot;log4j.dtd&amp;quot; &amp;gt;
+&amp;lt;log4j:configuration&amp;gt;
+
+	&amp;lt;appender name=&amp;quot;hibernate_log&amp;quot; class=&amp;quot;org.apache.log4j.ConsoleAppender&amp;quot;&amp;gt;
+		&amp;lt;layout class=&amp;quot;org.apache.log4j.PatternLayout&amp;quot;&amp;gt;
+			&amp;lt;param name=&amp;quot;ConversionPattern&amp;quot; value=&amp;quot;%d{ABSOLUTE} %p %c - %m%n&amp;quot; /&amp;gt;
+		&amp;lt;/layout&amp;gt;
+	&amp;lt;/appender&amp;gt;
+
+	&amp;lt;appender name=&amp;quot;stdout&amp;quot; class=&amp;quot;org.apache.log4j.ConsoleAppender&amp;quot;&amp;gt;
+		&amp;lt;layout class=&amp;quot;org.apache.log4j.PatternLayout&amp;quot;&amp;gt;
+			&amp;lt;param name=&amp;quot;ConversionPattern&amp;quot; value=&amp;quot;%d{ABSOLUTE} %p %c - %m%n&amp;quot; /&amp;gt;
+		&amp;lt;/layout&amp;gt;
+	&amp;lt;/appender&amp;gt;
+	
+	&amp;lt;logger name=&amp;quot;org.hibernate.SQL&amp;quot;&amp;gt;
+		&amp;lt;level value=&amp;quot;trace&amp;quot; /&amp;gt;
+		&amp;lt;appender-ref ref=&amp;quot;hibernate_log&amp;quot; /&amp;gt;
+	&amp;lt;/logger&amp;gt;
+
+	&amp;lt;logger name=&amp;quot;org.hibernate.type.descriptor.sql.BasicBinder&amp;quot;&amp;gt;
+		&amp;lt;level value=&amp;quot;trace&amp;quot; /&amp;gt;
+		&amp;lt;appender-ref ref=&amp;quot;hibernate_log&amp;quot; /&amp;gt;
+	&amp;lt;/logger&amp;gt;
+	
+	&amp;lt;root&amp;gt;
+		&amp;lt;priority value=&amp;quot;error&amp;quot; /&amp;gt;
+		&amp;lt;appender-ref ref=&amp;quot;stdout&amp;quot; /&amp;gt;
+	&amp;lt;/root&amp;gt;
+&amp;lt;/log4j:configuration&amp;gt;
 &lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Se instala la última versión disponible, en mi caso, la 6.5.0, ahora me aseguro de tener la última versión de npm:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;prettyprint&quot;&gt;npm install npm -g
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Una vez hecho esto, creo el directorio que alojará el proyecto y cuatro archivos de configuración:&lt;br/&gt;- package.json: las dependencias del proyecto. La gestión de dependencias no es nada del otro jueves, tiene el nombre del proyecto,&lt;br/&gt;la versión, una serie de eventos de ciclo de vida y las dependencias en sí. Me llama la atención la cantidad de dependencias que hay que incluir para un proyecto sin nada.&lt;br/&gt;- tsconfig.json: Configuración del compilador de TypeScript a Javascript.&lt;br/&gt;- typings.json: Más configuración del compilador de TypeScript (que bien...)&lt;br/&gt;- systemjs.config.js: Configuración de la carga y del entorno de ejecución de la aplicación.&lt;/p&gt;
 	</description>
     </item>
     <item>

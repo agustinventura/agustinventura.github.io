@@ -2,7 +2,7 @@
 <html lang="es">
   <head>
     <meta charset="utf-8"/>
-    <title>Inicio con AngularJS 2</title>
+    <title>Logging de consultas y parametros de Hibernate</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="AguasNegras, tecnología, programación y Java">
     <meta name="author" content="Agustín Ventura">
@@ -11,9 +11,9 @@
     <!--Import Google Icon Font-->
      <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
      <!-- Import Font Awesome Icons-->
-     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
     <!-- Compiled and minified CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/css/materialize.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css">
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
       <script src="../../../js/html5shiv.min.js"></script>
@@ -39,27 +39,56 @@
 <div class="container">
 <div class="row">
 <div class="col s12">
-		<h4 class="light-blue-text text-darken-1">Inicio con AngularJS 2</h4>
+		<h4 class="light-blue-text text-darken-1">Logging de consultas y parametros de Hibernate</h4>
 		<div class="section">
-			12 septiembre 2016
+			27 marzo 2017
 		</div>
 		<div class="section">
-			<p>Para hacer el frontend de una API REST, he decidido aprender AngularJS. No soy fan de las soluciones Javascript (más que nada por Javascript en sí mismo), pero tengo<br/>que reconocer que es lo que hay si quieres llevar mucha lógica al cliente, es lo que hay.<br/>También le eché un vistazo a React (el otro gorila en la habitación), pero me parece que AngularJS es más completo y redondo que React, no sé.<br/>Bueno, voy a empezar por el <a href="https://angular.io/docs/ts/latest/quickstart.html">Quickstart</a>, que lo primero que indica es que hay que instalar <a href="http://blog.npmjs.org/post/85484771375/how-to-install-npm">npm</a>, que a su vez indica que necesito node.js. Si miro en los repositorios de mi distro, me encuentro<br/>que la versión más reciente es la 0.10.25, cuando va por la 4.5.0, así que buscando opciones de instalación, encuentro <a href="https://github.com/creationix/nvm">NVM</a>, y lo instalo siguiendo el README.<br/>Una vez instalado, instalar nodejs es tan sencillo como:</p>
-<pre><code class="prettyprint">nvm install node
-nvm use node
-nvm -v
+			<p>Una de las funcionalidades básicas de <a href="http://hibernate.org/orm/">Hibernate</a> es abstraer la base de datos, pero sin embargo en tiempo de desarrollo resulta bastante útil controlar las consultas que va generando el motor así como sus parámetros.<br/>Desde las primeras versiones Hibernate tiene una propiedad, <em>show_sql</em> que muestra estas consultas por consola. Esto tiene dos desventajas, la primera que usa la consola y la segunda que para habilitarlo y deshabilitarlo se depende de un archivo de configuración específico (normalmente el propio de Hibernate o incluso una clase Java si se esta utilizando la configuración Java de Spring). Además este parámetro tan sólo muestra las consultas y no los parámetros de las mismas.<br/>La solución idónea pasa por utilizar el sistema de logging estándar que se utilice en la aplicación, así se puede mostrar en consola o registrar en un archivo o cualquier otro tipo de solución y además su activación y desactivación se hace en el sitio lógico, el archivo de configuración de logs de la aplicación.<br/>Otra ventaja es que, además, con su configuración oportuna se pueden logar también los parámetros de las consultas (algo muy útil para contrastar con nuestro cliente SQL favorito).<br/>Para poder mostrar estos logs hay dos loggers propios de Hibernate que configurar:</p>
+<ol>
+  <li>org.hibernate.SQL: Se encarga de mostrar las consultas.</li>
+  <li>org.hibernate.type.descriptor.sql.BasicBinder: Hay soluciones que proponen quedarse al nivel de type, pero en ese caso el log muestra toda la información relativas a tipos de Hibernate, no solo los valores de los parámetros. Con este logger se muestran únicamente éstos.</li>
+</ol>
+<p>Y un ejemplo de configuración para log4j:</p>
+<pre><code class="prettyprint">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;!DOCTYPE log4j:configuration SYSTEM &quot;log4j.dtd&quot; &gt;
+&lt;log4j:configuration&gt;
+
+	&lt;appender name=&quot;hibernate_log&quot; class=&quot;org.apache.log4j.ConsoleAppender&quot;&gt;
+		&lt;layout class=&quot;org.apache.log4j.PatternLayout&quot;&gt;
+			&lt;param name=&quot;ConversionPattern&quot; value=&quot;%d{ABSOLUTE} %p %c - %m%n&quot; /&gt;
+		&lt;/layout&gt;
+	&lt;/appender&gt;
+
+	&lt;appender name=&quot;stdout&quot; class=&quot;org.apache.log4j.ConsoleAppender&quot;&gt;
+		&lt;layout class=&quot;org.apache.log4j.PatternLayout&quot;&gt;
+			&lt;param name=&quot;ConversionPattern&quot; value=&quot;%d{ABSOLUTE} %p %c - %m%n&quot; /&gt;
+		&lt;/layout&gt;
+	&lt;/appender&gt;
+	
+	&lt;logger name=&quot;org.hibernate.SQL&quot;&gt;
+		&lt;level value=&quot;trace&quot; /&gt;
+		&lt;appender-ref ref=&quot;hibernate_log&quot; /&gt;
+	&lt;/logger&gt;
+
+	&lt;logger name=&quot;org.hibernate.type.descriptor.sql.BasicBinder&quot;&gt;
+		&lt;level value=&quot;trace&quot; /&gt;
+		&lt;appender-ref ref=&quot;hibernate_log&quot; /&gt;
+	&lt;/logger&gt;
+	
+	&lt;root&gt;
+		&lt;priority value=&quot;error&quot; /&gt;
+		&lt;appender-ref ref=&quot;stdout&quot; /&gt;
+	&lt;/root&gt;
+&lt;/log4j:configuration&gt;
 </code></pre>
-<p>Se instala la última versión disponible, en mi caso, la 6.5.0, ahora me aseguro de tener la última versión de npm:</p>
-<pre><code class="prettyprint">npm install npm -g
-</code></pre>
-<p>Una vez hecho esto, creo el directorio que alojará el proyecto y cuatro archivos de configuración:<br/>- package.json: las dependencias del proyecto. La gestión de dependencias no es nada del otro jueves, tiene el nombre del proyecto,<br/>la versión, una serie de eventos de ciclo de vida y las dependencias en sí. Me llama la atención la cantidad de dependencias que hay que incluir para un proyecto sin nada.<br/>- tsconfig.json: Configuración del compilador de TypeScript a Javascript.<br/>- typings.json: Más configuración del compilador de TypeScript (que bien...)<br/>- systemjs.config.js: Configuración de la carga y del entorno de ejecución de la aplicación.</p>
 		</div>
 <div class="col s12">
 <div id="disqus_thread"></div>
 <script>
     var disqus_config = function () {
-        this.page.url = 'http://www.aguasnegras.es/blog/2016/09/12-Inicio con AngularJS 2.html';
-        this.page.identifier = 'blog/2016/09/12-Inicio con AngularJS 2.html';
+        this.page.url = 'http://www.aguasnegras.es/blog/2017/03/27-logging-consultas-parametros-hibernate.html';
+        this.page.identifier = 'blog/2017/03/27-logging-consultas-parametros-hibernate.html';
     };
     (function() {
         var d = document, s = d.createElement('script');
@@ -89,14 +118,15 @@ nvm -v
 			    <a href="../../../tags/Minientrada.html"><div class="chip">Minientrada</div></a>
 			    <a href="../../../tags/WordPress.html"><div class="chip">WordPress</div></a>
 			    <a href="../../../tags/JUnit.html"><div class="chip">JUnit</div></a>
-			    <a href="../../../tags/Javascript.html"><div class="chip">Javascript</div></a>
 			    <a href="../../../tags/Proyectos.html"><div class="chip">Proyectos</div></a>
 			    <a href="../../../tags/tutorial.html"><div class="chip">tutorial</div></a>
 			    <a href="../../../tags/Spring Roo.html"><div class="chip">Spring Roo</div></a>
 			    <a href="../../../tags/Emulador.html"><div class="chip">Emulador</div></a>
 			    <a href="../../../tags/Markdown.html"><div class="chip">Markdown</div></a>
 			    <a href="../../../tags/log4j.html"><div class="chip">log4j</div></a>
+			    <a href="../../../tags/Logging.html"><div class="chip">Logging</div></a>
 			    <a href="../../../tags/Java.html"><div class="chip">Java</div></a>
+			    <a href="../../../tags/Hibernate.html"><div class="chip">Hibernate</div></a>
 			    <a href="../../../tags/slf4j.html"><div class="chip">slf4j</div></a>
 			    <a href="../../../tags/Heroku.html"><div class="chip">Heroku</div></a>
 			    <a href="../../../tags/Base de Datos.html"><div class="chip">Base de Datos</div></a>
@@ -117,7 +147,6 @@ nvm -v
 			    <a href="../../../tags/Amazon.html"><div class="chip">Amazon</div></a>
 			    <a href="../../../tags/SEO.html"><div class="chip">SEO</div></a>
 			    <a href="../../../tags/Intellij IDEA.html"><div class="chip">Intellij IDEA</div></a>
-			    <a href="../../../tags/AngularJS 2.html"><div class="chip">AngularJS 2</div></a>
 	    </div>
         <div class="col s2 right-align">
             <a href="http://twitter.com/agustinventura" target="_blank" class="social-link white-text" ><i class="fa  fa-twitter  fa-3x" title="Twitter" aria-hidden="true"></i></a>
