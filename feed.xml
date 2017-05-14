@@ -6,9 +6,62 @@
     <atom:link href="http://www.aguasnegras.es/feed.xml" rel="self" type="application/rss+xml" />
     <description>AguasNegras, tecnología, programación y Java</description>
     <language>es-es</language>
-    <pubDate>mié, 12 abr 2017 12:43:46 +0200</pubDate>
-    <lastBuildDate>mié, 12 abr 2017 12:43:46 +0200</lastBuildDate>
+    <pubDate>dom, 14 may 2017 10:45:18 +0200</pubDate>
+    <lastBuildDate>dom, 14 may 2017 10:45:18 +0200</lastBuildDate>
 
+    <item>
+      <title>Comenzando con Docker</title>
+      <link>http://www.aguasnegras.es/blog/2017/05/14-comenzando-con-docker.html</link>
+      <pubDate>dom, 14 may 2017 00:00:00 +0200</pubDate>
+      <guid isPermaLink="false">blog/2017/05/14-comenzando-con-docker.html</guid>
+      	<description>
+	&lt;p&gt;&lt;a href=&quot;https://www.docker.com/&quot;&gt;Docker&lt;/a&gt; es una tecnología de contenedores relativamente reciente (de 2013) que si bien ha puesto sobre el terreno de juego el concepto de contenedores (aunque estos son tan antiguos como del 2005 que fue cuando salieron con Solaris...). Un contenedor viene a ser una máquina virtual ligera, en realidad es una aplicación (se ejecuta en espacio de usuario, usa el kernel del sistema operativo, etc...) en la que se puede instalar un sistema operativo y unas aplicaciones (una imagen) y por tanto se comportará como una máquina virtual a efectos prácticos. La ventaja de esta aproximación es que mientras una máquina virtual tiene unos recursos fijos que toma del sistema anfitrión, Docker no, con lo que es más eficiente y ligero.&lt;br/&gt;La verdad es que todo el mundo habla de Docker, pero todavía no me he encontrado a nadie que lo use en producción. No obstante, este sistema es muy cómodo para montar entornos de desarrollo.&lt;br/&gt;Lo primero, como siempre, es instalar Docker. La página de &lt;a href=&quot;https://docs.docker.com/engine/installation/linux/ubuntu/&quot;&gt;instalación&lt;/a&gt; no refiere aún información para Ubuntu 17.04, a ver que me voy encontrando.&lt;br/&gt;El primer paso de la instalación es instalar una serie de paquetes que para mi sorpresa (no) ya tengo instalados. A continuación, y resumiendo las detalladísimas instrucciones de instalación (esto es buena documentación y lo demás son tonterías), los pasos para la instalación son los siguientes:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;prettyprint&quot;&gt;curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+sudo add-apt-repository &amp;quot;deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable&amp;quot;
+sudo apt-get update
+sudo apt-get install docker-ce
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Y aquí viene el primer problema, el repositorio añadido es para la versión actual de ubuntu &lt;em&gt;($lsb_release -cs)&lt;/em&gt; devuelve &lt;em&gt;zesty&lt;/em&gt;, y aún no hay soporte, así que veo dos opciones, o bien instalo el de xenial (modificando a mano el nombre del repositorio) o bien instalo los binarios. Por lo que veo en &lt;a href=&quot;https://askubuntu.com/questions/909691/how-to-install-docker-on-ubuntu-17-04&quot;&gt;askubuntu&lt;/a&gt; lo de instalar la versión de xenial no es tan descabellado, así que nada, palante. Modifico en &lt;em&gt;sources.list&lt;/em&gt; la definición del repositorio y donde pone &lt;em&gt;zesty&lt;/em&gt; pongo &lt;em&gt;xenial&lt;/em&gt; y repito los dos últimos pasos de arriba. Docker instalado :D&lt;br/&gt;Ahora hay otra sección, de pasos tras la instalación. La más relevante es la de ejecutar docker sin tener que usar sudo (ojo, que esto puede ser un riesgo de seguridad, pero como es para un entorno de desarrollo...). Básicamente hay que crear un grupo de usuarios para docker y añadir el usuario actual a ese grupo (y reiniciar la sesión para que pille los cambios, claro):&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;prettyprint&quot;&gt;sudo groupadd docker
+sudo usermod -aG docker $USER
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;A continuación comentan que docker se inicia por defecto al arrancar el sistema. Esto no me parece muy bien ya que no siempre voy a querer iniciar docker, pero bueno, tampoco tengo ganas de liarlo mucho, así que ahí se queda.&lt;br/&gt;Y listo, el resto de paso son resolución de problemas y aspectos avanzados que tampoco me afectan mucho. Ahm... ¿y cómo se verifica que ésto funciona? Muy fácil:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;prettyprint&quot;&gt;docker run hello-world
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Para seguir, esta el &lt;a href=&quot;https://docs.docker.com/get-started/&quot;&gt;getting-started&lt;/a&gt;, que retoma justo en ese paso. Tras un breve repaso teórico (e importante) se pasa a definir un contenedor mediante un Dockerfile, que no es más que un archivo de texto plano en el que se provisiona el sistema a partir de una imagen base y se ejecutan ciertas acciones de configuración. Vamos con el ejemplo:&lt;br/&gt; FROM python:2.7-slim&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;WORKDIR /app
+ADD . /app
+RUN pip install -r requirements.txt
+EXPOSE 80
+
+ENV NAME World
+CMD [&amp;quot;python&amp;quot;, &amp;quot;app.py&amp;quot;]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Aquí hay tres partes bien diferenciadas:&lt;br/&gt;1. Instalación de la imagen (que ya viene con python en este caso)&lt;br/&gt;2. Configuración del entorno: compartir la carpeta app con el anfitrión, instalar dependencias y abrir el puerto 80 al exterior.&lt;br/&gt;3. Configuración y ejecución de la aplicación concreta.&lt;/p&gt;
+&lt;p&gt;Como la carpeta donde esta el &lt;em&gt;Dockerfile&lt;/em&gt; se esta montando en &lt;em&gt;/app&lt;/em&gt;, se crean en esa misma carpeta los archivos &lt;em&gt;requirements.txt&lt;/em&gt; y &lt;em&gt;app.py&lt;/em&gt;, con lo que para editar los archivos (y desarrollar) puedo usar mi equipo mientras que para ejecutarlo se usará el contenedor. Con ésto, se puede crear la imagen y ejecutarla:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;prettyprint&quot;&gt;docker build -t friendlyhello .
+docker run -p 4000:80 friendlyhelloworld
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Al &lt;em&gt;build&lt;/em&gt; se le indica el nombre de la imagen y el directorio en el que esta el &lt;em&gt;Dockerfile&lt;/em&gt; mientras que al &lt;em&gt;run&lt;/em&gt; se le pasa la redirección del puerto, es decir, el puerto del anfitrión 4000 redirigirá al puerto 80 del contenedor y el nombre de la imagen.&lt;br/&gt;Para el &lt;em&gt;build&lt;/em&gt; hay que esperar un poco a que descargue de internet :)&lt;br/&gt;Cuando ejecuto el &lt;em&gt;run&lt;/em&gt; puedo ver que se ha arrancado la aplicación y si accedo al puerto 4000 en localhost, puedo ver en la consola la traza de peticiones HTTP que se ejecutan.&lt;br/&gt;Como esto no siempre es útil, se pueden ejecutar las imágenes en modo &lt;em&gt;detached&lt;/em&gt; (en segundo plano), tan solo pasando el parámetro &lt;em&gt;-d&lt;/em&gt; a &lt;em&gt;run&lt;/em&gt;:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;prettyprint&quot;&gt;docker run -d -p 4000:80 friendlyhelloworld
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Con &lt;em&gt;docker ps&lt;/em&gt; se puede consultar los contenedores que se estan ejecutando y con &lt;em&gt;docker stop&lt;/em&gt; se pueden parar:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;prettyprint&quot;&gt;docker ps
+docker stop e02aa5295525
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;El getting started continúa explicando que existen registro de imágenes en la nube y que puedes guardar ahí tus imágenes y compartirlas y tal (cosa muy útil). Yo me voy a saltar esa parte y sin embargo si voy a probar algo de la &lt;a href=&quot;http://developer.okta.com/blog/2017/05/10/developers-guide-to-docker-part-1&quot;&gt;introducción de Okta&lt;/a&gt;.&lt;br/&gt;Primero, ¿cómo puedo saber que imágenes tengo en mi sistema?&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;prettyprint&quot;&gt;docker image list
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;En mi caso tengo tres:&lt;br/&gt;* friendlyhello: La imagen que acabo de crear&lt;br/&gt;* python: La base de la imagen que acabo de crear&lt;br/&gt;* hello-world: La prueba de funcionamiento&lt;br/&gt;Vale, ¿y como puedo borrar una imagen que ya no necesito?:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;prettyprint&quot;&gt;docker rmi python:2.7-slim
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Con ésto por ejemplo me cargo la imagen python:2.7-slim y &lt;em&gt;todos los contenedores que la usan&lt;/em&gt;, así que ojocuidao. Eso sí, no me cargo las imágenes derivadas como puede ser &lt;em&gt;friendlyhello&lt;/em&gt;.&lt;br/&gt;Bueno, otra cosa, cuando paro un contenedor (con &lt;em&gt;stop&lt;/em&gt;) resulta que el contenedor se queda en estado parado. ¿Y si no lo necesito más? Pues puedo listar todos los contenedores (esten en ejecución o no) y borrar el que escoja:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;prettyprint&quot;&gt;docker ps -a
+docker rm distracted_goodall
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Y hasta aquí voy a llegar con la introducción, ya que ahora empieza divergir mi camino. En la próxima, Docker y Spring Boot.&lt;/p&gt;
+	</description>
+    </item>
     <item>
       <title>Logging de consultas y parametros de Hibernate</title>
       <link>http://www.aguasnegras.es/blog/2017/03/27-logging-consultas-parametros-hibernate.html</link>

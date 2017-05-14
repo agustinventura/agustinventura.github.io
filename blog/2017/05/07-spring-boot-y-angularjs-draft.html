@@ -2,7 +2,7 @@
 <html lang="es">
   <head>
     <meta charset="utf-8"/>
-    <title>JustPlay, binding al servicio</title>
+    <title>Spring Boot y AngularJS</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="AguasNegras, tecnología, programación y Java">
     <meta name="author" content="Agustín Ventura">
@@ -39,88 +39,42 @@
 <div class="container">
 <div class="row">
 <div class="col s12">
-		<h4 class="light-blue-text text-darken-1">JustPlay, binding al servicio</h4>
+		<h4 class="light-blue-text text-darken-1">Spring Boot y AngularJS</h4>
 		<div class="section">
-			18 mayo 2012
+			07 mayo 2017
 		</div>
 		<div class="section">
-			<p>El siguiente paso en el desarrollo de JustPlay resulta bastante obvio, ligar el MediaPlayer con el MediaService, o lo que es lo mismo, hacer un bind. Para no perderme, he hecho un pequeño diagrama de interacción entre <a title="Diagrama de Interacción entre CrankPlayer y MediaService" href="https://docs.google.com/drawings/d/1onAU0Ucfi0twATpAlizEuqY9OBoZo_0T9MjD195un4w/edit" target="_blank">MediaPlayer y MediaService</a>.</p>
-<p>En él se aprecia que aparte de los métodos de negocio necesarios (denotados por una línea discontínua), todavía me faltan por implementar dos métodos del ciclo de vida: el bind y el unbind, que son precisamente los que me permiten establecer una comunicación bidireccional con el MediaService para indicar acciones y realizar y obtener resultados.</p>
-<h6>Bind y Unbind de MediaService</h6>
-<p>La definición más pura de Service dice que este es un componente aislado que ejecuta una computación. Esto esta muy bien pero en realidad, si no te puedes comunicar con él, su uso es bastante limitado, para eso existen los <a title="Bound Services - Android Developers" href="http://developer.android.com/guide/topics/fundamentals/bound-services.html" target="_blank">bound services</a>. Un bound service se puede combinar con un servicio "normal" (y de hecho es lo que hago) y además ofrece dos métodos adicionales, el bind y el unbind. Lo importante es que en el bind devuelve una interfaz que permite interactuar con él.</p>
-<p>Primero entonces creo la clase que hará de fachada del servicio que extiende de <a title="Binder - Android Developers" href="http://developer.android.com/reference/android/os/Binder.html" target="_blank">Binder</a>:</p>
-<pre><code class="prettyprint linenums">public class MediaServiceBinder extends Binder {
-
-  private final MediaService mediaService;
-
-  public MediaServiceBinder(MediaService mediaService) {
-    this.mediaService = mediaService;
-  }
-}
-</code></pre>
-<p>A continuación, declaro una variable de esta clase en el servicio:</p>
-<pre><code class="prettyprint linenums">private final IBinder mediaServiceBinder = new MediaServiceBinder(this);
-</code></pre>
-<p>Y la devuelve en el método onBind:</p>
-<pre><code class="prettyprint linenums">@Override
-public IBinder onBind(Intent bindingIntent) {
-  return this.mediaServiceBinder;
-}
-
-@Override
-public boolean onUnbind(Intent intent) {
-  // Nothing to do here
-  return super.onUnbind(intent);
-}
-</code></pre>
-<p>El onUnbind, de momento he considerado que no requiere ninguna acción en especial.</p>
-<p>Vale, con esto el servicio ya devuelve su fachada.</p>
-<p>Ahora viene la parte de MediaPlayer, siguiendo el diagrama de interacción, voy a hacer el bind en el onStart:</p>
-<pre><code class="prettyprint linenums">@Override
-public void onStart() {
-  super.onStart();
-  Intent intent = new Intent(this, MediaService.class);
-  bindService(intent, mediaServiceConnection, Context.BIND_AUTO_CREATE);
-}
-</code></pre>
-<p>Pero bindService no devuelve el MediaServiceBinder inmediatamente, sino que es devuelto asincronamente, para eso se pasa el objeto mediaServiceConnection, que es una implementación de <a title="Service Connection - Android Developers" href="http://developer.android.com/reference/android/content/ServiceConnection.html" target="_blank">ServiceConnection</a>, además creo una instancia propia de MediaServiceBinder:</p>
-<pre><code class="prettyprint linenums">private MediaServiceBinder mediaServiceBinder = null;
-
-private ServiceConnection mediaServiceConnection = new ServiceConnection() {
-  public void onServiceConnected(ComponentName className,
-    IBinder service) {
-    mediaServiceBinder = (MediaServiceBinder) service;
-  }
-
-  public void onServiceDisconnected(ComponentName arg0) {
-    mediaServiceBinder = null;
-  }
-};
-</code></pre>
-<p>Para acabar con esta parte, en el onPause de MediaPlayer, hago el unBind:</p>
-<pre><code class="prettyprint linenums">@Override
-public void onPause() {
-  unbindService(mediaServiceConnection);
-  super.onPause();
-}
-</code></pre>
-<p>Con ésto ya estan implementados los servicios del ciclo de vida, y ahora ya solo me queda por implementar la lógica de negocio.</p>
-<h6>TODO</h6>
+			<p>Con <a href="https://start.spring.io/">Spring Boot</a> es relativamente sencillo generar un backend para una aplicación por complejo que sea su dominio, precisamente lo bueno de Spring Boot es que permite realizar rápidamente todo el trabajo de infraestructura para centrarse por una parte en el código del dominio y por otra... en la UI.<br/>En los últimos años hemos pasado de un paradigma de desarrollo en servidor a uno nuevo cliente/servidor (otra vez). El servidor suele ser una API <a href="https://en.wikipedia.org/wiki/Representational_state_transfer">REST </a> mientras que los clientes son típicamente aplicaciones Android, iOS y Web (lo cual incluye otros servicios REST y con eso emergen los microservicios...). En materia de clientes web, el ganador en toda la historia ha sido JavaScript y básicamente, dentro de JavaScript hay dos grandes frameworks:</p>
 <ol>
-	<li>Añadir el MediaPlayer al MediaThread</li>
-	<li>Definir fachada de MediaService (o lógica de negocio) en MediaServiceBinder.</li>
-	<li>Implementar la lógica en MediaService y MediaThread.</li>
+  <li><a href="https://facebook.github.io/react/">React</a>: Abanderado por Facebook, realmente es una librería de componentes ricos para el cliente.</li>
+  <li><a href="https://angular.io/">Angular</a>: La opción de Google. Antes era conocido como AngularJS pero al alcanzar la versión 2 lo reescribieron completamente y le cambiaron el nombre. Viene a ser un framework MVC completo para el cliente.</li>
 </ol>
-<h6>Código</h6>
-<p>En GitHub (para variar):</p>
-<p><a href="https://github.com/agustinventura/JustPlay"><img class="size-full wp-image-255" title="CrankPlayer en GitHub" src="/images/2011/08/github_icon.png" alt="CrankPlayer en GitHub" width="115" height="115" /></a> Repositorio de JustPlay en GitHub</p>
+<p>Después de llevar un tiempo observando el desarrollo, creo que voy a tirar por Angular, ya que me parece más completo, en general por lo que veo, React requiere más código para conectar todas las partes, mientras que Angular es más rígido pero más completo.<br/>Recientemente, me he encontrado con un tutorial de <a href="https://twitter.com/mraible?lang=es">Matt Raible</a> en el que desarrolla justo este ejemplo, un backend rápido y sencillo con Spring Boot y un frontend con Angular, el tutorial esta <a href="http://developer.okta.com/blog/2017/04/26/bootiful-development-with-spring-boot-and-angular">aquí</a>.</p>
+<h5>Creación del backend</h5>
+<p>La parte de creación del backend es bastante sencilla la única diferencia es que he ordenado algo más el código (por mera manía). Dos cosas que me llaman la atención:</p>
+<ol>
+  <li>La anotación @GetMapping. No tenía ni idea de que existieran estos atajos.</li>
+  <li>El uso de Spring Data REST. Esta muy bien (pero que muy bien) para el objeto del tutorial, desarrollar una aplicación rápido. Sin embargo creo que publicar los repositorios como recursos REST, si bien puede resultar cómodo, es un antipatrón, estamos mezclando dos cosas bien distintas, el acceso a datos y la representación de los datos. Eso por no hablar de que directamente se exponen las entidades del modelo de negocio en vez de usar DTOs. En resumen, que el proyecto es MUY útil para realizar pruebas pero no lo veo apto para producción.</li>
+</ol>
+<p>Aparte de ésto, poco más que resaltar.</p>
+<h5>Creación del frontend</h5>
+<h6>Instalación de Angular</h6>
+<p>El primer paso es instalar <a href="https://nodejs.org/en/download/">node.js</a> cosa que yo hice por apt. El siguiente es instalar <a href="https://www.npmjs.com/">npm</a>, también a tiro de apt. Y ahora sigo instalando el <a href="https://github.com/angular/angular-cli#installation">CLI de Angular</a>:</p>
+<pre><code class="prettyprint">npm install -g @angular/cli
+</code></pre>
+<p>En mi caso, y al haber instalado mediante apt, falla ya que no hay permisos de escritura en el directorio de instalación, por lo que toca hacer sudo:</p>
+<pre><code class="prettyprint">sudo npm install -g @angular/cli
+</code></pre>
+<p>Y ahí ya si lo instala y lo confirmo con:</p>
+<pre><code class="prettyprint">ng --version
+</code></pre>
 		</div>
 <div class="col s12">
 <div id="disqus_thread"></div>
 <script>
     var disqus_config = function () {
-        this.page.url = 'http://www.aguasnegras.es/blog/2012/05/18-JustPlay, binding al servicio.html';
-        this.page.identifier = 'blog/2012/05/18-JustPlay, binding al servicio.html';
+        this.page.url = 'http://www.aguasnegras.es/blog/2017/05/07-spring-boot-y-angularjs.html';
+        this.page.identifier = 'blog/2017/05/07-spring-boot-y-angularjs.html';
     };
     (function() {
         var d = document, s = d.createElement('script');

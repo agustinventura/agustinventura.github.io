@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8"/>
+    <title>Comenzando con Docker</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="AguasNegras, tecnología, programación y Java">
+    <meta name="author" content="Agustín Ventura">
+    <meta name="keywords" content="Programación, Java">
+    <meta name="generator" content="JBake">
+    <!--Import Google Icon Font-->
+     <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+     <!-- Import Font Awesome Icons-->
+     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css">
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="../../../js/html5shiv.min.js"></script>
+    <![endif]-->
+    <link rel="stylesheet" href="../../../css/aguasnegras.css"/>
+    <link rel="shortcut icon" href="../../../favicon.ico">
+  </head>
+  <body>
+    <header>
+<nav class="light-blue darken-3">
+	<div class="container">
+		<div class="nav-wrapper">
+		      <a class="brand-logo" href="../../../"><span class="pageTitle">AguasNegras</span></a>
+			    <ul id="nav-mobile" class="right hide-on-med-and-down">
+			        <li><a href="../../../index.html">Inicio</a></li>
+			        <li><a href="../../../about.html">Acerca De</a></li>
+			        <li><a href="../../../feed.xml">Suscripci&oacute;n</a></li>
+			    </ul>
+		</div>
+	</div>
+</nav>
+    </header>
+<div class="container">
+<div class="row">
+<div class="col s12">
+		<h4 class="light-blue-text text-darken-1">Comenzando con Docker</h4>
+		<div class="section">
+			14 mayo 2017
+		</div>
+		<div class="section">
+			<p><a href="https://www.docker.com/">Docker</a> es una tecnología de contenedores relativamente reciente (de 2013) que si bien ha puesto sobre el terreno de juego el concepto de contenedores (aunque estos son tan antiguos como del 2005 que fue cuando salieron con Solaris...). Un contenedor viene a ser una máquina virtual ligera, en realidad es una aplicación (se ejecuta en espacio de usuario, usa el kernel del sistema operativo, etc...) en la que se puede instalar un sistema operativo y unas aplicaciones (una imagen) y por tanto se comportará como una máquina virtual a efectos prácticos. La ventaja de esta aproximación es que mientras una máquina virtual tiene unos recursos fijos que toma del sistema anfitrión, Docker no, con lo que es más eficiente y ligero.<br/>La verdad es que todo el mundo habla de Docker, pero todavía no me he encontrado a nadie que lo use en producción. No obstante, este sistema es muy cómodo para montar entornos de desarrollo.<br/>Lo primero, como siempre, es instalar Docker. La página de <a href="https://docs.docker.com/engine/installation/linux/ubuntu/">instalación</a> no refiere aún información para Ubuntu 17.04, a ver que me voy encontrando.<br/>El primer paso de la instalación es instalar una serie de paquetes que para mi sorpresa (no) ya tengo instalados. A continuación, y resumiendo las detalladísimas instrucciones de instalación (esto es buena documentación y lo demás son tonterías), los pasos para la instalación son los siguientes:</p>
+<pre><code class="prettyprint">curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+sudo add-apt-repository &quot;deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable&quot;
+sudo apt-get update
+sudo apt-get install docker-ce
+</code></pre>
+<p>Y aquí viene el primer problema, el repositorio añadido es para la versión actual de ubuntu <em>($lsb_release -cs)</em> devuelve <em>zesty</em>, y aún no hay soporte, así que veo dos opciones, o bien instalo el de xenial (modificando a mano el nombre del repositorio) o bien instalo los binarios. Por lo que veo en <a href="https://askubuntu.com/questions/909691/how-to-install-docker-on-ubuntu-17-04">askubuntu</a> lo de instalar la versión de xenial no es tan descabellado, así que nada, palante. Modifico en <em>sources.list</em> la definición del repositorio y donde pone <em>zesty</em> pongo <em>xenial</em> y repito los dos últimos pasos de arriba. Docker instalado :D<br/>Ahora hay otra sección, de pasos tras la instalación. La más relevante es la de ejecutar docker sin tener que usar sudo (ojo, que esto puede ser un riesgo de seguridad, pero como es para un entorno de desarrollo...). Básicamente hay que crear un grupo de usuarios para docker y añadir el usuario actual a ese grupo (y reiniciar la sesión para que pille los cambios, claro):</p>
+<pre><code class="prettyprint">sudo groupadd docker
+sudo usermod -aG docker $USER
+</code></pre>
+<p>A continuación comentan que docker se inicia por defecto al arrancar el sistema. Esto no me parece muy bien ya que no siempre voy a querer iniciar docker, pero bueno, tampoco tengo ganas de liarlo mucho, así que ahí se queda.<br/>Y listo, el resto de paso son resolución de problemas y aspectos avanzados que tampoco me afectan mucho. Ahm... ¿y cómo se verifica que ésto funciona? Muy fácil:</p>
+<pre><code class="prettyprint">docker run hello-world
+</code></pre>
+<p>Para seguir, esta el <a href="https://docs.docker.com/get-started/">getting-started</a>, que retoma justo en ese paso. Tras un breve repaso teórico (e importante) se pasa a definir un contenedor mediante un Dockerfile, que no es más que un archivo de texto plano en el que se provisiona el sistema a partir de una imagen base y se ejecutan ciertas acciones de configuración. Vamos con el ejemplo:<br/> FROM python:2.7-slim</p>
+<pre><code>WORKDIR /app
+ADD . /app
+RUN pip install -r requirements.txt
+EXPOSE 80
+
+ENV NAME World
+CMD [&quot;python&quot;, &quot;app.py&quot;]
+</code></pre>
+<p>Aquí hay tres partes bien diferenciadas:<br/>1. Instalación de la imagen (que ya viene con python en este caso)<br/>2. Configuración del entorno: compartir la carpeta app con el anfitrión, instalar dependencias y abrir el puerto 80 al exterior.<br/>3. Configuración y ejecución de la aplicación concreta.</p>
+<p>Como la carpeta donde esta el <em>Dockerfile</em> se esta montando en <em>/app</em>, se crean en esa misma carpeta los archivos <em>requirements.txt</em> y <em>app.py</em>, con lo que para editar los archivos (y desarrollar) puedo usar mi equipo mientras que para ejecutarlo se usará el contenedor. Con ésto, se puede crear la imagen y ejecutarla:</p>
+<pre><code class="prettyprint">docker build -t friendlyhello .
+docker run -p 4000:80 friendlyhelloworld
+</code></pre>
+<p>Al <em>build</em> se le indica el nombre de la imagen y el directorio en el que esta el <em>Dockerfile</em> mientras que al <em>run</em> se le pasa la redirección del puerto, es decir, el puerto del anfitrión 4000 redirigirá al puerto 80 del contenedor y el nombre de la imagen.<br/>Para el <em>build</em> hay que esperar un poco a que descargue de internet :)<br/>Cuando ejecuto el <em>run</em> puedo ver que se ha arrancado la aplicación y si accedo al puerto 4000 en localhost, puedo ver en la consola la traza de peticiones HTTP que se ejecutan.<br/>Como esto no siempre es útil, se pueden ejecutar las imágenes en modo <em>detached</em> (en segundo plano), tan solo pasando el parámetro <em>-d</em> a <em>run</em>:</p>
+<pre><code class="prettyprint">docker run -d -p 4000:80 friendlyhelloworld
+</code></pre>
+<p>Con <em>docker ps</em> se puede consultar los contenedores que se estan ejecutando y con <em>docker stop</em> se pueden parar:</p>
+<pre><code class="prettyprint">docker ps
+docker stop e02aa5295525
+</code></pre>
+<p>El getting started continúa explicando que existen registro de imágenes en la nube y que puedes guardar ahí tus imágenes y compartirlas y tal (cosa muy útil). Yo me voy a saltar esa parte y sin embargo si voy a probar algo de la <a href="http://developer.okta.com/blog/2017/05/10/developers-guide-to-docker-part-1">introducción de Okta</a>.<br/>Primero, ¿cómo puedo saber que imágenes tengo en mi sistema?</p>
+<pre><code class="prettyprint">docker image list
+</code></pre>
+<p>En mi caso tengo tres:<br/>* friendlyhello: La imagen que acabo de crear<br/>* python: La base de la imagen que acabo de crear<br/>* hello-world: La prueba de funcionamiento<br/>Vale, ¿y como puedo borrar una imagen que ya no necesito?:</p>
+<pre><code class="prettyprint">docker rmi python:2.7-slim
+</code></pre>
+<p>Con ésto por ejemplo me cargo la imagen python:2.7-slim y <em>todos los contenedores que la usan</em>, así que ojocuidao. Eso sí, no me cargo las imágenes derivadas como puede ser <em>friendlyhello</em>.<br/>Bueno, otra cosa, cuando paro un contenedor (con <em>stop</em>) resulta que el contenedor se queda en estado parado. ¿Y si no lo necesito más? Pues puedo listar todos los contenedores (esten en ejecución o no) y borrar el que escoja:</p>
+<pre><code class="prettyprint">docker ps -a
+docker rm distracted_goodall
+</code></pre>
+<p>Y hasta aquí voy a llegar con la introducción, ya que ahora empieza divergir mi camino. En la próxima, Docker y Spring Boot.</p>
+		</div>
+<div class="col s12">
+<div id="disqus_thread"></div>
+<script>
+    var disqus_config = function () {
+        this.page.url = 'http://www.aguasnegras.es/blog/2017/05/14-comenzando-con-docker.html';
+        this.page.identifier = 'blog/2017/05/14-comenzando-con-docker.html';
+    };
+    (function() {
+        var d = document, s = d.createElement('script');
+        s.src = '//aguasnegras.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+</div>
+</div>
+</div>
+</div>
+    <footer class="page-footer light-blue darken-3">
+      <div class="container">
+        <div class="row">
+         <div class="col s5">
+			<h5><a href="../../../archive.html" class="white-text">Archivo</a></h5>
+			<p><a href="../../../archive.html" class="white-text">Todos los posts</a></p>
+	    </div>
+	    <div class="col s5">
+            <h5 class="white-text">Tags</h5>
+			    <a href="../../../tags/Eclipse.html"><div class="chip">Eclipse</div></a>
+			    <a href="../../../tags/GitHub.html"><div class="chip">GitHub</div></a>
+			    <a href="../../../tags/PostgreSQL.html"><div class="chip">PostgreSQL</div></a>
+			    <a href="../../../tags/Time.html"><div class="chip">Time</div></a>
+			    <a href="../../../tags/Minientrada.html"><div class="chip">Minientrada</div></a>
+			    <a href="../../../tags/WordPress.html"><div class="chip">WordPress</div></a>
+			    <a href="../../../tags/Docker.html"><div class="chip">Docker</div></a>
+			    <a href="../../../tags/JUnit.html"><div class="chip">JUnit</div></a>
+			    <a href="../../../tags/Proyectos.html"><div class="chip">Proyectos</div></a>
+			    <a href="../../../tags/tutorial.html"><div class="chip">tutorial</div></a>
+			    <a href="../../../tags/Spring Roo.html"><div class="chip">Spring Roo</div></a>
+			    <a href="../../../tags/Emulador.html"><div class="chip">Emulador</div></a>
+			    <a href="../../../tags/Markdown.html"><div class="chip">Markdown</div></a>
+			    <a href="../../../tags/log4j.html"><div class="chip">log4j</div></a>
+			    <a href="../../../tags/Logging.html"><div class="chip">Logging</div></a>
+			    <a href="../../../tags/Java.html"><div class="chip">Java</div></a>
+			    <a href="../../../tags/Hibernate.html"><div class="chip">Hibernate</div></a>
+			    <a href="../../../tags/slf4j.html"><div class="chip">slf4j</div></a>
+			    <a href="../../../tags/Heroku.html"><div class="chip">Heroku</div></a>
+			    <a href="../../../tags/Base de Datos.html"><div class="chip">Base de Datos</div></a>
+			    <a href="../../../tags/Problemas.html"><div class="chip">Problemas</div></a>
+			    <a href="../../../tags/Spring.html"><div class="chip">Spring</div></a>
+			    <a href="../../../tags/Date.html"><div class="chip">Date</div></a>
+			    <a href="../../../tags/Android.html"><div class="chip">Android</div></a>
+			    <a href="../../../tags/JBake.html"><div class="chip">JBake</div></a>
+			    <a href="../../../tags/Ruby on Rails.html"><div class="chip">Ruby on Rails</div></a>
+			    <a href="../../../tags/Git.html"><div class="chip">Git</div></a>
+			    <a href="../../../tags/Linux.html"><div class="chip">Linux</div></a>
+			    <a href="../../../tags/JustPlay.html"><div class="chip">JustPlay</div></a>
+			    <a href="../../../tags/Cloud.html"><div class="chip">Cloud</div></a>
+			    <a href="../../../tags/Wordpress.html"><div class="chip">Wordpress</div></a>
+			    <a href="../../../tags/logging.html"><div class="chip">logging</div></a>
+			    <a href="../../../tags/Programación.html"><div class="chip">Programación</div></a>
+			    <a href="../../../tags/Tools of the Trade.html"><div class="chip">Tools of the Trade</div></a>
+			    <a href="../../../tags/Amazon.html"><div class="chip">Amazon</div></a>
+			    <a href="../../../tags/SEO.html"><div class="chip">SEO</div></a>
+			    <a href="../../../tags/Intellij IDEA.html"><div class="chip">Intellij IDEA</div></a>
+	    </div>
+        <div class="col s2 right-align">
+            <a href="http://twitter.com/agustinventura" target="_blank" class="social-link white-text" ><i class="fa  fa-twitter  fa-3x" title="Twitter" aria-hidden="true"></i></a>
+            <a href="http://github.com/agustinventura" target="_blank" class="social-link white-text"><i class="fa  fa-github  fa-3x" title="Github" aria-hidden="true"></i></a>
+            <a href="https://www.linkedin.com/in/agustinventura" target="_blank" class="social-link white-text"><i class="fa  fa-linkedin  fa-3x" title="LinkedIn" aria-hidden="true"></i></a>
+        </div>
+      </div>
+      </div>
+      </div>
+      <div class="footer-copyright">
+            <div class="container">
+        <p class="center-align">&copy; 2016 | Mixed with <a class="footer-link white-text" href="http://materializecss.com/" target="_blank">Materialize</a> | Baked with <a <a class="footer-link white-text" href="http://jbake.org">JBake</a></p>
+            </div>
+          </div>
+    </footer>
+
+    <script async src="//cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
+		<script async src="//code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script async src="//cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js"></script>
+  </body>
+</html>
