@@ -11,3 +11,9 @@
 pre {
     background-color: #F2F2F2;
 }
+div.container div.row div.s12.col div.section ul {
+    padding-left: 5%;
+}
+div.container div.row div.s12.col div.section ul li {
+    list-style-type: circle;
+}
