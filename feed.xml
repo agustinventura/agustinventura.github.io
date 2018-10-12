@@ -6,14 +6,14 @@
     <atom:link href="http://www.aguasnegras.es/feed.xml" rel="self" type="application/rss+xml" />
     <description>AguasNegras, tecnología, programación y Java</description>
     <language>es-es</language>
-    <pubDate>vie., 12 oct. 2018 14:18:23 +0200</pubDate>
-    <lastBuildDate>vie., 12 oct. 2018 14:18:23 +0200</lastBuildDate>
+    <pubDate>vie., 12 oct. 2018 14:24:54 +0200</pubDate>
+    <lastBuildDate>vie., 12 oct. 2018 14:24:54 +0200</lastBuildDate>
 
     <item>
       <title>SDKMAN</title>
-      <link>http://www.aguasnegras.es/blog/2018/10/14-spring-boot-oauth2.html</link>
+      <link>http://www.aguasnegras.es/blog/2018/10/12-sdkman.html</link>
       <pubDate>vie., 12 oct. 2018 00:00:00 +0200</pubDate>
-      <guid isPermaLink="false">blog/2018/10/14-spring-boot-oauth2.html</guid>
+      <guid isPermaLink="false">blog/2018/10/12-sdkman.html</guid>
       	<description>
 	&lt;p&gt;&lt;a href=&quot;https://sdkman.io/&quot;&gt;SDKMAN&lt;/a&gt; es un gestor de entornos y herramientas Java. Cuando trabajas en un entorno &amp;quot;corporativo&amp;quot; (¿aburrido?) sueles tener claramente fijadas las versiones de herramientas de desarrollo a utilizar, por ejemplo, Java 8 en la versión 1.8.0_121 o Maven 3.2.1, etc...&lt;br /&gt;
 Sin embargo cuando empiezas a cacharrear y a tratar de instalar cosas nuevas es relativamente normal que acabes con dos (o tres o seis) versiones del JDK: la &amp;quot;buena&amp;quot; (1.8), la de &amp;quot;los módulos&amp;quot; (9), la de &amp;quot;los val&amp;quot; (10) y la &amp;quot;nueva buena&amp;quot; (11). Todo eso puedes gestionarlo a mano, claro, para eso esta JAVA_HOME, pero ¿qué pasa si tienes varias versiones de Maven? ¿Y si son más herramientas? Ya se empieza a hacer cansino. Pues bien, SDKMAN se ocupa precisamente de eso, lo instalas y él te instala las versiones que quieras de las herramientas, te pone unas activas, etc...&lt;br /&gt;
