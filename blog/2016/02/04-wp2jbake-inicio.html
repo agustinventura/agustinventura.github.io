@@ -8,16 +8,11 @@
     <meta name="author" content="Agustín Ventura">
     <meta name="keywords" content="Programación, Java">
     <meta name="generator" content="JBake">
-    <!--Import Google Icon Font-->
-     <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-     <!-- Import Font Awesome Icons-->
-     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
     <!-- Compiled and minified CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css">
-    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
-    <!--[if lt IE 9]>
-      <script src="../../../js/html5shiv.min.js"></script>
-    <![endif]-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <link rel="stylesheet" href="../../../css/aguasnegras.css"/>
     <link rel="shortcut icon" href="../../../favicon.ico">
   </head>
@@ -26,7 +21,7 @@
 <nav class="light-blue darken-3">
 	<div class="container">
 		<div class="nav-wrapper">
-		      <a class="brand-logo" href="../../../"><span class="pageTitle">AguasNegras</span></a>
+		      <a class="brand-logo" href="/"><span class="pageTitle">AguasNegras</span></a>
 			    <ul id="nav-mobile" class="right hide-on-med-and-down">
 			        <li><a href="../../../index.html">Inicio</a></li>
 			        <li><a href="../../../about.html">Acerca De</a></li>
@@ -44,36 +39,38 @@
 			04 febrero 2016
 		</div>
 		<div class="section">
-			<p>En la migraci&oacute;n del blog a GitHub Pages uno de los objetivos era no perder contenido, por lo que una vez puesta en pie toda la infraestructura, toca migrar los posts (mucho me temo que los comentarios si se van a perder...). Soluci&oacute;n: Hacer un peque&ntilde;o programa en Java (casi que dir&iacute;a script) que realice autom&aacute;ticamente esta conversi&oacute;n, adem&aacute;s voy a seguir TDD para "mantenerme en forma".<br/>En un principio lo voy a plantear como una mera conversi&oacute;n de formatos, como formato inicial tengo el que devuelve Wordpress para la exportaci&oacute;n: <a href="http://devtidbits.com/2011/03/16/the-wordpress-extended-rss-wxr-exportimport-xml-document-format-decoded-and-explained/">Wordpress Extended RSS</a> y como formato final quiero un archivo en el formato espec&iacute;fico de JBake, que no deja de ser <a href="https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet">Markdown</a> con unas cabeceras (metadata) particulares:</p>
+			<p>En la migración del blog a GitHub Pages uno de los objetivos era no perder contenido, por lo que una vez puesta en pie toda la infraestructura, toca migrar los posts (mucho me temo que los comentarios si se van a perder...). Solución: Hacer un pequeño programa en Java (casi que diría script) que realice automáticamente esta conversión, además voy a seguir TDD para &quot;mantenerme en forma&quot;.<br />
+En un principio lo voy a plantear como una mera conversión de formatos, como formato inicial tengo el que devuelve Wordpress para la exportación: <a href="http://devtidbits.com/2011/03/16/the-wordpress-extended-rss-wxr-exportimport-xml-document-format-decoded-and-explained/">Wordpress Extended RSS</a> y como formato final quiero un archivo en el formato específico de JBake, que no deja de ser <a href="https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet">Markdown</a> con unas cabeceras (metadata) particulares:</p>
 <ol>
-  <li>title: El t&iacute;tulo del post</li>
-  <li>date: La fecha del post</li>
-  <li>type: Ser&aacute; siempre post</li>
-  <li>tags: Las etiquetas del post</li>
-  <li>status: Ser&aacute; siempre published</li>
+<li>title: El título del post</li>
+<li>date: La fecha del post</li>
+<li>type: Será siempre post</li>
+<li>tags: Las etiquetas del post</li>
+<li>status: Será siempre published</li>
 </ol>
 <p>El WXR es un solo archivo con una serie de elementos item que corresponde cada uno a un post, un elemento item tiene los siguientes campos interesantes:</p>
 <ol>
-  <li>title: casa con la cabecera title que quiero</li>
-  <li>pubdate: casa con la cabecera date</li>
-  <li>category: Las categor&iacute;as se dividen en dominios que puede ser category (bien Wordpress, bien) o post_tag, en concreto me interesan solo aquellas de tipo post_tag y su contenido, es decir tendr&eacute; que concatener el contenido de todas las categor&iacute;as de tipo post_tag.</li>
-  <li>content: Este es el contenido el post en s&iacute;, como se puede ver viene en HTML tal cual dentro de un CDATA, esto me permite aprovechar que con Markdown puedo utilizar el HTML inline as&iacute; que en un principio lo voy a volcar tal cual, aunque preveo ciertos problemas con las etiquetas de c&oacute;digo...</li>
+<li>title: casa con la cabecera title que quiero</li>
+<li>pubdate: casa con la cabecera date</li>
+<li>category: Las categorías se dividen en dominios que puede ser category (bien Wordpress, bien) o post_tag, en concreto me interesan solo aquellas de tipo post_tag y su contenido, es decir tendré que concatener el contenido de todas las categorías de tipo post_tag.</li>
+<li>content: Este es el contenido el post en sí, como se puede ver viene en HTML tal cual dentro de un CDATA, esto me permite aprovechar que con Markdown puedo utilizar el HTML inline así que en un principio lo voy a volcar tal cual, aunque preveo ciertos problemas con las etiquetas de código...</li>
 </ol>
-<p>Por &uacute;ltimo, por cada item quiero generar un archivo con el nombre dd-title.md (donde dd es el d&iacute;a de la fecha) dentro de una carpeta mm (mes) dentro de una carpeta aaaa (a&ntilde;o...).</p>
-<p>Pues con esto, empezamos!! Primero: crear el projecto en Intellij y con Maven, creo el repositorio en <a href="https://github.com/agustinventura/wp2jbake">GitHub</a> y lo a&ntilde;ado.<br/>A continuaci&oacute;n, actualizo el .gitignore, hago el commit inicial y cambio a la rama development.</p>
-<p>El comienzo es un no brainer, necesito un main que arranque la aplicaci&oacute;n como tal y que recibir&aacute; como par&aacute;metros:</p>
+<p>Por último, por cada item quiero generar un archivo con el nombre dd-title.md (donde dd es el día de la fecha) dentro de una carpeta mm (mes) dentro de una carpeta aaaa (año...).</p>
+<p>Pues con esto, empezamos!! Primero: crear el projecto en Intellij y con Maven, creo el repositorio en <a href="https://github.com/agustinventura/wp2jbake">GitHub</a> y lo añado.<br />
+A continuación, actualizo el .gitignore, hago el commit inicial y cambio a la rama development.</p>
+<p>El comienzo es un no brainer, necesito un main que arranque la aplicación como tal y que recibirá como parámetros:</p>
 <ul>
-  <li>El nombre del archivo WXR</li>
-  <li>El directorio de salida</li>
+<li>El nombre del archivo WXR</li>
+<li>El directorio de salida</li>
 </ul>
-<p>Eso quiere decir que la clase de entrada a la aplicaci&oacute;n (Wp2JBake) tendr&aacute; un constructor con dos par&aacute;metros, as&iacute; que siguiendo TDD, empiezo con los tests:</p>
+<p>Eso quiere decir que la clase de entrada a la aplicación (Wp2JBake) tendrá un constructor con dos parámetros, así que siguiendo TDD, empiezo con los tests:</p>
 <ol>
-  <li>Construir con los par&aacute;metros a null.</li>
-  <li>Construir con el archivo origen a null.</li>
-  <li>Construir con el directorio destino a null.</li>
+<li>Construir con los parámetros a null.</li>
+<li>Construir con el archivo origen a null.</li>
+<li>Construir con el directorio destino a null.</li>
 </ol>
-<p>En todos estos casos lanzar&eacute; una InvalidArgumentException, as&iacute; que inicialmente tendr&iacute;a como pruebas algo as&iacute;:</p>
-<pre><code class="prettyprint">private Wp2JBake sut;
+<p>En todos estos casos lanzaré una InvalidArgumentException, así que inicialmente tendría como pruebas algo así:</p>
+<pre><code class="language-prettyprint">private Wp2JBake sut;
 
 @Test(expected = IllegalArgumentException.class)
 public void buildWithoutParameters() {
@@ -90,8 +87,8 @@ public void buildWithoutDestination() {
     sut = new Wp2JBake(&quot;&quot;, null);
 }
 </code></pre>
-<p>Y como implementaci&oacute;n lo siguiente:</p>
-<pre><code class="prettyprint">public Wp2JBake(String origin, String destination) {
+<p>Y como implementación lo siguiente:</p>
+<pre><code class="language-prettyprint">public Wp2JBake(String origin, String destination) {
     if (origin == null) {
         throw new IllegalArgumentException(&quot;Origin is not a valid file&quot;);
     }
@@ -100,8 +97,8 @@ public void buildWithoutDestination() {
     }
 }
 </code></pre>
-<p>Pero... un segundo, &iquest;me d&aacute; igual la IllegalArgumentException que se lanza? No, en cada caso quiero verificar que se esta lanzando la que se debe, refactorizo las pruebas, ahora voy a utilizar un @Rule de JUnit para comprobar que se lanza la excepci&oacute;n y el mensaje de error:</p>
-<pre><code class="prettyprint">@Rule
+<p>Pero... un segundo, ¿me dá igual la IllegalArgumentException que se lanza? No, en cada caso quiero verificar que se esta lanzando la que se debe, refactorizo las pruebas, ahora voy a utilizar un @Rule de JUnit para comprobar que se lanza la excepción y el mensaje de error:</p>
+<pre><code class="language-prettyprint">@Rule
 public ExpectedException thrown = ExpectedException.none();
 
 private Wp2JBake sut;
@@ -128,8 +125,8 @@ public void buildWithoutDestination() {
     sut = new Wp2JBake(&quot;foo&quot;, null);
 }
 </code></pre>
-<p>Vale, ya he controlado que no sea null, ahora toca comprobar que tampoco sea cadena vac&iacute;a:</p>
-<pre><code class="prettyprint"> @Test
+<p>Vale, ya he controlado que no sea null, ahora toca comprobar que tampoco sea cadena vacía:</p>
+<pre><code class="language-prettyprint"> @Test
 public void buildWithEmptyOrigin() {
     thrown.expect(IllegalArgumentException.class);
     thrown.expectMessage(&quot;Origin&quot;);
@@ -143,8 +140,8 @@ public void buildWithEmptyDestination() {
     sut = new Wp2JBake(&quot;foo&quot;, &quot;&quot;);
 }
 </code></pre>
-<p>Ahora toca cambiar la implementaci&oacute;n, me voy a apoyar en las commons-lang:</p>
-<pre><code class="prettyprint">public Wp2JBake(String origin, String destination) {
+<p>Ahora toca cambiar la implementación, me voy a apoyar en las commons-lang:</p>
+<pre><code class="language-prettyprint">public Wp2JBake(String origin, String destination) {
     if (StringUtils.isEmpty(origin)) {
         throw new IllegalArgumentException(&quot;Origin is not a valid file&quot;);
     }
@@ -153,16 +150,16 @@ public void buildWithEmptyDestination() {
     }
 }
 </code></pre>
-<p>Siguiente restricci&oacute;n, el origen adem&aacute;s debe existir:</p>
-<pre><code class="prettyprint">@Test
+<p>Siguiente restricción, el origen además debe existir:</p>
+<pre><code class="language-prettyprint">@Test
 public void buildWithInvalidOrigin() {
     thrown.expect(IllegalArgumentException.class);
     thrown.expectMessage(&quot;Origin&quot;);
     sut = new Wp2JBake(&quot;foo&quot;, &quot;&quot;);
 }
 </code></pre>
-<p>Y la implementaci&oacute;n:</p>
-<pre><code class="prettyprint">public Wp2JBake(String origin, String destination) {
+<p>Y la implementación:</p>
+<pre><code class="language-prettyprint">public Wp2JBake(String origin, String destination) {
     if (StringUtils.isEmpty(origin) || !existsOrigin(origin)) {
         throw new IllegalArgumentException(&quot;Origin is not a valid file&quot;);
     }
@@ -176,15 +173,17 @@ private boolean existsOrigin(String origin) {
     return originFile.exists();
 }
 </code></pre>
-<p>Esta implementaci&oacute;n hace saltar las pruebas de origen inv&aacute;lido, claro como para "callar" los tests estoy pasando como primer par&aacute;metro una cadena cualquiera, ahora falla porque no existe el par&aacute;metro foo.<br/>Aqu&iacute; hay dos opciones:</p>
+<p>Esta implementación hace saltar las pruebas de origen inválido, claro como para &quot;callar&quot; los tests estoy pasando como primer parámetro una cadena cualquiera, ahora falla porque no existe el parámetro foo.<br />
+Aquí hay dos opciones:</p>
 <ol>
-  <li>Pasar un archivo que si exista.</li>
-  <li>Cambiar la implementaci&oacute;n para que primero compruebe que la cadena es v&aacute;lida en los dos casos y despu&eacute;s que compruebe si el archivo es v&aacute;lido.</li>
+<li>Pasar un archivo que si exista.</li>
+<li>Cambiar la implementación para que primero compruebe que la cadena es válida en los dos casos y después que compruebe si el archivo es válido.</li>
 </ol>
-<p>El problema de 2 es que tendr&iacute;a que lanzar la misma excepci&oacute;n dos veces mientras que el de 1 es que se parecer&iacute;a m&aacute;s a un test de integraci&oacute;n que a una prueba unitaria en s&iacute;. Para mi gusto esta es una de las zonas grises en TDD, porque, &iquest;ahora qu&eacute; hago?&iquest;Creo un mock del SUT? No lo veo claro,<br/>as&iacute; que tratar&eacute; de tirar por el camino del medio y pasar una ruta de archivo que sepa que siempre existe, por ejemplo, el pom.xml.</p>
-<p>Ahora podr&iacute;a seguir comprobando que el destino no sea inv&aacute;lido, pero... &iquest;puede serlo? Al ser un directorio, si no existe, deber&iacute;a crearlo y si existe, no hacer nada. En todo caso la comprobaci&oacute;n deber&iacute;a ser si se puede crear el directorio y si se puede escribir en &eacute;l.</p>
-<p>De aqu&iacute; saco estas dos pruebas:</p>
-<pre><code class="prettyprint">@Test
+<p>El problema de 2 es que tendría que lanzar la misma excepción dos veces mientras que el de 1 es que se parecería más a un test de integración que a una prueba unitaria en sí. Para mi gusto esta es una de las zonas grises en TDD, porque, ¿ahora qué hago?¿Creo un mock del SUT? No lo veo claro,<br />
+así que trataré de tirar por el camino del medio y pasar una ruta de archivo que sepa que siempre existe, por ejemplo, el pom.xml.</p>
+<p>Ahora podría seguir comprobando que el destino no sea inválido, pero... ¿puede serlo? Al ser un directorio, si no existe, debería crearlo y si existe, no hacer nada. En todo caso la comprobación debería ser si se puede crear el directorio y si se puede escribir en él.</p>
+<p>De aquí saco estas dos pruebas:</p>
+<pre><code class="language-prettyprint">@Test
 public void buildWithNonWritableDestination() {
     File destination = new File(&quot;destination&quot;);
     destination.mkdir();
@@ -206,8 +205,8 @@ public void buildWithNonWritableDestinationParent() {
     sut = new Wp2JBake(&quot;pom.xml&quot;, destinationParent.getAbsolutePath() + File.separator + &quot;destination&quot;);
 }
 </code></pre>
-<p>Y la implementaci&oacute;n sigue creciento:</p>
-<pre><code class="prettyprint">public Wp2JBake(String origin, String destination) {
+<p>Y la implementación sigue creciento:</p>
+<pre><code class="language-prettyprint">public Wp2JBake(String origin, String destination) {
     if (StringUtils.isEmpty(origin) || !existsOrigin(origin)) {
         throw new IllegalArgumentException(&quot;Origin is not a valid file&quot;);
     }
@@ -231,15 +230,16 @@ private boolean existsOrigin(String origin) {
     return originFile.exists();
 }
 </code></pre>
-<p>Por &uacute;ltimo me quedar&iacute;a probar el caso en el que ambos par&aacute;metros son v&aacute;lidos:</p>
-<pre><code class="prettyprint">@Test
+<p>Por último me quedaría probar el caso en el que ambos parámetros son válidos:</p>
+<pre><code class="language-prettyprint">@Test
 public void buildWithValidParameters() {
     sut = new Wp2JBake(&quot;pom.xml&quot;, &quot;destination&quot;);
     File destination = new File(&quot;destination&quot;);
     destination.delete();
 }
 </code></pre>
-<p>Con esto puedo empezar a refactorizar y a remplatearme las cosas. La verdad que Wp2JBake empieza a tener un tama&ntilde;o considerable teniendo en cuenta que tan s&oacute;lo tiene como API un constructor. La verdad que las comprobaciones que estoy haciendo sobre los par&aacute;metros no me convencen, me dan la impresi&oacute;n de que estoy violando el Single Responsability, por otra parte ser&iacute;a un poco artificial crear una clase de validadores &uacute;nicamente.</p>
+<p>Con esto puedo empezar a refactorizar y a remplatearme las cosas. La verdad que Wp2JBake empieza a tener un tamaño considerable teniendo en cuenta que tan sólo tiene como API un constructor. La verdad que las comprobaciones que estoy haciendo sobre los parámetros no me convencen, me dan la impresión de que estoy violando el Single Responsability, por otra parte sería un poco artificial crear una clase de validadores únicamente.</p>
+
 		</div>
 <div class="col s12">
 <div id="disqus_thread"></div>

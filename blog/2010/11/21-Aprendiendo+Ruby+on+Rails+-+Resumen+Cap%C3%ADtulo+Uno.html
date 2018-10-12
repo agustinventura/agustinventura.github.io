@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8"/>
+    <title>Aprendiendo Ruby on Rails - Resumen Capítulo Uno</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="AguasNegras, tecnología, programación y Java">
+    <meta name="author" content="Agustín Ventura">
+    <meta name="keywords" content="Programación, Java">
+    <meta name="generator" content="JBake">
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <link rel="stylesheet" href="../../../css/aguasnegras.css"/>
+    <link rel="shortcut icon" href="../../../favicon.ico">
+  </head>
+  <body>
+    <header>
+<nav class="light-blue darken-3">
+	<div class="container">
+		<div class="nav-wrapper">
+		      <a class="brand-logo" href="/"><span class="pageTitle">AguasNegras</span></a>
+			    <ul id="nav-mobile" class="right hide-on-med-and-down">
+			        <li><a href="../../../index.html">Inicio</a></li>
+			        <li><a href="../../../about.html">Acerca De</a></li>
+			        <li><a href="../../../feed.xml">Suscripci&oacute;n</a></li>
+			    </ul>
+		</div>
+	</div>
+</nav>
+    </header>
+<div class="container">
+<div class="row">
+<div class="col s12">
+		<h4 class="light-blue-text text-darken-1">Aprendiendo Ruby on Rails - Resumen Capítulo Uno</h4>
+		<div class="section">
+			21 noviembre 2010
+		</div>
+		<div class="section">
+			<p>Bueno, pues en el capítulo uno del tutorial he configurado el entorno y seguido un pequeño workflow de trabajo, desde la creación de la aplicación hasta su despliegue en Heroku, pasando por el control de versiones con Git y GitHub.</p>
+<p>El único inconveniente que le veo es que... efectivamente, no he aprendido nada de Ruby ni de Rails.</p>
+<p>Ahora pequeña lista de cosas que me gustan:</p>
+<ul>
+	<li>Ecosistema de herramientas bien acoplado y funcional (espectacular la comunicación Heroku - GitHub)</li>
+	<li>Generador de código automático (¿<a title="Spring Roo" href="http://www.springsource.org/roo" target="_blank">Spring Roo</a>?)</li>
+	<li>El tutorial te hace seguir buenas prácticas y con herramientas modernas.</li>
+	<li>El entorno de desarrollo es UNIX!</li>
+	<li>No es necesario un IDE mamotrético, al menos de momento.</li>
+</ul>
+<p>Cosas que no me han gustado:</p>
+<ul>
+	<li>Todavía no he visto nada de código como tal, jeje.</li>
+	<li>Pequeños problemas en la instalación.</li>
+	<li>Algunos conceptos se dan demasiado rápido, habría que verlos más pausadamente (ver lista más abajo).</li>
+</ul>
+<p>Ahora voy a resumir los pasos de instalación en la Ubuntu 10.04:</p>
+<ol>
+	<li>Paquetes apt-get: gVim, Git, ruby, curl, <del datetime="2010-11-24T16:11:06+00:00">libruby1.8</del>, zlib1g-dev, libssl-dev, libreadline5-dev, build-essential, rubygems, <del datetime="2010-11-24T16:11:06+00:00">irb</del>, ri, <del datetime="2010-11-24T16:11:06+00:00">rdoc</del>, rake, ruby1.8-dev, libopenssl-ruby, sqlite3, libsqlite3-dev, <del datetime="2010-11-24T16:11:06+00:00">sqlite3-ruby</del>libsqlite3-ruby</li>
+	<li>RVM: Con Git, seguir instrucciones en su página.</li>
+	<li>Instalación de Ruby 1.9.2 en RVM con zlib leer <a title="Ruby 1.9.2 y Zlib" href="http://rvm.beginrescueend.com/packages/zlib/" target="_blank">aquí</a></li>
+	<li>Instalación de Rails 3 en sí, <a href="http://www.aguasnegras.es/wp/?p=15" target="_blank">aquí</a></li>
+	<li>También es más que conveniente una cuenta de usuario de GitHub y otra de Heroku.</li>
+</ol>
+<p>Y listo. Conceptos que me gustaría repasar:</p>
+<ul>
+	<li>Lenguaje Ruby como tal.</li>
+	<li>Gems</li>
+	<li>Rake</li>
+	<li>RVM</li>
+	<li>Rails</li>
+	<li>Git</li>
+	<li>Heroku</li>
+	<li>Markdown</li>
+</ul>
+<p>Y &quot;ya esta&quot;, claro, hay que tener en cuenta que Ruby y Rails es el objetivo fundamental, así que eso espero tenerlo bastante cubierto de aquí a terminar.</p>
+<p>Hmmm... una cosa que me llama la atención ahora que lo pienso, ¿no hay ningún framework de pruebas unitarias? Interesante, a ver si el tutorial dice algo.</p>
+
+		</div>
+<div class="col s12">
+<div id="disqus_thread"></div>
+<script>
+    var disqus_config = function () {
+        this.page.url = 'http://www.aguasnegras.es/blog/2010/11/21-Aprendiendo+Ruby+on+Rails+-+Resumen+Cap%C3%ADtulo+Uno.html';
+        this.page.identifier = 'blog/2010/11/21-Aprendiendo+Ruby+on+Rails+-+Resumen+Cap%C3%ADtulo+Uno.html';
+    };
+    (function() {
+        var d = document, s = d.createElement('script');
+        s.src = '//aguasnegras.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+</div>
+</div>
+</div>
+</div>
+    <footer class="page-footer light-blue darken-3">
+      <div class="container">
+        <div class="row">
+         <div class="col s5">
+			<h5><a href="../../../archive.html" class="white-text">Archivo</a></h5>
+			<p><a href="../../../archive.html" class="white-text">Todos los posts</a></p>
+	    </div>
+	    <div class="col s5">
+            <h5 class="white-text">Tags</h5>
+			    <a href="../../../tags/DDD.html"><div class="chip">DDD</div></a>
+			    <a href="../../../tags/Eclipse.html"><div class="chip">Eclipse</div></a>
+			    <a href="../../../tags/GitHub.html"><div class="chip">GitHub</div></a>
+			    <a href="../../../tags/PostgreSQL.html"><div class="chip">PostgreSQL</div></a>
+			    <a href="../../../tags/Time.html"><div class="chip">Time</div></a>
+			    <a href="../../../tags/SVQJUG.html"><div class="chip">SVQJUG</div></a>
+			    <a href="../../../tags/Minientrada.html"><div class="chip">Minientrada</div></a>
+			    <a href="../../../tags/WordPress.html"><div class="chip">WordPress</div></a>
+			    <a href="../../../tags/Docker.html"><div class="chip">Docker</div></a>
+			    <a href="../../../tags/JUnit.html"><div class="chip">JUnit</div></a>
+			    <a href="../../../tags/Proyectos.html"><div class="chip">Proyectos</div></a>
+			    <a href="../../../tags/tutorial.html"><div class="chip">tutorial</div></a>
+			    <a href="../../../tags/Spring Roo.html"><div class="chip">Spring Roo</div></a>
+			    <a href="../../../tags/Emulador.html"><div class="chip">Emulador</div></a>
+			    <a href="../../../tags/Markdown.html"><div class="chip">Markdown</div></a>
+			    <a href="../../../tags/log4j.html"><div class="chip">log4j</div></a>
+			    <a href="../../../tags/Logging.html"><div class="chip">Logging</div></a>
+			    <a href="../../../tags/Java.html"><div class="chip">Java</div></a>
+			    <a href="../../../tags/Hibernate.html"><div class="chip">Hibernate</div></a>
+			    <a href="../../../tags/slf4j.html"><div class="chip">slf4j</div></a>
+			    <a href="../../../tags/Heroku.html"><div class="chip">Heroku</div></a>
+			    <a href="../../../tags/Base de Datos.html"><div class="chip">Base de Datos</div></a>
+			    <a href="../../../tags/Problemas.html"><div class="chip">Problemas</div></a>
+			    <a href="../../../tags/Spring.html"><div class="chip">Spring</div></a>
+			    <a href="../../../tags/Date.html"><div class="chip">Date</div></a>
+			    <a href="../../../tags/Android.html"><div class="chip">Android</div></a>
+			    <a href="../../../tags/JBake.html"><div class="chip">JBake</div></a>
+			    <a href="../../../tags/Ruby on Rails.html"><div class="chip">Ruby on Rails</div></a>
+			    <a href="../../../tags/Git.html"><div class="chip">Git</div></a>
+			    <a href="../../../tags/Linux.html"><div class="chip">Linux</div></a>
+			    <a href="../../../tags/JustPlay.html"><div class="chip">JustPlay</div></a>
+			    <a href="../../../tags/Cloud.html"><div class="chip">Cloud</div></a>
+			    <a href="../../../tags/Wordpress.html"><div class="chip">Wordpress</div></a>
+			    <a href="../../../tags/logging.html"><div class="chip">logging</div></a>
+			    <a href="../../../tags/Programación.html"><div class="chip">Programación</div></a>
+			    <a href="../../../tags/Tools of the Trade.html"><div class="chip">Tools of the Trade</div></a>
+			    <a href="../../../tags/Amazon.html"><div class="chip">Amazon</div></a>
+			    <a href="../../../tags/SEO.html"><div class="chip">SEO</div></a>
+			    <a href="../../../tags/Intellij IDEA.html"><div class="chip">Intellij IDEA</div></a>
+	    </div>
+        <div class="col s2 right-align">
+            <a href="http://twitter.com/agustinventura" target="_blank" class="social-link white-text" ><i class="fa  fa-twitter  fa-3x" title="Twitter" aria-hidden="true"></i></a>
+            <a href="http://github.com/agustinventura" target="_blank" class="social-link white-text"><i class="fa  fa-github  fa-3x" title="Github" aria-hidden="true"></i></a>
+            <a href="https://www.linkedin.com/in/agustinventura" target="_blank" class="social-link white-text"><i class="fa  fa-linkedin  fa-3x" title="LinkedIn" aria-hidden="true"></i></a>
+        </div>
+      </div>
+      </div>
+      </div>
+      <div class="footer-copyright">
+            <div class="container">
+        <p class="center-align">&copy; 2016 | Mixed with <a class="footer-link white-text" href="http://materializecss.com/" target="_blank">Materialize</a> | Baked with <a <a class="footer-link white-text" href="http://jbake.org">JBake</a></p>
+            </div>
+          </div>
+    </footer>
+
+    <script async src="//cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
+		<script async src="//code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script async src="//cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js"></script>
+  </body>
+</html>

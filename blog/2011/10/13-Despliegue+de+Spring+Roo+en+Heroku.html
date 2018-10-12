@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8"/>
+    <title>Despliegue de Spring Roo en Heroku</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="AguasNegras, tecnología, programación y Java">
+    <meta name="author" content="Agustín Ventura">
+    <meta name="keywords" content="Programación, Java">
+    <meta name="generator" content="JBake">
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <link rel="stylesheet" href="../../../css/aguasnegras.css"/>
+    <link rel="shortcut icon" href="../../../favicon.ico">
+  </head>
+  <body>
+    <header>
+<nav class="light-blue darken-3">
+	<div class="container">
+		<div class="nav-wrapper">
+		      <a class="brand-logo" href="/"><span class="pageTitle">AguasNegras</span></a>
+			    <ul id="nav-mobile" class="right hide-on-med-and-down">
+			        <li><a href="../../../index.html">Inicio</a></li>
+			        <li><a href="../../../about.html">Acerca De</a></li>
+			        <li><a href="../../../feed.xml">Suscripci&oacute;n</a></li>
+			    </ul>
+		</div>
+	</div>
+</nav>
+    </header>
+<div class="container">
+<div class="row">
+<div class="col s12">
+		<h4 class="light-blue-text text-darken-1">Despliegue de Spring Roo en Heroku</h4>
+		<div class="section">
+			13 octubre 2011
+		</div>
+		<div class="section">
+			<p>Hasta ahora, las aplicaciones que he desplegado eran muy básicas, hechas con jsp y acceso a base de datos a base de jdbc plano.</p>
+<p>Estas tecnologías no estan mal (y de hecho son la base de todo lo posterior), pero lo más normal es utilizar frameworks para el desarrollo de aplicaciones Java.</p>
+<p>La quinta práctica del libro de Java para Heroku es un despliegue de aplicaciones hechas con <a title="Spring Roo" href="http://www.springsource.org/roo" target="_blank">Spring Roo</a> en Heroku. Spring Roo es un framework que viene a ser como Rails para Ruby. Simplifica el desarrollo con funciones tan básicas como crear el toString o el equals automáticamente o tan avanzadas como generar el CRUD de una base de datos directamente.</p>
+<p>Así que con esta práctica voy a matar dos pájaros de un tiro, voy a probar Spring Roo y voy a desplegar un artefacto más complejo en Heroku. A ello.</p>
+<p><strong>Instalación de Spring Roo</strong></p>
+<p>Lo primero es descargar el framework de <a title="Descarga de Spring Roo en SpringSource" href="http://www.springsource.com/download/community" target="_blank">aquí</a>. Después sigo las <a title="Instalación de Spring Roo" href="http://static.springsource.org/spring-roo/reference/html/intro.html#intro-installation" target="_blank">instrucciones de instalación</a>:</p>
+<ol>
+	<li>Descomprimir el archivo, en mi caso en $HOME/Java/spring-roo-1.1.5.RELEASE</li>
+	<li>Crear enlace simbólico: sudo ln -s /home/case/Java/spring-roo-1.1.5.RELEASE/bin/roo.sh /usr/bin/roo</li>
+	<li>Probar que funciona:</li>
+</ol>
+<pre><code class="language-prettyprint">cd Java/spring-roo-1.1.5.RELEASE/
+mkdir roo-test
+roo quit
+</code></pre>
+<p>Si todo ha ido bien, debe haber salido Roo así en <a title="ASCII Art en la Wikipedia" href="http://en.wikipedia.org/wiki/ASCII_art" target="_blank">ASCII art</a> monísimo. Ya esta instalado Spring Roo y puedo borrar roo-test, hala a retomar el tema.</p>
+<p><strong>Quinta Práctica</strong></p>
+<p>El objetivo de esta práctica es más bien sencillo, se va a usar Spring Roo para crear un ejemplo clásico, el Pet Clinic y se va a preparar esta aplicación creada con Roo para desplegar en Heroku.</p>
+<p>Pasos:</p>
+<ol>
+	<li>Crear la aplicación con Roo.</li>
+	<li>Preparar el pom.xml añadiendo las dependencias adecuadas y la configuración correcta para su despliegue en Heroku.</li>
+	<li>Crear una clase que arranque Jetty (el servidor integrado).</li>
+	<li>Configurar la base de datos PostgreSQL en la aplicación.</li>
+	<li>Probar la aplicación en local.</li>
+	<li>Desplegar en Heroku.</li>
+</ol>
+<p><strong>Paso 1</strong></p>
+<p>Crear la aplicación es más bien sencillo:</p>
+<pre><code class="language-prettyprint">cd Heroku
+mkdir petclinic
+cd petclinic
+roo script --file clinic.roo
+</code></pre>
+<p>Me escupe un montón de logs por la consola y en teoría, listo. Examinando un poco la aplicación, pues nada, es una aplicación Java que sigue la estructura de Maven, con su pom.xml y nada, todo perfecto, sus entidades, sus controladores... su páginas web, tiene pinta de estar hecho con Spring MVC... vale, al lío.</p>
+<p><strong>Paso 2</strong></p>
+<p>En este paso, lo primero es añadir Jetty y PostgreSQL al pom.xml:</p>
+<pre><code class="language-prettyprint">
+&lt;dependency&gt;
+		&lt;groupId&gt;org.eclipse.jetty&lt;/groupId&gt;
+		&lt;artifactId&gt;jetty-webapp&lt;/artifactId&gt;
+		&lt;version&gt;7.4.4.v20110707&lt;/version&gt;
+	&lt;/dependency&gt;
+	&lt;dependency&gt;
+		&lt;groupId&gt;org.mortbay.jetty&lt;/groupId&gt;
+		&lt;artifactId&gt;jsp-2.1-glassfish&lt;/artifactId&gt;
+		&lt;version&gt;2.1.v20100127&lt;/version&gt;
+	&lt;/dependency&gt;
+	&lt;dependency&gt;
+		&lt;groupId&gt;postgresql&lt;/groupId&gt;
+		&lt;artifactId&gt;postgresql&lt;/artifactId&gt;
+		&lt;version&gt;9.0-801.jdbc4&lt;/version&gt;
+	&lt;/dependency&gt;
+
+</code></pre>
+<p>Ahora cambio el scope de servlet-api de provided a compile. Si se usa Tomcat, Tomcat incluye la librería servlet.jar (la API de Servlet), pero Jetty no, así que hay que descargarla. Hay que cambiar igual el scope de org.springframework.roo.annotations, si la ejecuto en local con Roo, estará la librería de anotaciones de Roo, pero claro, en Heroku no esta.</p>
+<p>Siguiente paso, añadir el plugin appassembler para que genere el script con el que arrancar la aplicación:</p>
+<pre><code class="language-prettyprint">
+
+&lt;plugin&gt;
+			&lt;groupId&gt;org.codehaus.mojo&lt;/groupId&gt;
+			&lt;artifactId&gt;appassembler-maven-plugin&lt;/artifactId&gt;
+			&lt;version&gt;1.1.1&lt;/version&gt;
+			&lt;executions&gt;
+				&lt;execution&gt;
+
+&lt;phase&gt;package&lt;/phase&gt;
+					&lt;goals&gt;&lt;goal&gt;assemble&lt;/goal&gt;&lt;/goals&gt;
+					&lt;configuration&gt;
+						&lt;assembleDirectory&gt;target&lt;/assembleDirectory&gt;
+						&lt;extraJvmArguments&gt;-Xmx512m&lt;/extraJvmArguments&gt;
+
+&lt;programs&gt;
+
+&lt;program&gt;
+								&lt;mainClass&gt;com.springsource.petclinic.PetclinicMain&lt;/mainClass&gt;
+								&lt;name&gt;webapp&lt;/name&gt;
+							&lt;/program&gt;
+						&lt;/programs&gt;
+					&lt;/configuration&gt;
+				&lt;/execution&gt;
+			&lt;/executions&gt;
+		&lt;/plugin&gt;
+
+</code></pre>
+<p>Y por último, hay que quitar la línea de packaging para que genere un jar en vez de un war, listo.</p>
+<p><strong>Paso 3</strong></p>
+<p>Ahora hay que crear la clase Main.java en src/main/java, exactamente igual que la que puse en la primera práctica, tampoco tiene más historia.</p>
+<p><strong>Paso 4</strong></p>
+<p>Para configurar la aplicación para que use PostgreSQL hay que tocar el applicationContext.xml, que es el archivo de configuración de Spring. Se encuentra en src/main/resources/META-INF/spring. Aquí, hay que cambiar las propiedades username, password y url por tan solo url de la siguiente manera:</p>
+<p>Que es el parseo para la cadena de conexión a PostgreSQL que ya ví. En el applicationContext.xml veo que el driver de conexión a la base de datos está parametrizado, así que tengo que cambiarlo, en el mismo directorio esta un archivo database.properties en el que esta la propiedad que me interesa, database.driverClassName, lo dejo así:</p>
+<pre><code class="language-prettyprint">database.driverClassName=org.postgresql.Driver
+</code></pre>
+<p>Por último, en el persistence.xml (que esta en src/main/resources/META-INF), hay que cambiar el valor del hibernate.dialect, a org.hibernate.dialect.PostgreSQLDialect.</p>
+<p><strong>Paso 5</strong></p>
+<p>Todo listo, ahora toca probar en local:</p>
+<pre><code class="language-prettyprint">export REPO=~/.m2/repository/
+export DATABASE_URL=postgres://helloheroku:helloheroku@localhost/helloheroku
+mvn install
+sh target/bin/webapp
+</code></pre>
+<p>Listo, entro en <a href="http://localhost:8080">http://localhost:8080</a> y ahí esta el PetClinic con Spring Roo y contra PostgreSQL. Genial</p>
+<p><strong>Paso 6</strong></p>
+<p>Para el despliegue de la aplicación en Heroku, primero hay que crear el Procfile con la definición de la actividad web:</p>
+<p>gedit Procfile</p>
+<p>Y añado:</p>
+<pre><code class="language-prettyprint">
+web:sh target/bin/webapp
+
+</code></pre>
+<p>Lo añado todo a un repositorio de git, creo el entorno de Heroku, lo subo todo a Heroku y GitHub y abro la aplicación:</p>
+<pre><code class="language-prettyprint">
+git init
+
+git add pom.xml Procfile src/
+
+heroku create --stack cedar
+
+git push github master
+
+git push heroku master
+
+heroku open
+
+
+</code></pre>
+<p>Y listo, funcionando!</p>
+<p><strong>Código en GitHub</strong></p>
+<p><strong><a href="https://github.com/agustinventura/Petclinic-con-Spring-Roo-en-Heroku"><img class="aligncenter size-full wp-image-255" title="GitHub" src="/images/2011/08/github_icon.png" alt="GitHub" width="115" height="115" /></a><br />
+</strong></p>
+<p><strong>Conclusiones</strong></p>
+<p>Este ejemplo es, de lejos, el más interesante, ya que demuestra tres cosas:</p>
+<ol>
+	<li>Que Heroku parece ser capaz de trabajar sin problemas con los frameworks mayoritarios de Java.</li>
+	<li>Que realmente, los frameworks de Java son tremendamente potentes si se sabe como usarlos, aportando una gran flexibilidad.</li>
+	<li>Y por último, creo que mi primera impresión estaba justificada. Tenemos un entorno capaz de acercar el mundo Java EE a la mayoría de desarrolladores... con todo lo que ello implica. Ahora es cosa nuestra aprovecharlo o no.</li>
+</ol>
+<p>Y con esto, he terminado con Heroku de momento, me sigue quedando pendiente clarificar el tema de dynos, bds, etc... A ver si me pongo...</p>
+
+		</div>
+<div class="col s12">
+<div id="disqus_thread"></div>
+<script>
+    var disqus_config = function () {
+        this.page.url = 'http://www.aguasnegras.es/blog/2011/10/13-Despliegue+de+Spring+Roo+en+Heroku.html';
+        this.page.identifier = 'blog/2011/10/13-Despliegue+de+Spring+Roo+en+Heroku.html';
+    };
+    (function() {
+        var d = document, s = d.createElement('script');
+        s.src = '//aguasnegras.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+</div>
+</div>
+</div>
+</div>
+    <footer class="page-footer light-blue darken-3">
+      <div class="container">
+        <div class="row">
+         <div class="col s5">
+			<h5><a href="../../../archive.html" class="white-text">Archivo</a></h5>
+			<p><a href="../../../archive.html" class="white-text">Todos los posts</a></p>
+	    </div>
+	    <div class="col s5">
+            <h5 class="white-text">Tags</h5>
+			    <a href="../../../tags/DDD.html"><div class="chip">DDD</div></a>
+			    <a href="../../../tags/Eclipse.html"><div class="chip">Eclipse</div></a>
+			    <a href="../../../tags/GitHub.html"><div class="chip">GitHub</div></a>
+			    <a href="../../../tags/PostgreSQL.html"><div class="chip">PostgreSQL</div></a>
+			    <a href="../../../tags/Time.html"><div class="chip">Time</div></a>
+			    <a href="../../../tags/SVQJUG.html"><div class="chip">SVQJUG</div></a>
+			    <a href="../../../tags/Minientrada.html"><div class="chip">Minientrada</div></a>
+			    <a href="../../../tags/WordPress.html"><div class="chip">WordPress</div></a>
+			    <a href="../../../tags/Docker.html"><div class="chip">Docker</div></a>
+			    <a href="../../../tags/JUnit.html"><div class="chip">JUnit</div></a>
+			    <a href="../../../tags/Proyectos.html"><div class="chip">Proyectos</div></a>
+			    <a href="../../../tags/tutorial.html"><div class="chip">tutorial</div></a>
+			    <a href="../../../tags/Spring Roo.html"><div class="chip">Spring Roo</div></a>
+			    <a href="../../../tags/Emulador.html"><div class="chip">Emulador</div></a>
+			    <a href="../../../tags/Markdown.html"><div class="chip">Markdown</div></a>
+			    <a href="../../../tags/log4j.html"><div class="chip">log4j</div></a>
+			    <a href="../../../tags/Logging.html"><div class="chip">Logging</div></a>
+			    <a href="../../../tags/Java.html"><div class="chip">Java</div></a>
+			    <a href="../../../tags/Hibernate.html"><div class="chip">Hibernate</div></a>
+			    <a href="../../../tags/slf4j.html"><div class="chip">slf4j</div></a>
+			    <a href="../../../tags/Heroku.html"><div class="chip">Heroku</div></a>
+			    <a href="../../../tags/Base de Datos.html"><div class="chip">Base de Datos</div></a>
+			    <a href="../../../tags/Problemas.html"><div class="chip">Problemas</div></a>
+			    <a href="../../../tags/Spring.html"><div class="chip">Spring</div></a>
+			    <a href="../../../tags/Date.html"><div class="chip">Date</div></a>
+			    <a href="../../../tags/Android.html"><div class="chip">Android</div></a>
+			    <a href="../../../tags/JBake.html"><div class="chip">JBake</div></a>
+			    <a href="../../../tags/Ruby on Rails.html"><div class="chip">Ruby on Rails</div></a>
+			    <a href="../../../tags/Git.html"><div class="chip">Git</div></a>
+			    <a href="../../../tags/Linux.html"><div class="chip">Linux</div></a>
+			    <a href="../../../tags/JustPlay.html"><div class="chip">JustPlay</div></a>
+			    <a href="../../../tags/Cloud.html"><div class="chip">Cloud</div></a>
+			    <a href="../../../tags/Wordpress.html"><div class="chip">Wordpress</div></a>
+			    <a href="../../../tags/logging.html"><div class="chip">logging</div></a>
+			    <a href="../../../tags/Programación.html"><div class="chip">Programación</div></a>
+			    <a href="../../../tags/Tools of the Trade.html"><div class="chip">Tools of the Trade</div></a>
+			    <a href="../../../tags/Amazon.html"><div class="chip">Amazon</div></a>
+			    <a href="../../../tags/SEO.html"><div class="chip">SEO</div></a>
+			    <a href="../../../tags/Intellij IDEA.html"><div class="chip">Intellij IDEA</div></a>
+	    </div>
+        <div class="col s2 right-align">
+            <a href="http://twitter.com/agustinventura" target="_blank" class="social-link white-text" ><i class="fa  fa-twitter  fa-3x" title="Twitter" aria-hidden="true"></i></a>
+            <a href="http://github.com/agustinventura" target="_blank" class="social-link white-text"><i class="fa  fa-github  fa-3x" title="Github" aria-hidden="true"></i></a>
+            <a href="https://www.linkedin.com/in/agustinventura" target="_blank" class="social-link white-text"><i class="fa  fa-linkedin  fa-3x" title="LinkedIn" aria-hidden="true"></i></a>
+        </div>
+      </div>
+      </div>
+      </div>
+      <div class="footer-copyright">
+            <div class="container">
+        <p class="center-align">&copy; 2016 | Mixed with <a class="footer-link white-text" href="http://materializecss.com/" target="_blank">Materialize</a> | Baked with <a <a class="footer-link white-text" href="http://jbake.org">JBake</a></p>
+            </div>
+          </div>
+    </footer>
+
+    <script async src="//cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
+		<script async src="//code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script async src="//cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js"></script>
+  </body>
+</html>

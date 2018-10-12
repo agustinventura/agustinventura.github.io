@@ -8,16 +8,11 @@
     <meta name="author" content="Agustín Ventura">
     <meta name="keywords" content="Programación, Java">
     <meta name="generator" content="JBake">
-    <!--Import Google Icon Font-->
-     <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-     <!-- Import Font Awesome Icons-->
-     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
     <!-- Compiled and minified CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css">
-    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
-    <!--[if lt IE 9]>
-      <script src="../../../js/html5shiv.min.js"></script>
-    <![endif]-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <link rel="stylesheet" href="../../../css/aguasnegras.css"/>
     <link rel="shortcut icon" href="../../../favicon.ico">
   </head>
@@ -26,7 +21,7 @@
 <nav class="light-blue darken-3">
 	<div class="container">
 		<div class="nav-wrapper">
-		      <a class="brand-logo" href="../../../"><span class="pageTitle">AguasNegras</span></a>
+		      <a class="brand-logo" href="/"><span class="pageTitle">AguasNegras</span></a>
 			    <ul id="nav-mobile" class="right hide-on-med-and-down">
 			        <li><a href="../../../index.html">Inicio</a></li>
 			        <li><a href="../../../about.html">Acerca De</a></li>
@@ -44,13 +39,17 @@
 			27 marzo 2017
 		</div>
 		<div class="section">
-			<p>Una de las funcionalidades básicas de <a href="http://hibernate.org/orm/">Hibernate</a> es abstraer la base de datos, pero sin embargo en tiempo de desarrollo resulta bastante útil controlar las consultas que va generando el motor así como sus parámetros.<br/>Desde las primeras versiones Hibernate tiene una propiedad, <em>show_sql</em> que muestra estas consultas por consola. Esto tiene dos desventajas, la primera que usa la consola y la segunda que para habilitarlo y deshabilitarlo se depende de un archivo de configuración específico (normalmente el propio de Hibernate o incluso una clase Java si se esta utilizando la configuración Java de Spring). Además este parámetro tan sólo muestra las consultas y no los parámetros de las mismas.<br/>La solución idónea pasa por utilizar el sistema de logging estándar que se utilice en la aplicación, así se puede mostrar en consola o registrar en un archivo o cualquier otro tipo de solución y además su activación y desactivación se hace en el sitio lógico, el archivo de configuración de logs de la aplicación.<br/>Otra ventaja es que, además, con su configuración oportuna se pueden logar también los parámetros de las consultas (algo muy útil para contrastar con nuestro cliente SQL favorito).<br/>Para poder mostrar estos logs hay dos loggers propios de Hibernate que configurar:</p>
+			<p>Una de las funcionalidades básicas de <a href="http://hibernate.org/orm/">Hibernate</a> es abstraer la base de datos, pero sin embargo en tiempo de desarrollo resulta bastante útil controlar las consultas que va generando el motor así como sus parámetros.<br />
+Desde las primeras versiones Hibernate tiene una propiedad, <em>show_sql</em> que muestra estas consultas por consola. Esto tiene dos desventajas, la primera que usa la consola y la segunda que para habilitarlo y deshabilitarlo se depende de un archivo de configuración específico (normalmente el propio de Hibernate o incluso una clase Java si se esta utilizando la configuración Java de Spring). Además este parámetro tan sólo muestra las consultas y no los parámetros de las mismas.<br />
+La solución idónea pasa por utilizar el sistema de logging estándar que se utilice en la aplicación, así se puede mostrar en consola o registrar en un archivo o cualquier otro tipo de solución y además su activación y desactivación se hace en el sitio lógico, el archivo de configuración de logs de la aplicación.<br />
+Otra ventaja es que, además, con su configuración oportuna se pueden logar también los parámetros de las consultas (algo muy útil para contrastar con nuestro cliente SQL favorito).<br />
+Para poder mostrar estos logs hay dos loggers propios de Hibernate que configurar:</p>
 <ol>
-  <li>org.hibernate.SQL: Se encarga de mostrar las consultas.</li>
-  <li>org.hibernate.type.descriptor.sql.BasicBinder: Hay soluciones que proponen quedarse al nivel de type, pero en ese caso el log muestra toda la información relativas a tipos de Hibernate, no solo los valores de los parámetros. Con este logger se muestran únicamente éstos.</li>
+<li>org.hibernate.SQL: Se encarga de mostrar las consultas.</li>
+<li>org.hibernate.type.descriptor.sql.BasicBinder: Hay soluciones que proponen quedarse al nivel de type, pero en ese caso el log muestra toda la información relativas a tipos de Hibernate, no solo los valores de los parámetros. Con este logger se muestran únicamente éstos.</li>
 </ol>
 <p>Y un ejemplo de configuración para log4j:</p>
-<pre><code class="prettyprint">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+<pre><code class="language-prettyprint">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
 &lt;!DOCTYPE log4j:configuration SYSTEM &quot;log4j.dtd&quot; &gt;
 &lt;log4j:configuration&gt;
 
@@ -82,6 +81,7 @@
 	&lt;/root&gt;
 &lt;/log4j:configuration&gt;
 </code></pre>
+
 		</div>
 <div class="col s12">
 <div id="disqus_thread"></div>

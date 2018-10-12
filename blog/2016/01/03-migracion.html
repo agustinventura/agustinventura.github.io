@@ -8,16 +8,11 @@
     <meta name="author" content="Agustín Ventura">
     <meta name="keywords" content="Programación, Java">
     <meta name="generator" content="JBake">
-    <!--Import Google Icon Font-->
-     <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-     <!-- Import Font Awesome Icons-->
-     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
     <!-- Compiled and minified CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css">
-    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
-    <!--[if lt IE 9]>
-      <script src="../../../js/html5shiv.min.js"></script>
-    <![endif]-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <link rel="stylesheet" href="../../../css/aguasnegras.css"/>
     <link rel="shortcut icon" href="../../../favicon.ico">
   </head>
@@ -26,7 +21,7 @@
 <nav class="light-blue darken-3">
 	<div class="container">
 		<div class="nav-wrapper">
-		      <a class="brand-logo" href="../../../"><span class="pageTitle">AguasNegras</span></a>
+		      <a class="brand-logo" href="/"><span class="pageTitle">AguasNegras</span></a>
 			    <ul id="nav-mobile" class="right hide-on-med-and-down">
 			        <li><a href="../../../index.html">Inicio</a></li>
 			        <li><a href="../../../about.html">Acerca De</a></li>
@@ -44,16 +39,18 @@
 			03 enero 2016
 		</div>
 		<div class="section">
-			<p>Desde hace ya bastantes años llevo pagando religiosamente todos los años un dominio (aguasnegras.es) y un alojamiento para tener el blog.<br/>El blog ha tenido mejores y peores momentos, pero en general me gusta tener un sitio donde poder escribir en un momento dado, y por supuesto compartir con la comunidad (sobre todo en español, es por lo que escribo en este idioma).</p>
+			<p>Desde hace ya bastantes años llevo pagando religiosamente todos los años un dominio (aguasnegras.es) y un alojamiento para tener el blog.<br />
+El blog ha tenido mejores y peores momentos, pero en general me gusta tener un sitio donde poder escribir en un momento dado, y por supuesto compartir con la comunidad (sobre todo en español, es por lo que escribo en este idioma).</p>
 <p>El asunto es que si nos paramos a pensarlo, el blog tiene bastantes pocos comentarios y sobre todo entradas mías, es decir, es fundamentalmente un medio de solo lectura. Hace ya un tiempo que pienso que tener para ésto un Wordpress con su PHP y su MySQL es bastante asesino y hasta antieconómico (en sentido general, porque el hosting me cuesta cuatro duros al año, tampoco vamos a ser ruinas). Otra cosa que me molesta bastante es tener que andar actualizando Wordpress (cosa lógica y normal) y aunque ya las actualizaciones sean automáticas, pues me molesta.</p>
 <p>Total, que a esto le sumamos que GitHub ofrece desde hace tiempo <a href="https://pages.github.com/">GitHub Pages</a> que consiste en alojamiento gratuito para HTML estático y más a huevo imposible... quedaría pendiente el tema de los comentarios, pero precisamente para esto, <a href="https://disqus.com/">Disqus</a> permite incluirlos por Javascript con una configuración muy sencilla.</p>
 <p>Con esto ya va quedando claro el enfoque, ahora habría que ver como generar el HTML, ya que escribir HTML a pelo es posible, pero es más bien coñazo. GitHub Pages usa <a href="https://jekyllrb.com/">Jekyll</a> que permite usar Markdown para escribir, pero como buen javero de pro he buscado una opción similar en Java, <a href="http://jbake.org/">JBake</a>. Eso sí, el inconveniente es claro, con Jekyll lo único que hay que subir a GitHub son los archivos .md mientras que con JBake tendré que generar el HTML y subirlo.</p>
 <p>Por tanto, hay tres trabajos importantes que hacer para estudiar la viabilidad de usar GitHub Pages para alojar el blog:</p>
 <ol>
-  <li>Integrar Disqus en JBake.</li>
-  <li>Personalizar el HTML generado por JBake.</li>
-  <li>Ver como subir los fuentes y HTML a GitHub y estudiar el workflow de publicación.</li>
+<li>Integrar Disqus en JBake.</li>
+<li>Personalizar el HTML generado por JBake.</li>
+<li>Ver como subir los fuentes y HTML a GitHub y estudiar el workflow de publicación.</li>
 </ol>
+
 		</div>
 <div class="col s12">
 <div id="disqus_thread"></div>

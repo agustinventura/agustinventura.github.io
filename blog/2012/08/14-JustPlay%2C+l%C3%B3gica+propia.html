@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8"/>
+    <title>JustPlay, lógica propia</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="AguasNegras, tecnología, programación y Java">
+    <meta name="author" content="Agustín Ventura">
+    <meta name="keywords" content="Programación, Java">
+    <meta name="generator" content="JBake">
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <link rel="stylesheet" href="../../../css/aguasnegras.css"/>
+    <link rel="shortcut icon" href="../../../favicon.ico">
+  </head>
+  <body>
+    <header>
+<nav class="light-blue darken-3">
+	<div class="container">
+		<div class="nav-wrapper">
+		      <a class="brand-logo" href="/"><span class="pageTitle">AguasNegras</span></a>
+			    <ul id="nav-mobile" class="right hide-on-med-and-down">
+			        <li><a href="../../../index.html">Inicio</a></li>
+			        <li><a href="../../../about.html">Acerca De</a></li>
+			        <li><a href="../../../feed.xml">Suscripci&oacute;n</a></li>
+			    </ul>
+		</div>
+	</div>
+</nav>
+    </header>
+<div class="container">
+<div class="row">
+<div class="col s12">
+		<h4 class="light-blue-text text-darken-1">JustPlay, lógica propia</h4>
+		<div class="section">
+			14 agosto 2012
+		</div>
+		<div class="section">
+			<p>Vale, una vez terminado el guarreo con el ciclo de vida, toca implementar la lógica de negocio propia de la aplicación.<br />
+Al ser JustPlay un reproductor de mp3 y ogg, vamos a ver que lógica tenemos que implementar:</p>
+<h6>Funcionalidad Detallada</h6>
+<ol>
+	<li>Gestión de la lista de reproducción, añadir directorios y canciones sueltas, borrar la lista de reproducción, eliminar canciones en particular y reordenarla mediante drag&amp;drop.</li>
+	<li>Reproducir: Reproducir toda la playlist desde el principio hasta el final dándole al botón de play.</li>
+	<li>Reproducir una canción: Empezar a reproducir toda la playlist desde la canción seleccionada.</li>
+	<li>Parar: Parar la reproducción, al darle a play se volverá a reproducir la lista desde el principio.</li>
+	<li>Pausar: Parar la reproducción, al darle a play se continuará con la reproducción donde estaba.</li>
+	<li>Canción anterior: Reproducir la canción anterior, en caso de ser la primera se reproducirá desde el principio.</li>
+	<li>Canción siguiente: Reproducir la canción siguiente, en caso de ser la última no se hará nada.</li>
+	<li>Avance rápido: Avanzar 15 sgs en la canción. Si la posición actual de la canción + 15 sgs &gt; longitud de la canción, se pasa a la siguiente canción.</li>
+	<li>Retroceso: Retroceder 15 sgs en la canción. Si la posición actual de la canción - 15 sgs &lt; 0, se comienza desde el principio.</li>
+</ol>
+<h6>Definición de Responsabilidades</h6>
+<p>Entre los artefactos existentes voy a dividir la responsabilidad de la siguiente manera:</p>
+<h6>MediaPlayer:</h6>
+<ul>
+	<li>Gestión de la interfaz del usuario.</li>
+	<li>Mostrar la playlist y los controles.</li>
+	<li>Toda la lógica de negocio la delega en MediaService y MediaThread</li>
+</ul>
+<h6>FileExplorer</h6>
+<ul>
+	<li>Mostrar los contenidos de la memoria del teléfono, recordando el último directorio visitado.</li>
+	<li>Enviar a MediaPlayer una canción en concreto o las contenidas en un directorio y sus subdirectorios.</li>
+</ul>
+<h6>MediaServiceBinder</h6>
+<ul>
+	<li>Devuelve una instancia de MediaService al objeto que lo solicite (MediaPlayer en este caso).</li>
+</ul>
+<h6>MediaService</h6>
+<ul>
+	<li>Mantiene vivo MediaThread aunque se cierre MediaPlayer.</li>
+	<li>Presenta las notificaciones al usuario en la barra de estado.</li>
+	<li>Gestiona el CallManager que permite parar la reproducción cuando hay una llamada y volverla a iniciar cuando esta termina.</li>
+</ul>
+<h6>MediaThread</h6>
+<ul>
+	<li>Gestiona la reproducción de la playlist implementando toda la funcionalidad detallada arriba.</li>
+</ul>
+<p> </p>
+
+		</div>
+<div class="col s12">
+<div id="disqus_thread"></div>
+<script>
+    var disqus_config = function () {
+        this.page.url = 'http://www.aguasnegras.es/blog/2012/08/14-JustPlay%2C+l%C3%B3gica+propia.html';
+        this.page.identifier = 'blog/2012/08/14-JustPlay%2C+l%C3%B3gica+propia.html';
+    };
+    (function() {
+        var d = document, s = d.createElement('script');
+        s.src = '//aguasnegras.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+</div>
+</div>
+</div>
+</div>
+    <footer class="page-footer light-blue darken-3">
+      <div class="container">
+        <div class="row">
+         <div class="col s5">
+			<h5><a href="../../../archive.html" class="white-text">Archivo</a></h5>
+			<p><a href="../../../archive.html" class="white-text">Todos los posts</a></p>
+	    </div>
+	    <div class="col s5">
+            <h5 class="white-text">Tags</h5>
+			    <a href="../../../tags/DDD.html"><div class="chip">DDD</div></a>
+			    <a href="../../../tags/Eclipse.html"><div class="chip">Eclipse</div></a>
+			    <a href="../../../tags/GitHub.html"><div class="chip">GitHub</div></a>
+			    <a href="../../../tags/PostgreSQL.html"><div class="chip">PostgreSQL</div></a>
+			    <a href="../../../tags/Time.html"><div class="chip">Time</div></a>
+			    <a href="../../../tags/SVQJUG.html"><div class="chip">SVQJUG</div></a>
+			    <a href="../../../tags/Minientrada.html"><div class="chip">Minientrada</div></a>
+			    <a href="../../../tags/WordPress.html"><div class="chip">WordPress</div></a>
+			    <a href="../../../tags/Docker.html"><div class="chip">Docker</div></a>
+			    <a href="../../../tags/JUnit.html"><div class="chip">JUnit</div></a>
+			    <a href="../../../tags/Proyectos.html"><div class="chip">Proyectos</div></a>
+			    <a href="../../../tags/tutorial.html"><div class="chip">tutorial</div></a>
+			    <a href="../../../tags/Spring Roo.html"><div class="chip">Spring Roo</div></a>
+			    <a href="../../../tags/Emulador.html"><div class="chip">Emulador</div></a>
+			    <a href="../../../tags/Markdown.html"><div class="chip">Markdown</div></a>
+			    <a href="../../../tags/log4j.html"><div class="chip">log4j</div></a>
+			    <a href="../../../tags/Logging.html"><div class="chip">Logging</div></a>
+			    <a href="../../../tags/Java.html"><div class="chip">Java</div></a>
+			    <a href="../../../tags/Hibernate.html"><div class="chip">Hibernate</div></a>
+			    <a href="../../../tags/slf4j.html"><div class="chip">slf4j</div></a>
+			    <a href="../../../tags/Heroku.html"><div class="chip">Heroku</div></a>
+			    <a href="../../../tags/Base de Datos.html"><div class="chip">Base de Datos</div></a>
+			    <a href="../../../tags/Problemas.html"><div class="chip">Problemas</div></a>
+			    <a href="../../../tags/Spring.html"><div class="chip">Spring</div></a>
+			    <a href="../../../tags/Date.html"><div class="chip">Date</div></a>
+			    <a href="../../../tags/Android.html"><div class="chip">Android</div></a>
+			    <a href="../../../tags/JBake.html"><div class="chip">JBake</div></a>
+			    <a href="../../../tags/Ruby on Rails.html"><div class="chip">Ruby on Rails</div></a>
+			    <a href="../../../tags/Git.html"><div class="chip">Git</div></a>
+			    <a href="../../../tags/Linux.html"><div class="chip">Linux</div></a>
+			    <a href="../../../tags/JustPlay.html"><div class="chip">JustPlay</div></a>
+			    <a href="../../../tags/Cloud.html"><div class="chip">Cloud</div></a>
+			    <a href="../../../tags/Wordpress.html"><div class="chip">Wordpress</div></a>
+			    <a href="../../../tags/logging.html"><div class="chip">logging</div></a>
+			    <a href="../../../tags/Programación.html"><div class="chip">Programación</div></a>
+			    <a href="../../../tags/Tools of the Trade.html"><div class="chip">Tools of the Trade</div></a>
+			    <a href="../../../tags/Amazon.html"><div class="chip">Amazon</div></a>
+			    <a href="../../../tags/SEO.html"><div class="chip">SEO</div></a>
+			    <a href="../../../tags/Intellij IDEA.html"><div class="chip">Intellij IDEA</div></a>
+	    </div>
+        <div class="col s2 right-align">
+            <a href="http://twitter.com/agustinventura" target="_blank" class="social-link white-text" ><i class="fa  fa-twitter  fa-3x" title="Twitter" aria-hidden="true"></i></a>
+            <a href="http://github.com/agustinventura" target="_blank" class="social-link white-text"><i class="fa  fa-github  fa-3x" title="Github" aria-hidden="true"></i></a>
+            <a href="https://www.linkedin.com/in/agustinventura" target="_blank" class="social-link white-text"><i class="fa  fa-linkedin  fa-3x" title="LinkedIn" aria-hidden="true"></i></a>
+        </div>
+      </div>
+      </div>
+      </div>
+      <div class="footer-copyright">
+            <div class="container">
+        <p class="center-align">&copy; 2016 | Mixed with <a class="footer-link white-text" href="http://materializecss.com/" target="_blank">Materialize</a> | Baked with <a <a class="footer-link white-text" href="http://jbake.org">JBake</a></p>
+            </div>
+          </div>
+    </footer>
+
+    <script async src="//cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
+		<script async src="//code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script async src="//cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js"></script>
+  </body>
+</html>

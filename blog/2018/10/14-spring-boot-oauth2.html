@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8"/>
+    <title>SDKMAN</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="AguasNegras, tecnología, programación y Java">
+    <meta name="author" content="Agustín Ventura">
+    <meta name="keywords" content="Programación, Java">
+    <meta name="generator" content="JBake">
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <link rel="stylesheet" href="../../../css/aguasnegras.css"/>
+    <link rel="shortcut icon" href="../../../favicon.ico">
+  </head>
+  <body>
+    <header>
+<nav class="light-blue darken-3">
+	<div class="container">
+		<div class="nav-wrapper">
+		      <a class="brand-logo" href="/"><span class="pageTitle">AguasNegras</span></a>
+			    <ul id="nav-mobile" class="right hide-on-med-and-down">
+			        <li><a href="../../../index.html">Inicio</a></li>
+			        <li><a href="../../../about.html">Acerca De</a></li>
+			        <li><a href="../../../feed.xml">Suscripci&oacute;n</a></li>
+			    </ul>
+		</div>
+	</div>
+</nav>
+    </header>
+<div class="container">
+<div class="row">
+<div class="col s12">
+		<h4 class="light-blue-text text-darken-1">SDKMAN</h4>
+		<div class="section">
+			12 octubre 2018
+		</div>
+		<div class="section">
+			<p><a href="https://sdkman.io/">SDKMAN</a> es un gestor de entornos y herramientas Java. Cuando trabajas en un entorno &quot;corporativo&quot; (¿aburrido?) sueles tener claramente fijadas las versiones de herramientas de desarrollo a utilizar, por ejemplo, Java 8 en la versión 1.8.0_121 o Maven 3.2.1, etc...<br />
+Sin embargo cuando empiezas a cacharrear y a tratar de instalar cosas nuevas es relativamente normal que acabes con dos (o tres o seis) versiones del JDK: la &quot;buena&quot; (1.8), la de &quot;los módulos&quot; (9), la de &quot;los val&quot; (10) y la &quot;nueva buena&quot; (11). Todo eso puedes gestionarlo a mano, claro, para eso esta JAVA_HOME, pero ¿qué pasa si tienes varias versiones de Maven? ¿Y si son más herramientas? Ya se empieza a hacer cansino. Pues bien, SDKMAN se ocupa precisamente de eso, lo instalas y él te instala las versiones que quieras de las herramientas, te pone unas activas, etc...<br />
+Pero mejor enseño un ejemplo.</p>
+<h2>Instalación</h2>
+<p>Pues basta con seguir las <a href="https://sdkman.io/install">instrucciones</a>. Yo como soy un poco particular y maniático, me gusta tener todo lo relacionado con el desarrollo ordenado en carpetas particulares, así que para la instalación especifico primero el directorio en el que quiero que me lo instale y después lanzo el script de instalación:</p>
+<pre><code class="language-prettyprint">export SDKMAN_DIR=&quot;/home/agustin/Development/Java/Tools/sdkman&quot;
+curl -s &quot;https://get.sdkman.io&quot; | bash
+source Development/Java/Tools/sdkman/bin/sdkman-init.sh
+</code></pre>
+<p>Con ésto ya esta instalado (en el directorio Development/Java/Tools/sdkman).</p>
+<h2>Uso</h2>
+<p>Vale, pues lo primero es comprobar que esta bien:</p>
+<pre><code class="language-prettyprint">sdk help
+</code></pre>
+<p>Una vez instalado, se puede ver todo el software disponible con list:</p>
+<pre><code class="language-prettyprint">sdk list
+</code></pre>
+<p>Y todas las versiones de un software concreto con list <software>:</p>
+<pre><code class="language-prettyprint">sdk list java
+</code></pre>
+<p>Para instalar Java 11 (OpenJDK):</p>
+<pre><code class="language-prettyprint">sdk install java 11.0.0-open
+</code></pre>
+<p>Y con ésto, java -version te debe devolver OpenJDK 11 (es posible que tengas que abrir un terminal nuevo).</p>
+<h2>Desinstalación</h2>
+<p>Si por lo que sea te cansas de SDKMAN, la desinstalación son dos pasos:<br />
+1. Borrar el directorio de instalación (.sdkman en tu home por defecto)<br />
+2. Repasar .bashrc, .bash_profile o .profile para ver que no haya quedado rastro.</p>
+
+		</div>
+<div class="col s12">
+<div id="disqus_thread"></div>
+<script>
+    var disqus_config = function () {
+        this.page.url = 'http://www.aguasnegras.es/blog/2018/10/14-spring-boot-oauth2.html';
+        this.page.identifier = 'blog/2018/10/14-spring-boot-oauth2.html';
+    };
+    (function() {
+        var d = document, s = d.createElement('script');
+        s.src = '//aguasnegras.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+</div>
+</div>
+</div>
+</div>
+    <footer class="page-footer light-blue darken-3">
+      <div class="container">
+        <div class="row">
+         <div class="col s5">
+			<h5><a href="../../../archive.html" class="white-text">Archivo</a></h5>
+			<p><a href="../../../archive.html" class="white-text">Todos los posts</a></p>
+	    </div>
+	    <div class="col s5">
+            <h5 class="white-text">Tags</h5>
+			    <a href="../../../tags/DDD.html"><div class="chip">DDD</div></a>
+			    <a href="../../../tags/Eclipse.html"><div class="chip">Eclipse</div></a>
+			    <a href="../../../tags/GitHub.html"><div class="chip">GitHub</div></a>
+			    <a href="../../../tags/PostgreSQL.html"><div class="chip">PostgreSQL</div></a>
+			    <a href="../../../tags/Time.html"><div class="chip">Time</div></a>
+			    <a href="../../../tags/SVQJUG.html"><div class="chip">SVQJUG</div></a>
+			    <a href="../../../tags/Minientrada.html"><div class="chip">Minientrada</div></a>
+			    <a href="../../../tags/WordPress.html"><div class="chip">WordPress</div></a>
+			    <a href="../../../tags/Docker.html"><div class="chip">Docker</div></a>
+			    <a href="../../../tags/JUnit.html"><div class="chip">JUnit</div></a>
+			    <a href="../../../tags/Proyectos.html"><div class="chip">Proyectos</div></a>
+			    <a href="../../../tags/tutorial.html"><div class="chip">tutorial</div></a>
+			    <a href="../../../tags/Spring Roo.html"><div class="chip">Spring Roo</div></a>
+			    <a href="../../../tags/Emulador.html"><div class="chip">Emulador</div></a>
+			    <a href="../../../tags/Markdown.html"><div class="chip">Markdown</div></a>
+			    <a href="../../../tags/log4j.html"><div class="chip">log4j</div></a>
+			    <a href="../../../tags/Logging.html"><div class="chip">Logging</div></a>
+			    <a href="../../../tags/Java.html"><div class="chip">Java</div></a>
+			    <a href="../../../tags/Hibernate.html"><div class="chip">Hibernate</div></a>
+			    <a href="../../../tags/slf4j.html"><div class="chip">slf4j</div></a>
+			    <a href="../../../tags/Heroku.html"><div class="chip">Heroku</div></a>
+			    <a href="../../../tags/Base de Datos.html"><div class="chip">Base de Datos</div></a>
+			    <a href="../../../tags/Problemas.html"><div class="chip">Problemas</div></a>
+			    <a href="../../../tags/Spring.html"><div class="chip">Spring</div></a>
+			    <a href="../../../tags/Date.html"><div class="chip">Date</div></a>
+			    <a href="../../../tags/Android.html"><div class="chip">Android</div></a>
+			    <a href="../../../tags/JBake.html"><div class="chip">JBake</div></a>
+			    <a href="../../../tags/Ruby on Rails.html"><div class="chip">Ruby on Rails</div></a>
+			    <a href="../../../tags/Git.html"><div class="chip">Git</div></a>
+			    <a href="../../../tags/Linux.html"><div class="chip">Linux</div></a>
+			    <a href="../../../tags/JustPlay.html"><div class="chip">JustPlay</div></a>
+			    <a href="../../../tags/Cloud.html"><div class="chip">Cloud</div></a>
+			    <a href="../../../tags/Wordpress.html"><div class="chip">Wordpress</div></a>
+			    <a href="../../../tags/logging.html"><div class="chip">logging</div></a>
+			    <a href="../../../tags/Programación.html"><div class="chip">Programación</div></a>
+			    <a href="../../../tags/Tools of the Trade.html"><div class="chip">Tools of the Trade</div></a>
+			    <a href="../../../tags/Amazon.html"><div class="chip">Amazon</div></a>
+			    <a href="../../../tags/SEO.html"><div class="chip">SEO</div></a>
+			    <a href="../../../tags/Intellij IDEA.html"><div class="chip">Intellij IDEA</div></a>
+	    </div>
+        <div class="col s2 right-align">
+            <a href="http://twitter.com/agustinventura" target="_blank" class="social-link white-text" ><i class="fa  fa-twitter  fa-3x" title="Twitter" aria-hidden="true"></i></a>
+            <a href="http://github.com/agustinventura" target="_blank" class="social-link white-text"><i class="fa  fa-github  fa-3x" title="Github" aria-hidden="true"></i></a>
+            <a href="https://www.linkedin.com/in/agustinventura" target="_blank" class="social-link white-text"><i class="fa  fa-linkedin  fa-3x" title="LinkedIn" aria-hidden="true"></i></a>
+        </div>
+      </div>
+      </div>
+      </div>
+      <div class="footer-copyright">
+            <div class="container">
+        <p class="center-align">&copy; 2016 | Mixed with <a class="footer-link white-text" href="http://materializecss.com/" target="_blank">Materialize</a> | Baked with <a <a class="footer-link white-text" href="http://jbake.org">JBake</a></p>
+            </div>
+          </div>
+    </footer>
+
+    <script async src="//cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
+		<script async src="//code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script async src="//cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js"></script>
+  </body>
+</html>

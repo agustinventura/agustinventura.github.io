@@ -8,16 +8,11 @@
     <meta name="author" content="Agustín Ventura">
     <meta name="keywords" content="Programación, Java">
     <meta name="generator" content="JBake">
-    <!--Import Google Icon Font-->
-     <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-     <!-- Import Font Awesome Icons-->
-     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
     <!-- Compiled and minified CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css">
-    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
-    <!--[if lt IE 9]>
-      <script src="../../../js/html5shiv.min.js"></script>
-    <![endif]-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <link rel="stylesheet" href="../../../css/aguasnegras.css"/>
     <link rel="shortcut icon" href="../../../favicon.ico">
   </head>
@@ -26,7 +21,7 @@
 <nav class="light-blue darken-3">
 	<div class="container">
 		<div class="nav-wrapper">
-		      <a class="brand-logo" href="../../../"><span class="pageTitle">AguasNegras</span></a>
+		      <a class="brand-logo" href="/"><span class="pageTitle">AguasNegras</span></a>
 			    <ul id="nav-mobile" class="right hide-on-med-and-down">
 			        <li><a href="../../../index.html">Inicio</a></li>
 			        <li><a href="../../../about.html">Acerca De</a></li>
@@ -46,27 +41,29 @@
 		<div class="section">
 			<p>Retomando la migración del blog, una vez resuelta la parte de leer los posts, hay que hacer la escritura. El enfoque pasa por lo siguiente:</p>
 <ol>
-  <li>Tener una plantilla de post que se leerá en el constructor. Esta plantilla tendrá placeholders para saber donde van los campos.</li>
-  <li>Tratar según que campos, por ejemplo los tags habrá que representarlos como un string y separados por comas, las etiquetas <code>&lt;pre</code>&gt; que indican código habrá que convertiras a prettyprint.</li>
-  <li>Escribir el archivo, a ser posible usando async I/O, así no se bloquea.</li>
+<li>Tener una plantilla de post que se leerá en el constructor. Esta plantilla tendrá placeholders para saber donde van los campos.</li>
+<li>Tratar según que campos, por ejemplo los tags habrá que representarlos como un string y separados por comas, las etiquetas <code>&lt;pre</code>&gt; que indican código habrá que convertiras a prettyprint.</li>
+<li>Escribir el archivo, a ser posible usando async I/O, así no se bloquea.</li>
 </ol>
 <p>Empezando por lo primero, la plantilla irá en <em>src/main/resources</em> y será la siguiente</p>
-<pre><code class="prettyprint">title=$title$
+<pre><code class="language-prettyprint">title=$title$
 date=$date$
 type=post
 tags=$tags$
 status=published
-~~~~~~
-$content$
 </code></pre>
-<p>Los placeholders he decidido que empiecen y terminen por $ para mayor seguridad. El test sería el siguiente:</p>
-<pre><code class="prettyprint">@Test
+<p>$content$</p>
+<pre><code>
+Los placeholders he decidido que empiecen y terminen por $ para mayor seguridad. El test sería el siguiente:
+
+```prettyprint
+@Test
 public void writerWithValidDestination() {
     sut = new MdWriter(&quot;src/test/destination&quot;);
 }
 </code></pre>
 <p>Y la implementación, aprovechando para lo cual he simplificado la clase usando las clases nuevas de Java 8 <em>Files</em> y <em>Path</em>.</p>
-<pre><code class="prettyprint">public class MdWriter {
+<pre><code class="language-prettyprint">public class MdWriter {
 
     private String template;
 
@@ -103,8 +100,9 @@ public void writerWithValidDestination() {
     }
 }
 </code></pre>
-<p>Ahora tengo que crear la estructura de archivos en la que va el post, es decir, tengo que verificar si existe existe la ruta del tipo detinationFolder/yyyy/mm y ahí crear un archivo de nombre dd-tituloDelPost y por último, escribirlo. La verdad que todo esto es MUY fácil con <em>Paths</em> y <em>Files</em>, así que ya no hace falta usar los <em>commons-io</em>, al menos para ésto.<br/>Los tests:</p>
-<pre><code class="prettyprint">public class MdWriterTest {
+<p>Ahora tengo que crear la estructura de archivos en la que va el post, es decir, tengo que verificar si existe existe la ruta del tipo detinationFolder/yyyy/mm y ahí crear un archivo de nombre dd-tituloDelPost y por último, escribirlo. La verdad que todo esto es MUY fácil con <em>Paths</em> y <em>Files</em>, así que ya no hace falta usar los <em>commons-io</em>, al menos para ésto.<br />
+Los tests:</p>
+<pre><code class="language-prettyprint">public class MdWriterTest {
 
     public static final String POST_DATE_FORMAT = &quot;yyyy-MM-dd&quot;;
     public static final String TEST_POST_CONTENT = &quot;content&quot;;
@@ -230,7 +228,7 @@ public void writerWithValidDestination() {
 }
 </code></pre>
 <p>Y la implementación:</p>
-<pre><code class="prettyprint">public class MdWriter {
+<pre><code class="language-prettyprint">public class MdWriter {
 
     public static final String TEMPLATE = &quot;src/main/resources/template.md&quot;;
     public static final String TITLE = &quot;$title$&quot;;
@@ -330,6 +328,7 @@ public void writerWithValidDestination() {
 }
 </code></pre>
 <p>Bueno, pues ya esta, ya solo faltarían las pruebas de <em>Wp2JBake</em> como tales, es decir, la integración. Todavía no he tocado nada de etiquetas especiales, ni he considerado el hecho de que se exportan posts que se consideran borradores (aquellos que tienen de fecha de publicación el 1AC), pero eso me debe dar la cara en las pruebas de integración.</p>
+
 		</div>
 <div class="col s12">
 <div id="disqus_thread"></div>

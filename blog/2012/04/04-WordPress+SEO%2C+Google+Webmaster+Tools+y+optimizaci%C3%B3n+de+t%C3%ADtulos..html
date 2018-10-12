@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8"/>
+    <title>WordPress SEO, Google Webmaster Tools y optimización de títulos.</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="AguasNegras, tecnología, programación y Java">
+    <meta name="author" content="Agustín Ventura">
+    <meta name="keywords" content="Programación, Java">
+    <meta name="generator" content="JBake">
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <link rel="stylesheet" href="../../../css/aguasnegras.css"/>
+    <link rel="shortcut icon" href="../../../favicon.ico">
+  </head>
+  <body>
+    <header>
+<nav class="light-blue darken-3">
+	<div class="container">
+		<div class="nav-wrapper">
+		      <a class="brand-logo" href="/"><span class="pageTitle">AguasNegras</span></a>
+			    <ul id="nav-mobile" class="right hide-on-med-and-down">
+			        <li><a href="../../../index.html">Inicio</a></li>
+			        <li><a href="../../../about.html">Acerca De</a></li>
+			        <li><a href="../../../feed.xml">Suscripci&oacute;n</a></li>
+			    </ul>
+		</div>
+	</div>
+</nav>
+    </header>
+<div class="container">
+<div class="row">
+<div class="col s12">
+		<h4 class="light-blue-text text-darken-1">WordPress SEO, Google Webmaster Tools y optimización de títulos.</h4>
+		<div class="section">
+			04 abril 2012
+		</div>
+		<div class="section">
+			<p>Bueno, pues para darme un poco de visibilidad en Google, he instalado el <a title="WordPress SEO plugin" href="http://wordpress.org/extend/plugins/wordpress-seo/" target="_blank">plugin WordPress SEO</a> y tiene un <a title="WordPress SEO Tutorial" href="http://yoast.com/articles/wordpress-seo/" target="_blank">estupendo artículo</a> de acciones a realizar para utilizarlo, así que lo voy a seguir y voy a ir comentando.</p>
+<h6>Entorno</h6>
+<p>A día de hoy lo que tengo es un WordPress 3.3.1 con WordPress SEO 1.1.5</p>
+<h6>SEO</h6>
+<p>A continuación voy a ir siguiendo lo más fielmente posible las instrucciones que se dan en el artículo punto por punto.</p>
+<h6>Permalinks</h6>
+<p>Dice con toda razón que los permalinks han de ser legibles. Por ejemplo, ahora mismo los permalinks de aguasnegras.es son del tipo <em>&quot;<a href="http://www.aguasnegras.es/blog/?p=410"><a href="http://www.aguasnegras.es/blog/?p=410">http://www.aguasnegras.es/blog/?p=410</a></a>&quot;</em>. Claramente es un error, debería incluir al menos el título del post, así que me voy a &quot;Ajustes &gt; Enlaces Permanentes&quot; y lo cambio, por probar solo a título del post.</p>
+<p>Vaya, me dice que no puede modificar el .htaccess y que tengo que añadir un código a mano... Bueno, pues nada, lo añado. Pero sin embargo ahora al mostrar la página principal me dice que no encuentra nada... ufff... Esto tiene más bien pinta de estar relacionado con algo más, así que mejor dejo de tocar. Siguiente apartado.</p>
+<h6>WWW o no WWW</h6>
+<p>Este punto es interesante, ya me obliga a pensar en el branding del sitio. Personalmente siempre que pienso en el sitio, pienso en &quot;aguasnegras&quot;, así que creo que el branding sería más adecuado como &quot;aguasnegras.es&quot; a secas. Esto implica dos cambios, ambos en &quot;Ajustes &gt; Generales&quot;. En &quot;Dirección de WordPress (URL)&quot; y &quot;Dirección del Sitio (URL)&quot;, elimino las www y acepto.</p>
+<p>El siguiente paso que comenta Yoast es hacer esto también en <a title="Google Webmaster Tools" href="https://www.google.com/webmasters/tools/" target="_blank">Google Webmaster Tools</a>... lo cual estaría muy bien si supiera lo que es :D Según la página principal, sirve para mejorar la visibilidad de mi sitio en Google, pues nada, inicio sesión y le doy a añadir un sitio. En la URL introduzco <em>&quot;aguasnegras.es&quot;</em>. A continuación me dice que descargue un archivo html de verificación y lo suba a mi sitio, nada más fácil. Subido, verifico y le doy a continuar.</p>
+<p>Y ya estoy en el panel de control de Google Webmaster Tools para aguasnegras.es. Hago click en &quot;Información del Sitio &gt; Configuración&quot; y como URL establezco &quot;aguasnegras.es&quot;. Sin embargo al darle a &quot;Guardar&quot; me informa que tengo que confirmar que soy el propietario del dominio y patatín y patatán... después de cacharrear un rato, decido añadir a mis sitios &quot;<a href="http://www.aguasnegras.es">www.aguasnegras.es</a>&quot; y de repente empiezan a funcionar todas las analíticas y todo va bien... pues vaya, nada, ya hago el cambio y listo.</p>
+<p>La verdad que el Google Webmaster Tools promete... habrá que echarle un vistazo más detenidamente otro día.</p>
+<h6>Títulos de los Posts</h6>
+<p>El tutorial sigue hablando del título de los posts, el título no solo es el texto que se muestra en la pantalla, si no que será lo primero que se muestre en los resultados de búsqueda.</p>
+<p>Se recomienda que las primeras palabras del título sean las más significativas, ya que los motores de búsqueda hacen más hincapié sobre ellas... así como la gente cuando lee. Vaya, es de cajón, pero nunca me había dado por pensarlo, a partir de ahora tendré más cuidado.</p>
+<p>Con la opción &quot;SEO &gt; Titles&quot; puedo controlar como se muestran los títulos de las páginas de mi sitio, no solo de los posts. Como no estoy seguro de como esta el header.php de mi tema, marco la casilla de &quot;Force rewrite titles&quot;. Para probar, en el &quot;Title Template&quot; de &quot;Homepage&quot; pongo el ejemplo que viene en el artículo en sí: &quot;%%sitename%% &amp;#8226; %%sitedesc%%&quot;, pulso &quot;Save Settings&quot; y recargo... Perfecto, me muestra &quot;AguasNegras &amp;#8226; This was not supposed to be like this&quot;, para darle un toque personal, dejo el título del sitio como &quot;AguasNegras || This was not supposed to be like this&quot;, jeje.</p>
+<p>Así en plan rápido, establezco las siguientes plantillas:</p>
+<ol>
+	<li>Posts y Pages: %%title%% @ %%sitename%%</li>
+	<li>Category: %%category%% @ %%sitename%%</li>
+	<li>Post_Tag: %%tag%% @ %%sitename%%</li>
+	<li>Author Archive: %%name%% @ %%sitename%%</li>
+	<li>Date Archives: %%date%% @ %%sitename%%</li>
+	<li>Search Pages: %%searchphrase%% @ %%sitename%%</li>
+	<li>404 Pages: Uops! @ %%sitename%%</li>
+</ol>
+<p>Lo pruebo todo y perfecto, funcionan todos los títulos</p>
+
+		</div>
+<div class="col s12">
+<div id="disqus_thread"></div>
+<script>
+    var disqus_config = function () {
+        this.page.url = 'http://www.aguasnegras.es/blog/2012/04/04-WordPress+SEO%2C+Google+Webmaster+Tools+y+optimizaci%C3%B3n+de+t%C3%ADtulos..html';
+        this.page.identifier = 'blog/2012/04/04-WordPress+SEO%2C+Google+Webmaster+Tools+y+optimizaci%C3%B3n+de+t%C3%ADtulos..html';
+    };
+    (function() {
+        var d = document, s = d.createElement('script');
+        s.src = '//aguasnegras.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+</div>
+</div>
+</div>
+</div>
+    <footer class="page-footer light-blue darken-3">
+      <div class="container">
+        <div class="row">
+         <div class="col s5">
+			<h5><a href="../../../archive.html" class="white-text">Archivo</a></h5>
+			<p><a href="../../../archive.html" class="white-text">Todos los posts</a></p>
+	    </div>
+	    <div class="col s5">
+            <h5 class="white-text">Tags</h5>
+			    <a href="../../../tags/DDD.html"><div class="chip">DDD</div></a>
+			    <a href="../../../tags/Eclipse.html"><div class="chip">Eclipse</div></a>
+			    <a href="../../../tags/GitHub.html"><div class="chip">GitHub</div></a>
+			    <a href="../../../tags/PostgreSQL.html"><div class="chip">PostgreSQL</div></a>
+			    <a href="../../../tags/Time.html"><div class="chip">Time</div></a>
+			    <a href="../../../tags/SVQJUG.html"><div class="chip">SVQJUG</div></a>
+			    <a href="../../../tags/Minientrada.html"><div class="chip">Minientrada</div></a>
+			    <a href="../../../tags/WordPress.html"><div class="chip">WordPress</div></a>
+			    <a href="../../../tags/Docker.html"><div class="chip">Docker</div></a>
+			    <a href="../../../tags/JUnit.html"><div class="chip">JUnit</div></a>
+			    <a href="../../../tags/Proyectos.html"><div class="chip">Proyectos</div></a>
+			    <a href="../../../tags/tutorial.html"><div class="chip">tutorial</div></a>
+			    <a href="../../../tags/Spring Roo.html"><div class="chip">Spring Roo</div></a>
+			    <a href="../../../tags/Emulador.html"><div class="chip">Emulador</div></a>
+			    <a href="../../../tags/Markdown.html"><div class="chip">Markdown</div></a>
+			    <a href="../../../tags/log4j.html"><div class="chip">log4j</div></a>
+			    <a href="../../../tags/Logging.html"><div class="chip">Logging</div></a>
+			    <a href="../../../tags/Java.html"><div class="chip">Java</div></a>
+			    <a href="../../../tags/Hibernate.html"><div class="chip">Hibernate</div></a>
+			    <a href="../../../tags/slf4j.html"><div class="chip">slf4j</div></a>
+			    <a href="../../../tags/Heroku.html"><div class="chip">Heroku</div></a>
+			    <a href="../../../tags/Base de Datos.html"><div class="chip">Base de Datos</div></a>
+			    <a href="../../../tags/Problemas.html"><div class="chip">Problemas</div></a>
+			    <a href="../../../tags/Spring.html"><div class="chip">Spring</div></a>
+			    <a href="../../../tags/Date.html"><div class="chip">Date</div></a>
+			    <a href="../../../tags/Android.html"><div class="chip">Android</div></a>
+			    <a href="../../../tags/JBake.html"><div class="chip">JBake</div></a>
+			    <a href="../../../tags/Ruby on Rails.html"><div class="chip">Ruby on Rails</div></a>
+			    <a href="../../../tags/Git.html"><div class="chip">Git</div></a>
+			    <a href="../../../tags/Linux.html"><div class="chip">Linux</div></a>
+			    <a href="../../../tags/JustPlay.html"><div class="chip">JustPlay</div></a>
+			    <a href="../../../tags/Cloud.html"><div class="chip">Cloud</div></a>
+			    <a href="../../../tags/Wordpress.html"><div class="chip">Wordpress</div></a>
+			    <a href="../../../tags/logging.html"><div class="chip">logging</div></a>
+			    <a href="../../../tags/Programación.html"><div class="chip">Programación</div></a>
+			    <a href="../../../tags/Tools of the Trade.html"><div class="chip">Tools of the Trade</div></a>
+			    <a href="../../../tags/Amazon.html"><div class="chip">Amazon</div></a>
+			    <a href="../../../tags/SEO.html"><div class="chip">SEO</div></a>
+			    <a href="../../../tags/Intellij IDEA.html"><div class="chip">Intellij IDEA</div></a>
+	    </div>
+        <div class="col s2 right-align">
+            <a href="http://twitter.com/agustinventura" target="_blank" class="social-link white-text" ><i class="fa  fa-twitter  fa-3x" title="Twitter" aria-hidden="true"></i></a>
+            <a href="http://github.com/agustinventura" target="_blank" class="social-link white-text"><i class="fa  fa-github  fa-3x" title="Github" aria-hidden="true"></i></a>
+            <a href="https://www.linkedin.com/in/agustinventura" target="_blank" class="social-link white-text"><i class="fa  fa-linkedin  fa-3x" title="LinkedIn" aria-hidden="true"></i></a>
+        </div>
+      </div>
+      </div>
+      </div>
+      <div class="footer-copyright">
+            <div class="container">
+        <p class="center-align">&copy; 2016 | Mixed with <a class="footer-link white-text" href="http://materializecss.com/" target="_blank">Materialize</a> | Baked with <a <a class="footer-link white-text" href="http://jbake.org">JBake</a></p>
+            </div>
+          </div>
+    </footer>
+
+    <script async src="//cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
+		<script async src="//code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script async src="//cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js"></script>
+  </body>
+</html>

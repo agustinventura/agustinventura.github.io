@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8"/>
+    <title>Un poco de dinamismo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="AguasNegras, tecnología, programación y Java">
+    <meta name="author" content="Agustín Ventura">
+    <meta name="keywords" content="Programación, Java">
+    <meta name="generator" content="JBake">
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <link rel="stylesheet" href="../../../css/aguasnegras.css"/>
+    <link rel="shortcut icon" href="../../../favicon.ico">
+  </head>
+  <body>
+    <header>
+<nav class="light-blue darken-3">
+	<div class="container">
+		<div class="nav-wrapper">
+		      <a class="brand-logo" href="/"><span class="pageTitle">AguasNegras</span></a>
+			    <ul id="nav-mobile" class="right hide-on-med-and-down">
+			        <li><a href="../../../index.html">Inicio</a></li>
+			        <li><a href="../../../about.html">Acerca De</a></li>
+			        <li><a href="../../../feed.xml">Suscripci&oacute;n</a></li>
+			    </ul>
+		</div>
+	</div>
+</nav>
+    </header>
+<div class="container">
+<div class="row">
+<div class="col s12">
+		<h4 class="light-blue-text text-darken-1">Un poco de dinamismo</h4>
+		<div class="section">
+			20 febrero 2011
+		</div>
+		<div class="section">
+			<p>Siguiendo con el tutorial, ya sé añadir páginas y enrutarlas, va siendo hora de añadir algo de contenido dinámico a las páginas. Voy a hacer que el título cambie según la página en la que este. Y esto es lo que voy a chequear con TDD, es decir, que al solicitar /pages/home el título vale Home y que al solicitar /pages/about, el título vale About.<br />
+En rspec, quedaría algo así:</p>
+<pre><code class="language-prettyprint">
+describe &quot;GET 'home'&quot; do
+it &quot;should be successful&quot; do
+get 'home'
+response.should be_success
+end
+it &quot;should have the right title&quot; do
+get 'home'
+response.should have_selector(&quot;title&quot;,
+:content =&amp;gt; &quot;Home&quot;);
+end
+end
+
+</code></pre>
+<p>El segundo caso, obviamente hay que añadirlo a todas las definiciones. Por otra parte la línea clave es bastante obvia, el response debe contener una etiqueta HTML title que contenga &quot;Home&quot;, que contenga, es decir que si pongo &quot;This is my Home&quot; seguiría tirando... bueno, no esta mal.<br />
+Ejecuto</p>
+<pre><code class="language-prettyprint">
+case@aesir:~/RoR/proyectos/sample_app/spec$ rspec controllers/
+...
+Finished in 1.28 seconds
+6 examples, 3 failures
+
+</code></pre>
+<p>Eso es, mis 3 primeras pruebas siguen funcionando y las tres nuevas fallan, estoy en Red. Hora de ir a Green.<br />
+En primero lugar el tutorial me recomienda que borre el application.erb.html que hay en app/views/layouts, después de echarle un vistazo intuyo que será porque usa algo del estilo tiles o facelets para hacer un patrón composite sobre las páginas.<br />
+Borrado.<br />
+Ahora en el home.erb.html tengo que escribir todo el HTML. Completo. Esta clarísimo que el application.erb.html es para hacer de plantilla.<br />
+En fín, que escribo una página guarri y le pongo esto en title: &quot;Ruby on Rails Tutorial Sample App | Home&quot;.<br />
+Voy a pasar rspec a ver si ya estoy en Green. Efectivamente, dos fallos, las dos páginas que no son Home, hora de modificarlas.<br />
+Se modifican, añadiendo un contenido algo distinto para cada una y andando, ya tenemos las páginas listas. Pego un rails s y efectivamente en <a href="http://localhost:3000/pages/home">http://localhost:3000/pages/home</a> tengo el home, y las demás están en contact y en about.<br />
+Problemas:</p>
+<ul>
+	<li>Me he cargado toda la estructura de plantillas....</li>
+	<li>Poner el título en HTML plano a pelete tiene de dinámico lo mismo que un triciclo de vehículo...</li>
+</ul>
+<p>Lo primero que sugiere el tutorial es poner el título en el action de cada página mediante una variable de instancia. Las variables de instancia se definen especificando una @ delante del nombre (en este caso va a ser @title) y como característica fundamental tienen que toda variable de instancia creada en el action es expuesta automáticamente a la vista... El primer paso entonces es de Java old-school, el controlador pages_controller.rb queda así:</p>
+<pre><code class="language-prettyprint">class PagesController &amp;lt; ApplicationController
+def home
+@title = &quot;Home&quot;
+end
+def contact
+@title = &quot;Contact&quot;
+end
+
+</code></pre>
+<pre><code class="language-prettyprint"> def about
+@title = &quot;About&quot;
+end
+end
+
+</code></pre>
+<p>Y el title en las páginas quedaría así:</p>
+<pre><code class="language-prettyprint">
+Ruby on Rails Tutorial Sample App | &amp;lt;%=@title%&amp;gt;
+
+</code></pre>
+<p>¿Alguien dijo scriptlets? Pues a ésto se le llama Embedded Ruby ERb, de ahí la extensión de las páginas.<br />
+Y ahora por seguir el orden inverso, voy a crear la plantilla para aplicársela a todas las páginas...<br />
+Para ello hay que crear en views/layout un archivo llamado application.html..erb... oh, wait... :S al parecer el nombre es obligatorio, y el contenido es este:</p>
+<pre><code class="language-prettyprint">
+&amp;lt;!DOCTYPE html&amp;gt;
+&amp;lt;html&amp;gt;
+&amp;lt;head&amp;gt;
+&amp;lt;title&amp;gt;Ruby on Rails Tutorial Sample App | &amp;lt;%= @title %&amp;gt;&amp;lt;/title&amp;gt;
+&amp;lt;%= csrf_meta_tag %&amp;gt;
+&amp;lt;/head&amp;gt;
+&amp;lt;body&amp;gt;
+&amp;lt;%= yield %&amp;gt;
+&amp;lt;/body&amp;gt;
+&amp;lt;/html&amp;gt;
+
+</code></pre>
+<p>El csrf_meta_tag es código que se inserta para evitar <a href="http://en.wikipedia.org/wiki/Cross-site_request_forgery" target="_blank">CSRF</a>, y el yield es el que lleva el cuerpo de la página, todo se ejecuta a la hora de traducir el erb a html.<br />
+Y ahora le quito la basurilla a las demás páginas. rspec controllers/ y todo sigue en Green.<br />
+Con esto se da por terminado el capítulo, ahora hay que añadir a git, y hacer un merge:</p>
+<pre><code class="language-prettyprint">
+case@aesir:~/RoR/proyectos/sample_app$ git add .
+case@aesir:~/RoR/proyectos/sample_app$ git commit -m &quot;Se acabó la parte de páginas dinámicas y testing&quot;[static-pages 3baeab7] Se acabó la parte de páginas dinámicas y testing
+8 files changed, 82 insertions(+), 15 deletions(-)
+create mode 100644 app/controllers/pages_controller.rb
+create mode 100644 app/helpers/pages_helper.rb
+create mode 100644 app/views/pages/about.html.erb
+create mode 100644 spec/controllers/pages_controller_spec.rb
+case@aesir:~/RoR/proyectos/sample_app$ git checkout master
+Switched to branch 'master'
+case@aesir:~/RoR/proyectos/sample_app$ git merge static-pages
+Updating dd987a3..3baeab7
+Fast-forward
+app/controllers/pages_controller.rb       |   13 +++++++++
+app/helpers/pages_helper.rb               |    2 +
+app/views/layouts/application.html.erb    |   18 +++++--------
+app/views/pages/about.html.erb            |    7 +++++
+app/views/pages/contact.html.erb          |    5 +++
+app/views/pages/home.html.erb             |    6 ++++
+config/routes.rb                          |    5 +++
+spec/controllers/pages_controller_spec.rb |   41 +++++++++++++++++++++++++++++
+8 files changed, 86 insertions(+), 11 deletions(-)
+create mode 100644 app/controllers/pages_controller.rb
+create mode 100644 app/helpers/pages_helper.rb
+create mode 100644 app/views/pages/about.html.erb
+create mode 100644 app/views/pages/contact.html.erb
+create mode 100644 app/views/pages/home.html.erb
+create mode 100644 spec/controllers/pages_controller_spec.rb
+case@aesir:~/RoR/proyectos/sample_app$ rspec spec/
+......
+Finished in 0.51904 seconds
+6 examples, 0 failures
+case@aesir:~/RoR/proyectos/sample_app$ git push
+Counting objects: 38, done.
+Compressing objects: 100% (26/26), done.
+Writing objects: 100% (28/28), 2.79 KiB, done.
+Total 28 (delta 7), reused 0 (delta 0)
+To git@github.com:agustinventura/sample_app.git
+dd987a3..3baeab7  master -&amp;gt; master
+
+</code></pre>
+<p>Y bueno, ¿qué he hecho aquí? Pues básicamente, bichear con las vistas. He aprendido a utilizar el mecanismo de template de rails (aunque habría que ahondar, ver como hacer componentes, etc...) y a pasar variables a las páginas.<br />
+Ahora voy a hacer los ejercicios propuestos. En general son bastante sencillos.<br />
+El primero es repetir los pasos que ya hice al final del <a title="Comenzando el Testeo" href="http://aguasnegras.es/wp/?p=72" target="_blank">post anterior</a>, básicamente, modificar el pages_controller.rb, modificar el routes.rb y crear el Help.html.erb. Para ello, ya se sabe, primero los tests, después Red y después Green, así que toca modificar el pages_controller_spec.rb<br />
+Listo, bastante fácil.<br />
+El siguiente es modificar el fichero de pruebas para que concatene dos cadenas a la hora de chequear la validez del título. Es quizás más duro porque es Ruby a palo seco y mucho no entiendo, pero vamos, entiendo que la solución es algo como:</p>
+<pre><code class="language-prettyprint">
+before(:each) do
+    @base_title = &quot;Ruby on Rails Tutorial Sample App &quot;
+  end
+
+</code></pre>
+<p>Ejecuto y todo guay. No termino de entender muy bien eso del before(:each) do... pufff molaría más entender Ruby, pero digo yo que ya progresaré, por hoy ya esta bien.</p>
+
+		</div>
+<div class="col s12">
+<div id="disqus_thread"></div>
+<script>
+    var disqus_config = function () {
+        this.page.url = 'http://www.aguasnegras.es/blog/2011/02/20-Un+poco+de+dinamismo.html';
+        this.page.identifier = 'blog/2011/02/20-Un+poco+de+dinamismo.html';
+    };
+    (function() {
+        var d = document, s = d.createElement('script');
+        s.src = '//aguasnegras.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+</div>
+</div>
+</div>
+</div>
+    <footer class="page-footer light-blue darken-3">
+      <div class="container">
+        <div class="row">
+         <div class="col s5">
+			<h5><a href="../../../archive.html" class="white-text">Archivo</a></h5>
+			<p><a href="../../../archive.html" class="white-text">Todos los posts</a></p>
+	    </div>
+	    <div class="col s5">
+            <h5 class="white-text">Tags</h5>
+			    <a href="../../../tags/DDD.html"><div class="chip">DDD</div></a>
+			    <a href="../../../tags/Eclipse.html"><div class="chip">Eclipse</div></a>
+			    <a href="../../../tags/GitHub.html"><div class="chip">GitHub</div></a>
+			    <a href="../../../tags/PostgreSQL.html"><div class="chip">PostgreSQL</div></a>
+			    <a href="../../../tags/Time.html"><div class="chip">Time</div></a>
+			    <a href="../../../tags/SVQJUG.html"><div class="chip">SVQJUG</div></a>
+			    <a href="../../../tags/Minientrada.html"><div class="chip">Minientrada</div></a>
+			    <a href="../../../tags/WordPress.html"><div class="chip">WordPress</div></a>
+			    <a href="../../../tags/Docker.html"><div class="chip">Docker</div></a>
+			    <a href="../../../tags/JUnit.html"><div class="chip">JUnit</div></a>
+			    <a href="../../../tags/Proyectos.html"><div class="chip">Proyectos</div></a>
+			    <a href="../../../tags/tutorial.html"><div class="chip">tutorial</div></a>
+			    <a href="../../../tags/Spring Roo.html"><div class="chip">Spring Roo</div></a>
+			    <a href="../../../tags/Emulador.html"><div class="chip">Emulador</div></a>
+			    <a href="../../../tags/Markdown.html"><div class="chip">Markdown</div></a>
+			    <a href="../../../tags/log4j.html"><div class="chip">log4j</div></a>
+			    <a href="../../../tags/Logging.html"><div class="chip">Logging</div></a>
+			    <a href="../../../tags/Java.html"><div class="chip">Java</div></a>
+			    <a href="../../../tags/Hibernate.html"><div class="chip">Hibernate</div></a>
+			    <a href="../../../tags/slf4j.html"><div class="chip">slf4j</div></a>
+			    <a href="../../../tags/Heroku.html"><div class="chip">Heroku</div></a>
+			    <a href="../../../tags/Base de Datos.html"><div class="chip">Base de Datos</div></a>
+			    <a href="../../../tags/Problemas.html"><div class="chip">Problemas</div></a>
+			    <a href="../../../tags/Spring.html"><div class="chip">Spring</div></a>
+			    <a href="../../../tags/Date.html"><div class="chip">Date</div></a>
+			    <a href="../../../tags/Android.html"><div class="chip">Android</div></a>
+			    <a href="../../../tags/JBake.html"><div class="chip">JBake</div></a>
+			    <a href="../../../tags/Ruby on Rails.html"><div class="chip">Ruby on Rails</div></a>
+			    <a href="../../../tags/Git.html"><div class="chip">Git</div></a>
+			    <a href="../../../tags/Linux.html"><div class="chip">Linux</div></a>
+			    <a href="../../../tags/JustPlay.html"><div class="chip">JustPlay</div></a>
+			    <a href="../../../tags/Cloud.html"><div class="chip">Cloud</div></a>
+			    <a href="../../../tags/Wordpress.html"><div class="chip">Wordpress</div></a>
+			    <a href="../../../tags/logging.html"><div class="chip">logging</div></a>
+			    <a href="../../../tags/Programación.html"><div class="chip">Programación</div></a>
+			    <a href="../../../tags/Tools of the Trade.html"><div class="chip">Tools of the Trade</div></a>
+			    <a href="../../../tags/Amazon.html"><div class="chip">Amazon</div></a>
+			    <a href="../../../tags/SEO.html"><div class="chip">SEO</div></a>
+			    <a href="../../../tags/Intellij IDEA.html"><div class="chip">Intellij IDEA</div></a>
+	    </div>
+        <div class="col s2 right-align">
+            <a href="http://twitter.com/agustinventura" target="_blank" class="social-link white-text" ><i class="fa  fa-twitter  fa-3x" title="Twitter" aria-hidden="true"></i></a>
+            <a href="http://github.com/agustinventura" target="_blank" class="social-link white-text"><i class="fa  fa-github  fa-3x" title="Github" aria-hidden="true"></i></a>
+            <a href="https://www.linkedin.com/in/agustinventura" target="_blank" class="social-link white-text"><i class="fa  fa-linkedin  fa-3x" title="LinkedIn" aria-hidden="true"></i></a>
+        </div>
+      </div>
+      </div>
+      </div>
+      <div class="footer-copyright">
+            <div class="container">
+        <p class="center-align">&copy; 2016 | Mixed with <a class="footer-link white-text" href="http://materializecss.com/" target="_blank">Materialize</a> | Baked with <a <a class="footer-link white-text" href="http://jbake.org">JBake</a></p>
+            </div>
+          </div>
+    </footer>
+
+    <script async src="//cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
+		<script async src="//code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script async src="//cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js"></script>
+  </body>
+</html>
