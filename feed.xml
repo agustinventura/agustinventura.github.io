@@ -6,8 +6,8 @@
     <atom:link href="http://www.aguasnegras.es/feed.xml" rel="self" type="application/rss+xml" />
     <description>AguasNegras, tecnología, programación y Java</description>
     <language>es-es</language>
-    <pubDate>vie., 12 oct. 2018 14:24:54 +0200</pubDate>
-    <lastBuildDate>vie., 12 oct. 2018 14:24:54 +0200</lastBuildDate>
+    <pubDate>dom., 9 dic. 2018 16:49:01 +0100</pubDate>
+    <lastBuildDate>dom., 9 dic. 2018 16:49:01 +0100</lastBuildDate>
 
     <item>
       <title>SDKMAN</title>
@@ -2517,9 +2517,9 @@ public void run() {
     </item>
     <item>
       <title>CrankPlay, Service para reproducir sonido.</title>
-      <link>http://www.aguasnegras.es/blog/2012/04/06-CrankPlay%2C+Service+para+reproducir+sonido..html</link>
+      <link>http://www.aguasnegras.es/blog/2012/04/06-CrankPlay%2C+Service+para+reproducir+sonido.html</link>
       <pubDate>vie., 6 abr. 2012 00:00:00 +0200</pubDate>
-      <guid isPermaLink="false">blog/2012/04/06-CrankPlay%2C+Service+para+reproducir+sonido..html</guid>
+      <guid isPermaLink="false">blog/2012/04/06-CrankPlay%2C+Service+para+reproducir+sonido.html</guid>
       	<description>
 	&lt;p&gt;Siguiendo la &lt;a title=&quot;MusicDroid part II&quot; href=&quot;http://www.helloandroid.com/tutorials/musicdroid-audio-player-part-ii&quot; target=&quot;_blank&quot;&gt;segunda parte de MusicDroid&lt;/a&gt;, voy a hacer un Service (servicio) para reproducir la música. Para lo cual necesito primero definir claramente que es un Service.&lt;/p&gt;
 &lt;p&gt;Según la documentación &lt;a title=&quot;Service en Application Fundamentals&quot; href=&quot;http://developer.android.com/guide/topics/fundamentals.html#Components&quot; target=&quot;_blank&quot;&gt;oficial de Android&lt;/a&gt;, un Service es... bueno, es una chapa, vaya que un Service es un proceso en segundo plano sin interfaz de usuario y con el cual puede comunicarse cualquier otro componente o artefacto que viva en el ecosistema. La parte interesante es que esta comunicación es asíncrona y se hace por paso de mensajes (como todo en Android), así que cuidado con esta parte.&lt;/p&gt;
@@ -2579,9 +2579,9 @@ nm.notify(NOTIFY_ID, notification);
     </item>
     <item>
       <title>WordPress SEO, aspectos avanzados y conclusiones.</title>
-      <link>http://www.aguasnegras.es/blog/2012/04/05-WordPress+SEO%2C+aspectos+avanzados+y+conclusiones..html</link>
+      <link>http://www.aguasnegras.es/blog/2012/04/05-WordPress+SEO%2C+aspectos+avanzados+y+conclusiones.html</link>
       <pubDate>jue., 5 abr. 2012 00:00:00 +0200</pubDate>
-      <guid isPermaLink="false">blog/2012/04/05-WordPress+SEO%2C+aspectos+avanzados+y+conclusiones..html</guid>
+      <guid isPermaLink="false">blog/2012/04/05-WordPress+SEO%2C+aspectos+avanzados+y+conclusiones.html</guid>
       	<description>
 	&lt;p&gt;Sigo con &lt;a title=&quot;WordPress SEO Tutorial&quot; href=&quot;http://yoast.com/articles/wordpress-seo/&quot; target=&quot;_blank&quot;&gt;el artículo de Yoast&lt;/a&gt; sobre WordPress SEO.&lt;/p&gt;
 &lt;h6&gt;Optimizar las Descripciones&lt;/h6&gt;
@@ -2627,9 +2627,9 @@ nm.notify(NOTIFY_ID, notification);
     </item>
     <item>
       <title>WordPress SEO, Google Webmaster Tools y optimización de títulos.</title>
-      <link>http://www.aguasnegras.es/blog/2012/04/04-WordPress+SEO%2C+Google+Webmaster+Tools+y+optimizaci%C3%B3n+de+t%C3%ADtulos..html</link>
+      <link>http://www.aguasnegras.es/blog/2012/04/04-WordPress+SEO%2C+Google+Webmaster+Tools+y+optimizaci%C3%B3n+de+t%C3%ADtulos.html</link>
       <pubDate>mié., 4 abr. 2012 00:00:00 +0200</pubDate>
-      <guid isPermaLink="false">blog/2012/04/04-WordPress+SEO%2C+Google+Webmaster+Tools+y+optimizaci%C3%B3n+de+t%C3%ADtulos..html</guid>
+      <guid isPermaLink="false">blog/2012/04/04-WordPress+SEO%2C+Google+Webmaster+Tools+y+optimizaci%C3%B3n+de+t%C3%ADtulos.html</guid>
       	<description>
 	&lt;p&gt;Bueno, pues para darme un poco de visibilidad en Google, he instalado el &lt;a title=&quot;WordPress SEO plugin&quot; href=&quot;http://wordpress.org/extend/plugins/wordpress-seo/&quot; target=&quot;_blank&quot;&gt;plugin WordPress SEO&lt;/a&gt; y tiene un &lt;a title=&quot;WordPress SEO Tutorial&quot; href=&quot;http://yoast.com/articles/wordpress-seo/&quot; target=&quot;_blank&quot;&gt;estupendo artículo&lt;/a&gt; de acciones a realizar para utilizarlo, así que lo voy a seguir y voy a ir comentando.&lt;/p&gt;
 &lt;h6&gt;Entorno&lt;/h6&gt;
@@ -3675,9 +3675,9 @@ protected void onActivityResult(int requestCode, int resultCode, Intent intent) 
     </item>
     <item>
       <title>Git, EGit y GitHub.</title>
-      <link>http://www.aguasnegras.es/blog/2011/08/06-Git%2C+EGit+y+GitHub..html</link>
+      <link>http://www.aguasnegras.es/blog/2011/08/06-Git%2C+EGit+y+GitHub.html</link>
       <pubDate>sáb., 6 ago. 2011 00:00:00 +0200</pubDate>
-      <guid isPermaLink="false">blog/2011/08/06-Git%2C+EGit+y+GitHub..html</guid>
+      <guid isPermaLink="false">blog/2011/08/06-Git%2C+EGit+y+GitHub.html</guid>
       	<description>
 	&lt;p&gt;&lt;strong&gt;Introducción&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;Este tutorial pretende reflejar un ciclo de trabajo básico con Git, EGit y GitHub, crear un nuevo repositorio, añadir y borrar archivos y subir ese repositorio a GitHub. Si quieres saber que es un sistema de control de versiones, las diferencias entre un sistema de control de versiones centralizado y uno distribuido o por qué Git y no Mercurial o Bazaar, te recomiendo que le eches un vistazo a alguna de las referencias.&lt;/p&gt;
