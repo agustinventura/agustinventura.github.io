@@ -2,7 +2,7 @@
 <html lang="es">
   <head>
     <meta charset="utf-8"/>
-    <title>Bases de Datos para Desarrolladores Java - Introducción e Índices</title>
+    <title>Tizen Studio</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="AguasNegras, tecnología, programación y Java">
     <meta name="author" content="Agustín Ventura">
@@ -34,43 +34,49 @@
 <div class="container">
 <div class="row">
 <div class="col s12">
-		<h4 class="light-blue-text text-darken-1">Bases de Datos para Desarrolladores Java - Introducción e Índices</h4>
+		<h4 class="light-blue-text text-darken-1">Tizen Studio</h4>
 		<div class="section">
-			25 January 2011
+			27 December 2018
 		</div>
 		<div class="section">
-			<p>En general en una aplicación Java cualquiera los problemas empiezan desde abajo, con el diseño de la base de datos. He visto (y trabajo) con bases de datos en las que una tabla tiene 5 campos de primary key y uno solo de información. Que esto es un desperdicio se ve a simple vista. Después vienen los parches a nivel superior (en Java) y se termina yendo al infierno el rendimiento de la aplicación.<br />
-Lo bonito, y lo malo del diseño de base de datos es que no te terminas dando cuenta de que esta mal hasta que la aplicación esta avanzada, empieza a crecer y en ese momento es tarde para cambiarlo. Vamos, que es un infierno.</p>
-<p>Lo mejor de toda esta historia es que cada uno lo ve de su manera... efectivamente, para cada guía, suele haber una contraguía, así que vamos a ver si <strong>todo el que lea esto se anima a discutir lo que aquí digo.</strong> (gracias :))<br />
-En general hay una serie de guías que <strong>no </strong>te enseñan en la facultad, estas guías te las van dando la experiencia y el instinto (recordando siempre que hay gente que no aprende ni a palos y que además tiene el instinto atrofiado), pero hace tiempo que ví en Stack Overflow un <a title="Database development mistakes" href="http://stackoverflow.com/questions/621884/database-development-mistakes-made-by-application-developers" target="_blank">resumen bastante bueno</a> y descubrí también un sitio dedicado a tratar el tema en más profundidad, <a title="Use the Index, Luke" href="http://use-the-index-luke.com/" target="_blank">Use the Index, Luke</a>.</p>
-<p>Voy a ver si escribo un par de artículos tratando los temas que considero importantes o interesantes para un desarrollador Java. Por tanto, no voy a hablar de SQL (que también puede ser que las consultas estén mal construidas), ya que asumo que se usa un Hibernate o cualquier implementación de JPA, hecha por gente más lista que yo. Voy a hablar del diseño de la base de datos y la forma de sacarle el mayor partido posible a la misma.</p>
-<p>Un breve recordatorio de la teoría más esencial y fundamental para esto.</p>
-<ol>
-	<li>Base de Datos: Para mí es un conjunto de datos estructurado e interrelacionado. Punto. Para más detalles, la <a title="Base de Datos, Wikipedia." href="http://es.wikipedia.org/wiki/Base_de_datos" target="_blank">wikipedia</a>.</li>
-	<li>Índices: La información de la base de datos esta ordenada (estructurada) siguiendo unos determinados índices. Estos son implícitos (clave primaria) o explícitos (create index...). La utilidad se puede examinar pensando en una guía de teléfonos. La guía de teléfonos (en papel :P) se encuentra indexada por primer apellido. Sin embargo en una base de datos podemos indexar por primer apellido, segundo apellido, nombre o incluso número de teléfono, según nos sea conveniente. ¿Para qué es útil ésto? Para nada, excepto para flexibilizar el acceso a la información, lo que es lo mismo, poder buscar (más rápido, más eficientemente) por distintos criterios. Normalmente en la guía de teléfonos buscábamos por primer apellido, después por segundo apellido y por último, por nombre. En una aplicación normalmente se pide buscar por cualquiera de ellos o combinación.</li>
-	<li>Por último la dicotomía de siempre... memoria vs. ciclos (y potencialmente más memoria). Un índice es un <a title="Wikipedia, árbol binario" href="http://es.wikipedia.org/wiki/Arbol_binario" target="_blank">B-Tree</a> normalmente, por tanto mantenerlo ocupa espacio en disco y, naturalmente, hay que calcularlo y mantenerlo actualizado. Por tanto no puedo indexar todo lo que quiera o lo que me gustaría. En el ejemplo de la guía, es como si tuviéramos un tomo por cada uno de los criterios de ordenación (cosa que podríamos hacer, pero... buff..., ¿no?). Aparte la guía hay que hacerla nueva todos los años.</li>
-</ol>
-<p>Y aquí va la primera perla de sabiduría del artículo de Stack Overflow, uso apropiado de índices:</p>
-<ul>
-	<li>Las claves externas (fóraneas, o como se le diga en español) deben estar siempre indexadas.</li>
-	<li>Si se usa un campo en una cláusula <em>where</em> debería estar indexado.</li>
-	<li>En el caso anterior deberías plantearte tener índices de varias columnas  según las consultas que hagas.</li>
+			<p>A finales de 2017 participé en un concurso de Samsung llamado <a href="https://www.europe-samsung.com/smsdev/Home/Articulo/447">Dispositivos por Apps</a> y que, mediante el regalo de dispositivos pretende aumentar la presencia de aplicaciones en el market propio de Samsung (Galaxy Apps).<br />
+El caso fue que que en aquel momento hice tres aplicaciones para relojes Samsung (y sin tener uno, jaja) y me saqué un reloj Samsung Gear Sport. Las aplicaciones en cuestión eran las siguientes:<br />
+<ul></p>
+<li> [TabataTimer](https://github.com/agustinventura/TabataTimer): Un temporizador Tabata configurable, incluyendo número de rondas, duración del intervalo de trabajo y del intervalo de descanso.</li>
+<li> [DiceRoller](https://github.com/agustinventura/DiceRoller): Un tirador de dados, por si te pilla en una partidilla de algo y no tienes a mano los dados, pues puedes seleccionar el tipo de dados y el número y la aplicación los "tira" por tí.</li>
+<li> [SwimMonitor](https://github.com/agustinventura/SwimMonitor): La aplicación que creo que me quedó mejor de todas. Permite llevar el control de los largos que vas haciendo en la piscina y además revisar entrenamientos anteriores para poder compararlos.</li>
 </ul>
-<p>Eso es todo, de cosecha propia un par de recomendaciones:</p>
-<ul>
-	<li>Las claves primarias están siempre indexadas, no hace falta que se cree un índice sobre ellas (la guía de teléfonos YA viene indexada por apellidos y nombre).</li>
-	<li>No siempre debes tener un índice en un campo que se usa en un <em>where</em>, puede ser que solo lo uses en una consulta que se ejecuta raramente y no te compense, o cualquier otro motivo. Es decir, conoce cuando saltarte la regla.</li>
+Pues bien, ahora ha vuelto a salir la promoción y esta vez piden nada más y nada menos que seis aplicaciones, pero teniendo en cuenta que ya sé más o menos como funciona todo, creo que puedo sacarlas en las semanas que dan.
+<h2>Tizen Studio</h2>
+<p>Lo primero de todo es descargar el <a href="https://developer.tizen.org/development/tizen-studio/download">Tizen Studio</a> en su versión de Ubuntu. El instalador pide dos dependencias:<br />
+<ul></p>
+<li>libwebkitgtk-1.0-0: Que por fortuna se puede instalar con apt-get</li>
+<li>rpm2cpio: Que también se puede instalar por apt-get</li>
 </ul>
-<p>Poco más, a ver si se me van ocurriendo más cosas o alguien comenta algo.</p>
-<p><span style="font-size: small;"><span style="line-height: 24px;">P.D.: No, no aparezco en la guía de teléfonos, marqué la opción de no aparecer :)</span></span></p>
+<p>La instalación no tiene mucho más porque Tizen Studio es un Eclipse modificado.</p>
+<p><img src="/images/2018/12/01-Tizen_Studio.png" alt="Tizen Studio" /></p>
+<h2>Package Manager</h2>
+<p>Para instalar los distintos entornos de ejecución (y crear emuladores), hay que utilizar el Package Manager:</p>
+<p><img src="/images/2018/12/02-Package_Manager.png" alt="Package Manager" /></p>
+<p>En mi caso, repasando la paquetería disponible para wearables y web app development me llevo la grata sorpresa de que solo hay que instalar los emuladores. Repasando el Gear Sport, veo que la versión de Tizen que trae es la 3.0.0.2 y el Tizen Studio me ofrece hasta la 5, así que yo que sé, voy a instalar los emuladores de la 4 y la 5 y hago las aplicaciones de 3 para arriba.<br />
+Al darle a instalar me ha pedido una serie de paquetes extra del sistema operativo, en concreto:<br />
+<ul></p>
+<li>libpng12-0</li>
+<li>libsdl1.2debian</li>
+<li>bridge-utils</li>
+<li>openvpn</li>
+</ul>
+Y resulta que la primera no esta, así que toca buscar por Google y resulta que hay que [instalarla a mano](https://askubuntu.com/questions/840257/e-package-libpng12-0-has-no-installation-candidate-ubuntu-16-10-gnome)
+<p>Bueno, pues tras ésto ya se puede instalar tranquilamente y ya tenemos nuestros emuladores.</p>
+<p><img src="/images/2018/12/03-Tizen_Emulator.png" alt="Tizen Emulators" /></p>
 
 		</div>
 <div class="col s12">
 <div id="disqus_thread"></div>
 <script>
     var disqus_config = function () {
-        this.page.url = 'http://www.aguasnegras.es/blog/2011/01/25-Bases+de+Datos+para+Desarrolladores+Java+-+Introducci%C3%B3n+e+%C3%8Dndices.html';
-        this.page.identifier = 'blog/2011/01/25-Bases+de+Datos+para+Desarrolladores+Java+-+Introducci%C3%B3n+e+%C3%8Dndices.html';
+        this.page.url = 'http://www.aguasnegras.es/blog/2018/12/27-Tizen_Studio.html';
+        this.page.identifier = 'blog/2018/12/27-Tizen_Studio.html';
     };
     (function() {
         var d = document, s = d.createElement('script');
