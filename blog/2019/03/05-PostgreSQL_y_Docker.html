@@ -2,7 +2,7 @@
 <html lang="es">
   <head>
     <meta charset="utf-8"/>
-    <title>Bases de Datos para Desarrolladores Java - Claves Primarias Artificiales</title>
+    <title>PostgreSQL en Docker</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="AguasNegras, tecnología, programación y Java">
     <meta name="author" content="Agustín Ventura">
@@ -34,28 +34,59 @@
 <div class="container">
 <div class="row">
 <div class="col s12">
-		<h4 class="light-blue-text text-darken-1">Bases de Datos para Desarrolladores Java - Claves Primarias Artificiales</h4>
+		<h4 class="light-blue-text text-darken-1">PostgreSQL en Docker</h4>
 		<div class="section">
-			27 junio 2011
+			05 marzo 2019
 		</div>
 		<div class="section">
-			<p>La teoría pura y dura de base de datos dice que para una entidad determinada, tendremos varias claves candidatas, que son aquellas que identifican únicamente a la entidad y la clave primaria se escoge de entre ellas como la menor.<br />
-Para un usuario podemos tener como claves candidatas: DNI, nombre de usuario, nombre y apellidos. Nombre y apellidos se descarta (por larga) y ya tenemos que escoger entre DNI y nombre de usuario. A gusto.</p>
-<p>El problema de esto es cuando vamos arrastrando relaciones. Por ejemplo, un post podría tener como clave primaria su título, y un comentario el título y el autor, ¿verdad?</p>
-<p>¿Qué pasa si cambia el título? Pues que hay que modificar también sus referencias. ¿Y si cambia el usuario que escribió el comentario?¿Debemos dejar que un usuario modifique su nombre? Habría que usar un &quot;ON UPDATE CASCADE&quot; o algún artefacto similar.</p>
-<p>¿Y sí en vez de esto cada tabla tiene un identificador único artificial? Un número autogenerado que identifique unívocamente cada una de las filas en la base de datos. La mayoría de bases de datos tienen algún sistema para gestionar esto, en MySQL existen los auto_increment, en Oracle los sequence, etc... En caso de que no haya, siempre se puede utilizar una tabla para generarlos.</p>
-<p>Las ventajas son claras, si el post tiene un identificador 135 y el usuario un identificador 7, el identificador del comentario será (135, 7). El usuario se podrá cambiar el nombre tantas veces como desee sin afectar al resto de los datos, e incluso el post podrá cambiar de título sin más. Y ya en ello, ¿no sería mejor que el comentario tuviera su propio id único? Imaginemos por ejemplo que un comentario contesta a otro, si el id del comentario fuera (135, 7), la clave externa sobre la tabla tendría que tener dos campos (por ejemplo, id_post_comentario_respuesta, id_usuario_comentario_respuesta), con un id único, basta con uno solo (id_comentario_respuesta).</p>
-<p>Como todo, esta solución tiene críticas. La más importante es que la base de datos deja de estar en <a title="Primera Forma Normal" href="http://es.wikipedia.org/wiki/1NF" target="_blank">Primera Forma Normal</a>, es decir, puedo tener dos veces al mismo usuario, Agustín con Id 2 y Agustín de nuevo con Id 3, y por tanto tengo que introducir algún otro artificio, como que &quot;la que sería clave primaria&quot;, ahora relegada a clave candidata, sea unique.</p>
-<p>Esto me obliga a incluir una segunda declaración de índice, etc... En el <a title="Claves Primarias Artificiales en la Wikipedia" href="http://en.wikipedia.org/wiki/Surrogate_key" target="_blank">artículo de la wikipedia</a> se pueden consultar más detalles (en inglés, lo siento).</p>
-<p>En general, en mi experiencia, suele ser más que conveniente tenerlo,  ya que nunca sabes cuanto puede crecer la base de datos y en consecuencia cada vez vas teniendo más &quot;sucio&quot; el esquema de base de datos, arrastrando claves primarias compuestas y los &quot;on update cascade&quot;, o te ves forzado a impedir que el usuario cambie su nombre, y otros tipos de restricciones absurdas.</p>
+			<p>Una de las ventajas de <a href="https://www.aguasnegras.es/blog/2017/05/14-comenzando-con-docker.html">Docker</a> es que te aisla del problema de tener que instalar el software que necesitas para desarrollar.<br />
+La encapsulación en contenedores no es solo una ventaja para los pasos a producción y la <a href="https://en.wikipedia.org/wiki/Infrastructure_as_code">infraestructura como código</a> sino que lo es, especialmente en entornos de desarrollo.<br />
+En muchas ocasiones instalas una base de datos o una cola de mensajes y ajustando la configuración te la terminas cargando y tienes que volver a crearla. La ventaja de Docker es que parte de esa premisa, se asume que te vas a cargar el sistema... y que no pasa nada. Y seamos sinceros, esto es muy frecuente que pase en los entornos de desarrollo (para eso estan).<br />
+Si bien hay tareas que son relativamente sencillas como instalar un <a href="https://www.postgresql.org/">PostgreSQL</a> que se puede hacer a tiro de apt, con Docker es MUCHO más sencillo y además tiene la ventaja de que si te cansas, puedes eliminar los contenedores y las imágenes y no has tocado tu sistema.</p>
+<h2>PostgreSQL en Docker</h2>
+<p>Lo primero es traer la imagen de <a href="https://hub.docker.com/_/postgres">PostgreSQL</a>, que es la plantilla a partir de la cual se crea el contenedor en concreto:</p>
+<pre><code class="language-prettyprint">docker pull postgres
+</code></pre>
+<p>Con esto ya se puede arrancar un contenedor tal y como indican en la misma documentación de la imagen:</p>
+<pre><code class="language-prettyprint">docker run --name mi-postgres -e POSTGRES_PASSWORD=mysecretpassword -d postgres
+</code></pre>
+<p>Esto funciona y lo que hace es crear un contenedor llamado &quot;mi-postgres&quot; que va a correr en background (-d) y la contraseña de la base de datos va a ser &quot;mysecretpassword&quot;.</p>
+<h2>Conectarse</h2>
+<p>Para verificar que funciona, se puede crear un contenedor temporal que se conecte a la base de datos con el mismo cliente psql.</p>
+<p>Primero tengo que saber la ip de mi contenedor:</p>
+<pre><code class="language-prettyprint">docker inspect --format='{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' pg-rx
+</code></pre>
+<p>Supongamos que esto devuelve 172.17.0.2 ahora creo un contenedor temporal que lanza el psql usando la ip para conectar:</p>
+<pre><code class="language-prettyprint">docker run -it --rm --name psql postgres psql -h 172.17.0.2 -U postgres
+</code></pre>
+<p>Con -it se indica a Docker que cree una sesión interactiva y con --rm que al cerrar la sesión se destruya el contenedor. La última parte indica que lo cree a partir de la imagen postgres y que lance el comando psql al host 172.17.0.2 con el usuario postgres. Pedirá la contraseña del usuario &quot;posgres&quot; que será &quot;secretpassword&quot;.</p>
+<h2>Persistiendo los datos</h2>
+<p>Hasta aquí muy bien, pero hay dos problemas:</p>
+<ol>
+<li>Que solo se puede conectar desde otro contenedor ya que el puerto que usa PostgreSQL por defecto solo es accesible a través de la red interna que crea Docker para los contenedores.</li>
+<li>Que si por lo que sea el contenedor se destruye, se pierden los datos ya que estan en su interior. Esto en un entorno de integración continua me puede dar igual ya que alguna herramienta automatizaría el recuperarlos, pero lo cierto es que tampoco cuesta solucionarlo guardándolo en un directorio del host.</li>
+</ol>
+<p>Soluciones:</p>
+<ol>
+<li>Exponer el puerto 5432 en el host.</li>
+<li>Utilizar un databind a una carpeta en el host. Se podría utilizar un volume, de hecho es lo recomendado pero como la solución mas habitual que se suele ver es el databind, pues databind.</li>
+</ol>
+<p>Primero se crea el directorio para guardar los datos, algo así:</p>
+<pre><code class="language-prettyprint">mkdir -p $HOME/docker/volumes/pgsql
+</code></pre>
+<p>Y se crea un contenedor nuevo:</p>
+<pre><code class="language-prettyprint">docker run --name pg -e POSTGRES_PASSWORD=docker -d -p 5432:5432 -v $HOME/docker/volumes/pgsql/:/var/lib/postgresql/data postgres
+</code></pre>
+<p>Cosas nuevas: con el -p se le indica que el puerto &quot;5432&quot; del host (el primer puerto) lo mapee al &quot;5432&quot; del contenedor (el segundo) y con -v que la carpeta creada anteriormente la mapee a la carpeta &quot;/var/lib/postgresql/data&quot;. Ojo con esto que si pones otro directorio falla el arranque del contenedor.</p>
+<p>Pues ya esta, ahora puedo utilizar una herramienta en mi host como DBeaver para conectar con el PostgreSQL del contenedor y además si por lo que sea hay que cargarse el contenedor, los datos persisten (mientras siga la carpeta, claro).</p>
 
 		</div>
 <div class="col s12">
 <div id="disqus_thread"></div>
 <script>
     var disqus_config = function () {
-        this.page.url = 'http://www.aguasnegras.es/blog/2011/06/27-Bases+de+Datos+para+Desarrolladores+Java+-+Claves+Primarias+Artificiales.html';
-        this.page.identifier = 'blog/2011/06/27-Bases+de+Datos+para+Desarrolladores+Java+-+Claves+Primarias+Artificiales.html';
+        this.page.url = 'http://www.aguasnegras.es/blog/2019/03/05-PostgreSQL_y_Docker.html';
+        this.page.identifier = 'blog/2019/03/05-PostgreSQL_y_Docker.html';
     };
     (function() {
         var d = document, s = d.createElement('script');
