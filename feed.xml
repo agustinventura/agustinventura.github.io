@@ -6,8 +6,8 @@
     <atom:link href="http://www.aguasnegras.es/feed.xml" rel="self" type="application/rss+xml" />
     <description>AguasNegras, tecnología, programación y Java</description>
     <language>es-es</language>
-    <pubDate>jue., 7 mar. 2019 21:10:02 +0100</pubDate>
-    <lastBuildDate>jue., 7 mar. 2019 21:10:02 +0100</lastBuildDate>
+    <pubDate>jue., 7 mar. 2019 21:13:32 +0100</pubDate>
+    <lastBuildDate>jue., 7 mar. 2019 21:13:32 +0100</lastBuildDate>
 
     <item>
       <title>Docker y almacenamiento: Como cambiar el directorio de las imágenes y contenedores</title>
@@ -29,7 +29,7 @@
 &lt;pre&gt;&lt;code class=&quot;language-prettyprint&quot;&gt;docker container ls -s
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;El contenedor ocupa apenas 471 Mb. Nada mal, ¿eh?&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;/images/2019/03/07/docker-image-ls.png&quot; alt=&quot;docker container ls -s&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/images/2019/03/07/docker-container-ls-s.png&quot; alt=&quot;docker container ls -s&quot; /&gt;&lt;/p&gt;
 &lt;p&gt;Sin embargo, hay veces en que estamos limitados en espacio. Por ejemplo, yo tengo un SSD, compartido con Windows 10 (aunque no sé para qué si lo arranco de higos a brevas) y además en mi Ubuntu tengo dos particiones, una para / con 28 Gb y otra para /home con 59 Gb.&lt;/p&gt;
 &lt;p&gt;&lt;img src=&quot;/images/2019/03/07/df-h-grep-sda.png&quot; alt=&quot;df -h | grep sda&quot; /&gt;&lt;/p&gt;
 &lt;p&gt;Entonces no me interesa guardar las imágenes y los contenedores en / ya que me lo llenaría (sobre todo en este caso que Oracle es más bien glotón), por lo que me interesa cambiar el directorio en el que Docker guarda los datos.&lt;/p&gt;
