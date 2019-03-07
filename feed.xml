@@ -6,9 +6,49 @@
     <atom:link href="http://www.aguasnegras.es/feed.xml" rel="self" type="application/rss+xml" />
     <description>AguasNegras, tecnología, programación y Java</description>
     <language>es-es</language>
-    <pubDate>mar., 5 mar. 2019 19:35:36 +0100</pubDate>
-    <lastBuildDate>mar., 5 mar. 2019 19:35:36 +0100</lastBuildDate>
+    <pubDate>jue., 7 mar. 2019 21:10:02 +0100</pubDate>
+    <lastBuildDate>jue., 7 mar. 2019 21:10:02 +0100</lastBuildDate>
 
+    <item>
+      <title>Docker y almacenamiento: Como cambiar el directorio de las imágenes y contenedores</title>
+      <link>http://www.aguasnegras.es/blog/2019/03/07-Docker_y_almacenamiento.html</link>
+      <pubDate>jue., 7 mar. 2019 00:00:00 +0100</pubDate>
+      <guid isPermaLink="false">blog/2019/03/07-Docker_y_almacenamiento.html</guid>
+      	<description>
+	&lt;p&gt;Los contenedores no solo tienen la ventaja de ser entornos aislados sino que además ocupan muy poco espacio en disco. Esto se debe a varias causas:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;No tienen el sistema operativo al completo (como una máquina virtual) lo cual ya de por sí es un ahorro de espacio.&lt;/li&gt;
+&lt;li&gt;El proceso de tener una imagen e ir &amp;quot;instanciando&amp;quot; contenedor no ocupa tanto como podríamos esperar (tamaño de imagen x contenedores) gracias a &lt;a href=&quot;https://stackoverflow.com/questions/32775594/why-does-docker-need-a-union-file-system&quot;&gt;UnionFS&lt;/a&gt;, ya que solo se cambian los cambios de cada contenedor en particular.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Esto esta de maravilla y por ejemplo, hoy he montado un &lt;a href=&quot;https://github.com/fuzziebrain/docker-oracle-xe&quot;&gt;Oracle XE en un contenedor&lt;/a&gt; para lo que he tenido que hacer mi propia imagen. Si hago&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-prettyprint&quot;&gt;docker image ls
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Puedo ver que la imagen de Oracle Linux sobre la que se monta mi imagen de Oracle XE pesa 117 Mb y la imagen de Oracle XE 8,76 Gb.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/images/2019/03/07/docker-image-ls.png&quot; alt=&quot;docker image ls&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;Si ahora miro el tamaño del contenedor con&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-prettyprint&quot;&gt;docker container ls -s
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;El contenedor ocupa apenas 471 Mb. Nada mal, ¿eh?&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/images/2019/03/07/docker-image-ls.png&quot; alt=&quot;docker container ls -s&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;Sin embargo, hay veces en que estamos limitados en espacio. Por ejemplo, yo tengo un SSD, compartido con Windows 10 (aunque no sé para qué si lo arranco de higos a brevas) y además en mi Ubuntu tengo dos particiones, una para / con 28 Gb y otra para /home con 59 Gb.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/images/2019/03/07/df-h-grep-sda.png&quot; alt=&quot;df -h | grep sda&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;Entonces no me interesa guardar las imágenes y los contenedores en / ya que me lo llenaría (sobre todo en este caso que Oracle es más bien glotón), por lo que me interesa cambiar el directorio en el que Docker guarda los datos.&lt;/p&gt;
+&lt;h2&gt;Moviendo el directorio de datos de Docker&lt;/h2&gt;
+&lt;p&gt;Buscando un poco en mi caso concreto, Ubuntu, he llegado a &lt;a href=&quot;https://askubuntu.com/questions/631450/change-data-directory-of-docker&quot;&gt;esta guía&lt;/a&gt; que lamentablemente esta obsoleta. En todo caso propone hacer un symlink, cosa que siempre debe funcionar, pero no me parece muy limpia.&lt;/p&gt;
+&lt;p&gt;Si miro el archivo que citan en esa solución (&amp;quot;/etc/default/docker&amp;quot;) se dice que el archivo no aplica para systemd... que es lo que usa Ubuntu (después de abandonar upstart...), pero dan un &lt;a href=&quot;https://docs.docker.com/engine/admin/systemd/&quot;&gt;enlace a la documentación&lt;/a&gt; en el mismo archivo que tiene la clave: el archivo &lt;a href=&quot;https://docs.docker.com/engine/reference/commandline/dockerd//#daemon-configuration-file&quot;&gt;daemon.json&lt;/a&gt; que permite configurar el demonio de Docker.&lt;/p&gt;
+&lt;p&gt;Así que dicho y hecho, basta con irse a /etc/docker y crear el archivo daemon.json si no existe y poner ahí el directorio que quiera, por ejemplo:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-prettyprint&quot;&gt;{
+	&amp;quot;data-root&amp;quot;: &amp;quot;/home/agustin/Development/Docker/data&amp;quot;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Y ahora, obviamente, toca bajar y volver a subir el servicio:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-prettyprint&quot;&gt;sudo service docker stop
+sudo service docker start
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Y listo, a partir de ahora no solo las imágenes, sino los datos de contenedores, volúmenes, etc... me los guardará en ese directorio (que al estar en /home es otra partición distinta de /).&lt;/p&gt;
+
+	</description>
+    </item>
     <item>
       <title>PostgreSQL en Docker</title>
       <link>http://www.aguasnegras.es/blog/2019/03/05-PostgreSQL_y_Docker.html</link>
