@@ -2,7 +2,7 @@
 <html lang="es">
   <head>
     <meta charset="utf-8"/>
-    <title>Redimensionar el emulador de Android</title>
+    <title>Copia de Seguridad de PostgreSQL en Docker</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="AguasNegras, tecnología, programación y Java">
     <meta name="author" content="Agustín Ventura">
@@ -34,29 +34,33 @@
 <div class="container">
 <div class="row">
 <div class="col s12">
-		<h4 class="light-blue-text text-darken-1">Redimensionar el emulador de Android</h4>
+		<h4 class="light-blue-text text-darken-1">Copia de Seguridad de PostgreSQL en Docker</h4>
 		<div class="section">
-			28 junio 2011
+			16 marzo 2019
 		</div>
 		<div class="section">
-			<p>Nota mental:</p>
-<p>Para redimensionar la ventana del emulador de android en Eclipse:</p>
-<ol>
-	<li>Run &gt; Run Configurations &gt; Pestaña Target</li>
-	<li>En Additional Emulator Command Line Options: -scale .75</li>
-	<li>Apply</li>
-</ol>
-<p>Listo</p>
-<p><a href="/images/2011/06/Pantallazo-Run-Configurations-.png"><img class="aligncenter size-medium wp-image-117" title="Parámetro scale emulador de Android" src="/images/2011/06/Pantallazo-Run-Configurations--300x238.png" alt="" width="300" height="238" /></a></p>
-<p> </p>
+			<p>Creo que en los últimos posts ha quedado bien claro las ventajas de Docker, sobre todo en un entorno de desarrollo donde nos permite provisionar rápidamente software que antes era más o menos costoso de instalar, <a href="https://www.aguasnegras.es/blog/2019/03/05-PostgreSQL_y_Docker.html">como una base de datos</a> y también ha quedado claro que Docker es una herramienta super flexible, tanto que podemos escoger hasta cual deseamos que sea su directorio de trabajo a través de la <a href="https://www.aguasnegras.es/blog/2019/03/07-Docker_y_almacenamiento.html">configuración</a>.</p>
+<p>Sin embargo hay un apartado que no he tocado. Al hablar de infraestructura inmutable comenté como montar el volumen de datos de PostgreSQL con un data bind para que aunque destruyera el contenedor los datos persistieran y pudiera crear un contenedor nuevo para acceder a esos datos. Esta política es muy buena para destruir y recrear contenedores, pero claro, los datos siguen estando en el mismo ordenador, el host, ¿qué pasa si este se estropea?<br />
+Es decir, creo que no hay que confundir la disponibilidad de los datos para la infraestructura con una buena copia de seguridad de toda la vida.</p>
+<h2>Copia de Seguridad de PostgreSQL</h2>
+<p>En PostgreSQL la copia de seguridad se realiza con una herramienta llamada <a href="https://www.postgresql.org/docs/11/app-pgdump.html">pg_dump</a>. Esta herramienta me permite exportar los datos en formato inserts de SQL (por defecto) o en formato propietario si es una gran cantidad de datos.</p>
+<p>Pero, si entramos en nuestro contenedor y lanzamos este pg_dump generando un archivo con la copia de seguridad... ¿cómo lo paso a mi host para moverlo a la nube o a dónde sea? Hay que tener en cuenta que el único volumen que esta montado es el de los datos, podría crear ahí una carpeta y meter la copia de seguridad, pero seamos sinceros, eso es una guarrada. ¿Entonces?</p>
+<p>Contenedor temporal al rescate. El comando pg_dump se puede utilizar en remoto, luego hipotéticamente puedo crear un contenedor en el cual montar un volumen donde haré la copia de seguridad y lanzar desde ese contenedor el pg_dump sobre el contenedor de PostgreSQL. Dicho y hecho:</p>
+<pre><code class="language-prettyprint">docker run --rm --name pg-backup -v /home/agustin/Development/Docker/volumes/pg-backup/:/media/backup -e PGPASSWORD=docker postgres pg_dump -h 172.17.0.3 -U postgres -Fc mi-base-de-datos -f /media/backup/mi-backup
+</code></pre>
+<p>Creo un contenedor temporal (--rm) en el que montaré un directorio de mi máquina en el directorio /media/backup y le paso como variable de entorno PGPASSWORD, de esta manera al lanzar pg_dump utilizará este valor como contraseña, y ya por último uso pg_dump para realizar el volcado.</p>
+<p>Y qué mejor manera para probar que la copia ha ido bien que restaurarla. Se puede hacer de manera equivalente a lo de arriba pero usando pg_restore:</p>
+<pre><code class="language-prettyprint">docker run --rm --name pg-restore -v /home/agustin/Development/Docker/volumes/pg-backup/:/media/backup -e PGPASSWORD=docker postgres pg_restore -h 172.17.0.4 -U postgres -d mi-base-de-datos /media/backup/mi-backup
+</code></pre>
+<p>Ojo aquí que esto solo restaura la base de datos como tal, no el usuario, así que si mi-base-de-datos es un schema perteneciente a mi-usuario, se complica algo más, ya que habría que crear primero el rol mi-usuario, pero bueno, sirve para probar que la copia ha ido bien y con el --rm se elimina el contenedor al terminar la ejecución.</p>
 
 		</div>
 <div class="col s12">
 <div id="disqus_thread"></div>
 <script>
     var disqus_config = function () {
-        this.page.url = 'http://www.aguasnegras.es/blog/2011/06/28-Redimensionar+el+emulador+de+Android.html';
-        this.page.identifier = 'blog/2011/06/28-Redimensionar+el+emulador+de+Android.html';
+        this.page.url = 'http://www.aguasnegras.es/blog/2019/03/16-Copia_Seguridad_postgreSQL_Docker.html';
+        this.page.identifier = 'blog/2019/03/16-Copia_Seguridad_postgreSQL_Docker.html';
     };
     (function() {
         var d = document, s = d.createElement('script');
@@ -80,9 +84,9 @@
 	    <div class="col s5">
             <h5 class="white-text">Tags</h5>
 			    <a href="../../../tags/DDD.html"><div class="chip">DDD</div></a>
-			    <a href="../../../tags/PostgreSQL.html"><div class="chip">PostgreSQL</div></a>
 			    <a href="../../../tags/Eclipse.html"><div class="chip">Eclipse</div></a>
 			    <a href="../../../tags/GitHub.html"><div class="chip">GitHub</div></a>
+			    <a href="../../../tags/PostgreSQL.html"><div class="chip">PostgreSQL</div></a>
 			    <a href="../../../tags/Time.html"><div class="chip">Time</div></a>
 			    <a href="../../../tags/SVQJUG.html"><div class="chip">SVQJUG</div></a>
 			    <a href="../../../tags/Minientrada.html"><div class="chip">Minientrada</div></a>
