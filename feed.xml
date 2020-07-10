@@ -6,13 +6,44 @@
     <atom:link href="http://www.aguasnegras.es/feed.xml" rel="self" type="application/rss+xml" />
     <description>AguasNegras, tecnología, programación y Java</description>
     <language>es-es</language>
-    <pubDate>dom., 17 mar. 2019 19:05:51 +0100</pubDate>
-    <lastBuildDate>dom., 17 mar. 2019 19:05:51 +0100</lastBuildDate>
+    <pubDate>vie, 10 jul 2020 12:49:33 +0200</pubDate>
+    <lastBuildDate>vie, 10 jul 2020 12:49:33 +0200</lastBuildDate>
 
+    <item>
+      <title>Gestión de Credenciales de Git en Ubuntu Linux</title>
+      <link>http://www.aguasnegras.es/blog/2020/07/10-Credenciales_git_libsecret.html</link>
+      <pubDate>vie, 10 jul 2020 00:00:00 +0200</pubDate>
+      <guid isPermaLink="false">blog/2020/07/10-Credenciales_git_libsecret.html</guid>
+      	<description>
+	&lt;p&gt;Últimamente he tenido que provisionar dos equipos nuevos (en casa y en el trabajo) y parte del proceso es instalar Git para acceder a los distintos repositorios (como el de este blog).&lt;/p&gt;
+&lt;p&gt;El acceso a un repositorio remoto de Git se puede hacer de dos maneras:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;a href=&quot;https://git-scm.com/book/en/v2/Git-on-the-Server-Generating-Your-SSH-Public-Key&quot;&gt;Por cruce de clave SSH&lt;/a&gt;: De lejos el más cómodo y mejor una vez configurado. Generas un clave en tu equipo, subes la parte pública a GitHub, GitLab, etc... y a volar. El problema es que es harto tedioso.&lt;/li&gt;
+&lt;li&gt;Mediante HTTPS: Cada vez que operemos sobre el repositorio remoto será como acceder a una página web y nos pedirá usuario y contraseña (credenciales). Este sistema es el más sencillo, pero dado el número de operaciones que puedes hacer en un rato sobre un remoto resulta muy tedioso estar introduciendo usuario y contraseña continuamente.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Ahí entra el concepto de &lt;a href=&quot;https://git-scm.com/docs/gitcredentials&quot;&gt;Credential Helper&lt;/a&gt;, habiendo a su vez varias opciones:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;a href=&quot;https://git-scm.com/docs/git-credential-cache&quot;&gt;Cache&lt;/a&gt;: Almacena las credenciales en memoria durante un tiempo determinado (900 sgs por defecto).&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://git-scm.com/docs/git-credential-store&quot;&gt;Store&lt;/a&gt;: Los almacena en un fichero... &lt;em&gt;en texto plano&lt;/em&gt;. No es plan.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;La solución idónea pasa por utilizar el &lt;a href=&quot;https://askubuntu.com/questions/32164/what-does-a-keyring-do&quot;&gt;Keyring&lt;/a&gt; del sistema operativo para guardar las credenciales cifradas y afortunadamente esto es bastante sencillo de hacer gracias al proyecto &lt;a href=&quot;https://wiki.gnome.org/Projects/Libsecret&quot;&gt;Libsecret&lt;/a&gt; de GNOME. La instalación es bien sencilla:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-prettyprint&quot;&gt;sudo apt-get install libsecret-1-0 libsecret-1-dev
+cd /usr/share/doc/git/contrib/credential/libsecret
+sudo make
+git config --global credential.helper /usr/share/doc/git/contrib/credential/libsecret/git-credential-libsecret
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Con apt-get se instala libsecret pero en formato fuente, por lo que hace falta ir al directorio de instalación y compilarlo (make). A partir de ahora nos pedirá las credenciales del repositorio tan solo en dos ocasiones:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Cuando sea la primera vez que accedemos.&lt;/li&gt;
+&lt;li&gt;Cuando hayan cambiado.&lt;/li&gt;
+&lt;/ol&gt;
+
+	</description>
+    </item>
     <item>
       <title>Copia de Seguridad de PostgreSQL en Docker</title>
       <link>http://www.aguasnegras.es/blog/2019/03/16-Copia_Seguridad_postgreSQL_Docker.html</link>
-      <pubDate>sáb., 16 mar. 2019 00:00:00 +0100</pubDate>
+      <pubDate>sáb, 16 mar 2019 00:00:00 +0100</pubDate>
       <guid isPermaLink="false">blog/2019/03/16-Copia_Seguridad_postgreSQL_Docker.html</guid>
       	<description>
 	&lt;p&gt;Creo que en los últimos posts ha quedado bien claro las ventajas de Docker, sobre todo en un entorno de desarrollo donde nos permite provisionar rápidamente software que antes era más o menos costoso de instalar, &lt;a href=&quot;https://www.aguasnegras.es/blog/2019/03/05-PostgreSQL_y_Docker.html&quot;&gt;como una base de datos&lt;/a&gt; y también ha quedado claro que Docker es una herramienta super flexible, tanto que podemos escoger hasta cual deseamos que sea su directorio de trabajo a través de la &lt;a href=&quot;https://www.aguasnegras.es/blog/2019/03/07-Docker_y_almacenamiento.html&quot;&gt;configuración&lt;/a&gt;.&lt;/p&gt;
@@ -37,7 +68,7 @@ pg_restore -h 172.17.0.4 -U postgres -d mi-base-de-datos /media/backup/mi-backup
     <item>
       <title>Docker y almacenamiento: Como cambiar el directorio de las imágenes y contenedores</title>
       <link>http://www.aguasnegras.es/blog/2019/03/07-Docker_y_almacenamiento.html</link>
-      <pubDate>jue., 7 mar. 2019 00:00:00 +0100</pubDate>
+      <pubDate>jue, 7 mar 2019 00:00:00 +0100</pubDate>
       <guid isPermaLink="false">blog/2019/03/07-Docker_y_almacenamiento.html</guid>
       	<description>
 	&lt;p&gt;Los contenedores no solo tienen la ventaja de ser entornos aislados sino que además ocupan muy poco espacio en disco. Esto se debe a varias causas:&lt;/p&gt;
@@ -77,7 +108,7 @@ sudo service docker start
     <item>
       <title>PostgreSQL en Docker</title>
       <link>http://www.aguasnegras.es/blog/2019/03/05-PostgreSQL_y_Docker.html</link>
-      <pubDate>mar., 5 mar. 2019 00:00:00 +0100</pubDate>
+      <pubDate>mar, 5 mar 2019 00:00:00 +0100</pubDate>
       <guid isPermaLink="false">blog/2019/03/05-PostgreSQL_y_Docker.html</guid>
       	<description>
 	&lt;p&gt;Una de las ventajas de &lt;a href=&quot;https://www.aguasnegras.es/blog/2017/05/14-comenzando-con-docker.html&quot;&gt;Docker&lt;/a&gt; es que te aisla del problema de tener que instalar el software que necesitas para desarrollar.&lt;br /&gt;
@@ -126,7 +157,7 @@ Si bien hay tareas que son relativamente sencillas como instalar un &lt;a href=&
     <item>
       <title>Certificados y Dispositivos en Tizen Studio</title>
       <link>http://www.aguasnegras.es/blog/2018/12/28-Certificates_Devices.html</link>
-      <pubDate>vie., 28 dic. 2018 00:00:00 +0100</pubDate>
+      <pubDate>vie, 28 dic 2018 00:00:00 +0100</pubDate>
       <guid isPermaLink="false">blog/2018/12/28-Certificates_Devices.html</guid>
       	<description>
 	&lt;h2&gt;Certificados&lt;/h2&gt;
@@ -142,8 +173,8 @@ Para crear un certificado podemos utilizar el mismo Certificate Manager de Tizen
 &lt;p&gt;Si todo va bien (a mí me ha dado un par de ventanas de error pero ha seguido funcionando...) nos pide una ruta para guardar una copia de seguridad del certificado y pasamos a crear un nuevo certificado de distribuidor.&lt;/p&gt;
 &lt;p&gt;Lo dejo todo por defecto e incluso me detecta el DUID (número único de dispositivo) del Gear Sport.&lt;/p&gt;
 &lt;h2&gt;Dispositivos&lt;/h2&gt;
-&lt;p&gt;Vale, pues ahora que tengo el certificado, voy a probar a ejecutar el Tabata Timer en el Gear Sport que tengo. Para eso hay que configurar primero el dispositivo.&lt;br /&gt;
-&lt;ul&gt;&lt;/p&gt;
+&lt;p&gt;Vale, pues ahora que tengo el certificado, voy a probar a ejecutar el Tabata Timer en el Gear Sport que tengo. Para eso hay que configurar primero el dispositivo.&lt;/p&gt;
+&lt;ul&gt;
 &lt;li&gt;En Ajustes &gt; Sobre Gear, habilitar Depuración.&lt;/li&gt;
 &lt;li&gt;Además hará falta tener el dispositivo en la misma red wifi que el ordenador.&lt;/li&gt;
 &lt;/ul&gt;
@@ -158,20 +189,20 @@ Para crear un certificado podemos utilizar el mismo Certificate Manager de Tizen
     <item>
       <title>Tizen Studio</title>
       <link>http://www.aguasnegras.es/blog/2018/12/27-Tizen_Studio.html</link>
-      <pubDate>jue., 27 dic. 2018 00:00:00 +0100</pubDate>
+      <pubDate>jue, 27 dic 2018 00:00:00 +0100</pubDate>
       <guid isPermaLink="false">blog/2018/12/27-Tizen_Studio.html</guid>
       	<description>
 	&lt;p&gt;A finales de 2017 participé en un concurso de Samsung llamado &lt;a href=&quot;https://www.europe-samsung.com/smsdev/Home/Articulo/447&quot;&gt;Dispositivos por Apps&lt;/a&gt; y que, mediante el regalo de dispositivos pretende aumentar la presencia de aplicaciones en el market propio de Samsung (Galaxy Apps).&lt;br /&gt;
-El caso fue que que en aquel momento hice tres aplicaciones para relojes Samsung (y sin tener uno, jaja) y me saqué un reloj Samsung Gear Sport. Las aplicaciones en cuestión eran las siguientes:&lt;br /&gt;
-&lt;ul&gt;&lt;/p&gt;
+El caso fue que que en aquel momento hice tres aplicaciones para relojes Samsung (y sin tener uno, jaja) y me saqué un reloj Samsung Gear Sport. Las aplicaciones en cuestión eran las siguientes:&lt;/p&gt;
+&lt;ul&gt;
 &lt;li&gt; [TabataTimer](https://github.com/agustinventura/TabataTimer): Un temporizador Tabata configurable, incluyendo número de rondas, duración del intervalo de trabajo y del intervalo de descanso.&lt;/li&gt;
 &lt;li&gt; [DiceRoller](https://github.com/agustinventura/DiceRoller): Un tirador de dados, por si te pilla en una partidilla de algo y no tienes a mano los dados, pues puedes seleccionar el tipo de dados y el número y la aplicación los &quot;tira&quot; por tí.&lt;/li&gt;
 &lt;li&gt; [SwimMonitor](https://github.com/agustinventura/SwimMonitor): La aplicación que creo que me quedó mejor de todas. Permite llevar el control de los largos que vas haciendo en la piscina y además revisar entrenamientos anteriores para poder compararlos.&lt;/li&gt;
 &lt;/ul&gt;
 Pues bien, ahora ha vuelto a salir la promoción y esta vez piden nada más y nada menos que seis aplicaciones, pero teniendo en cuenta que ya sé más o menos como funciona todo, creo que puedo sacarlas en las semanas que dan.
 &lt;h2&gt;Tizen Studio&lt;/h2&gt;
-&lt;p&gt;Lo primero de todo es descargar el &lt;a href=&quot;https://developer.tizen.org/development/tizen-studio/download&quot;&gt;Tizen Studio&lt;/a&gt; en su versión de Ubuntu. El instalador pide dos dependencias:&lt;br /&gt;
-&lt;ul&gt;&lt;/p&gt;
+&lt;p&gt;Lo primero de todo es descargar el &lt;a href=&quot;https://developer.tizen.org/development/tizen-studio/download&quot;&gt;Tizen Studio&lt;/a&gt; en su versión de Ubuntu. El instalador pide dos dependencias:&lt;/p&gt;
+&lt;ul&gt;
 &lt;li&gt;libwebkitgtk-1.0-0: Que por fortuna se puede instalar con apt-get&lt;/li&gt;
 &lt;li&gt;rpm2cpio: Que también se puede instalar por apt-get&lt;/li&gt;
 &lt;/ul&gt;
@@ -181,8 +212,8 @@ Pues bien, ahora ha vuelto a salir la promoción y esta vez piden nada más y na
 &lt;p&gt;Para instalar los distintos entornos de ejecución (y crear emuladores), hay que utilizar el Package Manager:&lt;/p&gt;
 &lt;p&gt;&lt;img src=&quot;/images/2018/12/02-Package_Manager.png&quot; alt=&quot;Package Manager&quot; /&gt;&lt;/p&gt;
 &lt;p&gt;En mi caso, repasando la paquetería disponible para wearables y web app development me llevo la grata sorpresa de que solo hay que instalar los emuladores. Repasando el Gear Sport, veo que la versión de Tizen que trae es la 3.0.0.2 y el Tizen Studio me ofrece hasta la 5, así que yo que sé, voy a instalar los emuladores de la 4 y la 5 y hago las aplicaciones de 3 para arriba.&lt;br /&gt;
-Al darle a instalar me ha pedido una serie de paquetes extra del sistema operativo, en concreto:&lt;br /&gt;
-&lt;ul&gt;&lt;/p&gt;
+Al darle a instalar me ha pedido una serie de paquetes extra del sistema operativo, en concreto:&lt;/p&gt;
+&lt;ul&gt;
 &lt;li&gt;libpng12-0&lt;/li&gt;
 &lt;li&gt;libsdl1.2debian&lt;/li&gt;
 &lt;li&gt;bridge-utils&lt;/li&gt;
@@ -197,7 +228,7 @@ Y resulta que la primera no esta, así que toca buscar por Google y resulta que 
     <item>
       <title>SDKMAN</title>
       <link>http://www.aguasnegras.es/blog/2018/10/12-sdkman.html</link>
-      <pubDate>vie., 12 oct. 2018 00:00:00 +0200</pubDate>
+      <pubDate>vie, 12 oct 2018 00:00:00 +0200</pubDate>
       <guid isPermaLink="false">blog/2018/10/12-sdkman.html</guid>
       	<description>
 	&lt;p&gt;&lt;a href=&quot;https://sdkman.io/&quot;&gt;SDKMAN&lt;/a&gt; es un gestor de entornos y herramientas Java. Cuando trabajas en un entorno &amp;quot;corporativo&amp;quot; (¿aburrido?) sueles tener claramente fijadas las versiones de herramientas de desarrollo a utilizar, por ejemplo, Java 8 en la versión 1.8.0_121 o Maven 3.2.1, etc...&lt;br /&gt;
@@ -234,7 +265,7 @@ source Development/Java/Tools/sdkman/bin/sdkman-init.sh
     <item>
       <title>Domain Driven Design, Sesión 2</title>
       <link>http://www.aguasnegras.es/blog/2017/05/29-DDD-Sesion-2.html</link>
-      <pubDate>lun., 29 may. 2017 00:00:00 +0200</pubDate>
+      <pubDate>lun, 29 may 2017 00:00:00 +0200</pubDate>
       <guid isPermaLink="false">blog/2017/05/29-DDD-Sesion-2.html</guid>
       	<description>
 	&lt;p&gt;Ayer tuvimos la segunda sesión de DDD en las oficinas de &lt;a href=&quot;https://www.comalis.com/&quot;&gt;Comalis&lt;/a&gt;. Personalmente se me hizo bastante corto ya que tuvimos bastante debate y muy interesante. Yo aprendí muchísimo… pero por otra parte salí con nuevas lagunas.&lt;br /&gt;
@@ -267,7 +298,7 @@ Esto fue todo, ya que al final las dos horas se hicieron cortas. Yo salí conten
     <item>
       <title>Comenzando con Docker</title>
       <link>http://www.aguasnegras.es/blog/2017/05/14-comenzando-con-docker.html</link>
-      <pubDate>dom., 14 may. 2017 00:00:00 +0200</pubDate>
+      <pubDate>dom, 14 may 2017 00:00:00 +0200</pubDate>
       <guid isPermaLink="false">blog/2017/05/14-comenzando-con-docker.html</guid>
       	<description>
 	&lt;p&gt;&lt;a href=&quot;https://www.docker.com/&quot;&gt;Docker&lt;/a&gt; es una tecnología de contenedores relativamente reciente (de 2013) que si bien ha puesto sobre el terreno de juego el concepto de contenedores (aunque estos son tan antiguos como del 2005 que fue cuando salieron con Solaris...). Un contenedor viene a ser una máquina virtual ligera, en realidad es una aplicación (se ejecuta en espacio de usuario, usa el kernel del sistema operativo, etc...) en la que se puede instalar un sistema operativo y unas aplicaciones (una imagen) y por tanto se comportará como una máquina virtual a efectos prácticos. La ventaja de esta aproximación es que mientras una máquina virtual tiene unos recursos fijos que toma del sistema anfitrión, Docker no, con lo que es más eficiente y ligero.&lt;br /&gt;
@@ -339,7 +370,7 @@ docker rm distracted_goodall
     <item>
       <title>Logging de consultas y parametros de Hibernate</title>
       <link>http://www.aguasnegras.es/blog/2017/03/27-logging-consultas-parametros-hibernate.html</link>
-      <pubDate>lun., 27 mar. 2017 00:00:00 +0200</pubDate>
+      <pubDate>lun, 27 mar 2017 00:00:00 +0200</pubDate>
       <guid isPermaLink="false">blog/2017/03/27-logging-consultas-parametros-hibernate.html</guid>
       	<description>
 	&lt;p&gt;Una de las funcionalidades básicas de &lt;a href=&quot;http://hibernate.org/orm/&quot;&gt;Hibernate&lt;/a&gt; es abstraer la base de datos, pero sin embargo en tiempo de desarrollo resulta bastante útil controlar las consultas que va generando el motor así como sus parámetros.&lt;br /&gt;
@@ -390,7 +421,7 @@ Para poder mostrar estos logs hay dos loggers propios de Hibernate que configura
     <item>
       <title>Nueva API de Fecha y Hora en Java 8</title>
       <link>http://www.aguasnegras.es/blog/2016/06/16-Nueva+API+de+Fecha+y+Hora+en+Java+8.html</link>
-      <pubDate>jue., 16 jun. 2016 00:00:00 +0200</pubDate>
+      <pubDate>jue, 16 jun 2016 00:00:00 +0200</pubDate>
       <guid isPermaLink="false">blog/2016/06/16-Nueva+API+de+Fecha+y+Hora+en+Java+8.html</guid>
       	<description>
 	&lt;p&gt;Unos apuntes rápidos sobre la nueva API de fecha y hora en Java 8. Primero, clases fundamentales:&lt;br /&gt;
@@ -420,7 +451,7 @@ Para poder mostrar estos logs hay dos loggers propios de Hibernate que configura
     <item>
       <title>Wordpress to JBake - Generación de Archivos</title>
       <link>http://www.aguasnegras.es/blog/2016/06/10-wp2jbake-generacion.html</link>
-      <pubDate>vie., 10 jun. 2016 00:00:00 +0200</pubDate>
+      <pubDate>vie, 10 jun 2016 00:00:00 +0200</pubDate>
       <guid isPermaLink="false">blog/2016/06/10-wp2jbake-generacion.html</guid>
       	<description>
 	&lt;p&gt;Bueno, pues ya queda la parte final, lanzarlo. Creo un método &lt;em&gt;main&lt;/em&gt; en &lt;em&gt;Wp2JBake&lt;/em&gt;, el primer argumento será el archivo de origen y el segundo el directorio de destino.&lt;br /&gt;
@@ -479,7 +510,7 @@ Como de toda la gestión de errores se encarga el programa en sí, lo único que
     <item>
       <title>Configuración de Linux Mint</title>
       <link>http://www.aguasnegras.es/blog/2016/06/09-configuracion-mint.html</link>
-      <pubDate>jue., 9 jun. 2016 00:00:00 +0200</pubDate>
+      <pubDate>jue, 9 jun 2016 00:00:00 +0200</pubDate>
       <guid isPermaLink="false">blog/2016/06/09-configuracion-mint.html</guid>
       	<description>
 	&lt;p&gt;Aprovechando que he actualizado el portátil (le he puesto 16 Gb de RAM y un SSD de 240 Gb), voy a documentar un poco mi configuración para que no se me vuelva a olvidar.&lt;br /&gt;
@@ -524,7 +555,7 @@ Una vez instalado he dado los siguientes pasos:&lt;/p&gt;
     <item>
       <title>Wordpress to JBake - Integración</title>
       <link>http://www.aguasnegras.es/blog/2016/06/08-wp2jbake-integracion.html</link>
-      <pubDate>mié., 8 jun. 2016 00:00:00 +0200</pubDate>
+      <pubDate>mié, 8 jun 2016 00:00:00 +0200</pubDate>
       <guid isPermaLink="false">blog/2016/06/08-wp2jbake-integracion.html</guid>
       	<description>
 	&lt;p&gt;Realmente las pruebas de integración ya casi estan hechas y son muy sencillas ya que se trata de interactuar en todo caso con la clase principal &lt;em&gt;Wp2JBake&lt;/em&gt;, usando donde sea necesario el archivo de pruebas.&lt;br /&gt;
@@ -897,7 +928,7 @@ public void translateContentWithBlockElements() {
     <item>
       <title>Wordpress to JBake - Escritura</title>
       <link>http://www.aguasnegras.es/blog/2016/06/05-wp2jbake-escritura.html</link>
-      <pubDate>dom., 5 jun. 2016 00:00:00 +0200</pubDate>
+      <pubDate>dom, 5 jun 2016 00:00:00 +0200</pubDate>
       <guid isPermaLink="false">blog/2016/06/05-wp2jbake-escritura.html</guid>
       	<description>
 	&lt;p&gt;Retomando la migración del blog, una vez resuelta la parte de leer los posts, hay que hacer la escritura. El enfoque pasa por lo siguiente:&lt;/p&gt;
@@ -1195,7 +1226,7 @@ Los tests:&lt;/p&gt;
     <item>
       <title>Spring Boot Developer Tools e Intellij IDEA</title>
       <link>http://www.aguasnegras.es/blog/2016/05/30-springdevtoolsintellij.html</link>
-      <pubDate>lun., 30 may. 2016 00:00:00 +0200</pubDate>
+      <pubDate>lun, 30 may 2016 00:00:00 +0200</pubDate>
       <guid isPermaLink="false">blog/2016/05/30-springdevtoolsintellij.html</guid>
       	<description>
 	&lt;p&gt;Una de las mejores incorporaciones que tuvo Spring Boot en la versión 1.3 fueron las &lt;a href=&quot;https://spring.io/blog/2015/06/17/devtools-in-spring-boot-1-3&quot;&gt;Developer Tools&lt;/a&gt;.&lt;br /&gt;
@@ -1221,7 +1252,7 @@ opciones de autosave tal y como se explica en la misma &lt;a href=&quot;https://
     <item>
       <title>Wordpress to JBake - Parseo</title>
       <link>http://www.aguasnegras.es/blog/2016/03/20-wp2jbake-parseo.html</link>
-      <pubDate>dom., 20 mar. 2016 00:00:00 +0100</pubDate>
+      <pubDate>dom, 20 mar 2016 00:00:00 +0100</pubDate>
       <guid isPermaLink="false">blog/2016/03/20-wp2jbake-parseo.html</guid>
       	<description>
 	&lt;p&gt;Pues ahora que ya tengo el constructor y construyo un objeto siempre que, al menos es coherente, toca parsear el xml para extraer los datos.&lt;br /&gt;
@@ -1904,7 +1935,7 @@ Eso sí, los tests de &lt;em&gt;Wp2JBake&lt;/em&gt; se han quedado en realidad c
     <item>
       <title>Wordpress to JBake - Inicio</title>
       <link>http://www.aguasnegras.es/blog/2016/02/04-wp2jbake-inicio.html</link>
-      <pubDate>jue., 4 feb. 2016 00:00:00 +0100</pubDate>
+      <pubDate>jue, 4 feb 2016 00:00:00 +0100</pubDate>
       <guid isPermaLink="false">blog/2016/02/04-wp2jbake-inicio.html</guid>
       	<description>
 	&lt;p&gt;En la migración del blog a GitHub Pages uno de los objetivos era no perder contenido, por lo que una vez puesta en pie toda la infraestructura, toca migrar los posts (mucho me temo que los comentarios si se van a perder...). Solución: Hacer un pequeño programa en Java (casi que diría script) que realice automáticamente esta conversión, además voy a seguir TDD para &amp;quot;mantenerme en forma&amp;quot;.&lt;br /&gt;
@@ -2113,7 +2144,7 @@ public void buildWithValidParameters() {
     <item>
       <title>Migrando el blog</title>
       <link>http://www.aguasnegras.es/blog/2016/01/03-migracion.html</link>
-      <pubDate>dom., 3 ene. 2016 00:00:00 +0100</pubDate>
+      <pubDate>dom, 3 ene 2016 00:00:00 +0100</pubDate>
       <guid isPermaLink="false">blog/2016/01/03-migracion.html</guid>
       	<description>
 	&lt;p&gt;Desde hace ya bastantes años llevo pagando religiosamente todos los años un dominio (aguasnegras.es) y un alojamiento para tener el blog.&lt;br /&gt;
@@ -2133,7 +2164,7 @@ El blog ha tenido mejores y peores momentos, pero en general me gusta tener un s
     <item>
       <title>Logging en Java con SLF4J y Log4j2</title>
       <link>http://www.aguasnegras.es/blog/2013/09/02-Logging+en+Java+con+SLF4J+y+Log4j2.html</link>
-      <pubDate>lun., 2 sept. 2013 00:00:00 +0200</pubDate>
+      <pubDate>lun, 2 sep 2013 00:00:00 +0200</pubDate>
       <guid isPermaLink="false">blog/2013/09/02-Logging+en+Java+con+SLF4J+y+Log4j2.html</guid>
       	<description>
 	&lt;p&gt;En este artículo se hace una breve introducción a la generación de logs en Java usando SLF4J y Log4j2, así como un breve repaso de las mejores prácticas relativas.&lt;/p&gt;
@@ -2305,7 +2336,7 @@ logger.trace(&amp;quot;Adding bannerman {} to house {}&amp;quot;, bannerManName,
     <item>
       <title>Emulador de Android en Ubuntu (Initializing hardware OpenGLES emulation support)</title>
       <link>http://www.aguasnegras.es/blog/2013/03/09-Emulador+de+Android+en+Ubuntu+%28Initializing+hardware+OpenGLES+emulation+support%29.html</link>
-      <pubDate>sáb., 9 mar. 2013 00:00:00 +0100</pubDate>
+      <pubDate>sáb, 9 mar 2013 00:00:00 +0100</pubDate>
       <guid isPermaLink="false">blog/2013/03/09-Emulador+de+Android+en+Ubuntu+%28Initializing+hardware+OpenGLES+emulation+support%29.html</guid>
       	<description>
 	&lt;p&gt;A veces (normalmente en una instalación nueva), los emuladores de Android no arrancan en Ubuntu de 64 bits debido a un error con OpenGLES.&lt;/p&gt;
@@ -2328,7 +2359,7 @@ $ mv libOpenglRender.so libOpenglRender.so.bak
     <item>
       <title>JustPlay, lógica propia</title>
       <link>http://www.aguasnegras.es/blog/2012/08/14-JustPlay%2C+l%C3%B3gica+propia.html</link>
-      <pubDate>mar., 14 ago. 2012 00:00:00 +0200</pubDate>
+      <pubDate>mar, 14 ago 2012 00:00:00 +0200</pubDate>
       <guid isPermaLink="false">blog/2012/08/14-JustPlay%2C+l%C3%B3gica+propia.html</guid>
       	<description>
 	&lt;p&gt;Vale, una vez terminado el guarreo con el ciclo de vida, toca implementar la lógica de negocio propia de la aplicación.&lt;br /&gt;
@@ -2379,7 +2410,7 @@ Al ser JustPlay un reproductor de mp3 y ogg, vamos a ver que lógica tenemos que
     <item>
       <title>JustPlay, binding al servicio</title>
       <link>http://www.aguasnegras.es/blog/2012/05/18-JustPlay%2C+binding+al+servicio.html</link>
-      <pubDate>vie., 18 may. 2012 00:00:00 +0200</pubDate>
+      <pubDate>vie, 18 may 2012 00:00:00 +0200</pubDate>
       <guid isPermaLink="false">blog/2012/05/18-JustPlay%2C+binding+al+servicio.html</guid>
       	<description>
 	&lt;p&gt;El siguiente paso en el desarrollo de JustPlay resulta bastante obvio, ligar el MediaPlayer con el MediaService, o lo que es lo mismo, hacer un bind. Para no perderme, he hecho un pequeño diagrama de interacción entre &lt;a title=&quot;Diagrama de Interacción entre CrankPlayer y MediaService&quot; href=&quot;https://docs.google.com/drawings/d/1onAU0Ucfi0twATpAlizEuqY9OBoZo_0T9MjD195un4w/edit&quot; target=&quot;_blank&quot;&gt;MediaPlayer y MediaService&lt;/a&gt;.&lt;/p&gt;
@@ -2458,7 +2489,7 @@ public void onPause() {
     <item>
       <title>JustPlay, explorador de archivos</title>
       <link>http://www.aguasnegras.es/blog/2012/05/17-JustPlay%2C+explorador+de+archivos.html</link>
-      <pubDate>jue., 17 may. 2012 00:00:00 +0200</pubDate>
+      <pubDate>jue, 17 may 2012 00:00:00 +0200</pubDate>
       <guid isPermaLink="false">blog/2012/05/17-JustPlay%2C+explorador+de+archivos.html</guid>
       	<description>
 	&lt;p&gt;Uno de mis requisitos en JustPlay (de hecho, el fundamental), es poder reproducir a partir de archivos sueltos o directorios.&lt;/p&gt;
@@ -2592,7 +2623,7 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     <item>
       <title>JustPlay, arquitectura</title>
       <link>http://www.aguasnegras.es/blog/2012/05/14-JustPlay%2C+arquitectura.html</link>
-      <pubDate>lun., 14 may. 2012 00:00:00 +0200</pubDate>
+      <pubDate>lun, 14 may 2012 00:00:00 +0200</pubDate>
       <guid isPermaLink="false">blog/2012/05/14-JustPlay%2C+arquitectura.html</guid>
       	<description>
 	&lt;p&gt;Bueno, ya va siendo hora de empezar el trabajo en JustPlay.&lt;/p&gt;
@@ -2662,7 +2693,7 @@ public void run() {
     <item>
       <title>CrankPlay, controles de reproducción</title>
       <link>http://www.aguasnegras.es/blog/2012/04/16-CrankPlay%2C+controles+de+reproducci%C3%B3n.html</link>
-      <pubDate>lun., 16 abr. 2012 00:00:00 +0200</pubDate>
+      <pubDate>lun, 16 abr 2012 00:00:00 +0200</pubDate>
       <guid isPermaLink="false">blog/2012/04/16-CrankPlay%2C+controles+de+reproducci%C3%B3n.html</guid>
       	<description>
 	&lt;p&gt;Última parte del tutorial que sigo para el CrankPlay, &lt;a title=&quot;MusicDroid - Part III&quot; href=&quot;http://www.helloandroid.com/tutorials/musicdroid-audio-player-part-iii&quot; target=&quot;_blank&quot;&gt;MusicDroid&lt;/a&gt;, ahora voy a añadir los controles básicos de reproducción. Esta parte se me antoja que no me será de mucha utilidad, ya que es bastante dependiente del diseño de la aplicación, pero que demonios...&lt;/p&gt;
@@ -2703,7 +2734,7 @@ public void run() {
     <item>
       <title>CrankPlay, Service para reproducir sonido.</title>
       <link>http://www.aguasnegras.es/blog/2012/04/06-CrankPlay%2C+Service+para+reproducir+sonido.html</link>
-      <pubDate>vie., 6 abr. 2012 00:00:00 +0200</pubDate>
+      <pubDate>vie, 6 abr 2012 00:00:00 +0200</pubDate>
       <guid isPermaLink="false">blog/2012/04/06-CrankPlay%2C+Service+para+reproducir+sonido.html</guid>
       	<description>
 	&lt;p&gt;Siguiendo la &lt;a title=&quot;MusicDroid part II&quot; href=&quot;http://www.helloandroid.com/tutorials/musicdroid-audio-player-part-ii&quot; target=&quot;_blank&quot;&gt;segunda parte de MusicDroid&lt;/a&gt;, voy a hacer un Service (servicio) para reproducir la música. Para lo cual necesito primero definir claramente que es un Service.&lt;/p&gt;
@@ -2765,7 +2796,7 @@ nm.notify(NOTIFY_ID, notification);
     <item>
       <title>WordPress SEO, aspectos avanzados y conclusiones.</title>
       <link>http://www.aguasnegras.es/blog/2012/04/05-WordPress+SEO%2C+aspectos+avanzados+y+conclusiones.html</link>
-      <pubDate>jue., 5 abr. 2012 00:00:00 +0200</pubDate>
+      <pubDate>jue, 5 abr 2012 00:00:00 +0200</pubDate>
       <guid isPermaLink="false">blog/2012/04/05-WordPress+SEO%2C+aspectos+avanzados+y+conclusiones.html</guid>
       	<description>
 	&lt;p&gt;Sigo con &lt;a title=&quot;WordPress SEO Tutorial&quot; href=&quot;http://yoast.com/articles/wordpress-seo/&quot; target=&quot;_blank&quot;&gt;el artículo de Yoast&lt;/a&gt; sobre WordPress SEO.&lt;/p&gt;
@@ -2813,7 +2844,7 @@ nm.notify(NOTIFY_ID, notification);
     <item>
       <title>WordPress SEO, Google Webmaster Tools y optimización de títulos.</title>
       <link>http://www.aguasnegras.es/blog/2012/04/04-WordPress+SEO%2C+Google+Webmaster+Tools+y+optimizaci%C3%B3n+de+t%C3%ADtulos.html</link>
-      <pubDate>mié., 4 abr. 2012 00:00:00 +0200</pubDate>
+      <pubDate>mié, 4 abr 2012 00:00:00 +0200</pubDate>
       <guid isPermaLink="false">blog/2012/04/04-WordPress+SEO%2C+Google+Webmaster+Tools+y+optimizaci%C3%B3n+de+t%C3%ADtulos.html</guid>
       	<description>
 	&lt;p&gt;Bueno, pues para darme un poco de visibilidad en Google, he instalado el &lt;a title=&quot;WordPress SEO plugin&quot; href=&quot;http://wordpress.org/extend/plugins/wordpress-seo/&quot; target=&quot;_blank&quot;&gt;plugin WordPress SEO&lt;/a&gt; y tiene un &lt;a title=&quot;WordPress SEO Tutorial&quot; href=&quot;http://yoast.com/articles/wordpress-seo/&quot; target=&quot;_blank&quot;&gt;estupendo artículo&lt;/a&gt; de acciones a realizar para utilizarlo, así que lo voy a seguir y voy a ir comentando.&lt;/p&gt;
@@ -2850,7 +2881,7 @@ nm.notify(NOTIFY_ID, notification);
     <item>
       <title>CrankPlay, mi primer proyecto Android. Parte 1</title>
       <link>http://www.aguasnegras.es/blog/2012/04/01-CrankPlay%2C+mi+primer+proyecto+Android.+Parte+1.html</link>
-      <pubDate>dom., 1 abr. 2012 00:00:00 +0200</pubDate>
+      <pubDate>dom, 1 abr 2012 00:00:00 +0200</pubDate>
       <guid isPermaLink="false">blog/2012/04/01-CrankPlay%2C+mi+primer+proyecto+Android.+Parte+1.html</guid>
       	<description>
 	&lt;p&gt;Bueno, pues después de un tiempo dedicado a un proyecto que tengo por ahí y que anda un poco empantanado, voy a empezar a hacer algo que llevo tiempo queriendo hacer. Un reproductor de mp3 para mi móvil.&lt;/p&gt;
@@ -2912,7 +2943,7 @@ nm.notify(NOTIFY_ID, notification);
     <item>
       <title>Cambiar orientación del emulador de Android</title>
       <link>http://www.aguasnegras.es/blog/2012/02/23-Cambiar+orientaci%C3%B3n+del+emulador+de+Android.html</link>
-      <pubDate>jue., 23 feb. 2012 00:00:00 +0100</pubDate>
+      <pubDate>jue, 23 feb 2012 00:00:00 +0100</pubDate>
       <guid isPermaLink="false">blog/2012/02/23-Cambiar+orientaci%C3%B3n+del+emulador+de+Android.html</guid>
       	<description>
 	&lt;p&gt;Para cambiar la orientación del emulador de android de horizontal a vertical y viceversa, basta con pulsar &lt;strong&gt;ctrl+F11.&lt;/strong&gt;&lt;/p&gt;
@@ -2922,7 +2953,7 @@ nm.notify(NOTIFY_ID, notification);
     <item>
       <title>Amazon Elastic Beanstalk</title>
       <link>http://www.aguasnegras.es/blog/2012/01/19-Amazon+Elastic+Beanstalk.html</link>
-      <pubDate>jue., 19 ene. 2012 00:00:00 +0100</pubDate>
+      <pubDate>jue, 19 ene 2012 00:00:00 +0100</pubDate>
       <guid isPermaLink="false">blog/2012/01/19-Amazon+Elastic+Beanstalk.html</guid>
       	<description>
 	&lt;p&gt;Visto que con Heroku se me esta atragantando el tema del despliegue de JSF 2, me he decidido a seguir los cantos de sirena y probar Amazon Elastic Beanstalk. La publicidad dice que Amazon me dá gratuitamente un Tomcat 6 o Tomcat 7 en la nube, así que merecía darle una ojeada. Lo primero de lo que me doy cuenta es que &lt;a title=&quot;Amazon Elastic Beanstalk&quot; href=&quot;http://aws.amazon.com/es/elasticbeanstalk/&quot; target=&quot;_blank&quot;&gt;Amazon Elastic Beanstalk&lt;/a&gt; en realidad no es solo un Tomcat, sino que mas bien podríamos definirlo como un agrupamiento de tecnologías que Amazon ya tenía que se ofrecen simplificadamente y bajo un mismo paragüas, como EC2, S3, EBS, CloudWatch, etc... La página de Beanstalk promete que se despliegan WARs normales y corrientes y que se puede usar cualquier librería Java con normalidad, a esto le sumamos Amazon SimpleDB como base de datos relacional y Amazon DynamoDB como NoSQL y tenemos un stack potentísimo a nuestra disposición. Esta la parte buena, ahora la mala.&lt;/p&gt;
@@ -3000,7 +3031,7 @@ nm.notify(NOTIFY_ID, notification);
     <item>
       <title>Sun Java y OpenJDK en Linux</title>
       <link>http://www.aguasnegras.es/blog/2011/11/11-Sun+Java+y+OpenJDK+en+Linux.html</link>
-      <pubDate>vie., 11 nov. 2011 00:00:00 +0100</pubDate>
+      <pubDate>vie, 11 nov 2011 00:00:00 +0100</pubDate>
       <guid isPermaLink="false">blog/2011/11/11-Sun+Java+y+OpenJDK+en+Linux.html</guid>
       	<description>
 	&lt;p&gt;Para trabajar con Heroku, recomiendan usar OpenJDK, sin embargo, hasta el momento vengo usando el Sun JDK, así que voy a instalar el OpenJDK:&lt;/p&gt;
@@ -3031,7 +3062,7 @@ Java HotSpot(TM) 64-Bit Server VM (build 20.1-b02, mixed mode)
     <item>
       <title>Despliegue de Spring Roo en Heroku</title>
       <link>http://www.aguasnegras.es/blog/2011/10/13-Despliegue+de+Spring+Roo+en+Heroku.html</link>
-      <pubDate>jue., 13 oct. 2011 00:00:00 +0200</pubDate>
+      <pubDate>jue, 13 oct 2011 00:00:00 +0200</pubDate>
       <guid isPermaLink="false">blog/2011/10/13-Despliegue+de+Spring+Roo+en+Heroku.html</guid>
       	<description>
 	&lt;p&gt;Hasta ahora, las aplicaciones que he desplegado eran muy básicas, hechas con jsp y acceso a base de datos a base de jdbc plano.&lt;/p&gt;
@@ -3176,9 +3207,69 @@ heroku open
 	</description>
     </item>
     <item>
+      <title>Procesos Java en Heroku</title>
+      <link>http://www.aguasnegras.es/blog/2011/09/22-Procesos+Java+en+Heroku.html</link>
+      <pubDate>jue, 22 sep 2011 00:00:00 +0200</pubDate>
+      <guid isPermaLink="false">blog/2011/09/22-Procesos+Java+en+Heroku.html</guid>
+      	<description>
+	&lt;p&gt;Heroku no solo sirve para ejecutar aplicaciones web Java, sino que en realidad sirve para ejecutar cualquier tipo de aplicación Java. Observando el proyecto podemos ver que hay dos aplicaciones bien diferenciadas, la aplicación web (que se lanza a través del script webapp generado por Maven) y la aplicación SchemaGenerator, ejecutada a través del script schemaGenerator. Mientras que la primera es una aplicación web normal y corriente, SchemaGenerator es simplemente un proceso Java puro, se lanza se ejecuta y termina sin ningún tipo de interfaz gráfica involucrada.&lt;/p&gt;
+&lt;p&gt;A este tipo de proceso en Heroku le llaman &amp;quot;worker process&amp;quot;, podría traducirlo de cualquier manera, pero paso, así que se queda como proceso worker, hala.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Tercer Práctica&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;El objetivo de esta práctica es desarrollar una aplicación que inserte un tick en la base de datos cada segundo. Se podrá visualizar refrescando la misma página ticks.jsp y posteriormente la escalaré a dos dynos.&lt;/p&gt;
+&lt;p&gt;Pasos:&lt;/p&gt;
+&lt;ol&gt;
+	&lt;li&gt;Crear la clase Ticker.java que insertará un tick en la base de datos cada segundo.&lt;/li&gt;
+	&lt;li&gt;Probar la aplicación en local.&lt;/li&gt;
+	&lt;li&gt;Desplegar la aplicación en Heroku, escalarla a dos dynos y detenerla.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;strong&gt;Paso 1&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Creo la clase Ticker.java, el código es trivial, con un while(true) y un sleep(1000), de todas formas queda en GitHub.&lt;/p&gt;
+&lt;p&gt;Se declara el programa en el pom.xml para generar el script que lo lanza:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-prettyprint&quot;&gt;
+	es.aguasnegras.helloheroku.Ticker
+	ticker
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;Paso 2&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Se instala en local y se ejecuta:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-prettyprint&quot;&gt;mvn install
+export REPO=~/.m2/repository
+export DATABASE_URL=postgres://helloheroku:helloheroku@localhost/helloheroku
+sh target/bin/ticker
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Y en otra consola:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-prettyprint&quot;&gt;export REPO=~/.m2/repository
+export DATABASE_URL=postgres://helloheroku:helloheroku@localhost/helloheroku
+sh target/bin/ticker
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Ahora puedo comprobar en localhost:8080/ticks.jsp que efectivamente, se van actualizando los ticks independientemente de la aplicación.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Paso 3&lt;/strong&gt;&lt;br /&gt;
+Vale, ahora a desplegarla en Heroku. Para poder ejecutar el proceso en Heroku en su propio dyno, hay que declararla en el Procfile:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-prettyprint&quot;&gt;tick: sh target/bin/ticker
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Listo, añado a git y subo a GitHub y Heroku:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-prettyprint&quot;&gt;git add .
+git commit -m &amp;quot;añadido proceso worker&amp;quot;
+git push github master
+git push heroku master
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Si abro &lt;a href=&quot;http://fierce-autumn-4530.herokuapp.com/ticks.jsp&quot;&gt;http://fierce-autumn-4530.herokuapp.com/ticks.jsp&lt;/a&gt; puedo ver que todo sigue igual, cada vez que recargo la página se añade un tick a la base de datos. Voy a arrancar el worker:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-prettyprint&quot;&gt;heroku scale tick=2
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Si hago un heroku ps me confirma que se han arrancado dos procesos, y es más, un heroku logs -t va refrescando la salida con dos ticks cada segundo, uno tick.1 y otro tick.2.&lt;br /&gt;
+Además el jsp me confirma que se han ido insertando en la base de datos.&lt;br /&gt;
+Bueno, pues ya esta. A poner el código en GitHub&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Código en GitHub&lt;/strong&gt;&lt;br /&gt;
+&lt;a href=&quot;https://github.com/agustinventura/helloheroku/tree/1429c05b2a83745dfda1d1f08145f7954d9922d0&quot;&gt;&lt;img class=&quot;aligncenter size-full wp-image-255&quot; title=&quot;GitHub&quot; src=&quot;/images/2011/08/github_icon.png&quot; alt=&quot;GitHub&quot; width=&quot;115&quot; height=&quot;115&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Conclusiones&lt;/strong&gt;&lt;br /&gt;
+Bueno, pues ya he visto como se ejecuta un proceso demonio y he trasteado un poco el Procfile, que es otro fleco que convendría investigar un poco, a ver que más cosas se pueden hacer.&lt;br /&gt;
+Es curioso que el proceso se lanza mediante un scale y no un heroku run, supongo que podría igualmente con el heroku run... a ver. Efectivamente, se puede ejecutar igualmente con un heroku run, la diferencia es que no se puede escalar, claro.&lt;/p&gt;
+
+	</description>
+    </item>
+    <item>
       <title>Add-ons para Heroku</title>
       <link>http://www.aguasnegras.es/blog/2011/09/22-Add-ons+para+Heroku.html</link>
-      <pubDate>jue., 22 sept. 2011 00:00:00 +0200</pubDate>
+      <pubDate>jue, 22 sep 2011 00:00:00 +0200</pubDate>
       <guid isPermaLink="false">blog/2011/09/22-Add-ons+para+Heroku.html</guid>
       	<description>
 	&lt;p&gt;La arquitectura de Heroku es modular, es decir, se pueden añadir funcionalidades al Stack mediante piezas de software llamadas add-ons. Un ejemplo de eso lo vi &lt;a title=&quot;Java en Heroku&quot; href=&quot;http://www.aguasnegras.es/blog/?p=263&quot; target=&quot;_blank&quot;&gt;aquí&lt;/a&gt; cuando añadí el soporte para gestión de releases a través de un add-on.&lt;/p&gt;
@@ -3304,69 +3395,9 @@ También es interesante que si escalo el proceso tick a un par de dynos, siguen 
 	</description>
     </item>
     <item>
-      <title>Procesos Java en Heroku</title>
-      <link>http://www.aguasnegras.es/blog/2011/09/22-Procesos+Java+en+Heroku.html</link>
-      <pubDate>jue., 22 sept. 2011 00:00:00 +0200</pubDate>
-      <guid isPermaLink="false">blog/2011/09/22-Procesos+Java+en+Heroku.html</guid>
-      	<description>
-	&lt;p&gt;Heroku no solo sirve para ejecutar aplicaciones web Java, sino que en realidad sirve para ejecutar cualquier tipo de aplicación Java. Observando el proyecto podemos ver que hay dos aplicaciones bien diferenciadas, la aplicación web (que se lanza a través del script webapp generado por Maven) y la aplicación SchemaGenerator, ejecutada a través del script schemaGenerator. Mientras que la primera es una aplicación web normal y corriente, SchemaGenerator es simplemente un proceso Java puro, se lanza se ejecuta y termina sin ningún tipo de interfaz gráfica involucrada.&lt;/p&gt;
-&lt;p&gt;A este tipo de proceso en Heroku le llaman &amp;quot;worker process&amp;quot;, podría traducirlo de cualquier manera, pero paso, así que se queda como proceso worker, hala.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Tercer Práctica&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;El objetivo de esta práctica es desarrollar una aplicación que inserte un tick en la base de datos cada segundo. Se podrá visualizar refrescando la misma página ticks.jsp y posteriormente la escalaré a dos dynos.&lt;/p&gt;
-&lt;p&gt;Pasos:&lt;/p&gt;
-&lt;ol&gt;
-	&lt;li&gt;Crear la clase Ticker.java que insertará un tick en la base de datos cada segundo.&lt;/li&gt;
-	&lt;li&gt;Probar la aplicación en local.&lt;/li&gt;
-	&lt;li&gt;Desplegar la aplicación en Heroku, escalarla a dos dynos y detenerla.&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;&lt;strong&gt;Paso 1&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;Creo la clase Ticker.java, el código es trivial, con un while(true) y un sleep(1000), de todas formas queda en GitHub.&lt;/p&gt;
-&lt;p&gt;Se declara el programa en el pom.xml para generar el script que lo lanza:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-prettyprint&quot;&gt;
-	es.aguasnegras.helloheroku.Ticker
-	ticker
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;strong&gt;Paso 2&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;Se instala en local y se ejecuta:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-prettyprint&quot;&gt;mvn install
-export REPO=~/.m2/repository
-export DATABASE_URL=postgres://helloheroku:helloheroku@localhost/helloheroku
-sh target/bin/ticker
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Y en otra consola:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-prettyprint&quot;&gt;export REPO=~/.m2/repository
-export DATABASE_URL=postgres://helloheroku:helloheroku@localhost/helloheroku
-sh target/bin/ticker
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Ahora puedo comprobar en localhost:8080/ticks.jsp que efectivamente, se van actualizando los ticks independientemente de la aplicación.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Paso 3&lt;/strong&gt;&lt;br /&gt;
-Vale, ahora a desplegarla en Heroku. Para poder ejecutar el proceso en Heroku en su propio dyno, hay que declararla en el Procfile:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-prettyprint&quot;&gt;tick: sh target/bin/ticker
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Listo, añado a git y subo a GitHub y Heroku:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-prettyprint&quot;&gt;git add .
-git commit -m &amp;quot;añadido proceso worker&amp;quot;
-git push github master
-git push heroku master
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Si abro &lt;a href=&quot;http://fierce-autumn-4530.herokuapp.com/ticks.jsp&quot;&gt;http://fierce-autumn-4530.herokuapp.com/ticks.jsp&lt;/a&gt; puedo ver que todo sigue igual, cada vez que recargo la página se añade un tick a la base de datos. Voy a arrancar el worker:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-prettyprint&quot;&gt;heroku scale tick=2
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Si hago un heroku ps me confirma que se han arrancado dos procesos, y es más, un heroku logs -t va refrescando la salida con dos ticks cada segundo, uno tick.1 y otro tick.2.&lt;br /&gt;
-Además el jsp me confirma que se han ido insertando en la base de datos.&lt;br /&gt;
-Bueno, pues ya esta. A poner el código en GitHub&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Código en GitHub&lt;/strong&gt;&lt;br /&gt;
-&lt;a href=&quot;https://github.com/agustinventura/helloheroku/tree/1429c05b2a83745dfda1d1f08145f7954d9922d0&quot;&gt;&lt;img class=&quot;aligncenter size-full wp-image-255&quot; title=&quot;GitHub&quot; src=&quot;/images/2011/08/github_icon.png&quot; alt=&quot;GitHub&quot; width=&quot;115&quot; height=&quot;115&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Conclusiones&lt;/strong&gt;&lt;br /&gt;
-Bueno, pues ya he visto como se ejecuta un proceso demonio y he trasteado un poco el Procfile, que es otro fleco que convendría investigar un poco, a ver que más cosas se pueden hacer.&lt;br /&gt;
-Es curioso que el proceso se lanza mediante un scale y no un heroku run, supongo que podría igualmente con el heroku run... a ver. Efectivamente, se puede ejecutar igualmente con un heroku run, la diferencia es que no se puede escalar, claro.&lt;/p&gt;
-
-	</description>
-    </item>
-    <item>
       <title>Java, PostgreSQL y Heroku</title>
       <link>http://www.aguasnegras.es/blog/2011/09/18-Java%2C+PostgreSQL+y+Heroku.html</link>
-      <pubDate>dom., 18 sept. 2011 00:00:00 +0200</pubDate>
+      <pubDate>dom, 18 sep 2011 00:00:00 +0200</pubDate>
       <guid isPermaLink="false">blog/2011/09/18-Java%2C+PostgreSQL+y+Heroku.html</guid>
       	<description>
 	&lt;p&gt;Ya he visto como desplegar en Heroku, pero lo que he desplegado no llega ni al nivel de aplicación web, en realidad es una página web estática y punto. Para poder considerarla aplicación web ha de tener algún tipo de contenido dinámico, normalmente este contenido se genera de algún almacén persistente, usualmente una base de datos.&lt;br /&gt;
@@ -3495,7 +3526,7 @@ Creating ticks table.
     <item>
       <title>Java en Heroku</title>
       <link>http://www.aguasnegras.es/blog/2011/09/16-Java+en+Heroku.html</link>
-      <pubDate>vie., 16 sept. 2011 00:00:00 +0200</pubDate>
+      <pubDate>vie, 16 sep 2011 00:00:00 +0200</pubDate>
       <guid isPermaLink="false">blog/2011/09/16-Java+en+Heroku.html</guid>
       	<description>
 	&lt;p&gt;Una de las cosas que más me impresionó de Ruby on Rails, más que el framework en sí o el lenguaje, fue el excelente soporte que había creado la comunidad. Hablo específicamente de como se enlazaba tu proyecto local con GitHub y GitHub con Heroku, con lo cual podías tener el proyecto en producción en cuestión de minutos.&lt;/p&gt;
@@ -3678,7 +3709,7 @@ SHARED_DATABASE_URL =&amp;gt; postgres://tpqbfpkzqb:OILC1r62mtQ5YkqKTeA7@ec2-107
     <item>
       <title>GitHub y Markdown</title>
       <link>http://www.aguasnegras.es/blog/2011/08/30-GitHub+y+Markdown.html</link>
-      <pubDate>mar., 30 ago. 2011 00:00:00 +0200</pubDate>
+      <pubDate>mar, 30 ago 2011 00:00:00 +0200</pubDate>
       <guid isPermaLink="false">blog/2011/08/30-GitHub+y+Markdown.html</guid>
       	<description>
 	&lt;p&gt;Si entro en el repositorio PruebaGit que cree en &lt;a title=&quot;Git, EGit y GitHub.&quot; href=&quot;http://www.aguasnegras.es/?p=201&quot; target=&quot;_blank&quot;&gt;este artículo&lt;/a&gt;, GitHub es tan amable de avisarme de que no encuentra un archivo README.&lt;/p&gt;
@@ -3704,7 +3735,7 @@ SHARED_DATABASE_URL =&amp;gt; postgres://tpqbfpkzqb:OILC1r62mtQ5YkqKTeA7@ec2-107
     <item>
       <title>Localización en Android</title>
       <link>http://www.aguasnegras.es/blog/2011/08/17-Localizaci%C3%B3n+en+Android.html</link>
-      <pubDate>mié., 17 ago. 2011 00:00:00 +0200</pubDate>
+      <pubDate>mié, 17 ago 2011 00:00:00 +0200</pubDate>
       <guid isPermaLink="false">blog/2011/08/17-Localizaci%C3%B3n+en+Android.html</guid>
       	<description>
 	&lt;p&gt;En general en mi trabajo soy fanático de la&lt;a title=&quot;i18n y L18n en Wikipedia&quot; href=&quot;http://es.wikipedia.org/wiki/Internacionalizaci%C3%B3n_y_localizaci%C3%B3n&quot; target=&quot;_blank&quot;&gt; internacionalización (i18n) y la localización (L18n)&lt;/a&gt;, aunque la aplicación que este en desarrollo ni siquiera vaya a ser traducida nunca a ningún otro idioma.&lt;/p&gt;
@@ -3744,7 +3775,7 @@ SHARED_DATABASE_URL =&amp;gt; postgres://tpqbfpkzqb:OILC1r62mtQ5YkqKTeA7@ec2-107
     <item>
       <title>Tutorial de Bloc de Notas para Android - Parte 7</title>
       <link>http://www.aguasnegras.es/blog/2011/08/10-Tutorial+de+Bloc+de+Notas+para+Android+-+Parte+7.html</link>
-      <pubDate>mié., 10 ago. 2011 00:00:00 +0200</pubDate>
+      <pubDate>mié, 10 ago 2011 00:00:00 +0200</pubDate>
       <guid isPermaLink="false">blog/2011/08/10-Tutorial+de+Bloc+de+Notas+para+Android+-+Parte+7.html</guid>
       	<description>
 	&lt;p&gt;Actualmente, la aplicación de bloc de notas deja mucho que desear, no solo con respecto al aspecto gráfico o usabilidad de la misma, sino que además no esta integrada en el ciclo de vida.&lt;/p&gt;
@@ -3861,7 +3892,7 @@ protected void onActivityResult(int requestCode, int resultCode, Intent intent) 
     <item>
       <title>Git, EGit y GitHub.</title>
       <link>http://www.aguasnegras.es/blog/2011/08/06-Git%2C+EGit+y+GitHub.html</link>
-      <pubDate>sáb., 6 ago. 2011 00:00:00 +0200</pubDate>
+      <pubDate>sáb, 6 ago 2011 00:00:00 +0200</pubDate>
       <guid isPermaLink="false">blog/2011/08/06-Git%2C+EGit+y+GitHub.html</guid>
       	<description>
 	&lt;p&gt;&lt;strong&gt;Introducción&lt;/strong&gt;&lt;/p&gt;
@@ -3947,7 +3978,7 @@ En esta perspectiva (Team Synchronizing Perspective) tengo en el árbol de direc
     <item>
       <title>Tutorial de Bloc de Notas para Android - Interludio</title>
       <link>http://www.aguasnegras.es/blog/2011/08/04-Tutorial+de+Bloc+de+Notas+para+Android+-+Interludio.html</link>
-      <pubDate>jue., 4 ago. 2011 00:00:00 +0200</pubDate>
+      <pubDate>jue, 4 ago 2011 00:00:00 +0200</pubDate>
       <guid isPermaLink="false">blog/2011/08/04-Tutorial+de+Bloc+de+Notas+para+Android+-+Interludio.html</guid>
       	<description>
 	&lt;p&gt;Bueno, pues como me quedé ayer con las ganas, voy a hacer hoy un poco de microbenchmarking.&lt;br /&gt;
@@ -4173,7 +4204,7 @@ En general, y después de hablar con &lt;a title=&quot;SpanishCoders&quot; href=
     <item>
       <title>Tutorial de Bloc de Notas para Android - Parte 6</title>
       <link>http://www.aguasnegras.es/blog/2011/08/03-Tutorial+de+Bloc+de+Notas+para+Android+-+Parte+6.html</link>
-      <pubDate>mié., 3 ago. 2011 00:00:00 +0200</pubDate>
+      <pubDate>mié, 3 ago 2011 00:00:00 +0200</pubDate>
       <guid isPermaLink="false">blog/2011/08/03-Tutorial+de+Bloc+de+Notas+para+Android+-+Parte+6.html</guid>
       	<description>
 	&lt;p&gt;Bueno, pues ayer había rellenado el cuerpo del onCreate del EditNote.java y quedaba una cosa que no me gusta un pelo, que es rellenar ese onClick de la clase anónima interna. Para no salirme mucho (de momento) del objetivo, que es el tutorial, me limitaré a seguir el tutorial y después haré los experimentos oportunos.&lt;/p&gt;
@@ -4208,7 +4239,7 @@ En general, y después de hablar con &lt;a title=&quot;SpanishCoders&quot; href=
     <item>
       <title>Instalación de Entorno de Android en Linux</title>
       <link>http://www.aguasnegras.es/blog/2011/08/03-Instalaci%C3%B3n+de+Entorno+de+Android+en+Linux.html</link>
-      <pubDate>mié., 3 ago. 2011 00:00:00 +0200</pubDate>
+      <pubDate>mié, 3 ago 2011 00:00:00 +0200</pubDate>
       <guid isPermaLink="false">blog/2011/08/03-Instalaci%C3%B3n+de+Entorno+de+Android+en+Linux.html</guid>
       	<description>
 	&lt;p&gt;Pasos para instalar el Android SDK, Eclipse y Android Development Toolkit en Eclipse:&lt;/p&gt;
@@ -4245,7 +4276,7 @@ java -version
     <item>
       <title>Tutorial de Bloc de Notas para Android - Parte 5</title>
       <link>http://www.aguasnegras.es/blog/2011/08/02-Tutorial+de+Bloc+de+Notas+para+Android+-+Parte+5.html</link>
-      <pubDate>mar., 2 ago. 2011 00:00:00 +0200</pubDate>
+      <pubDate>mar, 2 ago 2011 00:00:00 +0200</pubDate>
       <guid isPermaLink="false">blog/2011/08/02-Tutorial+de+Bloc+de+Notas+para+Android+-+Parte+5.html</guid>
       	<description>
 	&lt;p&gt;Con respecto a la pantalla de edición/inserción de notas nuevas, nos dan ya el layout, llamado note_edit.xml. En él tenemos una distribución de elementos de la siguiente manera: LinearLayout, TextView, EditText y Button (todo ello dentro a su vez de un LinearLayout). El primer LinearLayout tiene orientation=vertical, para disponer los elementos en vertical (nada que ver con la posición de la pantalla) y el segundo tiene orientation=horizontal. Dentro de él hay un TextView y un EditText con layout_weight = 1. Este parámetro indica la importancia (y por tanto el espacio en pantalla) que ocupará un elemento determinado. Por defecto, vale 0.&lt;/p&gt;
@@ -4304,7 +4335,7 @@ java -version
     <item>
       <title>Tutorial de Bloc de Notas para Android – Parte 4</title>
       <link>http://www.aguasnegras.es/blog/2011/08/01-Tutorial+de+Bloc+de+Notas+para+Android+%E2%80%93+Parte+4.html</link>
-      <pubDate>lun., 1 ago. 2011 00:00:00 +0200</pubDate>
+      <pubDate>lun, 1 ago 2011 00:00:00 +0200</pubDate>
       <guid isPermaLink="false">blog/2011/08/01-Tutorial+de+Bloc+de+Notas+para+Android+%E2%80%93+Parte+4.html</guid>
       	<description>
 	&lt;p&gt;Recapitulando lo anterior (hace ya 13 días a lo tonto...), se había a añadir la funcionalidad CRUD al bloc de notas, ya tengo puestos los métodos en el código del activity y solo hará falta completar.&lt;/p&gt;
@@ -4392,7 +4423,7 @@ startActivityForResult(i, ACTIVITY_CREATE);
     <item>
       <title>Tutorial de Bloc de Notas para Android - Parte 3</title>
       <link>http://www.aguasnegras.es/blog/2011/07/12-Tutorial+de+Bloc+de+Notas+para+Android+-+Parte+3.html</link>
-      <pubDate>mar., 12 jul. 2011 00:00:00 +0200</pubDate>
+      <pubDate>mar, 12 jul 2011 00:00:00 +0200</pubDate>
       <guid isPermaLink="false">blog/2011/07/12-Tutorial+de+Bloc+de+Notas+para+Android+-+Parte+3.html</guid>
       	<description>
 	&lt;p&gt;Sigo con el tutorial, que más vale tarde que nunca... Entonces, repasando un poco lo hecho, tengo una tabla en la bd de la aplicación (un sqlite) que contiene las notas.&lt;/p&gt;
@@ -4434,7 +4465,7 @@ private static final int DELETE_ID = Menu.FIRST + 1;
     <item>
       <title>Tutorial de Bloc de Notas para Android - Parte 2</title>
       <link>http://www.aguasnegras.es/blog/2011/07/04-Tutorial+de+Bloc+de+Notas+para+Android+-+Parte+2.html</link>
-      <pubDate>lun., 4 jul. 2011 00:00:00 +0200</pubDate>
+      <pubDate>lun, 4 jul 2011 00:00:00 +0200</pubDate>
       <guid isPermaLink="false">blog/2011/07/04-Tutorial+de+Bloc+de+Notas+para+Android+-+Parte+2.html</guid>
       	<description>
 	&lt;p&gt;Para empezar a unir la base de datos con las vistas que hemos definido, lo primero es usar la clase ListActivity, que como dice la &lt;a title=&quot;API de ListActivity&quot; href=&quot;http://developer.android.com/reference/android/app/ListActivity.html&quot;&gt;documentación&lt;/a&gt;, es una actividad que presenta una lista de elementos provenientes de un array o un cursor y aporta una serie de gestores llamados cuando el usuario interactua con ellos:&lt;/p&gt;
@@ -4529,7 +4560,7 @@ setListAdapter(notes);
     <item>
       <title>Tutorial de Bloc de Notas para Android - Parte 1</title>
       <link>http://www.aguasnegras.es/blog/2011/06/29-Tutorial+de+Bloc+de+Notas+para+Android+-+Parte+1.html</link>
-      <pubDate>mié., 29 jun. 2011 00:00:00 +0200</pubDate>
+      <pubDate>mié, 29 jun 2011 00:00:00 +0200</pubDate>
       <guid isPermaLink="false">blog/2011/06/29-Tutorial+de+Bloc+de+Notas+para+Android+-+Parte+1.html</guid>
       	<description>
 	&lt;p&gt;La página principal de este tutorial esta &lt;a title=&quot;Tutorial Bloc de Notas Android&quot; href=&quot;http://developer.android.com/resources/tutorials/notepad/index.html&quot;&gt;aquí&lt;/a&gt;.&lt;/p&gt;
@@ -4583,7 +4614,7 @@ android:id=&amp;quot;@+id/text1&amp;quot;
     <item>
       <title>Redimensionar el emulador de Android</title>
       <link>http://www.aguasnegras.es/blog/2011/06/28-Redimensionar+el+emulador+de+Android.html</link>
-      <pubDate>mar., 28 jun. 2011 00:00:00 +0200</pubDate>
+      <pubDate>mar, 28 jun 2011 00:00:00 +0200</pubDate>
       <guid isPermaLink="false">blog/2011/06/28-Redimensionar+el+emulador+de+Android.html</guid>
       	<description>
 	&lt;p&gt;Nota mental:&lt;/p&gt;
@@ -4602,7 +4633,7 @@ android:id=&amp;quot;@+id/text1&amp;quot;
     <item>
       <title>Bases de Datos para Desarrolladores Java - Claves Primarias Artificiales</title>
       <link>http://www.aguasnegras.es/blog/2011/06/27-Bases+de+Datos+para+Desarrolladores+Java+-+Claves+Primarias+Artificiales.html</link>
-      <pubDate>lun., 27 jun. 2011 00:00:00 +0200</pubDate>
+      <pubDate>lun, 27 jun 2011 00:00:00 +0200</pubDate>
       <guid isPermaLink="false">blog/2011/06/27-Bases+de+Datos+para+Desarrolladores+Java+-+Claves+Primarias+Artificiales.html</guid>
       	<description>
 	&lt;p&gt;La teoría pura y dura de base de datos dice que para una entidad determinada, tendremos varias claves candidatas, que son aquellas que identifican únicamente a la entidad y la clave primaria se escoge de entre ellas como la menor.&lt;br /&gt;
@@ -4620,7 +4651,7 @@ Para un usuario podemos tener como claves candidatas: DNI, nombre de usuario, no
     <item>
       <title>Un poco de Ruby para Rails</title>
       <link>http://www.aguasnegras.es/blog/2011/02/21-Un+poco+de+Ruby+para+Rails.html</link>
-      <pubDate>lun., 21 feb. 2011 00:00:00 +0100</pubDate>
+      <pubDate>lun, 21 feb 2011 00:00:00 +0100</pubDate>
       <guid isPermaLink="false">blog/2011/02/21-Un+poco+de+Ruby+para+Rails.html</guid>
       	<description>
 	&lt;p&gt;Bueno, parece que me han escuchado. El capítulo 4 del tutorial va sobre Ruby más que sobre Rails, para profundizar en el lenguaje y entender conceptos básicos (más allá de lo que viene siendo una variable de instancia...).&lt;br /&gt;
@@ -4827,7 +4858,7 @@ Bueno, como todavía voy por el punto 4.2.4 y según la barra de desplazamiento 
     <item>
       <title>Un poco de dinamismo</title>
       <link>http://www.aguasnegras.es/blog/2011/02/20-Un+poco+de+dinamismo.html</link>
-      <pubDate>dom., 20 feb. 2011 00:00:00 +0100</pubDate>
+      <pubDate>dom, 20 feb 2011 00:00:00 +0100</pubDate>
       <guid isPermaLink="false">blog/2011/02/20-Un+poco+de+dinamismo.html</guid>
       	<description>
 	&lt;p&gt;Siguiendo con el tutorial, ya sé añadir páginas y enrutarlas, va siendo hora de añadir algo de contenido dinámico a las páginas. Voy a hacer que el título cambie según la página en la que este. Y esto es lo que voy a chequear con TDD, es decir, que al solicitar /pages/home el título vale Home y que al solicitar /pages/about, el título vale About.&lt;br /&gt;
@@ -4966,7 +4997,7 @@ before(:each) do
     <item>
       <title>Comenzando el Testeo</title>
       <link>http://www.aguasnegras.es/blog/2011/02/16-Comenzando+el+Testeo.html</link>
-      <pubDate>mié., 16 feb. 2011 00:00:00 +0100</pubDate>
+      <pubDate>mié, 16 feb 2011 00:00:00 +0100</pubDate>
       <guid isPermaLink="false">blog/2011/02/16-Comenzando+el+Testeo.html</guid>
       	<description>
 	&lt;p&gt;Estoy rememorando mi trabajo de hace 8 horas... variables que no sabes si se usan en otro sitio, temor a limpiar cosas, en fín... una pesadilla. Por eso, ESTE es el momento de empezar el testing en la aplicación RoR, he hecho un controlador (vacío, sí) y es hora de asegurarnos que ahora y siempre haga lo que tiene que hacer (nada).&lt;br /&gt;
@@ -5079,7 +5110,7 @@ En fín, tampoco pasa nada por estar ejecutando las pruebas a manubrio en otra c
     <item>
       <title>Bases de Datos para Desarrolladores Java - Integridad Referencial</title>
       <link>http://www.aguasnegras.es/blog/2011/02/01-Bases+de+Datos+para+Desarrolladores+Java+-+Integridad+Referencial.html</link>
-      <pubDate>mar., 1 feb. 2011 00:00:00 +0100</pubDate>
+      <pubDate>mar, 1 feb 2011 00:00:00 +0100</pubDate>
       <guid isPermaLink="false">blog/2011/02/01-Bases+de+Datos+para+Desarrolladores+Java+-+Integridad+Referencial.html</guid>
       	<description>
 	&lt;p&gt;Como el entorno de desarrollo se ha caído y llevo dos horas aburrido, sigo.&lt;/p&gt;
@@ -5095,7 +5126,7 @@ En fín, tampoco pasa nada por estar ejecutando las pruebas a manubrio en otra c
     <item>
       <title>Bases de Datos para Desarrolladores Java - Introducción e Índices</title>
       <link>http://www.aguasnegras.es/blog/2011/01/25-Bases+de+Datos+para+Desarrolladores+Java+-+Introducci%C3%B3n+e+%C3%8Dndices.html</link>
-      <pubDate>mar., 25 ene. 2011 00:00:00 +0100</pubDate>
+      <pubDate>mar, 25 ene 2011 00:00:00 +0100</pubDate>
       <guid isPermaLink="false">blog/2011/01/25-Bases+de+Datos+para+Desarrolladores+Java+-+Introducci%C3%B3n+e+%C3%8Dndices.html</guid>
       	<description>
 	&lt;p&gt;En general en una aplicación Java cualquiera los problemas empiezan desde abajo, con el diseño de la base de datos. He visto (y trabajo) con bases de datos en las que una tabla tiene 5 campos de primary key y uno solo de información. Que esto es un desperdicio se ve a simple vista. Después vienen los parches a nivel superior (en Java) y se termina yendo al infierno el rendimiento de la aplicación.&lt;br /&gt;
@@ -5126,20 +5157,9 @@ En general hay una serie de guías que &lt;strong&gt;no &lt;/strong&gt;te enseñ
 	</description>
     </item>
     <item>
-      <title>Instalación de Ruby on Rails en Ubuntu</title>
-      <link>http://www.aguasnegras.es/blog/2010/12/27-Instalaci%C3%B3n+de+Ruby+on+Rails+en+Ubuntu.html</link>
-      <pubDate>lun., 27 dic. 2010 00:00:00 +0100</pubDate>
-      <guid isPermaLink="false">blog/2010/12/27-Instalaci%C3%B3n+de+Ruby+on+Rails+en+Ubuntu.html</guid>
-      	<description>
-	&lt;p&gt;En este post he encontrado bastante bien resumidos los pasos:&lt;br /&gt;
-&lt;a href=&quot;http://ryanbigg.com/2010/12/ubuntu-ruby-rvm-rails-and-you/&quot;&gt;Life of a Radar&lt;/a&gt;&lt;/p&gt;
-
-	</description>
-    </item>
-    <item>
       <title>Sirviendo contenido estático</title>
       <link>http://www.aguasnegras.es/blog/2010/12/27-Sirviendo+contenido+est%C3%A1tico.html</link>
-      <pubDate>lun., 27 dic. 2010 00:00:00 +0100</pubDate>
+      <pubDate>lun, 27 dic 2010 00:00:00 +0100</pubDate>
       <guid isPermaLink="false">blog/2010/12/27-Sirviendo+contenido+est%C3%A1tico.html</guid>
       	<description>
 	&lt;p&gt;Después de unas buenas (y merecidas) vacaciones, sigo con el tutorial de RoR, esta vez en el capítulo tres voy a empezar a desarrollar una aplicación completa y entendiéndola en profundidad, ya no solo voy a usar scaffolding y punto.&lt;br /&gt;
@@ -5264,9 +5284,20 @@ $ git commit -am &amp;quot;Añadido controlador Pages (contenido estático)&amp;
 	</description>
     </item>
     <item>
+      <title>Instalación de Ruby on Rails en Ubuntu</title>
+      <link>http://www.aguasnegras.es/blog/2010/12/27-Instalaci%C3%B3n+de+Ruby+on+Rails+en+Ubuntu.html</link>
+      <pubDate>lun, 27 dic 2010 00:00:00 +0100</pubDate>
+      <guid isPermaLink="false">blog/2010/12/27-Instalaci%C3%B3n+de+Ruby+on+Rails+en+Ubuntu.html</guid>
+      	<description>
+	&lt;p&gt;En este post he encontrado bastante bien resumidos los pasos:&lt;br /&gt;
+&lt;a href=&quot;http://ryanbigg.com/2010/12/ubuntu-ruby-rvm-rails-and-you/&quot;&gt;Life of a Radar&lt;/a&gt;&lt;/p&gt;
+
+	</description>
+    </item>
+    <item>
       <title>Seguimos con el Tuíte, ahora vamos a crear los microposts</title>
       <link>http://www.aguasnegras.es/blog/2010/12/02-Seguimos+con+el+Tu%C3%ADte%2C+ahora+vamos+a+crear+los+microposts.html</link>
-      <pubDate>jue., 2 dic. 2010 00:00:00 +0100</pubDate>
+      <pubDate>jue, 2 dic 2010 00:00:00 +0100</pubDate>
       <guid isPermaLink="false">blog/2010/12/02-Seguimos+con+el+Tu%C3%ADte%2C+ahora+vamos+a+crear+los+microposts.html</guid>
       	<description>
 	&lt;p&gt;La estructura de un micropost es fácil a más no poder:&lt;/p&gt;
@@ -5379,7 +5410,7 @@ Toca subida a GitHub y a Heroku, simplemente para refrescar la memoria con los c
     <item>
       <title>Capítulo Dos - Vamos a hacer un Twuttur en Ruby on Rails</title>
       <link>http://www.aguasnegras.es/blog/2010/11/25-Cap%C3%ADtulo+Dos+-+Vamos+a+hacer+un+Twuttur+en+Ruby+on+Rails.html</link>
-      <pubDate>jue., 25 nov. 2010 00:00:00 +0100</pubDate>
+      <pubDate>jue, 25 nov 2010 00:00:00 +0100</pubDate>
       <guid isPermaLink="false">blog/2010/11/25-Cap%C3%ADtulo+Dos+-+Vamos+a+hacer+un+Twuttur+en+Ruby+on+Rails.html</guid>
       	<description>
 	&lt;p&gt;Pues eso, utilizando &lt;a title=&quot;Wikipedia - Scaffolding&quot; href=&quot;http://en.wikipedia.org/wiki/Scaffold_(programming)&quot; target=&quot;_blank&quot;&gt;scaffolding&lt;/a&gt; a cascoporro vamos a hacer un Twuttur, la idea no es hacerme experto en RoR del tirón, sino ir poco a poco viendo la estructura en general y el funcionamiento de una aplicación.&lt;/p&gt;
@@ -5470,9 +5501,47 @@ Para el próximo día me dejo de deberes la parte de microposts que incluye ya c
 	</description>
     </item>
     <item>
+      <title>Despliegue en Heroku</title>
+      <link>http://www.aguasnegras.es/blog/2010/11/21-Despliegue+en+Heroku.html</link>
+      <pubDate>dom, 21 nov 2010 00:00:00 +0100</pubDate>
+      <guid isPermaLink="false">blog/2010/11/21-Despliegue+en+Heroku.html</guid>
+      	<description>
+	&lt;p&gt;Por último y para acabar con el ciclo de vida, voy a ver el despliegue en &lt;a href=&quot;http://heroku.com/&quot;&gt;Heroku&lt;/a&gt;.&lt;br /&gt;
+Primero te das de alta y te envían un mail de confirmación, con este email vas a una página en la que pones la contraseña y listo.&lt;br /&gt;
+Ahora hay que instalar el gem de Heroku&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-prettyprint&quot;&gt;
+gem install heroku
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Una vez hecho esto, añado también mi clave pública a Heroku para poder comunicarlo con Git (increible esto... vaya ecosistema, me tiene alucinando).&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-prettyprint&quot;&gt;
+heroku keys:add
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Le suministro la información de la cuenta de Heroku y lo hace todo solo.&lt;br /&gt;
+Por último, creo la aplicación:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-prettyprint&quot;&gt;
+heroku create
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Con esto ya esta hecho, basta con pasar la aplicación de Git a Heroku (flipo).&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-prettyprint&quot;&gt;
+git push heroku master
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Y se acabó, si se desea se puede lanzar la aplicación desde la misma línea de comandos&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-prettyprint&quot;&gt;
+heroku open
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;A volar... la verdad que de momento me gusta lo que veo, unas herramientas bien coordinadas para hacerle la vida más sencilla al desarrollador con un ecosistema amigable. Me gusta.&lt;/p&gt;
+
+	</description>
+    </item>
+    <item>
       <title>Aprendiendo Ruby on Rails - Resumen Capítulo Uno</title>
       <link>http://www.aguasnegras.es/blog/2010/11/21-Aprendiendo+Ruby+on+Rails+-+Resumen+Cap%C3%ADtulo+Uno.html</link>
-      <pubDate>dom., 21 nov. 2010 00:00:00 +0100</pubDate>
+      <pubDate>dom, 21 nov 2010 00:00:00 +0100</pubDate>
       <guid isPermaLink="false">blog/2010/11/21-Aprendiendo+Ruby+on+Rails+-+Resumen+Cap%C3%ADtulo+Uno.html</guid>
       	<description>
 	&lt;p&gt;Bueno, pues en el capítulo uno del tutorial he configurado el entorno y seguido un pequeño workflow de trabajo, desde la creación de la aplicación hasta su despliegue en Heroku, pasando por el control de versiones con Git y GitHub.&lt;/p&gt;
@@ -5516,47 +5585,9 @@ Para el próximo día me dejo de deberes la parte de microposts que incluye ya c
 	</description>
     </item>
     <item>
-      <title>Despliegue en Heroku</title>
-      <link>http://www.aguasnegras.es/blog/2010/11/21-Despliegue+en+Heroku.html</link>
-      <pubDate>dom., 21 nov. 2010 00:00:00 +0100</pubDate>
-      <guid isPermaLink="false">blog/2010/11/21-Despliegue+en+Heroku.html</guid>
-      	<description>
-	&lt;p&gt;Por último y para acabar con el ciclo de vida, voy a ver el despliegue en &lt;a href=&quot;http://heroku.com/&quot;&gt;Heroku&lt;/a&gt;.&lt;br /&gt;
-Primero te das de alta y te envían un mail de confirmación, con este email vas a una página en la que pones la contraseña y listo.&lt;br /&gt;
-Ahora hay que instalar el gem de Heroku&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-prettyprint&quot;&gt;
-gem install heroku
-
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Una vez hecho esto, añado también mi clave pública a Heroku para poder comunicarlo con Git (increible esto... vaya ecosistema, me tiene alucinando).&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-prettyprint&quot;&gt;
-heroku keys:add
-
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Le suministro la información de la cuenta de Heroku y lo hace todo solo.&lt;br /&gt;
-Por último, creo la aplicación:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-prettyprint&quot;&gt;
-heroku create
-
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Con esto ya esta hecho, basta con pasar la aplicación de Git a Heroku (flipo).&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-prettyprint&quot;&gt;
-git push heroku master
-
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Y se acabó, si se desea se puede lanzar la aplicación desde la misma línea de comandos&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-prettyprint&quot;&gt;
-heroku open
-
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;A volar... la verdad que de momento me gusta lo que veo, unas herramientas bien coordinadas para hacerle la vida más sencilla al desarrollador con un ecosistema amigable. Me gusta.&lt;/p&gt;
-
-	</description>
-    </item>
-    <item>
       <title>JUnit 4 y DataSources</title>
       <link>http://www.aguasnegras.es/blog/2010/11/20-JUnit+4+y+DataSources.html</link>
-      <pubDate>sáb., 20 nov. 2010 00:00:00 +0100</pubDate>
+      <pubDate>sáb, 20 nov 2010 00:00:00 +0100</pubDate>
       <guid isPermaLink="false">blog/2010/11/20-JUnit+4+y+DataSources.html</guid>
       	<description>
 	&lt;p&gt;Cuando desarrollo aplicaciones web (y tengo tiempo) me gusta seguir una variante propia de &lt;a title=&quot;Test Driven Development&quot; href=&quot;http://en.wikipedia.org/wiki/Test-driven_development&quot; target=&quot;_blank&quot;&gt;TDD&lt;/a&gt;. Básicamente trato de ser exhaustivo con las pruebas y en este sentido JUnit es lo suyo, diseño el DAO y le hago pruebas unitarias, diseño la capa de servicios y le hago pruebas unitarias, es más, si tengo tiempo hago pruebas unitarias sobre las mismas entidades.&lt;/p&gt;
@@ -5611,7 +5642,7 @@ heroku open
     <item>
       <title>Control de Versiones con Git para Ruby on Rails</title>
       <link>http://www.aguasnegras.es/blog/2010/11/20-Control+de+Versiones+con+Git+para+Ruby+on+Rails.html</link>
-      <pubDate>sáb., 20 nov. 2010 00:00:00 +0100</pubDate>
+      <pubDate>sáb, 20 nov 2010 00:00:00 +0100</pubDate>
       <guid isPermaLink="false">blog/2010/11/20-Control+de+Versiones+con+Git+para+Ruby+on+Rails.html</guid>
       	<description>
 	&lt;p&gt;Vale, una semana más tarde, siguiente capítulo, Git. En Subversion ya soy el experto de la empresa, así que mato dos pájaros de un tiro aprendo Git por el mismo precio :)&lt;/p&gt;
@@ -5777,7 +5808,7 @@ To git@github.com:agustinventura/first_app.git
     <item>
       <title>Aprendiendo Ruby on Rails</title>
       <link>http://www.aguasnegras.es/blog/2010/11/13-Aprendiendo+Ruby+on+Rails.html</link>
-      <pubDate>sáb., 13 nov. 2010 00:00:00 +0100</pubDate>
+      <pubDate>sáb, 13 nov 2010 00:00:00 +0100</pubDate>
       <guid isPermaLink="false">blog/2010/11/13-Aprendiendo+Ruby+on+Rails.html</guid>
       	<description>
 	&lt;p&gt;En mi trabajo, uno de los proyectos en los que ando metido es la estandarización de proyectos de desarrollo Java en entorno web, a todos los niveles.&lt;/p&gt;
@@ -5797,9 +5828,41 @@ To git@github.com:agustinventura/first_app.git
 	</description>
     </item>
     <item>
+      <title>Entorno de Ruby on Rails - Parte 2</title>
+      <link>http://www.aguasnegras.es/blog/2010/11/13-Entorno+de+Ruby+on+Rails+-+Parte+2.html</link>
+      <pubDate>sáb, 13 nov 2010 00:00:00 +0100</pubDate>
+      <guid isPermaLink="false">blog/2010/11/13-Entorno+de+Ruby+on+Rails+-+Parte+2.html</guid>
+      	<description>
+	&lt;p&gt;Bazinga! Eso era, por fín:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-prettyprint&quot;&gt;case@aesir:~/.rvm/usr/lib$ gem update --system
+Updating RubyGems
+Nothing to update
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Se vuelve a ejecutar el rvm --create y el --default y seguimos adelante, ahora a instalar rails con gem.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-prettyprint&quot;&gt;gem install rails --version 3.0.1
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Muy bien, creo el directorio de proyecto y&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-prettyprint&quot;&gt;rails new fist_app
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Ya está creada, repaso los directorios y algún fichero de configuración según el tutorial e instalo los gems con bundle tal y como se especifica.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-prettyprint&quot;&gt;rails server
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Y ahí esta, funcionando sin problemas. Pasamos a recapitular.&lt;/p&gt;
+&lt;ul&gt;
+	&lt;li&gt;Efectivamente, las herramientas son útiles y potentes, parece que se está pensando en todo.&lt;/li&gt;
+	&lt;li&gt;La estructura de directorios parece también clara y estándar.&lt;/li&gt;
+	&lt;li&gt;El uso de git y el incluir una carpeta tests por defecto, parece que sigue metodologías modernas, o mejor dicho, te guía al uso de las mismas.&lt;/li&gt;
+	&lt;li&gt;El que haya una y solo una herramienta para cada cosa, no tienes que aprender a hacer lo mismo de 4 formas distintas.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Y poco más, de momento ya esta bien, mañana más y mejor.&lt;/p&gt;
+&lt;p&gt;Vamos a descogelar sushi pa la cena.&lt;/p&gt;
+
+	</description>
+    </item>
+    <item>
       <title>Entorno de Ruby on Rails - Parte 1</title>
       <link>http://www.aguasnegras.es/blog/2010/11/13-Entorno+de+Ruby+on+Rails+-+Parte+1.html</link>
-      <pubDate>sáb., 13 nov. 2010 00:00:00 +0100</pubDate>
+      <pubDate>sáb, 13 nov 2010 00:00:00 +0100</pubDate>
       <guid isPermaLink="false">blog/2010/11/13-Entorno+de+Ruby+on+Rails+-+Parte+1.html</guid>
       	<description>
 	&lt;p&gt;Para seguir el tutorial voy a usar mi viejo buen portátil (tiene ya 6 años), con una Ubuntu 10.04 y el siguiente stack de desarrollo (siguiendo lo recomendado en el tutorial):&lt;/p&gt;
@@ -5849,38 +5912,6 @@ $ rvm remove 1.9.2
 $ rvm install 1.9.2
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Esto parece más razonable... buf, otra vez a compilar... vamos a por un café que siempre viene bien.&lt;/p&gt;
-
-	</description>
-    </item>
-    <item>
-      <title>Entorno de Ruby on Rails - Parte 2</title>
-      <link>http://www.aguasnegras.es/blog/2010/11/13-Entorno+de+Ruby+on+Rails+-+Parte+2.html</link>
-      <pubDate>sáb., 13 nov. 2010 00:00:00 +0100</pubDate>
-      <guid isPermaLink="false">blog/2010/11/13-Entorno+de+Ruby+on+Rails+-+Parte+2.html</guid>
-      	<description>
-	&lt;p&gt;Bazinga! Eso era, por fín:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-prettyprint&quot;&gt;case@aesir:~/.rvm/usr/lib$ gem update --system
-Updating RubyGems
-Nothing to update
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Se vuelve a ejecutar el rvm --create y el --default y seguimos adelante, ahora a instalar rails con gem.&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-prettyprint&quot;&gt;gem install rails --version 3.0.1
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Muy bien, creo el directorio de proyecto y&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-prettyprint&quot;&gt;rails new fist_app
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Ya está creada, repaso los directorios y algún fichero de configuración según el tutorial e instalo los gems con bundle tal y como se especifica.&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-prettyprint&quot;&gt;rails server
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Y ahí esta, funcionando sin problemas. Pasamos a recapitular.&lt;/p&gt;
-&lt;ul&gt;
-	&lt;li&gt;Efectivamente, las herramientas son útiles y potentes, parece que se está pensando en todo.&lt;/li&gt;
-	&lt;li&gt;La estructura de directorios parece también clara y estándar.&lt;/li&gt;
-	&lt;li&gt;El uso de git y el incluir una carpeta tests por defecto, parece que sigue metodologías modernas, o mejor dicho, te guía al uso de las mismas.&lt;/li&gt;
-	&lt;li&gt;El que haya una y solo una herramienta para cada cosa, no tienes que aprender a hacer lo mismo de 4 formas distintas.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;Y poco más, de momento ya esta bien, mañana más y mejor.&lt;/p&gt;
-&lt;p&gt;Vamos a descogelar sushi pa la cena.&lt;/p&gt;
 
 	</description>
     </item>

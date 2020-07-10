@@ -5,6 +5,10 @@
         <lastmod>2016-02-02</lastmod>
     </url>
     <url>
+        <loc>http://www.aguasnegras.es/blog/2020/07/10-Credenciales_git_libsecret.html</loc>
+        <lastmod>2020-07-10</lastmod>
+    </url>
+    <url>
         <loc>http://www.aguasnegras.es/blog/2019/03/16-Copia_Seguridad_postgreSQL_Docker.html</loc>
         <lastmod>2019-03-16</lastmod>
     </url>
@@ -137,11 +141,11 @@
         <lastmod>2011-10-13</lastmod>
     </url>
     <url>
-        <loc>http://www.aguasnegras.es/blog/2011/09/22-Add-ons+para+Heroku.html</loc>
+        <loc>http://www.aguasnegras.es/blog/2011/09/22-Procesos+Java+en+Heroku.html</loc>
         <lastmod>2011-09-22</lastmod>
     </url>
     <url>
-        <loc>http://www.aguasnegras.es/blog/2011/09/22-Procesos+Java+en+Heroku.html</loc>
+        <loc>http://www.aguasnegras.es/blog/2011/09/22-Add-ons+para+Heroku.html</loc>
         <lastmod>2011-09-22</lastmod>
     </url>
     <url>
@@ -229,11 +233,11 @@
         <lastmod>2011-01-25</lastmod>
     </url>
     <url>
-        <loc>http://www.aguasnegras.es/blog/2010/12/27-Instalaci%C3%B3n+de+Ruby+on+Rails+en+Ubuntu.html</loc>
+        <loc>http://www.aguasnegras.es/blog/2010/12/27-Sirviendo+contenido+est%C3%A1tico.html</loc>
         <lastmod>2010-12-27</lastmod>
     </url>
     <url>
-        <loc>http://www.aguasnegras.es/blog/2010/12/27-Sirviendo+contenido+est%C3%A1tico.html</loc>
+        <loc>http://www.aguasnegras.es/blog/2010/12/27-Instalaci%C3%B3n+de+Ruby+on+Rails+en+Ubuntu.html</loc>
         <lastmod>2010-12-27</lastmod>
     </url>
     <url>
@@ -245,11 +249,11 @@
         <lastmod>2010-11-25</lastmod>
     </url>
     <url>
-        <loc>http://www.aguasnegras.es/blog/2010/11/21-Aprendiendo+Ruby+on+Rails+-+Resumen+Cap%C3%ADtulo+Uno.html</loc>
+        <loc>http://www.aguasnegras.es/blog/2010/11/21-Despliegue+en+Heroku.html</loc>
         <lastmod>2010-11-21</lastmod>
     </url>
     <url>
-        <loc>http://www.aguasnegras.es/blog/2010/11/21-Despliegue+en+Heroku.html</loc>
+        <loc>http://www.aguasnegras.es/blog/2010/11/21-Aprendiendo+Ruby+on+Rails+-+Resumen+Cap%C3%ADtulo+Uno.html</loc>
         <lastmod>2010-11-21</lastmod>
     </url>
     <url>
@@ -265,11 +269,11 @@
         <lastmod>2010-11-13</lastmod>
     </url>
     <url>
-        <loc>http://www.aguasnegras.es/blog/2010/11/13-Entorno+de+Ruby+on+Rails+-+Parte+1.html</loc>
+        <loc>http://www.aguasnegras.es/blog/2010/11/13-Entorno+de+Ruby+on+Rails+-+Parte+2.html</loc>
         <lastmod>2010-11-13</lastmod>
     </url>
     <url>
-        <loc>http://www.aguasnegras.es/blog/2010/11/13-Entorno+de+Ruby+on+Rails+-+Parte+2.html</loc>
+        <loc>http://www.aguasnegras.es/blog/2010/11/13-Entorno+de+Ruby+on+Rails+-+Parte+1.html</loc>
         <lastmod>2010-11-13</lastmod>
     </url>
 </urlset>
