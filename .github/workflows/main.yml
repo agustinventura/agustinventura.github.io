@@ -1,16 +1,12 @@
 name: Build blog sources and publish
-
 on: [push]
-    #Branches: [development]
-
 jobs:
     build:
         runs-on: ubuntu-latest
-
-steps:
-    - uses: sdkman/sdkman-action@master
-      id: sdkman
-      with:
-          candidate: jbake
-          version: 2.6.7
-    - run: jbake -b
+        steps:
+            - uses: sdkman/sdkman-action@master
+                id: sdkman
+                with:
+                    candidate: jbake
+                    version: 2.6.7
+            - run: jbake -b
