@@ -9,4 +9,4 @@ jobs:
               with:
                 candidate: jbake
                 version: 2.6.7
-            - run: jbake -b
+            - run: jbake -b sources/ .
