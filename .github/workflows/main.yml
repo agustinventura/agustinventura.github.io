@@ -1,9 +1,15 @@
 name: Build blog sources and publish
-on: [push]
+on:
+    push:
+        branches:
+            - development
 jobs:
     build:
         runs-on: ubuntu-latest
         steps:
-            - run: curl -s "https://get.sdkman.io" | bash
-            - run: sdk install jbake
+            - uses: sdkman/sdkman-action@master
+              id: sdkman
+              with:
+                candidate: jbake
+                version: 2.6.7
             - run: jbake -b
