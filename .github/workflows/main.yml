@@ -1,8 +1,5 @@
 name: Build blog sources and publish
-on:
-    push:
-        branches:
-            - development
+on: [push]
 jobs:
     build:
         runs-on: ubuntu-latest
