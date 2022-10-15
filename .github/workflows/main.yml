@@ -5,7 +5,7 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v2
-            - uses: renatoathaydes/setup-java-sdkman@v2.1.1
+            - uses: renatoathaydes/setup-java-sdkman@v2.x
               with:
                 candidate: jbake
                 version: 2.6.7
