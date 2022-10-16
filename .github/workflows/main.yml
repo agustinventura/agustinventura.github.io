@@ -1,4 +1,4 @@
-name: Build blog sources and publish
+name: Build blog sources and publish to GitHub Pages
 on: [push]
 jobs:
     build:
@@ -7,25 +7,20 @@ jobs:
           name: github-pages
           url: ${{ steps.deployment.outputs.page_url }}
         permissions:
-          contents: read
           id-token: write
           pages: write
-          deployments: write
         steps:
             - uses: actions/checkout@v3
               with:
                   ref: master
             - uses: sdkman/sdkman-action@master
-              id: sdkman
               with:
                   candidate: java
                   version: 17.0.4.1-tem
             - uses: actions/setup-java@v1
-              id: setup-java
               with:
                   java-version: 17.0.4.1
                   jdkFile: ${{ steps.sdkman.outputs.file }}
-            - run: java --version
             - uses: wei/wget@v1
               with:
                   args: -q https://github.com/jbake-org/jbake/releases/download/v2.6.7/jbake-2.6.7-bin.zip -O jbake-2.6.7-bin.zip
