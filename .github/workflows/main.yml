@@ -4,9 +4,17 @@ jobs:
     build:
         runs-on: ubuntu-latest
         steps:
-            - uses: actions/checkout@v2
-            - uses: renatoathaydes/setup-java-sdkman@2.1.1
-              with:
-                candidate: jbake
-                version: 2.6.7
-            - run: jbake -b sources/ .
+            - uses: sdkman/sdkman-action@master
+                id: sdkman
+                with:
+                    candidate: java
+                    version: 17.0.4.1-tem
+            - uses: actions/setup-java@v1
+                id: setup-java
+                with:
+                    java-version: 17.0.4.1
+                    jdkFile: ${{ steps.sdkman.outputs.file }}
+            - run: wget https://github.com/jbake-org/jbake/releases/download/v2.6.7/jbake-2.6.7-bin.zip -O jbake.-2.6.7-bin.zip
+            - run: unzip jbake-2.6.7-bin.zip
+            - run: chmod a+x bin/jbake
+            - run: ./bin/jbake -v
