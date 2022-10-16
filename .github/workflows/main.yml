@@ -3,6 +3,8 @@ on: [push]
 jobs:
     build:
         runs-on: ubuntu-latest
+        permissions:
+          id-token: read|write
         steps:
             - uses: actions/checkout@v3
               with:
@@ -33,4 +35,4 @@ jobs:
               with:
                 artifact_name: github-pages
                 preview: false
-                token: ${{ secrets.GITHUB_TOKEN }}
+                token: ${{ github.token }}
