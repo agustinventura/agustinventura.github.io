@@ -25,5 +25,5 @@ jobs:
               with:
                   args: unzip -qq jbake-2.6.7-bin.zip -d .
             - run: ls -ltr
-            - run: sh jbake-2.6.7-bin/bin/jbake -b /sources /_site
+            - run: sh jbake-2.6.7-bin/bin/jbake -b sources _site
             - run: ls -ltr
