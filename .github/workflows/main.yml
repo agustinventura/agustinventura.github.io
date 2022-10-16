@@ -21,6 +21,9 @@ jobs:
             - uses: montudor/action-zip@v1
               with:
                   args: unzip -qq jbake-2.6.7-bin.zip -d .
+            - uses: actions/checkout@v3
+              with:
+                  ref: master
             - run: ls -ltr /github/workspace
             - run: sh jbake-2.6.7-bin/bin/jbake -b /github/workspace/sources/ .
             - run: ls -ltr /github/workspace
