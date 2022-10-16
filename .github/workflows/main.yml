@@ -33,3 +33,4 @@ jobs:
               with:
                 artifact_name: github-pages
                 preview: false
+                token: ${{ github.token }}
