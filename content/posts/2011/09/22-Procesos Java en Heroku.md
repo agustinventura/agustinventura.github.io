@@ -84,7 +84,7 @@ Además el jsp me confirma que se han ido insertando en la base de datos.
 Bueno, pues ya esta. A poner el código en GitHub
 
 <strong>Código en GitHub</strong>
-<a href="https://github.com/agustinventura/helloheroku/tree/1429c05b2a83745dfda1d1f08145f7954d9922d0"><img class="aligncenter size-full wp-image-255" title="GitHub" src="/images/2011/08/github_icon.png" alt="GitHub" width="115" height="115" /></a>
+<a href="https://github.com/agustinventura/helloheroku/tree/1429c05b2a83745dfda1d1f08145f7954d9922d0">![GitHub](/images/2011/08/github_icon.png)</a>
 
 <strong>Conclusiones</strong>
 Bueno, pues ya he visto como se ejecuta un proceso demonio y he trasteado un poco el Procfile, que es otro fleco que convendría investigar un poco, a ver que más cosas se pueden hacer.

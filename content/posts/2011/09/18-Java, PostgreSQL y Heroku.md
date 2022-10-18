@@ -205,7 +205,8 @@ Abro http://fierce-autumn-4530.herokuapp.com/ticks.jsp en el navegador... et voi
 
 <strong>Código en GitHub</strong>
 
-<strong><a href="https://github.com/agustinventura/helloheroku/tree/8e64800881682f1d848a37f9f625f8f0bae21beb" target="_blank"><img class="aligncenter size-full wp-image-255" title="GitHub" src="/images/2011/08/github_icon.png" alt="GitHub" width="115" height="115" /></a>Conclusiones</strong>
+<a href="https://github.com/agustinventura/helloheroku/tree/8e64800881682f1d848a37f9f625f8f0bae21beb" target="_blank">![GitHub](/images/2011/08/github_icon.png)</a>
+<strong>Conclusiones</strong>
 
 Heroku soporta una base de datos plenamente madura, como es PostgreSQL y con un esfuerzo mínimo, de hecho, hay que invertir más tiempo en configurarla en local que en remoto.
 

@@ -194,7 +194,7 @@ Y listo, funcionando!
 
 <strong>Código en GitHub</strong>
 
-<strong><a href="https://github.com/agustinventura/Petclinic-con-Spring-Roo-en-Heroku"><img class="aligncenter size-full wp-image-255" title="GitHub" src="/images/2011/08/github_icon.png" alt="GitHub" width="115" height="115" /></a>
+<strong><a href="https://github.com/agustinventura/Petclinic-con-Spring-Roo-en-Heroku">![GitHub](/images/2011/08/github_icon.png)</a>
 </strong>
 
 <strong>Conclusiones</strong>

@@ -35,7 +35,7 @@ Y ahora, al lío. Traducción del bloc de notas:
 	<li>Click en Finish</li>
 </ol>
 
-<a href="/images/2011/08/Pantallazo-New-Android-XML-File-.png"><img class="size-medium wp-image-251" title="Creación de strings.xml para es-ES" src="/images/2011/08/Pantallazo-New-Android-XML-File--300x294.png" alt="Creación de strings.xml para es-ES" width="300" height="294" /></a>
+![Creación de strings.xml para es-ES](/images/2011/08/Pantallazo-New-Android-XML-File-.png)
 
 Ahora a copiar y traducir:
 
@@ -47,8 +47,8 @@ Ahora a copiar y traducir:
 	<li>Vuelvo a arrancar la aplicación... et voilà!</li>
 </ol>
 
-<a href="/images/2011/08/Pantallazo-Bloc-de-Notas-en-Español.png"><img class="size-medium wp-image-252" title="Bloc de Notas traducido al español" src="/images/2011/08/Pantallazo-Bloc-de-Notas-en-Español-300x278.png" alt="Bloc de Notas traducido al español" width="300" height="278" /></a>
+![Bloc de Notas traducido al español](/images/2011/08/Pantallazo-Bloc-de-Notas-en-Español.png)
 
 Y eso es todo, si quieres los fuentes del proyecto, los tienes en GitHub.
 
-<a title="Fuentes en GitHub" href="https://github.com/agustinventura/Bloc-de-Notas-en-Espa-ol" target="_blank"><img class="aligncenter size-full wp-image-255" title="GitHub" src="/images/2011/08/github_icon.png" alt="GitHub" width="115" height="115" /></a>
+<a title="Fuentes en GitHub" href="https://github.com/agustinventura/Bloc-de-Notas-en-Espa-ol" target="_blank">![GitHub](/images/2011/08/github_icon.png)</a>
