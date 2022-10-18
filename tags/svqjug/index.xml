@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>SVQJUG on AguasNegras</title>
+    <link>https://www.aguasnegras.es/tags/svqjug/</link>
+    <description>Recent content in SVQJUG on AguasNegras</description>
+    <image>
+      <url>https://www.aguasnegras.es/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
+      <link>https://www.aguasnegras.es/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
+    </image>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Mon, 29 May 2017 00:00:00 +0000</lastBuildDate><atom:link href="https://www.aguasnegras.es/tags/svqjug/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Domain Driven Design, Sesión 2</title>
+      <link>https://www.aguasnegras.es/posts/2017/05/29-ddd-sesion-2/</link>
+      <pubDate>Mon, 29 May 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.aguasnegras.es/posts/2017/05/29-ddd-sesion-2/</guid>
+      <description>Ayer tuvimos la segunda sesión de DDD en las oficinas de Comalis. Personalmente se me hizo bastante corto ya que tuvimos bastante debate y muy interesante. Yo aprendí muchísimo… pero por otra parte salí con nuevas lagunas. Empezamos con una pequeña introducción por parte de Tamara de Comalis sobre la empresa. Se dedican fundamentalmente al hosting, cloud, antispam, ssl, etc. Son franceses (el CPD esta en Lyon) pero tienen las oficinas aquí, en Sevilla.</description>
+    </item>
+    
+  </channel>
+</rss>

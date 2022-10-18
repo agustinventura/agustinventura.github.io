@@ -1,0 +1,446 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Tags on AguasNegras</title>
+    <link>https://www.aguasnegras.es/tags/</link>
+    <description>Recent content in Tags on AguasNegras</description>
+    <image>
+      <url>https://www.aguasnegras.es/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
+      <link>https://www.aguasnegras.es/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
+    </image>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Sun, 16 Oct 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://www.aguasnegras.es/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>GitHub</title>
+      <link>https://www.aguasnegras.es/tags/github/</link>
+      <pubDate>Sun, 16 Oct 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.aguasnegras.es/tags/github/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>GitHub Actions</title>
+      <link>https://www.aguasnegras.es/tags/github-actions/</link>
+      <pubDate>Sun, 16 Oct 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.aguasnegras.es/tags/github-actions/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>GitHub Pages</title>
+      <link>https://www.aguasnegras.es/tags/github-pages/</link>
+      <pubDate>Sun, 16 Oct 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.aguasnegras.es/tags/github-pages/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>JBake</title>
+      <link>https://www.aguasnegras.es/tags/jbake/</link>
+      <pubDate>Sun, 16 Oct 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.aguasnegras.es/tags/jbake/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Credenciales</title>
+      <link>https://www.aguasnegras.es/tags/credenciales/</link>
+      <pubDate>Fri, 10 Jul 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.aguasnegras.es/tags/credenciales/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Git</title>
+      <link>https://www.aguasnegras.es/tags/git/</link>
+      <pubDate>Fri, 10 Jul 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.aguasnegras.es/tags/git/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Linux</title>
+      <link>https://www.aguasnegras.es/tags/linux/</link>
+      <pubDate>Fri, 10 Jul 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.aguasnegras.es/tags/linux/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Tools of the Trade</title>
+      <link>https://www.aguasnegras.es/tags/tools-of-the-trade/</link>
+      <pubDate>Fri, 10 Jul 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.aguasnegras.es/tags/tools-of-the-trade/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Ubuntu</title>
+      <link>https://www.aguasnegras.es/tags/ubuntu/</link>
+      <pubDate>Fri, 10 Jul 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.aguasnegras.es/tags/ubuntu/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Bases de Datos</title>
+      <link>https://www.aguasnegras.es/tags/bases-de-datos/</link>
+      <pubDate>Thu, 07 Mar 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.aguasnegras.es/tags/bases-de-datos/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Docker</title>
+      <link>https://www.aguasnegras.es/tags/docker/</link>
+      <pubDate>Thu, 07 Mar 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.aguasnegras.es/tags/docker/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>PostgreSQL</title>
+      <link>https://www.aguasnegras.es/tags/postgresql/</link>
+      <pubDate>Thu, 07 Mar 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.aguasnegras.es/tags/postgresql/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>SQL</title>
+      <link>https://www.aguasnegras.es/tags/sql/</link>
+      <pubDate>Thu, 07 Mar 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.aguasnegras.es/tags/sql/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>JavaScript</title>
+      <link>https://www.aguasnegras.es/tags/javascript/</link>
+      <pubDate>Fri, 28 Dec 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.aguasnegras.es/tags/javascript/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Tizen</title>
+      <link>https://www.aguasnegras.es/tags/tizen/</link>
+      <pubDate>Fri, 28 Dec 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.aguasnegras.es/tags/tizen/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Programación</title>
+      <link>https://www.aguasnegras.es/tags/programaci%C3%B3n/</link>
+      <pubDate>Thu, 27 Dec 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.aguasnegras.es/tags/programaci%C3%B3n/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Java</title>
+      <link>https://www.aguasnegras.es/tags/java/</link>
+      <pubDate>Fri, 12 Oct 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.aguasnegras.es/tags/java/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>SDKMAN</title>
+      <link>https://www.aguasnegras.es/tags/sdkman/</link>
+      <pubDate>Fri, 12 Oct 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.aguasnegras.es/tags/sdkman/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>OAuth</title>
+      <link>https://www.aguasnegras.es/tags/oauth/</link>
+      <pubDate>Thu, 14 Dec 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.aguasnegras.es/tags/oauth/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Spring Boot</title>
+      <link>https://www.aguasnegras.es/tags/spring-boot/</link>
+      <pubDate>Thu, 14 Dec 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.aguasnegras.es/tags/spring-boot/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Spring Security</title>
+      <link>https://www.aguasnegras.es/tags/spring-security/</link>
+      <pubDate>Thu, 14 Dec 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.aguasnegras.es/tags/spring-security/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>DDD</title>
+      <link>https://www.aguasnegras.es/tags/ddd/</link>
+      <pubDate>Mon, 29 May 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.aguasnegras.es/tags/ddd/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>SVQJUG</title>
+      <link>https://www.aguasnegras.es/tags/svqjug/</link>
+      <pubDate>Mon, 29 May 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.aguasnegras.es/tags/svqjug/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Angular</title>
+      <link>https://www.aguasnegras.es/tags/angular/</link>
+      <pubDate>Sun, 07 May 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.aguasnegras.es/tags/angular/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Hibernate</title>
+      <link>https://www.aguasnegras.es/tags/hibernate/</link>
+      <pubDate>Mon, 27 Mar 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.aguasnegras.es/tags/hibernate/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Logging</title>
+      <link>https://www.aguasnegras.es/tags/logging/</link>
+      <pubDate>Mon, 27 Mar 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.aguasnegras.es/tags/logging/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Date</title>
+      <link>https://www.aguasnegras.es/tags/date/</link>
+      <pubDate>Thu, 16 Jun 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.aguasnegras.es/tags/date/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Time</title>
+      <link>https://www.aguasnegras.es/tags/time/</link>
+      <pubDate>Thu, 16 Jun 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.aguasnegras.es/tags/time/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>WordPress</title>
+      <link>https://www.aguasnegras.es/tags/wordpress/</link>
+      <pubDate>Fri, 10 Jun 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.aguasnegras.es/tags/wordpress/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Intellij IDEA</title>
+      <link>https://www.aguasnegras.es/tags/intellij-idea/</link>
+      <pubDate>Mon, 30 May 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.aguasnegras.es/tags/intellij-idea/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Spring</title>
+      <link>https://www.aguasnegras.es/tags/spring/</link>
+      <pubDate>Mon, 30 May 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.aguasnegras.es/tags/spring/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>log4j</title>
+      <link>https://www.aguasnegras.es/tags/log4j/</link>
+      <pubDate>Mon, 02 Sep 2013 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.aguasnegras.es/tags/log4j/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>SLF4J</title>
+      <link>https://www.aguasnegras.es/tags/slf4j/</link>
+      <pubDate>Mon, 02 Sep 2013 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.aguasnegras.es/tags/slf4j/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Tutorial</title>
+      <link>https://www.aguasnegras.es/tags/tutorial/</link>
+      <pubDate>Mon, 02 Sep 2013 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.aguasnegras.es/tags/tutorial/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Android</title>
+      <link>https://www.aguasnegras.es/tags/android/</link>
+      <pubDate>Sat, 09 Mar 2013 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.aguasnegras.es/tags/android/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Emulador</title>
+      <link>https://www.aguasnegras.es/tags/emulador/</link>
+      <pubDate>Sat, 09 Mar 2013 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.aguasnegras.es/tags/emulador/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Problemas</title>
+      <link>https://www.aguasnegras.es/tags/problemas/</link>
+      <pubDate>Sat, 09 Mar 2013 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.aguasnegras.es/tags/problemas/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>CrankPlay</title>
+      <link>https://www.aguasnegras.es/tags/crankplay/</link>
+      <pubDate>Tue, 14 Aug 2012 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.aguasnegras.es/tags/crankplay/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Proyecto</title>
+      <link>https://www.aguasnegras.es/tags/proyecto/</link>
+      <pubDate>Tue, 14 Aug 2012 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.aguasnegras.es/tags/proyecto/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>SEO</title>
+      <link>https://www.aguasnegras.es/tags/seo/</link>
+      <pubDate>Thu, 05 Apr 2012 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.aguasnegras.es/tags/seo/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Amazon</title>
+      <link>https://www.aguasnegras.es/tags/amazon/</link>
+      <pubDate>Thu, 19 Jan 2012 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.aguasnegras.es/tags/amazon/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Cloud</title>
+      <link>https://www.aguasnegras.es/tags/cloud/</link>
+      <pubDate>Thu, 19 Jan 2012 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.aguasnegras.es/tags/cloud/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Heroku</title>
+      <link>https://www.aguasnegras.es/tags/heroku/</link>
+      <pubDate>Fri, 11 Nov 2011 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.aguasnegras.es/tags/heroku/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Spring Roo</title>
+      <link>https://www.aguasnegras.es/tags/spring-roo/</link>
+      <pubDate>Thu, 13 Oct 2011 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.aguasnegras.es/tags/spring-roo/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Markdown</title>
+      <link>https://www.aguasnegras.es/tags/markdown/</link>
+      <pubDate>Tue, 30 Aug 2011 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.aguasnegras.es/tags/markdown/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Eclipse</title>
+      <link>https://www.aguasnegras.es/tags/eclipse/</link>
+      <pubDate>Tue, 28 Jun 2011 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.aguasnegras.es/tags/eclipse/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Ruby on Rails</title>
+      <link>https://www.aguasnegras.es/tags/ruby-on-rails/</link>
+      <pubDate>Mon, 21 Feb 2011 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.aguasnegras.es/tags/ruby-on-rails/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>JUnit</title>
+      <link>https://www.aguasnegras.es/tags/junit/</link>
+      <pubDate>Sat, 20 Nov 2010 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.aguasnegras.es/tags/junit/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

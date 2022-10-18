@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Angular on AguasNegras</title>
+    <link>https://www.aguasnegras.es/tags/angular/</link>
+    <description>Recent content in Angular on AguasNegras</description>
+    <image>
+      <url>https://www.aguasnegras.es/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
+      <link>https://www.aguasnegras.es/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
+    </image>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Sun, 07 May 2017 00:00:00 +0000</lastBuildDate><atom:link href="https://www.aguasnegras.es/tags/angular/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Spring Boot y AngularJS</title>
+      <link>https://www.aguasnegras.es/posts/2017/05/07-spring-boot-y-angularjs/</link>
+      <pubDate>Sun, 07 May 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.aguasnegras.es/posts/2017/05/07-spring-boot-y-angularjs/</guid>
+      <description>Con Spring Boot es relativamente sencillo generar un backend para una aplicación por complejo que sea su dominio, precisamente lo bueno de Spring Boot es que permite realizar rápidamente todo el trabajo de infraestructura para centrarse por una parte en el código del dominio y por otra&amp;hellip; en la UI. En los últimos años hemos pasado de un paradigma de desarrollo en servidor a uno nuevo cliente/servidor (otra vez). El servidor suele ser una API [REST ] (https://en.</description>
+    </item>
+    
+  </channel>
+</rss>

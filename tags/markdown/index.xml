@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Markdown on AguasNegras</title>
+    <link>https://www.aguasnegras.es/tags/markdown/</link>
+    <description>Recent content in Markdown on AguasNegras</description>
+    <image>
+      <url>https://www.aguasnegras.es/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
+      <link>https://www.aguasnegras.es/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
+    </image>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Tue, 30 Aug 2011 00:00:00 +0000</lastBuildDate><atom:link href="https://www.aguasnegras.es/tags/markdown/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>GitHub y Markdown</title>
+      <link>https://www.aguasnegras.es/posts/2011/08/30-github-y-markdown/</link>
+      <pubDate>Tue, 30 Aug 2011 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.aguasnegras.es/posts/2011/08/30-github-y-markdown/</guid>
+      <description>Si entro en el repositorio PruebaGit que cree en este artículo, GitHub es tan amable de avisarme de que no encuentra un archivo README.
+En primer lugar, ¿qué es un README? Un archivo README contiene información genérica sobre el proyecto, como instalar, como configurar, como usar, licencia, contacto con el autor, bugs, etc&amp;hellip; Para más detalles esta el artículo de la wikipedia (en inglés, el artículo en español es bastante malo).</description>
+    </item>
+    
+  </channel>
+</rss>

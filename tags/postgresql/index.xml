@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>PostgreSQL on AguasNegras</title>
+    <link>https://www.aguasnegras.es/tags/postgresql/</link>
+    <description>Recent content in PostgreSQL on AguasNegras</description>
+    <image>
+      <url>https://www.aguasnegras.es/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
+      <link>https://www.aguasnegras.es/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
+    </image>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Thu, 07 Mar 2019 00:00:00 +0000</lastBuildDate><atom:link href="https://www.aguasnegras.es/tags/postgresql/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Docker y almacenamiento. Como cambiar el directorio de las imágenes y contenedores</title>
+      <link>https://www.aguasnegras.es/posts/2019/03/07-docker_y_almacenamiento/</link>
+      <pubDate>Thu, 07 Mar 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.aguasnegras.es/posts/2019/03/07-docker_y_almacenamiento/</guid>
+      <description>Los contenedores no solo tienen la ventaja de ser entornos aislados sino que además ocupan muy poco espacio en disco. Esto se debe a varias causas:
+No tienen el sistema operativo al completo (como una máquina virtual) lo cual ya de por sí es un ahorro de espacio. El proceso de tener una imagen e ir &amp;ldquo;instanciando&amp;rdquo; contenedor no ocupa tanto como podríamos esperar (tamaño de imagen x contenedores) gracias a UnionFS, ya que solo se cambian los cambios de cada contenedor en particular.</description>
+    </item>
+    
+    <item>
+      <title>PostgreSQL en Docker</title>
+      <link>https://www.aguasnegras.es/posts/2019/03/05-postgresql_y_docker/</link>
+      <pubDate>Tue, 05 Mar 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.aguasnegras.es/posts/2019/03/05-postgresql_y_docker/</guid>
+      <description>Una de las ventajas de Docker es que te aisla del problema de tener que instalar el software que necesitas para desarrollar. La encapsulación en contenedores no es solo una ventaja para los pasos a producción y la infraestructura como código sino que lo es, especialmente en entornos de desarrollo. En muchas ocasiones instalas una base de datos o una cola de mensajes y ajustando la configuración te la terminas cargando y tienes que volver a crearla.</description>
+    </item>
+    
+    <item>
+      <title>Despliegue de Spring Roo en Heroku</title>
+      <link>https://www.aguasnegras.es/posts/2011/10/13-despliegue-de-spring-roo-en-heroku/</link>
+      <pubDate>Thu, 13 Oct 2011 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.aguasnegras.es/posts/2011/10/13-despliegue-de-spring-roo-en-heroku/</guid>
+      <description>Hasta ahora, las aplicaciones que he desplegado eran muy básicas, hechas con jsp y acceso a base de datos a base de jdbc plano.
+Estas tecnologías no estan mal (y de hecho son la base de todo lo posterior), pero lo más normal es utilizar frameworks para el desarrollo de aplicaciones Java.
+La quinta práctica del libro de Java para Heroku es un despliegue de aplicaciones hechas con Spring Roo en Heroku.</description>
+    </item>
+    
+    <item>
+      <title>Java, PostgreSQL y Heroku</title>
+      <link>https://www.aguasnegras.es/posts/2011/09/18-java-postgresql-y-heroku/</link>
+      <pubDate>Sun, 18 Sep 2011 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.aguasnegras.es/posts/2011/09/18-java-postgresql-y-heroku/</guid>
+      <description>Ya he visto como desplegar en Heroku, pero lo que he desplegado no llega ni al nivel de aplicación web, en realidad es una página web estática y punto. Para poder considerarla aplicación web ha de tener algún tipo de contenido dinámico, normalmente este contenido se genera de algún almacén persistente, usualmente una base de datos. Por tanto voy a ver como me las apaño para poner una base de datos en Heroku y atacarla desde mi aplicación.</description>
+    </item>
+    
+  </channel>
+</rss>

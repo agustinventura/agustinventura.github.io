@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>JBake on AguasNegras</title>
+    <link>https://www.aguasnegras.es/tags/jbake/</link>
+    <description>Recent content in JBake on AguasNegras</description>
+    <image>
+      <url>https://www.aguasnegras.es/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
+      <link>https://www.aguasnegras.es/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
+    </image>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Sun, 16 Oct 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://www.aguasnegras.es/tags/jbake/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Creando mi propio GitHub Pages</title>
+      <link>https://www.aguasnegras.es/posts/2022/10/16-github_actions/</link>
+      <pubDate>Sun, 16 Oct 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.aguasnegras.es/posts/2022/10/16-github_actions/</guid>
+      <description>En 2016 decidí pasar este blog de un WordPress (que me costaba un dinero anual en hosting) a un sitio estático (aunque con comentarios de Disqus). En ese momento estuve muy influenciado por la web de Trisha que usaba esta arquitectura pero usando todo el potencial de GitHub Pages, con Jekyll y la construcción automática del sitio al subir los archivos markdown a GitHub (curiosamente ella ahora usa WordPress, pero claro tiene infinito más contenido que yo y de más calidad, jaja).</description>
+    </item>
+    
+    <item>
+      <title>Wordpress to JBake - Generación de Archivos</title>
+      <link>https://www.aguasnegras.es/posts/2016/06/10-wp2jbake-generacion/</link>
+      <pubDate>Fri, 10 Jun 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.aguasnegras.es/posts/2016/06/10-wp2jbake-generacion/</guid>
+      <description>Bueno, pues ya queda la parte final, lanzarlo. Creo un método main en Wp2JBake, el primer argumento será el archivo de origen y el segundo el directorio de destino. Como de toda la gestión de errores se encarga el programa en sí, lo único que tengo que hacer es capturar la posible IllegalArgumentException y listo:
+public static void main (String... args) { if (args.length!=2) { System.out.println(&amp;#34;Wp2JBake needs two arguments to work: First the input file and second the destination folder&amp;#34;); } else { try { Wp2JBake exporter = new Wp2JBake(args[0], args[1]); Set&amp;lt;File&amp;gt; exportResult = exporter.</description>
+    </item>
+    
+    <item>
+      <title>Wordpress to JBake - Integración</title>
+      <link>https://www.aguasnegras.es/posts/2016/06/08-wp2jbake-integracion/</link>
+      <pubDate>Wed, 08 Jun 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.aguasnegras.es/posts/2016/06/08-wp2jbake-integracion/</guid>
+      <description>Realmente las pruebas de integración ya casi estan hechas y son muy sencillas ya que se trata de interactuar en todo caso con la clase principal Wp2JBake, usando donde sea necesario el archivo de pruebas. Lo único interesante van a ser los asserts para comprobar que todo es correcto. En un principio, las pruebas definidas pasan sin mayor problema, pero en primer lugar, hay que preguntarse si se estan exportando todos los posts o solo aquellos que estan publicados, es decir, el test usando el wp-source.</description>
+    </item>
+    
+    <item>
+      <title>Wordpress to JBake - Escritura</title>
+      <link>https://www.aguasnegras.es/posts/2016/06/05-wp2jbake-escritura/</link>
+      <pubDate>Sun, 05 Jun 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.aguasnegras.es/posts/2016/06/05-wp2jbake-escritura/</guid>
+      <description>Retomando la migración del blog, una vez resuelta la parte de leer los posts, hay que hacer la escritura. El enfoque pasa por lo siguiente:
+Tener una plantilla de post que se leerá en el constructor. Esta plantilla tendrá placeholders para saber donde van los campos. Tratar según que campos, por ejemplo los tags habrá que representarlos como un string y separados por comas, las etiquetas &amp;lt;pre&amp;gt; que indican código habrá que convertiras a shell.</description>
+    </item>
+    
+    <item>
+      <title>Wordpress to JBake - Parseo</title>
+      <link>https://www.aguasnegras.es/posts/2016/03/20-wp2jbake-parseo/</link>
+      <pubDate>Sun, 20 Mar 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.aguasnegras.es/posts/2016/03/20-wp2jbake-parseo/</guid>
+      <description>Pues ahora que ya tengo el constructor y construyo un objeto siempre que, al menos es coherente, toca parsear el xml para extraer los datos. En Java, esencialmente hay tres formas de parsear xml, todas dentro de lo que se denomina Java XML Processing API, JAXP:
+SAX: La API originaria, orientada a eventos. Muy rápida, muy eficiente y muy farragosa. Técnicamente es una API de streaming mediante push, es decir, nosotros arrancamos el procesamiento del documento y la API empieza a funcionar mandándonos eventos conforme va encontrando elementos.</description>
+    </item>
+    
+    <item>
+      <title>Wordpress to JBake - Inicio</title>
+      <link>https://www.aguasnegras.es/posts/2016/02/04-wp2jbake-inicio/</link>
+      <pubDate>Thu, 04 Feb 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.aguasnegras.es/posts/2016/02/04-wp2jbake-inicio/</guid>
+      <description>En la migración del blog a GitHub Pages uno de los objetivos era no perder contenido, por lo que una vez puesta en pie toda la infraestructura, toca migrar los posts (mucho me temo que los comentarios si se van a perder&amp;hellip;). Solución: Hacer un pequeño programa en Java (casi que diría script) que realice automáticamente esta conversión, además voy a seguir TDD para &amp;ldquo;mantenerme en forma&amp;rdquo;. En un principio lo voy a plantear como una mera conversión de formatos, como formato inicial tengo el que devuelve Wordpress para la exportación: Wordpress Extended RSS y como formato final quiero un archivo en el formato específico de JBake, que no deja de ser Markdown con unas cabeceras (metadata) particulares:</description>
+    </item>
+    
+    <item>
+      <title>Migrando el blog</title>
+      <link>https://www.aguasnegras.es/posts/2016/01/03-migracion/</link>
+      <pubDate>Sun, 03 Jan 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.aguasnegras.es/posts/2016/01/03-migracion/</guid>
+      <description>Desde hace ya bastantes años llevo pagando religiosamente todos los años un dominio (aguasnegras.es) y un alojamiento para tener el blog. El blog ha tenido mejores y peores momentos, pero en general me gusta tener un sitio donde poder escribir en un momento dado, y por supuesto compartir con la comunidad (sobre todo en español, es por lo que escribo en este idioma).
+El asunto es que si nos paramos a pensarlo, el blog tiene bastantes pocos comentarios y sobre todo entradas mías, es decir, es fundamentalmente un medio de solo lectura.</description>
+    </item>
+    
+  </channel>
+</rss>

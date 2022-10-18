@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Intellij IDEA on AguasNegras</title>
+    <link>https://www.aguasnegras.es/tags/intellij-idea/</link>
+    <description>Recent content in Intellij IDEA on AguasNegras</description>
+    <image>
+      <url>https://www.aguasnegras.es/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
+      <link>https://www.aguasnegras.es/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
+    </image>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Mon, 30 May 2016 00:00:00 +0000</lastBuildDate><atom:link href="https://www.aguasnegras.es/tags/intellij-idea/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Spring Boot Developer Tools e Intellij IDEA</title>
+      <link>https://www.aguasnegras.es/posts/2016/05/30-springdevtoolsintellij/</link>
+      <pubDate>Mon, 30 May 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.aguasnegras.es/posts/2016/05/30-springdevtoolsintellij/</guid>
+      <description>Una de las mejores incorporaciones que tuvo Spring Boot en la versión 1.3 fueron las Developer Tools. De entre toda la funcionalidad, lo que me parece mas útil es sin lugar a dudas el automatic restart, que relanza la aplicación en cuanto detecta cambios en un fichero que esta en el classpath y el LiveReload, que en conjunción con un plugin de Chrome detecta cuando ha habido cambios en la aplicación (como un reinicio) y refresca automáticamente la página.</description>
+    </item>
+    
+  </channel>
+</rss>

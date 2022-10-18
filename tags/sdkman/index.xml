@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>SDKMAN on AguasNegras</title>
+    <link>https://www.aguasnegras.es/tags/sdkman/</link>
+    <description>Recent content in SDKMAN on AguasNegras</description>
+    <image>
+      <url>https://www.aguasnegras.es/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
+      <link>https://www.aguasnegras.es/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
+    </image>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Fri, 12 Oct 2018 00:00:00 +0000</lastBuildDate><atom:link href="https://www.aguasnegras.es/tags/sdkman/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>SDKMAN</title>
+      <link>https://www.aguasnegras.es/posts/2018/10/12-sdkman/</link>
+      <pubDate>Fri, 12 Oct 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.aguasnegras.es/posts/2018/10/12-sdkman/</guid>
+      <description>SDKMAN es un gestor de entornos y herramientas Java. Cuando trabajas en un entorno &amp;ldquo;corporativo&amp;rdquo; (¿aburrido?) sueles tener claramente fijadas las versiones de herramientas de desarrollo a utilizar, por ejemplo, Java 8 en la versión 1.8.0_121 o Maven 3.2.1, etc&amp;hellip; Sin embargo cuando empiezas a cacharrear y a tratar de instalar cosas nuevas es relativamente normal que acabes con dos (o tres o seis) versiones del JDK: la &amp;ldquo;buena&amp;rdquo; (1.8), la de &amp;ldquo;los módulos&amp;rdquo; (9), la de &amp;ldquo;los val&amp;rdquo; (10) y la &amp;ldquo;nueva buena&amp;rdquo; (11).</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Hibernate on AguasNegras</title>
+    <link>https://www.aguasnegras.es/tags/hibernate/</link>
+    <description>Recent content in Hibernate on AguasNegras</description>
+    <image>
+      <url>https://www.aguasnegras.es/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
+      <link>https://www.aguasnegras.es/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
+    </image>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Mon, 27 Mar 2017 00:00:00 +0000</lastBuildDate><atom:link href="https://www.aguasnegras.es/tags/hibernate/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Logging de consultas y parametros de Hibernate</title>
+      <link>https://www.aguasnegras.es/posts/2017/03/27-logging-consultas-parametros-hibernate/</link>
+      <pubDate>Mon, 27 Mar 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.aguasnegras.es/posts/2017/03/27-logging-consultas-parametros-hibernate/</guid>
+      <description>Una de las funcionalidades básicas de Hibernate es abstraer la base de datos, pero sin embargo en tiempo de desarrollo resulta bastante útil controlar las consultas que va generando el motor así como sus parámetros. Desde las primeras versiones Hibernate tiene una propiedad, show_sql que muestra estas consultas por consola. Esto tiene dos desventajas, la primera que usa la consola y la segunda que para habilitarlo y deshabilitarlo se depende de un archivo de configuración específico (normalmente el propio de Hibernate o incluso una clase Java si se esta utilizando la configuración Java de Spring).</description>
+    </item>
+    
+  </channel>
+</rss>

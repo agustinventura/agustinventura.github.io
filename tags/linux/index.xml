@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Linux on AguasNegras</title>
+    <link>https://www.aguasnegras.es/tags/linux/</link>
+    <description>Recent content in Linux on AguasNegras</description>
+    <image>
+      <url>https://www.aguasnegras.es/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
+      <link>https://www.aguasnegras.es/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
+    </image>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Fri, 10 Jul 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://www.aguasnegras.es/tags/linux/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Gestión de Credenciales de Git en Ubuntu Linux</title>
+      <link>https://www.aguasnegras.es/posts/2020/07/10-credenciales_git_libsecret/</link>
+      <pubDate>Fri, 10 Jul 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.aguasnegras.es/posts/2020/07/10-credenciales_git_libsecret/</guid>
+      <description>Últimamente he tenido que provisionar dos equipos nuevos (en casa y en el trabajo) y parte del proceso es instalar Git para acceder a los distintos repositorios (como el de este blog).
+El acceso a un repositorio remoto de Git se puede hacer de dos maneras:
+Por cruce de clave SSH: De lejos el más cómodo y mejor una vez configurado. Generas un clave en tu equipo, subes la parte pública a GitHub, GitLab, etc&amp;hellip; y a volar.</description>
+    </item>
+    
+    <item>
+      <title>Configuración de Linux Mint</title>
+      <link>https://www.aguasnegras.es/posts/2016/06/09-configuracion-mint/</link>
+      <pubDate>Thu, 09 Jun 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.aguasnegras.es/posts/2016/06/09-configuracion-mint/</guid>
+      <description>Aprovechando que he actualizado el portátil (le he puesto 16 Gb de RAM y un SSD de 240 Gb), voy a documentar un poco mi configuración para que no se me vuelva a olvidar. En primer lugar he instalado el último Linux Mint disponible, el 17.3 Rosa. No soy un gran fan de Mint (de hecho me parece que gráficamente hablando se han quedado un poco desfasados). Una vez instalado he dado los siguientes pasos:</description>
+    </item>
+    
+  </channel>
+</rss>

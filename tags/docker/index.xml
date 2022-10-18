@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Docker on AguasNegras</title>
+    <link>https://www.aguasnegras.es/tags/docker/</link>
+    <description>Recent content in Docker on AguasNegras</description>
+    <image>
+      <url>https://www.aguasnegras.es/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
+      <link>https://www.aguasnegras.es/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
+    </image>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Thu, 07 Mar 2019 00:00:00 +0000</lastBuildDate><atom:link href="https://www.aguasnegras.es/tags/docker/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Docker y almacenamiento. Como cambiar el directorio de las imágenes y contenedores</title>
+      <link>https://www.aguasnegras.es/posts/2019/03/07-docker_y_almacenamiento/</link>
+      <pubDate>Thu, 07 Mar 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.aguasnegras.es/posts/2019/03/07-docker_y_almacenamiento/</guid>
+      <description>Los contenedores no solo tienen la ventaja de ser entornos aislados sino que además ocupan muy poco espacio en disco. Esto se debe a varias causas:
+No tienen el sistema operativo al completo (como una máquina virtual) lo cual ya de por sí es un ahorro de espacio. El proceso de tener una imagen e ir &amp;ldquo;instanciando&amp;rdquo; contenedor no ocupa tanto como podríamos esperar (tamaño de imagen x contenedores) gracias a UnionFS, ya que solo se cambian los cambios de cada contenedor en particular.</description>
+    </item>
+    
+    <item>
+      <title>PostgreSQL en Docker</title>
+      <link>https://www.aguasnegras.es/posts/2019/03/05-postgresql_y_docker/</link>
+      <pubDate>Tue, 05 Mar 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.aguasnegras.es/posts/2019/03/05-postgresql_y_docker/</guid>
+      <description>Una de las ventajas de Docker es que te aisla del problema de tener que instalar el software que necesitas para desarrollar. La encapsulación en contenedores no es solo una ventaja para los pasos a producción y la infraestructura como código sino que lo es, especialmente en entornos de desarrollo. En muchas ocasiones instalas una base de datos o una cola de mensajes y ajustando la configuración te la terminas cargando y tienes que volver a crearla.</description>
+    </item>
+    
+    <item>
+      <title>Comenzando con Docker</title>
+      <link>https://www.aguasnegras.es/posts/2017/05/14-comenzando-con-docker/</link>
+      <pubDate>Sun, 14 May 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.aguasnegras.es/posts/2017/05/14-comenzando-con-docker/</guid>
+      <description>Docker es una tecnología de contenedores relativamente reciente (de 2013) que si bien ha puesto sobre el terreno de juego el concepto de contenedores (aunque estos son tan antiguos como del 2005 que fue cuando salieron con Solaris&amp;hellip;). Un contenedor viene a ser una máquina virtual ligera, en realidad es una aplicación (se ejecuta en espacio de usuario, usa el kernel del sistema operativo, etc&amp;hellip;) en la que se puede instalar un sistema operativo y unas aplicaciones (una imagen) y por tanto se comportará como una máquina virtual a efectos prácticos.</description>
+    </item>
+    
+  </channel>
+</rss>

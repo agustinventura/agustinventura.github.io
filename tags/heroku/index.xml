@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Heroku on AguasNegras</title>
+    <link>https://www.aguasnegras.es/tags/heroku/</link>
+    <description>Recent content in Heroku on AguasNegras</description>
+    <image>
+      <url>https://www.aguasnegras.es/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
+      <link>https://www.aguasnegras.es/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
+    </image>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Fri, 11 Nov 2011 00:00:00 +0000</lastBuildDate><atom:link href="https://www.aguasnegras.es/tags/heroku/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Sun Java y OpenJDK en Linux</title>
+      <link>https://www.aguasnegras.es/posts/2011/11/11-sun-java-y-openjdk-en-linux/</link>
+      <pubDate>Fri, 11 Nov 2011 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.aguasnegras.es/posts/2011/11/11-sun-java-y-openjdk-en-linux/</guid>
+      <description>Para trabajar con Heroku, recomiendan usar OpenJDK, sin embargo, hasta el momento vengo usando el Sun JDK, así que voy a instalar el OpenJDK:
+$ sudo apt-get install openjdk-6-jdk Con esto se instala el OpenJDK 6, pero con un desafortunado efecto secundario:
+$ java -version java version &amp;#34;1.6.0_22&amp;#34; OpenJDK Runtime Environment (IcedTea6 1.10.2) (6b22-1.10.2-0ubuntu1~11.04.1) OpenJDK 64-Bit Server VM (build 20.0-b11, mixed mode) Efectivamente, se ha establecido el OpenJDK como máquina virtual de Java por defecto, pero esto no es lo que quiero (al menos, yo no), me gustaría seguir usando el Sun JDK.</description>
+    </item>
+    
+    <item>
+      <title>Despliegue de Spring Roo en Heroku</title>
+      <link>https://www.aguasnegras.es/posts/2011/10/13-despliegue-de-spring-roo-en-heroku/</link>
+      <pubDate>Thu, 13 Oct 2011 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.aguasnegras.es/posts/2011/10/13-despliegue-de-spring-roo-en-heroku/</guid>
+      <description>Hasta ahora, las aplicaciones que he desplegado eran muy básicas, hechas con jsp y acceso a base de datos a base de jdbc plano.
+Estas tecnologías no estan mal (y de hecho son la base de todo lo posterior), pero lo más normal es utilizar frameworks para el desarrollo de aplicaciones Java.
+La quinta práctica del libro de Java para Heroku es un despliegue de aplicaciones hechas con Spring Roo en Heroku.</description>
+    </item>
+    
+    <item>
+      <title>Add-ons para Heroku</title>
+      <link>https://www.aguasnegras.es/posts/2011/09/22-add-ons-para-heroku/</link>
+      <pubDate>Thu, 22 Sep 2011 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.aguasnegras.es/posts/2011/09/22-add-ons-para-heroku/</guid>
+      <description>La arquitectura de Heroku es modular, es decir, se pueden añadir funcionalidades al Stack mediante piezas de software llamadas add-ons. Un ejemplo de eso lo vi aquí cuando añadí el soporte para gestión de releases a través de un add-on.
+Hay bastantes más add-ons disponibles en la página, para enviar sms, para conectar como amazon rds, etc&amp;hellip; Los hay gratuitos, de pago, en beta&amp;hellip; en fín, de todo tipo.
+En esta práctica voy a añadir el add-on de Redis.</description>
+    </item>
+    
+    <item>
+      <title>Procesos Java en Heroku</title>
+      <link>https://www.aguasnegras.es/posts/2011/09/22-procesos-java-en-heroku/</link>
+      <pubDate>Thu, 22 Sep 2011 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.aguasnegras.es/posts/2011/09/22-procesos-java-en-heroku/</guid>
+      <description>Heroku no solo sirve para ejecutar aplicaciones web Java, sino que en realidad sirve para ejecutar cualquier tipo de aplicación Java. Observando el proyecto podemos ver que hay dos aplicaciones bien diferenciadas, la aplicación web (que se lanza a través del script webapp generado por Maven) y la aplicación SchemaGenerator, ejecutada a través del script schemaGenerator. Mientras que la primera es una aplicación web normal y corriente, SchemaGenerator es simplemente un proceso Java puro, se lanza se ejecuta y termina sin ningún tipo de interfaz gráfica involucrada.</description>
+    </item>
+    
+    <item>
+      <title>Java, PostgreSQL y Heroku</title>
+      <link>https://www.aguasnegras.es/posts/2011/09/18-java-postgresql-y-heroku/</link>
+      <pubDate>Sun, 18 Sep 2011 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.aguasnegras.es/posts/2011/09/18-java-postgresql-y-heroku/</guid>
+      <description>Ya he visto como desplegar en Heroku, pero lo que he desplegado no llega ni al nivel de aplicación web, en realidad es una página web estática y punto. Para poder considerarla aplicación web ha de tener algún tipo de contenido dinámico, normalmente este contenido se genera de algún almacén persistente, usualmente una base de datos. Por tanto voy a ver como me las apaño para poner una base de datos en Heroku y atacarla desde mi aplicación.</description>
+    </item>
+    
+    <item>
+      <title>Java en Heroku</title>
+      <link>https://www.aguasnegras.es/posts/2011/09/16-java-en-heroku/</link>
+      <pubDate>Fri, 16 Sep 2011 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.aguasnegras.es/posts/2011/09/16-java-en-heroku/</guid>
+      <description>Una de las cosas que más me impresionó de Ruby on Rails, más que el framework en sí o el lenguaje, fue el excelente soporte que había creado la comunidad. Hablo específicamente de como se enlazaba tu proyecto local con GitHub y GitHub con Heroku, con lo cual podías tener el proyecto en producción en cuestión de minutos.
+Esto es algo que lamentablemente no he visto en Java en los cinco años que llevo dedicado a estos menesteres, y menos con un alojamiento de la categoría de Heroku (otro día hablaré sobre ello y el PaaS, etc&amp;hellip;).</description>
+    </item>
+    
+  </channel>
+</rss>

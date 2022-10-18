@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>SEO on AguasNegras</title>
+    <link>https://www.aguasnegras.es/tags/seo/</link>
+    <description>Recent content in SEO on AguasNegras</description>
+    <image>
+      <url>https://www.aguasnegras.es/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
+      <link>https://www.aguasnegras.es/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
+    </image>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Thu, 05 Apr 2012 00:00:00 +0000</lastBuildDate><atom:link href="https://www.aguasnegras.es/tags/seo/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>WordPress SEO, aspectos avanzados y conclusiones.</title>
+      <link>https://www.aguasnegras.es/posts/2012/04/05-wordpress-seo-aspectos-avanzados-y-conclusiones/</link>
+      <pubDate>Thu, 05 Apr 2012 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.aguasnegras.es/posts/2012/04/05-wordpress-seo-aspectos-avanzados-y-conclusiones/</guid>
+      <description>Sigo con el artículo de Yoast sobre WordPress SEO.
+El siguiente punto en el que incide el artículo es en el de optimización de las etiquetas &amp;quot;&amp;lt;meta name=&amp;ldquo;description&amp;rdquo;&amp;gt;&amp;quot;, estas etiquetas son utilizadas por el buscador para devolver la página cuando su contenido es coincidente con una búsqueda.
+Por defecto, el buscador utiliza la primera frase de la página, pero con el plugin podemos establecer una a mano. Si tomo el post anterior como ejemplo, ahora mismo me sale lo siguiente: &amp;ldquo;Bueno, pues para darme un poco de visibilidad en Google, he instalado el plugin WordPress SEO y tiene un estupendo artículo de acciones a &amp;hellip;&amp;rdquo; Esta descripción es obviamente mala y se puede mejorar bastante.</description>
+    </item>
+    
+    <item>
+      <title>WordPress SEO, Google Webmaster Tools y optimización de títulos.</title>
+      <link>https://www.aguasnegras.es/posts/2012/04/04-wordpress-seo-google-webmaster-tools-y-optimizaci%C3%B3n-de-t%C3%ADtulos/</link>
+      <pubDate>Wed, 04 Apr 2012 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.aguasnegras.es/posts/2012/04/04-wordpress-seo-google-webmaster-tools-y-optimizaci%C3%B3n-de-t%C3%ADtulos/</guid>
+      <description>Bueno, pues para darme un poco de visibilidad en Google, he instalado el plugin WordPress SEO y tiene un estupendo artículo de acciones a realizar para utilizarlo, así que lo voy a seguir y voy a ir comentando.
+A día de hoy lo que tengo es un WordPress 3.3.1 con WordPress SEO 1.1.5
+A continuación voy a ir siguiendo lo más fielmente posible las instrucciones que se dan en el artículo punto por punto.</description>
+    </item>
+    
+  </channel>
+</rss>

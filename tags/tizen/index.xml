@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Tizen on AguasNegras</title>
+    <link>https://www.aguasnegras.es/tags/tizen/</link>
+    <description>Recent content in Tizen on AguasNegras</description>
+    <image>
+      <url>https://www.aguasnegras.es/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
+      <link>https://www.aguasnegras.es/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
+    </image>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Fri, 28 Dec 2018 00:00:00 +0000</lastBuildDate><atom:link href="https://www.aguasnegras.es/tags/tizen/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Certificados y Dispositivos en Tizen Studio</title>
+      <link>https://www.aguasnegras.es/posts/2018/12/28-certificates_devices/</link>
+      <pubDate>Fri, 28 Dec 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.aguasnegras.es/posts/2018/12/28-certificates_devices/</guid>
+      <description>##Certificados Una de las cosas que piden para poder subir software (o instalarlo en dispositivos de prueba) en Samsung es disponer de un certificado, tanto de autor como de distribuidor. Para crear un certificado podemos utilizar el mismo Certificate Manager de Tizen Studio, pero que en esta versión no viene instalado, así que lo primero es ir al Package Manager y en la sección Tizen SDK Tools &amp;gt; Baseline SDK instalar el Certificate Manager.</description>
+    </item>
+    
+    <item>
+      <title>Tizen Studio</title>
+      <link>https://www.aguasnegras.es/posts/2018/12/27-tizen_studio/</link>
+      <pubDate>Thu, 27 Dec 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.aguasnegras.es/posts/2018/12/27-tizen_studio/</guid>
+      <description>A finales de 2017 participé en un concurso de Samsung llamado Dispositivos por Apps y que, mediante el regalo de dispositivos pretende aumentar la presencia de aplicaciones en el market propio de Samsung (Galaxy Apps). El caso fue que que en aquel momento hice tres aplicaciones para relojes Samsung (y sin tener uno, jaja) y me saqué un reloj Samsung Gear Sport. Las aplicaciones en cuestión eran las siguientes:
+##Tizen Studio</description>
+    </item>
+    
+  </channel>
+</rss>
