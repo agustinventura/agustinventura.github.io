@@ -1,6 +1,6 @@
 baseURL: https://www.aguasnegras.es
 languageCode: es-es
-title: AguasNegras - Ingeniería de Software
+title: AguasNegras
 theme: mini
 
 # Default content language, support en (English) / zh (Chinese) / nl (Dutch) / fr (French) / es (Spanish), default 'en'
