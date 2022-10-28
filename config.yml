@@ -1,136 +1,82 @@
 baseURL: "https://www.aguasnegras.es/"
 title: AguasNegras
 paginate: 5
-theme: PaperMod
-
-enableRobotsTXT: true
-buildDrafts: false
-buildFuture: false
-buildExpired: false
-
+theme: mini
+languageCode: es-es
+# Default content language, support en (English) / zh (Chinese) / nl (Dutch) / fr (French) / es (Spanish), default 'en'
+defaultContentLanguage: es
+enableRobotsTxt: true
+permalinks:
+    posts: /posts/:title/
 googleAnalytics: G-W84F3CSJ3P
-
-minify:
-  disableXML: true
-  minifyOutput: true
-
-params:
-  env: production # to enable google analytics, opengraph, twitter-cards and schema.
-  title: AguasNegras
-  description: "AguasNegras Desarrollo de Software"
-  keywords: [Blog, Software, Desarrollo, Java]
-  author: Agustín Ventura Carrasco
-  # author: ["Me", "You"] # multiple authors
-  images: ["<link or path of image for opengraph, twitter-cards>"]
-  DateFormat: "2 January 2006"
-  defaultTheme: auto # dark, light
-  disableThemeToggle: false
-
-  ShowReadingTime: true
-  ShowShareButtons: true
-  ShowPostNavLinks: true
-  ShowBreadCrumbs: true
-  ShowCodeCopyButtons: false
-  ShowWordCount: true
-  ShowRssButtonInSectionTermList: true
-  UseHugoToc: true
-  disableSpecial1stPost: false
-  disableScrollToTop: false
-  comments: false
-  hidemeta: false
-  hideSummary: false
-  showtoc: false
-  tocopen: false
-
-  assets:
-    # disableHLJS: true # to disable highlight.js
-    # disableFingerprinting: true
-    favicon: "favicon.ico"
-    favicon16x16: "favicon.ico"
-    favicon32x32: "favicon.ico"
-    apple_touch_icon: "favicon.ico"
-    safari_pinned_tab: "favicon.ico"
-
-  label:
-    text: "AguasNegras"
-    # icon: /apple-touch-icon.png
-    # iconHeight: 35
-
-  # profile-mode
-  profileMode:
-    enabled: false # needs to be explicitly set
-    title: ExampleSite
-    subtitle: "This is subtitle"
-    imageUrl: "<img location>"
-    imageWidth: 120
-    imageHeight: 120
-    imageTitle: my image
-    buttons:
-      - name: Posts
-        url: posts
-      - name: Tags
-        url: tags
-
-  # home-info mode
-  homeInfoParams:
-    Title: "AguasNegras"
-    Content: Desarrollo de Software
-
-  socialIcons:
-    - name: twitter
-      url: "https://twitter.com/agustinventura"
-    - name: github
-      url: "https://github.com/agustinventura"
-
-  analytics:
-    google:
-        SiteVerificationTag: "G-W84F3CSJ3P"
-    #bing:
-      #SiteVerificationTag: "XYZabc"
-    #yandex:
-      #SiteVerificationTag: "XYZabc"
-
-  cover:
-    hidden: true # hide everywhere but not in structured data
-    hiddenInList: true # hide on list pages and home
-    hiddenInSingle: true # hide on single page
-
-  editPost:
-    URL: "https://github.com/agustinventura.github.io/content"
-    Text: "Suggest Changes" # edit text
-    appendFilePath: true # to append file path to Edit link
-
-  # for search
-  # https://fusejs.io/api/options.html
-  fuseOpts:
-    isCaseSensitive: false
-    shouldSort: true
-    location: 0
-    distance: 1000
-    threshold: 0.4
-    minMatchCharLength: 0
-    keys: ["title", "permalink", "summary", "content"]
-menu:
-  main:
-    - identifier: archivos
-      name: archivos
-      url: /archives/
-      weight: 10
-    - identifier: tags
-      name: tags
-      url: /tags/
-      weight: 20
-    - identifier: acerca de
-      name: acerca de
-      url: /about/
-      weight: 30
-# Read: https://github.com/adityatelange/hugo-PaperMod/wiki/FAQs#using-hugos-syntax-highlighter-chroma
-pygmentsUseClasses: true
+disqusShortname: aguasnegras
+# Hugo Configure Markup
+# More info: https://gohugo.io/getting-started/configuration-markup#
 markup:
-  highlight:
-    noClasses: false
-    # anchorLineNos: true
-    # codeFences: true
-    # guessSyntax: true
-    # lineNos: true
-    # style: monokai
+    highlight:
+        guessSyntax: true
+        style: emacs
+        tableOfContents:
+            endLevel: 3
+            ordered: false
+            startLevel: 2
+            # needed to render raw HTML (e.g. <sub>, <sup>, <kbd>, <mark>)
+            goldmark:
+                renderer:
+                    unsafe: true
+
+# Social links in footer, support github,twitter,stackoverflow,facebook
+social:
+    # e.g.
+    github: https://github.com/agustinventura
+    twitter: https://www.twitter.com/agustinventura
+    # linkedin: https://www.linkedin.com/in/agustinventura/
+    # facebook: your-facebook-link
+
+
+# Site parameters
+params:
+    # Site Author
+    author: Agustín Ventura
+    # Author biography
+    bio: Ingeniería de Software
+    # Site Description, used in HTML meat
+    description: Ingeniería de Software
+
+
+###########################################
+# Optional Configuration
+###########################################
+
+# To enable RSS, you could set `enableRSS: true`, default is `true`
+enableRSS: true
+# To enable comments, you may need to set `disqusShortname`
+enableComments: true
+# To enable comments, you may need to set `googleAnalytics`
+enableGoogleAnalytics: true
+# To enable table of content, you could set `showToc: true`, default is `false`
+showToc: false
+# To hidden powerBy message in the page footer, you could set: `showPowerBy: false`, default is `true`
+showPowerBy: true
+# To enable math typesetting , you could set `math: true`, default is `false`
+math: false
+# To hidden post summary in home page, you could set `hiddenPostSummaryInHomePage: true`, default is `false`
+hiddenPostSummaryInHomePage: false
+# Website copy write, default: '© Copyright 2021 ❤️ {params.author}'
+copyright: ''
+
+# Extra links in navigation
+links:
+    ## e.g.
+    # - name: Project
+    #   path: /project
+
+# You can put your custom css and js to `static` directory, or use remote css and js files which start with `http://` or `https://`
+customCSS:
+    ## e.g.
+    # - css/custom.css # local css in `static/css/custom.css`
+    # - https://example.com/custom.css # remote css
+    customJS:
+        ## e.g.
+        # - js/custom.js # local js in `static/js/custom.js`
+        # - https://example.com/custom.js # remote js
