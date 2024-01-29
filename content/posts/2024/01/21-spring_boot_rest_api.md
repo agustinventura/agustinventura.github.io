@@ -1,5 +1,5 @@
 ---
-title: Usando Spring Boot RestClient y HTTP Interface
+title: Usando Spring Boot RestClient
 date: 2024-01-27
 tags:
   - Java
