@@ -74,24 +74,3 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v3
-
-  # Push to dev.to job
-  dev-to:
-    runs-on: ubuntu-22.04
-
-    steps:
-      - uses: actions/checkout@v4
-      - name: Use Node.js 16.10.0
-        uses: actions/setup-node@v3
-        with:
-          node-version: 16.10.0
-      - name: Install dependencies
-        run: yarn --frozen-lockfile --non-interactive --no-progress
-      - name: Format check
-        run: yarn run prettier:check
-      - name: Readme check
-        run: yarn run embedme:check
-      - name: Devto
-        env:
-          DEV_TO_GIT_TOKEN: ${{ secrets.DEV_TO_GIT_TOKEN }}
-        run: yarn run dev-to-git
