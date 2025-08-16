@@ -1,6 +1,6 @@
 ---
 title: Definición de Proyectos y Documentación Ligera
-date: 2025-08-17
+date: 2025-08-16
 tags:
   - Development
   - Documentación
