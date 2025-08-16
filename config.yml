@@ -9,7 +9,8 @@ defaultContentLanguage: es
 permalinks:
   posts: /posts/:title/
 
-paginate: 5
+pagination:
+  pagerSize: 5
 
 googleAnalytics: G-R4SNHT8N9T
 disqusShortname: agustinventura
@@ -29,16 +30,6 @@ markup:
     renderer:
       unsafe: true
 
-# Social links in footer, support github,twitter,stackoverflow,facebook
-social:
-  # e.g.
-  github: https://github.com/agustinventura
-  twitter: https://www.twitter.com/agustinventura
-  linkedin: https://www.linkedin.com/in/agustinventura/
-  # stackoverflow: your-github-link
-  # facebook: your-facebook-link
-
-
 # Site parameters
 params:
   # Site Author
@@ -47,6 +38,14 @@ params:
   bio: Ingeniería de Software
   # Site Description, used in HTML meat
   description: Ingeniería de Software
+  # Social links in footer, support github,twitter,stackoverflow,facebook
+  social:
+    # e.g.
+    github: https://github.com/agustinventura
+    twitter: https://www.twitter.com/agustinventura
+    linkedin: https://www.linkedin.com/in/agustinventura/
+    # stackoverflow: your-github-link
+    # facebook: your-facebook-link
 
 
   ###########################################
