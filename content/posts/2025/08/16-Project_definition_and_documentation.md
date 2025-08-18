@@ -116,6 +116,6 @@ Con estos tres pasos, tienes tu proyecto perfectamente definido:
 
 Como ves, no hablamos de la documentación tradicional: documentos aburridos que nadie lee o diagramas que se quedan obsoletos. Este enfoque se parece más a la [**documentación como código**](https://en.wikipedia.org/wiki/Software_documentation): texto plano, control de versiones y herramientas ágiles. Es una documentación viva, útil y, sobre todo, mantenible.
 
-Si te interesa, puedes ver el ejemplo completo de esta documentación en [**este repositorio de GitHub**]().
+Si te interesa, puedes ver el ejemplo completo de esta documentación en [**este repositorio de GitHub**](https://github.com/agustinventura/leaderboard).
 
 ¡Gracias por leer!
