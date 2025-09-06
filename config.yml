@@ -84,3 +84,5 @@ params:
     ## e.g.
     # - js/custom.js # local js in `static/js/custom.js`
     # - https://example.com/custom.js # remote js
+  
+  metricoolHash: 3a8842cdb94b360d5b510812aa0274b
