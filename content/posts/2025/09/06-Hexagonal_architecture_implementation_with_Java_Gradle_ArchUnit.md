@@ -1,5 +1,5 @@
 ---
-title: Como blindar tu arquitectura hexágonal con Gradle y ArchUnit
+title: Como blindar tu arquitectura hexagonal con Gradle y ArchUnit
 date: 2025-09-06
 tags:
   - Development
