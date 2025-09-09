@@ -12,8 +12,9 @@ permalinks:
 pagination:
   pagerSize: 5
 
-googleAnalytics: G-R4SNHT8N9T
-disqusShortname: agustinventura
+#googleAnalytics: G-R4SNHT8N9T
+#Old config, now uses services.disqus.shortname
+#disqusShortname: agustinventura
 
 # Hugo Configure Markup
 # More info: https://gohugo.io/getting-started/configuration-markup#
@@ -86,3 +87,7 @@ params:
     # - https://example.com/custom.js # remote js
   
   metricoolHash: 3a8842cdb94b360d5b510812aa0274b
+
+services:
+  disqus:
+    shortname: agustinventura  
