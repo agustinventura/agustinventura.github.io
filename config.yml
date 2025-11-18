@@ -43,10 +43,11 @@ params:
   social:
     # e.g.
     github: https://github.com/agustinventura
-    twitter: https://www.twitter.com/agustinventura
+    # twitter: https://www.twitter.com/agustinventura
     linkedin: https://www.linkedin.com/in/agustinventura/
     # stackoverflow: your-github-link
     # facebook: your-facebook-link
+    bluesky: https://bsky.app/profile/agustinventura.bsky.social
 
 
   ###########################################
