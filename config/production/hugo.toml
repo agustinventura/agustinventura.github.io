@@ -1,0 +1,6 @@
+baseURL = "https://www.agustinventura.dev"
+enableRobotsTXT = true
+enableGitInfo = true
+
+[minify]
+  minifyOutput = true

@@ -1,0 +1,10 @@
+baseURL = "http://localhost:1313/"
+enableRobotsTXT = false
+enableGitInfo = false
+
+buildDrafts = true
+buildFuture = true
+buildExpired = true
+
+[minify]
+  minifyOutput = false
