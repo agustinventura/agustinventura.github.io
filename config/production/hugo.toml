@@ -4,9 +4,8 @@ enableGitInfo = true
 
 [params]
   metricoolHash = "3a8842cdb94b360d5b510812aa0274b"
-
-[article]
-  showComments = true
+  [params.article]
+    showComments = true
 
 [minify]
   minifyOutput = true
