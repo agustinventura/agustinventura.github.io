@@ -1,0 +1,22 @@
+colorScheme = "blowfish"
+defaultAppearance = "system"
+enableSearch = true
+enableCodeCopy = true
+
+[homepage]
+  cardView = true
+  layout = "profile"
+  showRecent = true
+  showRecentItems = 6
+  showMoreLink = true
+  showMoreLinkDest = "/posts"
+
+[article]
+  showTaxonomies = true
+
+[author]
+  links = [
+    { linkedin = "https://www.linkedin.com/in/agustinventura" },
+    { bluesky = "https://bsky.app/profile/agustinventura" },
+    { github = "https://github.com/agustinventura" }
+  ]

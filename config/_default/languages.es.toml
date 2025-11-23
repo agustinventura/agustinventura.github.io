@@ -1,0 +1,7 @@
+languageCode = "es"
+title = "Agustín Ventura - Ingeniería de Software"
+
+[params.author]
+  name = "Agustín Ventura"
+  image = "img/profile_pic.jpg"
+  headline = "Ingeniero de Software"
