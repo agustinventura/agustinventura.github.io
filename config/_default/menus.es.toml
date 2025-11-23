@@ -1,0 +1,34 @@
+[[main]]
+  name = "Inicio"
+  pageRef = "/"
+  weight = 10
+
+[[main]]
+  name = "Blog"
+  pageRef = "posts"
+  weight = 20
+
+[[main]]
+  identifier = "linkedin"
+  pre = "linkedin"
+  url = "https://www.linkedin.com/in/agustinventura"
+  weight = 30
+
+[[main]]
+  identifier = "bluesky"
+  pre = "bluesky"
+  url = "https://bsky.app/profile/agustinventura"
+  weight = 40
+
+[[main]]
+  identifier = "github"
+  pre = "github"
+  url = "https://github.com/agustinventura"
+  weight = 50
+
+[[footer]]
+  identifier = "rss"
+  pre = "rss"
+  url = "/index.xml"
+  weight = 10
+

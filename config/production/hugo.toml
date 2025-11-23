@@ -2,5 +2,15 @@ baseURL = "https://www.agustinventura.dev"
 enableRobotsTXT = true
 enableGitInfo = true
 
+[params]
+  metricoolHash = "3a8842cdb94b360d5b510812aa0274b"
+
+[article]
+  showComments = true
+
 [minify]
   minifyOutput = true
+
+[services]
+  [services.disqus]
+    shortname = 'agustinventura'

@@ -1,47 +1,8 @@
-title = "Agustín Ventura"
-languageCode = "es-es"
+theme = "blowfish"
+baseURL = "https://www.agustinventura.dev"
 defaultContentLanguage = "es"
-theme = "mini"
+enableRobotsTXT = true
+summaryLength = 0
 
-[permalinks]
-  posts = "/posts/:title/"
-
-[pagination]
-  pagerSize = 5
-
-[markup]
-  [markup.highlight]
-    guessSyntax = true
-    style = "emacs"
-  
-  [markup.tableOfContents]
-    startLevel = 2
-    endLevel = 3
-    ordered = false
-
-  [markup.goldmark.renderer]
-    unsafe = true
-
-[services.disqus]
-  shortname = "agustinventura"
-
-[params]
-  author = "Agustín Ventura"
-  bio = "Ingeniería de Software"
-  description = "Ingeniería de Software"
-  
-  # Flags de funcionalidad
-  enableRSS = true
-  enableComments = true
-  enableGoogleAnalytics = false
-  showToc = false
-  showPowerBy = true
-  math = false
-  hiddenPostSummaryInHomePage = false
-  copyright = ""
-  metricoolHash = "3a8842cdb94b360d5b510812aa0274b"
-
-  [params.social]
-    github = "https://github.com/agustinventura"
-    linkedin = "https://www.linkedin.com/in/agustinventura/"
-    bluesky = "https://bsky.app/profile/agustinventura.bsky.social"
+[outputs]
+  home = ["HTML", "RSS"]
