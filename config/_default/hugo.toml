@@ -6,3 +6,6 @@ summaryLength = 0
 
 [outputs]
   home = ["HTML", "RSS"]
+
+[permalinks]
+  posts = "/posts/:title/"
