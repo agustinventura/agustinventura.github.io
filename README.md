@@ -36,7 +36,7 @@ flowchart TD
     end
 
     subgraph Fusión y Despliegue
-        PR1 & PR2 -->|Revisión y merge manual| M[Rama master]
+        PR1 & PR2 -->|Revisión y merge manual| M[Rama main]
         M --> DEP[hugo.yml: Build y Deploy a GitHub Pages]
     end
 
@@ -70,7 +70,7 @@ Para garantizar que una actualización de dependencias o de Hugo no "rompa" el b
 1. Entra a la PR generada (por Dependabot o por el actualizador de Hugo).
 2. Revisa las notas de la versión enlazadas.
 3. Asegúrate de que los checks de validación hayan pasado en verde.
-4. Realiza el **Merge** manual a `master`. El workflow `hugo.yml` se disparará automáticamente y desplegará la nueva versión a GitHub Pages.
+4. Realiza el **Merge** manual a `main`. El workflow `hugo.yml` se disparará automáticamente y desplegará la nueva versión a GitHub Pages.
 
 ### 5. Cómo sincronizar tu entorno local
 Tras fusionar una actualización en GitHub:
