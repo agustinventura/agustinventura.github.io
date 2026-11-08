@@ -145,7 +145,7 @@ def main():
     parser = argparse.ArgumentParser(description="Compara el sitio compilado con producción.")
     parser.add_argument("--new", default="public", help="Directorio con el nuevo build estático")
     parser.add_argument("--prod", default="https://www.agustinventura.dev", help="URL base de producción")
-    parser.add_argument("--threshold", type=float, default=0.05, help="Tolerancia de pérdida porcentual (default: 0.05 = 5%)")
+    parser.add_argument("--threshold", type=float, default=0.05, help="Tolerancia de pérdida porcentual (default: 0.05 = 5%%)")
     args = parser.parse_args()
 
     public_dir = os.path.abspath(args.new)
