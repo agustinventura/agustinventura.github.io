@@ -1,0 +1,21 @@
+name: CI
+
+on:
+  pull_request:
+    branches:
+      - master
+
+permissions:
+  contents: read
+
+concurrency:
+  group: "ci-${{ github.ref }}"
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    name: Build & Validate Site
+    uses: ./.github/workflows/build.yml
+    with:
+      compare: true
+      deploy: false

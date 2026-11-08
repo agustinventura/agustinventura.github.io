@@ -1,0 +1,107 @@
+name: Reusable Hugo Build
+
+on:
+  workflow_call:
+    inputs:
+      hugo-version:
+        description: "Versión de Hugo a utilizar (si se omite, se lee de .hugo-version)"
+        required: false
+        type: string
+        default: ""
+      compare:
+        description: "Ejecutar validación de regresión contra producción"
+        required: false
+        type: boolean
+        default: false
+      deploy:
+        description: "Subir artefacto para GitHub Pages"
+        required: false
+        type: boolean
+        default: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Determine Hugo version
+        id: hugo_version
+        shell: bash
+        run: |
+          if [ -n "${{ inputs.hugo-version }}" ]; then
+            echo "version=${{ inputs.hugo-version }}" >> "$GITHUB_OUTPUT"
+          else
+            VERSION="$(tr -d '[:space:]' < .hugo-version)"
+            echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: "go.mod"
+          cache: true
+
+      - name: Install Hugo CLI
+        env:
+          HUGO_VERSION: ${{ steps.hugo_version.outputs.version }}
+        shell: bash
+        run: |
+          wget -O ${{ runner.temp }}/hugo.deb "https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_extended_${HUGO_VERSION}_linux-amd64.deb" \
+          && sudo dpkg -i ${{ runner.temp }}/hugo.deb
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Validate versions alignment
+        shell: bash
+        run: |
+          # Si no se pasó una versión alternativa explícita, exigimos alineación estricta
+          if [ -z "${{ inputs.hugo-version }}" ]; then
+            STRICT=1 ./scripts/check-versions.sh
+          else
+            ./scripts/check-versions.sh
+          fi
+
+      - name: Run script tests
+        shell: bash
+        run: |
+          python3 -m unittest scripts/test_compare_site.py
+
+      - name: Setup Pages
+        if: ${{ inputs.deploy }}
+        id: pages
+        uses: actions/configure-pages@v4
+
+      - name: Install Node.js dependencies
+        shell: bash
+        run: "[[ -f package-lock.json || -f npm-shrinkwrap.json ]] && npm ci || true"
+
+      - name: Build with Hugo
+        shell: bash
+        env:
+          HUGO_ENVIRONMENT: production
+          HUGO_ENV: production
+        run: |
+          if [ "${{ inputs.deploy }}" = "true" ]; then
+            hugo --gc --minify --baseURL "${{ steps.pages.outputs.base_url }}/"
+          else
+            hugo --gc --minify --baseURL "https://www.agustinventura.dev/"
+          fi
+
+      - name: Compare with production
+        if: ${{ inputs.compare }}
+        shell: bash
+        run: |
+          python3 scripts/compare-site.py --new public --prod "https://www.agustinventura.dev"
+
+      - name: Upload artifact
+        if: ${{ inputs.deploy }}
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./public

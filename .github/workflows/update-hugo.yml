@@ -1,0 +1,91 @@
+name: Check & Update Hugo Version
+
+on:
+  schedule:
+    # Todos los lunes a las 08:00 UTC
+    - cron: "0 8 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  check-hugo:
+    runs-on: ubuntu-latest
+    outputs:
+      has_update: ${{ steps.check.outputs.has_update }}
+      current_version: ${{ steps.check.outputs.current_version }}
+      latest_version: ${{ steps.check.outputs.latest_version }}
+      release_url: ${{ steps.check.outputs.release_url }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Check latest Hugo release
+        id: check
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          CURRENT_VERSION="$(tr -d '[:space:]' < .hugo-version)"
+          echo "current_version=$CURRENT_VERSION" >> "$GITHUB_OUTPUT"
+
+          # Obtener última release estable desde la API de GitHub
+          LATEST_TAG="$(gh api repos/gohugoio/hugo/releases/latest --jq .tag_name)"
+          LATEST_VERSION="${LATEST_TAG#v}"
+          RELEASE_URL="$(gh api repos/gohugoio/hugo/releases/latest --jq .html_url)"
+
+          echo "latest_version=$LATEST_VERSION" >> "$GITHUB_OUTPUT"
+          echo "release_url=$RELEASE_URL" >> "$GITHUB_OUTPUT"
+
+          if [ -n "$LATEST_VERSION" ] && [ "$LATEST_VERSION" != "$CURRENT_VERSION" ]; then
+            echo "Nueva versión detectada: $CURRENT_VERSION -> $LATEST_VERSION"
+            echo "has_update=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "Hugo ya está en la última versión ($CURRENT_VERSION)."
+            echo "has_update=false" >> "$GITHUB_OUTPUT"
+          fi
+
+  test-build:
+    needs: check-hugo
+    if: needs.check-hugo.outputs.has_update == 'true'
+    name: Test build with new Hugo
+    uses: ./.github/workflows/build.yml
+    with:
+      hugo-version: ${{ needs.check-hugo.outputs.latest_version }}
+      compare: true
+      deploy: false
+
+  create-pr:
+    needs: [check-hugo, test-build]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Update .hugo-version
+        env:
+          LATEST_VERSION: ${{ needs.check-hugo.outputs.latest_version }}
+        run: |
+          echo "$LATEST_VERSION" > .hugo-version
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ github.token }}
+          branch: "chore/update-hugo"
+          delete-branch: true
+          title: "chore(deps): actualizar Hugo a v${{ needs.check-hugo.outputs.latest_version }}"
+          commit-message: "chore(deps): actualizar Hugo a v${{ needs.check-hugo.outputs.latest_version }}"
+          body: |
+            ## Actualización automática de Hugo 🚀
+
+            - **Versión anterior:** `${{ needs.check-hugo.outputs.current_version }}`
+            - **Nueva versión:** `${{ needs.check-hugo.outputs.latest_version }}`
+            - **Notas de la versión:** ${{ needs.check-hugo.outputs.release_url }}
+
+            ---
+            *Esta PR ha sido generada tras verificar exitosamente la compilación y la ausencia de regresiones de contenido contra producción.*
+          labels: |
+            dependencies
+            hugo
