@@ -70,7 +70,7 @@ jobs:
           echo "$LATEST_VERSION" > .hugo-version
 
       - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v6
+        uses: peter-evans/create-pull-request@v8
         with:
           token: ${{ github.token }}
           branch: "chore/update-hugo"
