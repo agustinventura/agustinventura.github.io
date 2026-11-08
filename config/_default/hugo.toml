@@ -1,4 +1,3 @@
-theme = "blowfish"
 baseURL = "https://www.agustinventura.dev"
 defaultContentLanguage = "es"
 enableRobotsTXT = true

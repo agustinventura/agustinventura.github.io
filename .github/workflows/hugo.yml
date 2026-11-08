@@ -32,7 +32,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      HUGO_VERSION: 0.148.2
+      HUGO_VERSION: 0.169.0
     steps:
       - name: Install Hugo CLI
         run: |
@@ -41,7 +41,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          submodules: recursive
           fetch-depth: 0
       - name: Setup Pages
         id: pages
